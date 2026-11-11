@@ -1,0 +1,105 @@
+/* Peetri Pizza Service App v7.8 · public catalog / protected auth */
+:root{color-scheme:light;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#182a21;background:#f4f7f2;font-synthesis:none;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 10% -10%,#e6f0e5,transparent 45%),#f4f7f2}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #82ca9e;outline-offset:3px}button[hidden],div[hidden],span[hidden]{display:none!important}
+.pp78-shell{max-width:1440px;margin:auto;padding:26px clamp(16px,3.2vw,54px) 55px}.pp78-head{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:24px;border-bottom:1px solid #dce6db}.pp78-logo{height:auto;width:min(208px,50vw);object-fit:contain}.pp78-service{border:1px solid #d8e7dc;background:#fff;padding:9px 13px;border-radius:100px;font-size:11px;letter-spacing:.13em;color:#657c6b;font-weight:750}.pp78-service b{color:#27844b;letter-spacing:0}.pp78-intro{max-width:780px;padding:44px 0 29px}.pp78-kicker{color:#41845a;font-size:11px;letter-spacing:.20em;font-weight:850}.pp78-kicker span{margin:0 8px;color:#8ab99b}.pp78-intro h1{font-size:clamp(36px,4.8vw,65px);letter-spacing:-.065em;line-height:1.04;margin:12px 0}.pp78-dot{color:#319552}.pp78-intro p{color:#76867b;font-size:clamp(13px,1.25vw,16px);line-height:1.6;max-width:600px;margin:0}
+.pp78-layout{display:grid;grid-template-columns:minmax(0,1.58fr) minmax(335px,.85fr);align-items:start;gap:24px}.pp78-directory,.pp78-access{border-radius:24px;box-shadow:0 9px 36px #19362609}.pp78-directory{min-width:0;background:#fff;border:1px solid #e5ebe5;overflow:hidden;padding:28px}.pp78-dirhead{display:flex;align-items:center;justify-content:space-between;gap:20px}.pp78-eyebrow{letter-spacing:.17em;font-size:10px;color:#6e9177;font-weight:850}.pp78-dirhead h2{font-size:29px;letter-spacing:-.055em;margin:4px 0 0}.pp78-total{display:flex;align-items:baseline;gap:5px;font-size:31px;letter-spacing:-.07em;color:#2a9955}.pp78-total span{font-size:13px;letter-spacing:0;color:#829288;font-weight:550}.pp78-lookup{margin-top:26px}.pp78-search-label{display:block;margin-bottom:8px;font-weight:700;color:#52695a;font-size:12px}.pp78-search-wrap{display:flex;align-items:center;border:1px solid #d8e5db;border-radius:14px;background:#f7faf7;gap:9px;padding:0 12px}.pp78-search-wrap>span{font-size:24px;color:#488b61;line-height:1}.pp78-search-wrap:focus-within{border-color:#72b78a;box-shadow:0 0 0 3px #bbebca55}.pp78-search-wrap input{border:0;outline:0;background:transparent;min-width:0;width:100%;height:50px;font-size:14px;color:#21362a}.pp78-search-wrap input:focus{outline:0}.pp78-search-wrap input::placeholder{color:#a1afa4}.pp78-clear{border:0;background:#e4eee6;color:#477e59;border-radius:8px;width:28px;height:28px;font-size:21px}.pp78-cityhead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:21px 0 10px;font-size:12px;font-weight:760;color:#596e60}.pp78-city-reset{border:0;background:transparent;color:#318a51;font-size:12px;font-weight:800}.pp78-cities{display:flex;flex-wrap:wrap;gap:8px;max-height:95px;overflow:auto;scrollbar-width:thin;scrollbar-color:#d4e7d8 transparent}.pp78-city{background:#f4f7f3;border:1px solid #e2ebe3;border-radius:10px;color:#5d7162;min-height:36px;padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap}.pp78-city span{padding-left:4px;color:#7e9787}.pp78-city.is-active{background:#2a8650;border-color:#2a8650;color:#fff;box-shadow:0 4px 12px #28894e30}.pp78-city.is-active span{color:#e0f4e6}.pp78-listmeta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:22px 0 12px;font-size:12px;color:#809184}.pp78-listmeta #pp78-list-count{font-weight:750;color:#405e4a}.pp78-legend{font-size:11px;white-space:nowrap}.pp78-legend i{display:inline-block;width:7px;height:7px;border-radius:100%;background:#35a363;vertical-align:1px;margin-right:5px}
+.pp78-branches{display:grid;gap:8px;overflow:auto;max-height:560px;overscroll-behavior:contain;padding:1px 3px 3px 1px;scrollbar-width:thin;scrollbar-color:#d2e1d4 transparent}.pp78-branch{position:relative;display:flex;align-items:center;gap:11px;text-align:left;background:#fff;width:100%;padding:14px 11px;border:1px solid #e7eee8;border-radius:13px;color:#1e3527;transition:background .15s,border-color .15s,box-shadow .15s;min-height:67px}.pp78-branch:hover{border-color:#b4ddc1;background:#f9fcf9}.pp78-branch.is-selected{border-color:#2e9659;background:#f0faf2;box-shadow:inset 3px 0 #379b60}.pp78-branch-icon{flex:0 0 39px;display:grid;place-items:center;height:39px;border-radius:11px;background:#edf4ee;color:#5a986d;font-size:26px}.pp78-branch.is-configured .pp78-branch-icon{background:#dff4e6;color:#208b49}.pp78-branch-copy{display:grid;gap:4px;min-width:0;flex:1}.pp78-branch-copy strong{font-size:14px;font-weight:800;line-height:1.25;overflow-wrap:anywhere}.pp78-branch-copy small{font-size:11px;color:#88978b;line-height:1.2}.pp78-branch-status{border-radius:100px;white-space:nowrap;padding:5px 8px;font-size:10px;font-weight:750}.pp78-branch-status.is-ready{color:#23834c;background:#e1f5e7}.pp78-branch-status.is-pending{color:#8e7c4d;background:#f8f2e5}.pp78-branch-chevron{font-size:21px;font-weight:500;color:#b1c5b6}.pp78-empty{padding:28px 18px;text-align:center;color:#859389;border:1px dashed #d5e5d7;border-radius:12px;font-size:13px}.pp78-source{margin-top:18px;font-size:11px;line-height:1.6;color:#8f9d92}.pp78-source a{color:#327c49;text-decoration-color:#b3d0bb}
+.pp78-access{background:linear-gradient(154deg,#194630 0%,#123521 60%,#0f3021 100%);color:#fff;position:sticky;top:18px;overflow:hidden}.pp78-access:before{content:"";position:absolute;width:280px;height:280px;border:1px solid #ffffff16;border-radius:50%;right:-133px;top:-148px;box-shadow:0 0 0 55px #ffffff06,0 0 0 110px #ffffff05;pointer-events:none}.pp78-access-inner{position:relative;padding:32px}.pp78-access-badge{display:inline-flex;align-items:center;border:1px solid #a5d6b53a;border-radius:100px;padding:8px 12px;color:#c4e6cd;letter-spacing:.12em;font-size:10px;font-weight:830}.pp78-access-graphic{color:#8de3aa;font-weight:800;font-size:47px;line-height:1.1;margin:22px 0 16px;letter-spacing:-.07em}.pp78-access-graphic span{font-size:20px;color:#7aaf8c;letter-spacing:0}.pp78-access h2{font-size:clamp(25px,2.8vw,33px);letter-spacing:-.053em;line-height:1.13;margin:0 0 13px}.pp78-access-text{color:#b5d2bf;line-height:1.55;font-size:13px;margin:0 0 25px}.pp78-current{padding:15px 16px;border:1px solid #87b79a50;border-radius:12px;background:#ffffff0a;display:grid;gap:5px;margin-bottom:22px}.pp78-current.is-ready{border-color:#8de6ae94;background:#55aa701c}.pp78-current.is-pending{border-color:#e0bd7d88;background:#f2c96a0a}.pp78-current-small{font-size:10px;font-weight:810;letter-spacing:.17em;color:#9ccaac}.pp78-current strong{font-size:16px;line-height:1.3;overflow-wrap:anywhere}.pp78-current-hint{font-size:11px;color:#9ec3aa;line-height:1.5}.pp78-access form label{display:block;font-size:12px;margin:0 0 9px;color:#d9e9dd;font-weight:700}.pp78-access form input,.pp78-access form select{min-width:0;width:100%;height:49px;border-radius:11px;background:#fff;color:#1d3828;border:1px solid #b7d8bf;padding:0 13px;font-size:16px}.pp78-native{margin-bottom:20px}.pp78-native select{margin-bottom:0}.pp78-password-wrap{display:flex;align-items:center;position:relative}.pp78-password-wrap input{padding-right:78px!important}.pp78-toggle{position:absolute;right:6px;border:0;background:#eaf4ed;color:#398451;border-radius:7px;padding:9px 10px;font-size:12px;font-weight:800}.pp78-submit{margin-top:16px;display:flex;width:100%;height:51px;justify-content:space-between;align-items:center;background:#58c67a;border:0;border-radius:12px;padding:0 16px;color:#0c2c19;font-size:14px;font-weight:850;box-shadow:0 7px 20px #071d1030;transition:background .15s}.pp78-submit:not(:disabled):hover{background:#81de9d}.pp78-submit:disabled{cursor:not-allowed;opacity:.45;box-shadow:none}.pp78-submit span{font-size:20px}.pp78-feedback{min-height:54px;padding-top:15px;color:#a4c4ae;font-size:11px;line-height:1.55}.pp78-feedback.is-notice{color:#f1d8a3}.pp78-feedback.is-ok{color:#a6f0bf}.pp78-error{background:#5e271d;border:1px solid #cc715b;padding:12px;color:#ffddd5;border-radius:10px;font-size:12px;line-height:1.5;margin-bottom:15px}.pp78-access-foot{margin-top:11px;padding-top:17px;border-top:1px solid #ffffff23;font-size:11px;line-height:1.5;color:#88b19a}.pp78-access-foot span{color:#84d9a3;margin-right:5px}
+@media(max-width:940px){.pp78-layout{grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr);gap:14px}.pp78-directory{padding:19px}.pp78-access-inner{padding:23px}}@media(max-width:730px){.pp78-shell{padding:18px 13px 44px}.pp78-head{padding:4px 5px 17px}.pp78-logo{width:155px}.pp78-service{font-size:9px;padding:7px 10px;letter-spacing:.07em}.pp78-intro{padding:29px 7px 25px}.pp78-intro h1{font-size:39px}.pp78-intro p{font-size:13px}.pp78-layout{display:flex;flex-direction:column;gap:14px}.pp78-directory,.pp78-access{width:100%;border-radius:19px}.pp78-directory{padding:18px 14px}.pp78-dirhead h2{font-size:26px}.pp78-cities{flex-wrap:nowrap;max-height:none;overflow-x:auto;padding-bottom:6px;margin-right:-14px}.pp78-city{flex:0 0 auto}.pp78-branches{max-height:405px}.pp78-access{position:static}.pp78-access-inner{padding:24px 20px}.pp78-access-graphic{margin:16px 0 11px;font-size:37px}.pp78-access h2{font-size:29px}}@media(max-width:410px){.pp78-branch{padding:12px 9px;gap:8px}.pp78-branch-status{font-size:9px;padding:5px 7px}.pp78-branch-copy strong{font-size:13px}.pp78-branch-icon{flex-basis:34px;height:34px;font-size:22px}.pp78-legend{font-size:10px}.pp78-listmeta{gap:4px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
+
+/* Peetri Pizza v13.5 login visual redesign; auth untouched */
+body{background:radial-gradient(ellipse at 85% -12%,#dceee0 0%,transparent 53%),linear-gradient(160deg,#fafcf9,#eaf2ec)}
+.pp78-shell{max-width:1350px;padding-top:22px}
+.pp78-head{padding-bottom:20px;border-bottom-color:#d7e5d9}
+.pp78-service{display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 16px #214b2b0b}
+.pp135-status{display:inline-block;width:8px;height:8px;border-radius:50%;background:#29a35b;box-shadow:0 0 0 3px #d9f5e1}
+.pp78-intro{padding:38px 0 28px}
+.pp78-intro h1{font-size:clamp(37px,4.5vw,60px);letter-spacing:-.06em}
+.pp78-intro p{color:#597262;max-width:620px;font-size:15px}
+.pp135-layout{grid-template-columns:minmax(0,1fr) minmax(370px,.8fr);gap:22px}
+.pp78-directory{border:1px solid #e0eae1;box-shadow:0 14px 45px #15352210;border-radius:22px}
+.pp78-dirhead h2{font-size:29px}
+.pp78-search-wrap{border:1.5px solid #d5e6d9}
+.pp78-branch{border-color:#e1eae3}
+.pp78-branch.is-selected{border-color:#339b59;box-shadow:inset 4px 0 #2b9e58,0 4px 13px #10472316}
+.pp78-access{border:1px solid #153a29;border-radius:22px;background:linear-gradient(145deg,#1b4933 0%,#103322 60%,#0d291d 100%);box-shadow:0 19px 55px #10342029}
+.pp78-access-inner{padding:31px}
+.pp78-access-badge{background:#ffffff0b;color:#c6eccc}
+.pp78-access-graphic{font-size:32px;margin:24px 0 10px}
+.pp78-access h2{font-size:clamp(30px,3vw,38px)}
+.pp78-access-text{margin-bottom:22px}
+.pp78-current{position:relative;min-height:93px;padding:16px 14px 16px 62px;border-radius:13px;background:#ffffff0c}
+.pp135-location-icon{position:absolute;left:14px;top:18px;width:35px;height:35px;display:grid;place-items:center;background:#ffffff13;border:1px solid #ffffff35;border-radius:10px;font-size:26px;color:#beefcc}
+.pp78-current strong{font-size:18px}
+.pp78-access form label{font-size:13px}
+.pp78-access form input,.pp78-access form select{height:54px;border-radius:12px}
+.pp78-toggle{min-height:39px;border-radius:9px;padding:9px 12px}
+.pp78-submit{height:57px;border-radius:12px;margin-top:17px;font-size:16px;background:#94e9aa;box-shadow:0 8px 18px #081e0e35}
+.pp78-submit:not(:disabled):hover{background:#b5f5c2}
+.pp78-feedback{min-height:43px;padding-top:13px}
+@media(max-width:940px){.pp135-layout{grid-template-columns:minmax(0,1fr) minmax(310px,.9fr);gap:15px}.pp78-access-inner{padding:24px}}
+@media(max-width:730px){
+ .pp78-shell{padding:15px 13px 38px}
+ .pp78-intro{padding:26px 5px 21px}
+ .pp78-intro h1{font-size:clamp(32px,9vw,43px)}
+ .pp78-intro p{font-size:13px}
+ .pp135-layout{display:flex;flex-direction:column;gap:15px}
+ .pp78-access{order:-1;position:static;width:100%;border-radius:19px}
+ .pp78-directory{order:1;width:100%;border-radius:19px}
+ .pp78-access-inner{padding:22px 20px}
+ .pp78-access-graphic{font-size:26px;margin:14px 0 8px}
+ .pp78-access h2{font-size:30px}
+ .pp78-access-text{margin-bottom:18px}
+ .pp78-current{min-height:82px;margin-bottom:19px}
+ .pp78-branches{max-height:390px}
+}
+@media(max-width:410px){.pp78-access-inner{padding:21px 17px}.pp78-service b{display:none}.pp78-current strong{font-size:17px}}
+
+/* Peetri Pizza v13.6 — fast login with direct workstation selection and optional directory */
+.pp78-shell{max-width:1120px!important}
+.pp78-intro{padding:27px 0 23px!important}
+.pp78-intro h1{font-size:clamp(32px,3.8vw,49px)!important}
+.pp78-intro p{font-size:13px!important}
+.pp135-layout{grid-template-columns:minmax(0,1fr) minmax(0,.78fr)!important;align-items:start!important;gap:20px!important}
+.pp78-access{grid-column:1!important;grid-row:1!important;position:relative!important;top:auto!important}
+.pp78-directory{grid-column:2!important;grid-row:1!important;padding:0!important;overflow:hidden!important}
+.pp136-dir-toggle{display:flex;flex-direction:column;gap:13px;padding:25px!important}
+.pp136-dir-toggle>span{font-size:11px;font-weight:850;letter-spacing:.13em;color:#508567}
+.pp136-dir-button{display:flex;justify-content:space-between;align-items:center;width:100%;border:1px solid #d5e5d9;background:#edf7f0;border-radius:13px;padding:15px 17px;color:#1c6840;font-size:15px;font-weight:850;text-align:left;min-height:54px}
+.pp136-dir-button span{font-size:22px}
+.pp136-directory-body{padding:0 23px 23px}
+.pp136-directory-body[hidden]{display:none!important}
+.pp78-access-inner{padding:27px 30px!important}
+.pp78-access h2{font-size:clamp(27px,2.9vw,36px)!important;margin-top:14px!important}
+.pp78-access-text{margin-bottom:15px!important}
+.pp78-access-badge{font-size:10px!important}
+.pp78-current{padding:12px 14px 12px 56px!important;min-height:74px!important;margin:0 0 15px!important}
+.pp135-location-icon{left:12px!important;top:17px!important;width:30px!important;height:30px!important;font-size:21px!important}
+.pp78-current strong{font-size:17px!important}
+.pp78-current-hint{font-size:11px!important}
+.pp136-native{margin-bottom:15px!important}
+.pp136-native select{appearance:none!important;padding:0 43px 0 15px!important;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23245d3d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 8 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 13px center!important;font-weight:700!important}
+.pp136-native[hidden]{display:block!important}
+.pp136-required{color:#a2f1b2}
+.pp78-submit{margin-top:17px!important}
+.pp136-signin-note{color:#b1d1ba;font-size:11px;line-height:1.45;margin-top:16px}
+.pp78-feedback{min-height:0!important;padding-top:9px!important}
+.pp78-directory .pp78-branches{max-height:375px!important}
+.pp78-directory .pp78-dirhead h2{font-size:24px!important}
+@media(max-width:790px){
+ .pp135-layout{display:flex!important;flex-direction:column!important;gap:15px!important}
+ .pp78-access{order:0!important;width:100%!important}
+ .pp78-directory{order:1!important;width:100%!important}
+ .pp78-intro{padding:22px 0 17px!important}
+ .pp78-intro h1{font-size:clamp(30px,7vw,42px)!important}
+ .pp78-access-inner{padding:23px 21px!important}
+ .pp136-dir-toggle{padding:20px!important}
+ .pp136-directory-body{padding:0 18px 18px!important}
+}
+@media(max-width:410px){.pp78-access-inner{padding:21px 17px!important}.pp78-head{padding-bottom:12px!important}.pp78-intro p{line-height:1.45!important}}
+
+/* 14.5 login visual: workstation first, shorter copy, stronger affordances */
+.pp78-shell{max-width:1060px!important}.pp78-head{padding-bottom:14px!important}.pp78-intro{padding:20px 0 19px!important}.pp78-intro h1{font-size:clamp(31px,3.4vw,43px)!important}.pp78-intro p{max-width:500px!important}
+.pp78-access{border-radius:22px!important;box-shadow:0 22px 56px #102f1f2c!important}.pp78-access-inner{padding:clamp(20px,3vw,36px)!important}.pp78-access h2{letter-spacing:-.04em!important}.pp78-access form input:focus-visible,.pp78-access form select:focus-visible{outline:3px solid #9ceaaf!important;outline-offset:2px!important}.pp78-submit{min-height:60px!important;font-size:17px!important}.pp78-submit:focus-visible{outline:3px solid #fff!important;outline-offset:3px!important}
+.pp136-dir-button:focus-visible{outline:3px solid #2b975b!important;outline-offset:3px!important}
+@media(max-width:730px){.pp78-intro{padding:15px 3px!important}.pp78-access-inner{padding:20px 17px!important}.pp78-layout{gap:12px!important}}

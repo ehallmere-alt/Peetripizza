@@ -1,0 +1,27 @@
+/* Settings-only modules v16.9. No kitchen home selectors or layout overrides. */
+#settingsPage .pp169-print-settings,#settingsPage .pp169-health-settings{margin:18px 0;padding:16px;border:1px solid #d9e1db;border-radius:14px;background:#fff;display:grid;gap:10px}
+#settingsPage .pp169-print-settings h3,#settingsPage .pp169-health-settings h3{font-size:19px;margin:0}
+#settingsPage .pp169-print-settings p,#settingsPage .pp169-health-settings p{font-size:13px;color:#526c59;line-height:1.45;margin:0}
+#settingsPage .pp169-actions{display:flex;flex-wrap:wrap;gap:8px}
+#settingsPage .pp169-actions button{min-height:42px}
+#settingsPage .pp169-print-settings input:not([type=checkbox]),#settingsPage .pp169-print-settings select{border:1px solid #cfdfd1;border-radius:10px;padding:10px;min-height:42px;background:#fff;max-width:190px}
+#settingsPage #pp169-print-status,#settingsPage #pp169-health-message{color:#32593f;font-size:13px;font-weight:750;margin:0}
+#settingsPage .pp169-print-log-row,#settingsPage .pp169-health-row{border-bottom:1px solid #edf1ed;padding:8px 3px;font-size:12px;overflow-wrap:anywhere}
+#settingsPage .pp169-health-row strong{margin-right:8px}
+#settingsPage .pp169-health-row[data-state=ok]{color:#1b6b3a}
+#settingsPage .pp169-health-row[data-state=warn]{color:#985b1b}
+#settingsPage .pp169-health-row[data-state=error]{color:#ab342b}
+#settingsPage .pp169-print-settings details{border:1px solid #e4eae4;padding:10px;border-radius:10px}
+#settingsPage .pp169-print-settings summary{cursor:pointer;font-size:13px;font-weight:800}
+
+/* v16.9.2: drawer scroll containment; all navigation and logout reachable on short tablet screens */
+#drawer.drawer{position:fixed!important;top:0!important;bottom:0!important;height:100dvh!important;max-height:100dvh!important;display:flex!important;flex-direction:column!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom)}
+#drawer.drawer .drawer-header{flex-shrink:0}
+#drawer.drawer nav{flex:0 0 auto;display:grid;align-content:start;overflow:visible!important}
+#drawer.drawer .logout-form{flex-shrink:0}
+#drawer.drawer .drawer-bottom{flex-shrink:0;margin-top:0}
+/* restore native LIVE button visibility, but only within existing kitchen queue header */
+#ordersPage .pp1692-live-mount{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-left:auto}
+#ordersPage .pp1692-live-mount button{display:inline-flex!important;align-items:center;justify-content:center;min-height:42px;padding:9px 15px;border-radius:10px;white-space:normal;font-weight:750;background:#187746;color:#fff;border:0;cursor:pointer}
+#ordersPage .pp1692-live-mount button:focus-visible{outline:3px solid #36a66d;outline-offset:2px}
+@media(max-width:730px){#ordersPage .pp1692-live-mount{width:100%;justify-content:flex-start;margin-left:0}#ordersPage .pp1692-live-mount button{width:100%}}

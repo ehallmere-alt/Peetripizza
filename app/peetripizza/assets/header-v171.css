@@ -1,0 +1,20 @@
+/* Peetri Pizza v17.1 — header shortcuts styled like the existing Ooteaeg / LIVE chips. */
+.topbar .top-right .pp171-head-btn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 11px;border:1px solid rgb(218,231,221);border-radius:9px;background:rgb(243,247,244);color:rgb(23,68,45);font:850 11px/1 Inter,"Segoe UI",-apple-system,system-ui,sans-serif;letter-spacing:.02em;white-space:nowrap;cursor:pointer;flex:0 0 auto;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.topbar .top-right .pp171-head-btn svg{flex:0 0 auto}
+.topbar .top-right .pp171-head-btn b{min-width:18px;height:20px;padding:0 5px;border-radius:6px;background:#fff;border:1px solid rgb(209,227,213);display:inline-grid;place-items:center;font-size:11px;font-weight:850;box-sizing:border-box}
+.topbar .top-right .pp171-head-btn:hover{background:rgb(234,242,236)}
+.topbar .top-right .pp171-head-btn:focus-visible{outline:3px solid rgba(25,106,59,.35);outline-offset:2px}
+.topbar .top-right .pp171-head-btn[aria-pressed="true"]{background:rgb(25,106,59);border-color:rgb(25,106,59);color:#fff}
+.topbar .top-right .pp171-head-btn[aria-pressed="true"] b{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35);color:#fff}
+/* Tablets: icon + count only; also fixes the right edge being cut off on iPad portrait. */
+@media (max-width:1100px){
+ body .topbar{display:flex!important;flex-wrap:nowrap!important;justify-content:space-between!important;align-items:center!important;grid-template-columns:none!important;height:auto!important;min-height:68px}
+ .topbar .brandgroup{flex:0 1 auto;min-width:0}
+ .topbar .top-right{flex:0 0 auto!important;width:auto!important;max-width:none!important}
+ .topbar .top-right .pp171-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+ .topbar .top-right .pp171-head-btn{padding:0 9px}
+}
+/* Phones (no room next to the logo): both stay reachable — Statistika in the menu, Valmis via "Kõik valmis". */
+@media (max-width:600px){
+ .topbar .top-right .pp171-head-btn{display:none}
+}

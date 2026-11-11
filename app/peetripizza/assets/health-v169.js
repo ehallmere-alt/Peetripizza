@@ -1,0 +1,11 @@
+/* v16.9 — settings-only, no automatic external probes. */
+(()=>{'use strict';const $=id=>document.getElementById(id);
+const message=$('pp169-health-message'),list=$('pp169-health-list');if(!message||!list)return;
+async function request(url){const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),16000);try{const response=await fetch(url,{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'},signal:ctrl.signal});let data;try{data=await response.json()}catch(_){throw Error('Server tagastas vigase vastuse')};if(!response.ok)throw Error('HTTP '+response.status+' · '+(data.error||data.state||'viga'));return data;}finally{clearTimeout(timer)}}
+$('pp169-health-check')?.addEventListener('click',async e=>{const button=e.currentTarget;button.disabled=true;message.textContent='Kontrollin süsteemi…';list.replaceChildren();try{
+ const result=await request('api/system-health.php');let ok=0,warn=0,fail=0;
+ for(const x of result.checks||[]){const row=document.createElement('div');row.className='pp169-health-row';row.dataset.state=x.state||'warn';const name=document.createElement('strong');const detail=document.createElement('span');name.textContent=({'runtime':'PHP','json':'JSON','curl':'cURL','storage':'Andmesalvestus','database':'Andmebaas','session':'Seanss','staff_credentials':'Autentimine','logging':'Vealogid','http_protection':'Andmekaitse','release':'Failide terviklus'})[x.key]||x.key;detail.textContent=x.message||'';row.append(name,detail);list.append(row);if(x.state==='ok')ok++;else if(x.state==='error')fail++;else warn++;}
+ message.textContent=`Kontrollitud: ${ok} korras, ${warn} tähelepanu, ${fail} viga.`;
+ }catch(err){message.textContent='Süsteemi kontroll ei õnnestunud: '+err.message;}finally{button.disabled=false;}});
+$('pp169-live-check')?.addEventListener('click',async e=>{const button=e.currentTarget;button.disabled=true;message.textContent='Kontrollin ametliku API lugemisühendust…';try{const result=await request('api/live-health.php');message.textContent=`LIVE: ühendus olemas · ${result.orders_count||0} tellimust · ${result.latency_ms||0} ms. Ainult lugemiseks.`;}catch(err){message.textContent='LIVE kontroll ebaõnnestus: '+err.message+'. Vajadusel proovi hiljem (20 s piirang).';}finally{button.disabled=false;}});
+})();

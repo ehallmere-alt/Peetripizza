@@ -1,0 +1,63 @@
+/* Peetri Pizza v17.7 — clearer order card: name first, system number, only real changes highlighted, one big action. */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp92-customer{font-size:31px!important;line-height:1.1!important;font-weight:900!important;color:#0f2117!important;letter-spacing:-.01em!important;overflow-wrap:anywhere}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp92-customer.pp111-name-missing{font-size:17px!important;font-weight:700!important;color:#8a978e!important;font-style:italic}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-identity-line{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:6px 8px!important;margin-top:8px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .order-number{display:inline-flex!important;align-items:center!important;min-height:34px!important;padding:0 11px!important;border-radius:9px!important;background:#14532d!important;color:#fff!important;font-size:20px!important;font-weight:900!important;letter-spacing:0!important;border:0!important;box-shadow:none!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-serving{min-height:30px!important;display:inline-flex!important;align-items:center!important;padding:0 10px!important;border-radius:8px!important;font-size:13px!important;font-weight:900!important;letter-spacing:.03em!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-takeaway{background:#e7f3ea!important;color:#155d39!important;border:1px solid #bfdcc8!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-delivery{background:#ece9fb!important;color:#4b36a6!important;border:1px solid #d3cbf3!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-order-time{font-size:13px!important;font-weight:700!important;color:#5d7064!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-count{display:inline-flex;align-items:center;min-height:26px;padding:0 9px;border-radius:999px;background:#f1f4f2;color:#33463a;font:800 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:0;white-space:nowrap}
+/* "UUS" just-arrived pill instead of a wide bar */
+html body #ordersPage#ordersPage .ordercard .live-new-badge{position:absolute!important;top:-9px!important;left:16px!important;width:auto!important;padding:4px 10px!important;border-radius:999px!important;background:#16a34a!important;color:#fff!important;font-size:11px!important;font-weight:900!important;letter-spacing:.08em!important;box-shadow:0 2px 8px rgba(22,163,74,.35)!important;animation:pp177-new 1.4s ease-in-out 4}
+html body #ordersPage#ordersPage .ordercard.live-just-arrived{position:relative}
+@keyframes pp177-new{50%{transform:scale(1.08)}}
+/* product lines */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-line{display:flex!important;align-items:flex-start!important;gap:10px!important;padding:9px 0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-qty{min-width:42px!important;width:auto!important;padding:0 8px!important;white-space:nowrap!important;flex:0 0 auto!important;height:38px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:9px!important;background:#f1f4f2!important;color:#24372b!important;font-size:18px!important;font-weight:900!important;border:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-multi .product-qty{background:#f59e0b!important;color:#1f1300!important;font-size:21px!important;box-shadow:0 0 0 3px rgba(245,158,11,.25)!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp94-pizza{display:flex!important;align-items:center!important;gap:10px!important;flex-wrap:wrap!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-name{font-size:24px;font-weight:850;line-height:1.15;color:#0f2117}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code{display:inline-flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:54px!important;padding:4px 8px 3px!important;margin:0!important;border-radius:9px!important;line-height:1!important;background:#e3f1e7!important;color:#14532d!important;border:2px solid #b9dbc3!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code b{font-size:19px;font-weight:950;letter-spacing:.02em}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code small{margin-top:2px;font-size:9.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;opacity:.75;white-space:nowrap}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code[data-size="S"]{background:#14532d!important;color:#fff!important;border-color:#14532d!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code[data-dough="P"]{box-shadow:inset 0 -4px 0 #f59e0b!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-mods{display:flex!important;flex-wrap:wrap!important;gap:6px!important;margin-top:7px!important;font-style:normal!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-mod{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:7px;font:800 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-style:normal;letter-spacing:.01em}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-mod-warn{background:#fff1d6;color:#7a4b00;border:1.5px solid #f2b84b}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-mod-info{background:#eef3ef;color:#33463a;border:1px solid #d6e2d9}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-extras{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:6px!important;margin-top:7px!important;padding:0!important;background:none!important;border:0!important;font-style:normal!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-extras b{font-size:12px!important;font-weight:950!important;color:#15803d!important;letter-spacing:.05em}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-extras em{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:7px;background:#dcfce7;color:#14532d;border:1.5px solid #86efac;font:800 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-style:normal}
+/* footer: price · Detailid · Link · big action */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer{display:flex!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:8px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .price{order:0;margin-right:auto!important;align-self:center!important;font-size:15px!important;font-weight:800!important;color:#5d7064!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .details{order:1;min-height:56px!important;padding:0 16px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .pp155-share-btn{order:2;min-height:56px!important;padding:0 14px!important;margin:0!important;font-size:14px!important;flex:0 0 auto!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.pp153-local-btn,.accept,.done){order:3;flex:0 1 44%!important;min-width:180px!important;min-height:56px!important;font-size:21px!important;font-weight:900!important;border-radius:12px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp153-future-note{display:none!important}
+@media (max-width:760px){
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp92-customer{font-size:22px!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-name{font-size:20px}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer{flex-wrap:wrap!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.pp153-local-btn,.accept,.done){flex:1 1 100%!important;min-width:0!important}
+}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-line .product-qty{margin-right:10px!important;align-self:flex-start!important;margin-top:4px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-name{flex:1 1 auto;min-width:0}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-phone{display:inline-flex;align-items:center;min-height:30px;padding:0 11px;border-radius:8px;background:#fff;color:#0f2117;border:1.5px solid #c9d8cd;font:850 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .order-number{font-variant-numeric:tabular-nums}
+/* Narrow columns (portrait tablet): action button gets its own full-width row. */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket{container-type:inline-size}
+@container (max-width:430px){
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer{flex-wrap:wrap!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.pp153-local-btn,.accept,.done){flex:1 1 100%!important;min-width:0!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.details,.pp155-share-btn){flex:1 1 0!important;min-height:48px!important}
+}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0;padding:9px 16px;background:#f7f4ee;border-top:1px solid #ece4d6;border-bottom:1px solid #ece4d6;font:800 13px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#5c4a2e}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes b{font-weight:950;letter-spacing:.06em;font-size:12px;margin-right:2px}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:0 11px;border-radius:8px;background:#fff;border:1.5px solid #d9c7a6;color:#3d2f19;font-style:normal;font-size:14px;font-weight:850}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em strong{font-size:16px;font-weight:950}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em[data-box^="BRÄNDI"]{background:#14532d;border-color:#14532d;color:#fff}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes.pp177-dinein{background:#eef6ff;border-color:#d6e6f7;color:#1e3a5f}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes.pp177-dinein span{font-weight:700;color:#3b5878}

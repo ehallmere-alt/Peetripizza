@@ -1,0 +1,101 @@
+/* Peetri Pizza v17.2 — alignment pass + DEMO/LIVE switch. Loaded last; visual only. */
+
+/* 1. Home: "Tööriistad ja ülevaated" removed from view. DOM stays: scripts still use the elements inside. */
+#ordersPage #pp157-more{display:none!important}
+
+/* 1b. v17.3: the row under the header (KÖÖK · TÖÖJÄRJEKORD / Aktiivsed tellimused, Ekraanirežiim, LIVE button, queue summary)
+   is hidden on request. The native LIVE button inside stays in the DOM: the DEMO/LIVE switch clicks it.
+   Fullscreen / large kitchen screen remain in Seaded → Ekraanirežiim. */
+html body #ordersPage .pp157-home-shell .pp157-list-header,html body #ordersPage .pp157-list-header{display:none!important}
+
+/* 1c. v17.3: full-screen button in the header (icon only, same look as the other header buttons). */
+.topbar .top-right .pp173-fs{padding:0 10px!important}
+.topbar .top-right .pp173-fs .pp173-out{display:none}
+.topbar .top-right .pp173-fs[aria-pressed="true"] .pp173-in{display:none}
+.topbar .top-right .pp173-fs[aria-pressed="true"] .pp173-out{display:inline}
+
+/* 1d. Tablets under 900 px: the header needs room for the full-screen button; the clock gives way (the tablet status bar shows the time). */
+@media (max-width:899px){html body .topbar .top-right #clock{display:none!important}}
+@media (max-width:800px){html body .shell .topbar .top-right.top-right{gap:6px!important}html body .shell .topbar .brandgroup img.pp116-logo.pp116-logo{max-width:100px!important;height:auto!important;max-height:34px!important}html body .shell .topbar .brandgroup.brandgroup{gap:7px!important}}
+
+/* 2. Drawer: backdrop also dims the header (it was drawn above the backdrop). */
+#backdrop{z-index:60!important}
+#drawer{z-index:75!important}
+
+/* 3. DEMO / LIVE switch (replaces the read-only status chip). */
+.topbar .top-right #pp160-live-chip{display:none!important}
+.pp172-mode{--pp172-compact:0;display:inline-flex;align-items:center;flex:0 0 auto;height:38px;padding:3px;gap:2px;border:1px solid rgb(218,231,221);border-radius:9px;background:rgb(243,247,244);box-sizing:border-box}
+.pp172-mode button{display:inline-flex;align-items:center;gap:5px;height:100%;padding:0 9px;border:0;border-radius:7px;background:transparent;color:rgb(73,98,82);font:850 10.5px/1 Inter,"Segoe UI",-apple-system,system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pp172-mode button i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.45}
+.pp172-mode button[aria-pressed="true"]{background:#fff;color:rgb(23,68,45);box-shadow:0 1px 3px rgba(22,59,39,.16)}
+.pp172-mode[data-state="live"] button[data-mode="live"]{background:rgb(25,106,59);color:#fff}
+.pp172-mode[data-state="live"] button[data-mode="live"] i{opacity:1;background:#9ff0bd;box-shadow:0 0 0 3px rgba(159,240,189,.25)}
+.pp172-mode[data-state="pending"] button[data-mode="live"] i{opacity:1;animation:pp172-pulse 1s ease-in-out infinite}
+.pp172-mode[data-state="error"]{border-color:#e7a6a1;background:#fdf0ef}
+.pp172-mode[data-state="error"] button[data-mode="live"]{background:#fff;color:#b3261e}
+.pp172-mode[data-state="error"] button[data-mode="live"] i{opacity:1;background:#d93a2f}
+.pp172-mode button:focus-visible{outline:3px solid rgba(25,106,59,.35);outline-offset:1px}
+@keyframes pp172-pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.pp172-mode button i{animation:none!important}}
+@media (max-width:600px){
+ .pp172-mode{--pp172-compact:1;height:34px;padding:2px}
+ .pp172-mode button{padding:0 8px;font-size:9.5px}
+ .pp172-mode button[aria-pressed="false"]{display:none}
+}
+
+/* 3b. Header never wraps; the duplicate Uued/Töös totals (already shown above the queues) give way below 1500 px. */
+body .topbar{flex-wrap:nowrap!important}
+body .topbar .brandgroup{min-width:0;flex:0 1 auto}
+@media (max-width:1499px){.topbar .top-right .pp160-top-totals{display:none!important}}
+@media (max-width:1279px){.topbar .pp160-brand-sub{display:none!important}}
+
+/* 4. Settings: one heading scale, no double dividers, one control colour, one button size. */
+#settingsPage .pp163-pref-title+.settingsrow{border-top:0!important}
+#settingsPage section h3,#settingsPage .pp145-personal h3,#settingsPage .pp141-sound-settings h3,#settingsPage .pp149-live-diagnostic h3{font-size:17px!important;line-height:1.25!important}
+#settingsPage .pp163-pref-title h3{font-size:16px!important}
+#settingsPage input[type="checkbox"],#settingsPage input[type="range"],#settingsPage input[type="radio"]{accent-color:#196a3b}
+#settingsPage button.secondary,#settingsPage .pp145-personal button,#settingsPage .pp141-sound-settings button:not(.pp141-primary),#settingsPage [class*="screen"] button{font-size:12px!important;min-height:40px}
+/* 4b. Settings: the three on/off rows used bare checkboxes with a static "Sees" label (shown even when off). Same switch look as the other rows. */
+#settingsPage .pp163-setting-row>label{font-size:0!important;display:inline-flex;align-items:center;gap:0!important;padding:0!important;margin-right:0!important;min-width:0!important}
+#settingsPage #pp163-ultra-toggle,#settingsPage #pp163-display-toggle,#settingsPage #pp164-autoscroll{-webkit-appearance:none;appearance:none;width:44px;height:25px;margin:0;border-radius:20px;background:rgb(201,212,202);position:relative;cursor:pointer;flex:0 0 auto;transition:background .15s;border:0}
+#settingsPage #pp163-ultra-toggle::after,#settingsPage #pp163-display-toggle::after,#settingsPage #pp164-autoscroll::after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+#settingsPage #pp163-ultra-toggle:checked,#settingsPage #pp163-display-toggle:checked,#settingsPage #pp164-autoscroll:checked{background:#196a3b}
+#settingsPage #pp163-ultra-toggle:checked::after,#settingsPage #pp163-display-toggle:checked::after,#settingsPage #pp164-autoscroll:checked::after{transform:translateX(19px)}
+#settingsPage #pp163-ultra-toggle:focus-visible,#settingsPage #pp163-display-toggle:focus-visible,#settingsPage #pp164-autoscroll:focus-visible{outline:3px solid rgba(25,106,59,.35);outline-offset:2px}
+
+/* v17.2: same header on every page. Generated from the orders-view header rules of kitchen-release-v166.css (order preserved). */
+body.pp157-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #pp129-workload,body.pp157-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #pp131-urgency,body.pp157-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #pp133-load,body.pp157-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .pp126-stats-btn{display:none!important}
+body.pp157-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{position:relative!important;min-height:58px!important}
+body.pp157-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #pp111-header-actions{display:none!important}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{height:54px!important;min-height:54px!important;padding:0 clamp(12px,1.8vw,26px)!important;gap:7px!important;position:relative!important;box-shadow:0 1px 5px #183d2710}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .brandgroup{gap:9px!important;min-width:0}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #menuBtn{width:38px;height:40px;flex-shrink:0}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar img.pp116-logo{height:38px!important;width:auto!important;max-width:126px!important;object-fit:contain!important}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .pp114-location{font-size:13px!important;font-weight:900!important;letter-spacing:.045em!important;padding:0!important;white-space:nowrap!important}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .pp114-wait{display:none!important}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{gap:9px!important;margin-left:auto!important}
+body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .pp142-online{margin:0!important}
+@media(max-width:760px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{padding:0 10px!important;gap:4px!important}}
+@media(max-width:760px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar img.pp116-logo{height:32px!important;max-width:95px!important}}
+@media(max-width:760px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .pp114-location{font-size:11px!important}}
+@media(max-width:760px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{gap:4px!important}}
+@media(max-width:420px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .brandgroup{gap:4px!important}}
+@media(max-width:420px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar img.pp116-logo{max-width:74px!important}}
+@media(max-width:420px){body.pp158-home:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .pp114-location{font-size:10px!important}}
+body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{height:68px!important;min-height:68px!important;gap:12px!important;padding:0 clamp(14px,2.4vw,38px)!important;background:#fff!important;border-bottom:1px solid #dae7dd!important;box-shadow:0 2px 14px #163b2712!important;z-index:30}
+body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{gap:9px!important;margin-left:auto!important;align-items:center!important;min-width:0!important}
+body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #clock{font-size:13px!important;font-weight:850!important;color:#365743!important}
+body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #soundBtn{border-radius:10px!important;background:#f1f6f2!important;color:#196a3b!important;border:1px solid #d6e5d9!important;min-height:42px!important;min-width:42px!important}
+body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .pp142-online{display:none!important}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{height:60px!important;min-height:60px!important;padding:0 9px!important;gap:5px!important}}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{gap:5px!important}}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #clock{display:none!important}}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #soundBtn{min-width:36px!important;min-height:38px!important;width:37px!important}}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{flex-wrap:nowrap!important;align-items:center!important}}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .brandgroup{width:auto!important;max-width:calc(100% - 105px)!important;flex:0 1 auto!important;min-width:0!important}}
+@media (max-width:760px){body.pp160-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{width:auto!important;max-width:102px!important;flex:0 0 auto!important;align-self:center!important;margin:0 0 0 auto!important}}
+body.pp162-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{box-shadow:0 2px 14px #1738260b!important;border-bottom:1px solid #e2eae4!important}
+@media(max-width:760px){body.pp162-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar{height:58px!important;min-height:58px!important;padding:0 7px!important;gap:4px!important}}
+@media(max-width:760px){body.pp162-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{max-width:none!important;gap:4px!important}}
+@media(max-width:760px){body.pp162-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar #soundBtn{width:33px!important;min-width:33px!important;min-height:35px!important}}
+@media(min-width:761px) and (max-width:1000px){body.pp164-ui:is(.pp-orders-view,:not(.pp-orders-view)) .topbar .top-right{transform:translateX(-20px)!important}}

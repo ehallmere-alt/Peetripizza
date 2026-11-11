@@ -1,0 +1,34 @@
+/* Peetri Pizza v17.6 — site badge, "Kodulehel otsas", menu lock switch, offline bar, today tiles. Homepage layout untouched. */
+#pp176-site{display:inline-flex;align-items:center;min-height:26px;padding:0 8px;border-radius:7px;font:800 12px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;white-space:nowrap;cursor:help}
+#pp176-site[hidden]{display:none!important}
+#pp176-site[data-kind="warn"]{background:#fff4d6!important;color:#6b4a00!important;border:1px solid #e0a800}
+#pp176-site[data-kind="danger"]{background:#b3261e!important;color:#fff!important;border:1px solid #8c1d17;animation:pp176-pulse 1.6s ease-in-out infinite}
+@keyframes pp176-pulse{50%{opacity:.7}}
+@media (prefers-reduced-motion:reduce){#pp176-site{animation:none!important}}
+.pp176-missing{margin:12px 0 14px;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid #e6ece7;font:500 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#14231a}
+.pp176-missing-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:8px}
+.pp176-missing-head strong{font-size:16px;font-weight:850}
+.pp176-missing-head small{color:#5b6b60;font-size:12.5px}
+.pp176-closed{color:#b3261e}
+.pp176-chips{display:flex;flex-wrap:wrap;gap:8px}
+.pp176-chip{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 12px;border-radius:999px;background:#fdecea;color:#8c1d17;font-weight:750;border:1px solid #f3c4bf}
+.pp176-chip em{font-style:normal;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;opacity:.7}
+.pp176-none{margin:0;color:#196a3b;font-weight:700}
+#settingsPage #pp176-lock{-webkit-appearance:none;appearance:none;width:44px;height:25px;margin:0;border-radius:20px;background:rgb(201,212,202);position:relative;cursor:pointer;flex:0 0 auto;transition:background .15s;border:0}
+#settingsPage #pp176-lock::after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+#settingsPage #pp176-lock:checked{background:#196a3b}
+#settingsPage #pp176-lock:checked::after{transform:translateX(19px)}
+#settingsPage #pp176-lock:focus-visible{outline:3px solid rgba(25,106,59,.35);outline-offset:2px}
+body.pp148-locked #menuBtn{position:relative}
+body.pp148-locked #menuBtn::after{content:"🔒";position:absolute;right:-4px;top:-4px;font-size:12px;line-height:1;background:#fff;border-radius:50%;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#pp176-offline{top:76px;bottom:auto;cursor:default}
+.pp176-today{margin:0 0 16px;font:500 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#14231a}
+.pp176-today-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.pp176-today-head strong{font-size:17px;font-weight:850}
+.pp176-today-head span{font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;background:#eef2ee;color:#196a3b}
+.pp176-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.pp176-tile{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:12px;background:#f6faf7;border:1px solid #e1ebe3}
+.pp176-tile small{font-size:12px;font-weight:750;color:#5b6b60}
+.pp176-tile strong{font-size:26px;font-weight:900;color:#14231a}
+.pp176-tile span{font-size:11.5px;color:#7a887e}
+@media (max-width:600px){#pp176-offline{top:64px}.pp176-tile strong{font-size:22px}}

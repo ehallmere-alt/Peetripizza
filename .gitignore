@@ -1,0 +1,16 @@
+# Never commit runtime data, secrets or test copies
+private_data/
+peetri-backups/
+app/peetripizza/live-config.php
+app/peetripizza/locations.php
+peetri_staff_auth.php
+peetri_locations.php
+tests/api/web/
+tests/api/*.log
+tests/api/mode.txt
+tests/api/pid.txt
+tests/api/closed.txt
+tests/**/*.png
+node_modules/
+*.log
+.DS_Store
