@@ -1,5 +1,11 @@
 # Changelog
 
+## 17.13.0 — 2026-11-11
+- Compact, livelier order card (appended to `card-v177.css` so no extra request on slow tablets; CSS only, same markup and buttons): colour stripe on the left (new = orange, cooking = blue, soon = amber, late = red), one header line with a timer pill instead of the big ring (KIIRE / ÜLE AJA inside the pill, no corner ribbon), smaller chips, tight product rows, one footer row with ⓘ / 🔗 icon buttons (48 px) and the main action. Cards are ~25–30 % lower, so more orders fit on the tablet.
+- Timer pill: caption (⏱ JÄÄNUD / KIIRE / HILJA), big time, "→ 20:50", thick progress line; late = solid red with "+01:35" (was "−01:35").
+- Delivery label is now "KULLERIGA" (card and 80 mm ticket); labels: KAASA · KOHAPEAL · KULLERIGA.
+- DEMO: three realistic orders (KAASA, KOHAPEAL, KULLERIGA) with SÕ/VÕ codes, boxes, a note, plus one ready order; "+ demo" rotates the three types. Demo storage key `pp-demo-orders-v2` so tablets get the new demo set.
+
 ## 17.12.0 — 2026-11-11
 - Taigna tellimine: "Tarnekuupäev" row hidden (owner's request). The hidden input still defaults to tomorrow, so save/edit work as before (`dough-v1712.css`).
 - Seaded: "Ekraani seaded / Personaalne töölaud" hidden; "Köögimeeskond" hidden in Seaded and menu even if a script adds it later (`ops-v1712.js/.css`). Hidden, not removed.
