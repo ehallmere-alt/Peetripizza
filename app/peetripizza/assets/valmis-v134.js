@@ -15,7 +15,7 @@
    let button=card.querySelector('.pp113-detail-toggle');
    if(!button){button=document.createElement('button');button.type='button';button.className='pp113-detail-toggle';
      button.dataset.key=key;card.querySelector('.pp112-card-footer')?.prepend(button);}
-   button.textContent=compact?'Näita lisandeid':'Peida lisandid';button.setAttribute('aria-expanded',String(!compact));
+   button.textContent=compact?'+ Lisandid':'− Lisandid';button.setAttribute('aria-expanded',String(!compact));
  }
  const total=cards().filter(card=>card.querySelector('.pp94-extras')).length;
  all.hidden=total===0;

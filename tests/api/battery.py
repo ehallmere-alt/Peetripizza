@@ -26,7 +26,7 @@ def check(name,cond,info=''):
 def mode(m):open(A+'/mode.txt','w').write(m)
 mode('ok')
 # --- unauthenticated
-for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php']:
+for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php','print-log.php','kitchen-analytics.php']:
   c,j,_=req('api/'+ep);check('no login -> 401: '+ep,c==401 and j and j.get('error')=='authentication_required',(c,j))
 c,j,_=req('api/customer-links.php','POST',{});check('no login -> 401: customer-links.php',c==401,(c,j))
 c,j,_=req('api/track-status.php?t=bad');check('track-status bad token -> 404 (public endpoint)',c==404,(c,j))
@@ -113,6 +113,46 @@ mode('ok');os.remove(A+'/pid.txt')
 c,j,_=req('api/version.php');check('version.php: release + files ok',c==200 and j.get('ok') and re.match(r'^\d+\.\d+\.\d+$',j.get('version','')) and j['files']['checked'] and j['files']['total']>100 and j['files']['missingCount']==0 and j.get('github') is None,(c,str(j)[:300]))
 check('version.php: no secrets / order data',not re.search(r'session|websocket|password|customer|phone',json.dumps(j),re.I),str(j)[:300])
 c,j,_=req('api/version.php','POST',{},headers=CS);check('version.php POST -> 405',c==405,(c,j))
+# --- v17.14 Regression Guard: Smart Print Monitor
+c,j,_=req('api/print-log.php');check('v17.14 print-log GET',c==200 and j['ok'] and isinstance(j['orders'],list),(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel aaaa'});check('v17.14 print-log POST without CSRF refused',c==403,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: first tablet claims auto print',c==200 and j['claimed'] is True and j['record']['count']==1,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel bbbb'},headers=CS);check('v17.14 print: second tablet does NOT auto-print the same order',c==200 and j['claimed'] is False and j['record']['count']==1,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'outcome','order':LIVEID,'outcome':'blocked','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: blocked print is not counted',c==200 and j['record']['count']==0,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel bbbb'},headers=CS);check('v17.14 print: after a blocked print another tablet may print',c==200 and j['claimed'] is True,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'copy','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: manual copy is logged (count 2)',c==200 and j['record']['count']==2 and j['record']['last_kind']=='copy',(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':'../x','number':'1','kind':'manual','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: bad order id -> 422',c==422,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'1','kind':'manual','device':'<script>'},headers=CS);check('v17.14 print: bad device label -> 422',c==422,(c,j))
+c,j,_=req('api/print-log.php');check('v17.14 print-log lists the order',c==200 and any(x['order']==LIVEID and x['count']==2 for x in j['orders']),(c,str(j)[:300]))
+raw=open(PD+'/print-log-65.json').read();check('v17.14 print-log on disk has no customer data',not re.search(r'Mari|Maasikas|5555|@',raw),raw[:200])
+# --- v17.14 Kitchen Analytics
+nowms=int(time.time()*1000)
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-5000,'deadline':nowms-120000}]});check('v17.14 analytics sync without CSRF refused',c==403,(c,j))
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-5000,'deadline':nowms-120000},{'id':'bad','number':'x'}]},headers=CS);check('v17.14 analytics sync stored',c==200 and j['ok'],(c,j))
+c,j,_=req('api/kitchen-analytics.php?period=today');check('v17.14 analytics today: order, prep time, late',c==200 and j['orders']>=1 and j['prep_count']>=1 and j['late']>=1 and len(j['hours'])==24,(c,str(j)[:300]))
+check('v17.14 analytics: no staff names or ratings',c==200 and not re.search(r'actor|staff|rating|K..k',json.dumps(j)),str(j)[:200])
+c,j,_=req('api/kitchen-analytics.php?period=year');check('v17.14 analytics bad period -> 422',c==422,(c,j))
+for per in ('yesterday','7d'):
+  c,j,_=req('api/kitchen-analytics.php?period='+per);check('v17.14 analytics period '+per,c==200 and j['ok'],(c,j))
+raw=open(PD+'/analytics-65.json').read();check('v17.14 analytics on disk: ids, numbers, times only',not re.search(r'Mari|5555|@|Margherita',raw) and set(json.loads(raw)['orders'][LIVEID])<={'n','c','d','a','f'},raw[:200])
+# --- v17.14 Taigna tellimine 4.0: edit window
+c,j,_=req('api/dough.php');fro=[k for k,v in j['catalog'].items() if v.get('frozen')]
+import datetime;d=(datetime.date.today()+datetime.timedelta(days=2)).isoformat()
+c,j,_=req('api/dough.php','POST',{'action':'create','items':{fro[0]:2},'delivery_date':d},headers=CS);oid=j['order']['id'] if c==201 else ''
+c,j,_=req('api/dough.php');row=[x for x in j['orders'] if x['id']==oid]
+check('v17.14 dough: editable + editable_until in list',row and row[0]['editable'] is True and row[0]['editable_until'],row)
+c,j,_=req('api/dough.php','POST',{'action':'edit','id':oid,'expected_revision':0,'items':{fro[0]:5},'delivery_date':d},headers=CS)
+check('v17.14 dough: edit inside window saved with change details',c==200 and j['order']['history'][-1].get('changes')==[{'key':fro[0],'name':j['order']['items'][0]['name'],'from':2,'to':5}],(c,j))
+rows=json.load(open(PD+'/dough-65.json'))
+for r in rows:
+  if r['id']==oid:r['created_at']=(datetime.datetime.now(datetime.timezone.utc)-datetime.timedelta(days=2)).isoformat()
+open(PD+'/dough-65.json','w').write(json.dumps(rows))
+c,j,_=req('api/dough.php','POST',{'action':'edit','id':oid,'expected_revision':1,'items':{fro[0]:6},'delivery_date':d},headers=CS)
+check('v17.14 dough: edit after cut-off refused (edit_window_closed)',c==409 and j['error']=='edit_window_closed',(c,j))
+c,j,_=req('api/dough.php','POST',{'action':'status','id':oid,'expected_revision':1,'status':'Tühistatud'},headers=CS);check('v17.14 dough: cancel still possible after cut-off',c==200,(c,j))
+# --- v17.14 System Health 2.0
+c,j,_=req('api/system-health.php');check('v17.14 system-health: storage size, disk, server time',c==200 and isinstance(j.get('storage'),dict) and j['storage']['files']>=1 and abs(j['server_time']-int(time.time()*1000))<60000 and any(x['key']=='storage_size' for x in j['checks']),(c,str(j)[:300]))
+check('v17.14 system-health: no file names or secrets',not re.search(r'internal-status|dough-|password|session',json.dumps(j.get('storage'))),j.get('storage'))
 # --- upstream failures
 mode('expired');c,j,_=req('api/live.php');check('upstream session expired -> 401 (so the login banner shows)',c==401,(c,j))
 mode('down');c,j,_=req('api/live.php');check('upstream down -> 502',c==502,(c,j))

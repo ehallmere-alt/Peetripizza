@@ -1,0 +1,65 @@
+/* Peetri Pizza v17.14 — Smart Print Monitor, System Health 2.0, Kitchen Analytics, tablet speed mode. */
+/* ---------- print monitor ---------- */
+.pp1714-pm{margin:12px 0;padding:12px;border:1px solid #e3e8e4;border-radius:14px;background:#fbfcfb}
+.pp1714-pm-head,.pp1714-sh-head,.pp1714-an-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.pp1714-pm-head strong,.pp1714-sh-head strong,.pp1714-an-head strong{font-size:16px}
+.pp1714-pm-head span,.pp1714-sh-head span,.pp1714-an-head span{font-size:12px;color:#6b766f}
+.pp1714-pm-tiles,.pp1714-an-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.pp1714-sh-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.pp1714-pm-tile,.pp1714-an-tile{background:#fff;border:1px solid #e3e8e4;border-radius:12px;padding:8px 10px;min-height:64px}
+.pp1714-pm-tile small,.pp1714-an-tile small{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#6b766f}
+.pp1714-pm-tile strong,.pp1714-an-tile strong{display:block;font-size:22px;line-height:1.2}
+.pp1714-pm-tile span,.pp1714-an-tile span{display:block;font-size:12px;color:#6b766f}
+.pp1714-pm-tile.warn,.pp1714-an-tile.warn{border-color:#f3c46b;background:#fffaf0}
+.pp1714-pm-tile.bad,.pp1714-an-tile.bad{border-color:#f2a7a7;background:#fff5f5}
+.pp1714-pm-tile.bad strong,.pp1714-an-tile.bad strong{color:#b42318}
+.pp1714-pm-actions,.pp1714-sh-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pp1714-pm-actions button,.pp1714-sh-actions button{min-height:44px}
+.pp1714-pm-list{list-style:none;margin:6px 0;padding:0;font-size:13px}
+.pp1714-pm-list li{padding:5px 0;border-top:1px solid #eef1ee}
+.pp1714-pm-list em{font-style:normal;font-weight:800;color:#b45309}
+.pp1714-pm-empty{font-size:13px;color:#6b766f}
+.pp1714-print-info{display:inline-block;margin-left:10px;font-size:13px;color:#4b5a51;vertical-align:middle}
+.pp1714-dialog{border:0;border-radius:18px;padding:20px;max-width:420px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.pp1714-dialog::backdrop{background:rgba(10,20,14,.45)}
+.pp1714-dialog h3{margin:0 0 8px;font-size:20px}
+.pp1714-dialog p{margin:0 0 16px;font-size:16px;line-height:1.4}
+.pp1714-pd-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.pp1714-pd-actions button{min-height:48px;padding:0 18px;border-radius:12px;font-weight:800}
+#pp1714-pd-yes{background:#18834a;color:#fff;border:0}
+.pp1714-bar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2147483000;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100% - 32px);padding:10px 12px;border-radius:16px;background:#16251d;color:#fff;font-size:15px;font-weight:700;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.pp1714-bar[hidden]{display:none}
+.pp1714-bar.bad{background:#b42318}
+.pp1714-bar button{min-height:44px;padding:0 14px;border-radius:12px;border:0;background:#fff;color:#16251d;font-weight:800}
+.pp1714-bar button.x{background:transparent;color:#fff;font-size:18px;padding:0 8px}
+/* ---------- system health 2.0 ---------- */
+.pp1714-sh{margin:12px 0;padding:12px;border:1px solid #e3e8e4;border-radius:14px;background:#fbfcfb}
+.pp1714-sh-tile{background:#fff;border:1px solid #e3e8e4;border-left:5px solid #9aa59f;border-radius:12px;padding:8px 10px;min-height:70px}
+.pp1714-sh-tile[data-state="ok"]{border-left-color:#18834a}
+.pp1714-sh-tile[data-state="warn"]{border-left-color:#e8a317;background:#fffaf0}
+.pp1714-sh-tile[data-state="error"]{border-left-color:#dc2626;background:#fff5f5}
+.pp1714-sh-tile small{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#6b766f}
+.pp1714-sh-tile strong{display:block;font-size:16px;line-height:1.25;margin-top:2px}
+.pp1714-sh-tile span{display:block;font-size:12px;color:#55625a;margin-top:2px;overflow-wrap:anywhere}
+.pp1714-sh-summary{font-size:14px;font-weight:700;margin:4px 0 8px}
+.pp1714-sh-summary[data-state="ok"]{color:#18834a}.pp1714-sh-summary[data-state="warn"]{color:#b45309}.pp1714-sh-summary[data-state="error"]{color:#b42318}
+/* ---------- kitchen analytics ---------- */
+.pp1714-an{margin:14px 0;padding:12px;border:1px solid #e3e8e4;border-radius:14px;background:#fff}
+.pp1714-an-tabs{display:flex;gap:6px}
+.pp1714-an-tabs button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #d5dcd7;background:#fff;font-weight:700}
+.pp1714-an-tabs button[aria-pressed="true"]{background:#16251d;color:#fff;border-color:#16251d}
+.pp1714-an-hours{display:flex;align-items:flex-end;gap:3px;height:120px;margin:14px 0 4px;padding:0 2px;border-bottom:1px solid #d5dcd7}
+.pp1714-an-hour{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
+.pp1714-an-bar{width:100%;max-width:28px;background:#18834a;border-radius:4px 4px 0 0;min-height:0}
+.pp1714-an-hour.peak .pp1714-an-bar{background:#e9853f}
+.pp1714-an-hour b{font-size:11px;line-height:1.4;color:#16251d}
+.pp1714-an-axis{display:flex;gap:3px;padding:0 2px}
+.pp1714-an-axis span{flex:1;text-align:center;font-size:11px;color:#6b766f;min-width:0}
+.pp1714-an-note{font-size:12px;color:#6b766f;margin:8px 0 0}
+.pp1714-an-late{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
+.pp1714-an-late li{padding:5px 0;border-top:1px solid #eef1ee}
+/* ---------- tablet speed mode (opt-in): same layout, no blur, lighter shadows, no looping animations ---------- */
+html.pp1714-lite *,html.pp1714-lite *::before,html.pp1714-lite *::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation-iteration-count:1!important;transition-duration:0s!important}
+html.pp1714-lite body .ordercard,html.pp1714-lite body .panel,html.pp1714-lite body .pp112-done-card{box-shadow:0 1px 2px rgba(0,0,0,.08)!important}
+/* Off-screen sections skip rendering work until shown. */
+html body #doneOrders>.ordercard,html body #pp1711-pickup>*{content-visibility:auto;contain-intrinsic-size:auto 220px}

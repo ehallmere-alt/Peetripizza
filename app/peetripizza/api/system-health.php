@@ -1,5 +1,5 @@
 <?php
-/** v16.9: authenticated, read-only, privacy-preserving system diagnostics. */
+/** v16.9 (+v17.14 storage size, disk, server time): authenticated, read-only, privacy-preserving system diagnostics. */
 declare(strict_types=1);
 require_once dirname(__DIR__).'/auth/bootstrap.php';
 pp_require_login();
@@ -46,5 +46,20 @@ else{
  $state=($missing||$changed)?'error':'ok';
  $add('release',$state,'Versioonifailid: '.$ok.' korras, '.$missing.' puudu, '.$changed.' erinevat. (Vanad lisafailid võivad serverisse alles jääda.)');
 }
+// v17.14: storage size, disk space and file limits (files near a read limit stop working).
+$limits=['internal-status-'=>1200000,'dough-'=>2500000,'print-log-'=>2000000,'pickup-'=>1500000];
+$storage=['files'=>0,'bytes'=>0,'largest'=>0,'free_bytes'=>null,'near_limit'=>[]];
+if(is_dir($private)){
+ foreach((array)@scandir($private) as $f){
+  if(!is_string($f)||!str_ends_with($f,'.json'))continue;
+  $sz=(int)@filesize($private.'/'.$f);$storage['files']++;$storage['bytes']+=$sz;$storage['largest']=max($storage['largest'],$sz);
+  foreach($limits as $prefix=>$max){if(str_starts_with($f,$prefix)&&$sz>$max*0.8)$storage['near_limit'][]=$prefix;}
+ }
+ $free=@disk_free_space($private);$storage['free_bytes']=is_float($free)||is_int($free)?(int)$free:null;
+}
+$storage['near_limit']=array_values(array_unique($storage['near_limit']));
+$mb=static fn($b)=>number_format($b/1048576,1,',','').' MB';
+$add('storage_size',$storage['near_limit']?'warn':'ok',$storage['files'].' faili, '.$mb($storage['bytes']).($storage['near_limit']?' · mõni fail on mahupiiri lähedal':''));
+if($storage['free_bytes']!==null)$add('disk',$storage['free_bytes']<200*1048576?'warn':'ok','Vaba kettaruum: '.$mb($storage['free_bytes']));
 $bad=count(array_filter($checks,static fn($x)=>$x['state']==='error'));
-pp169_reply(200,['ok'=>true,'healthy'=>$bad===0,'checks'=>$checks,'checked_at'=>time(),'read_only'=>true,'upstream_checked'=>false,'verified_public_http_rules'=>false]);
+pp169_reply(200,['ok'=>true,'healthy'=>$bad===0,'checks'=>$checks,'checked_at'=>time(),'read_only'=>true,'upstream_checked'=>false,'verified_public_http_rules'=>false,'storage'=>$storage,'server_time'=>(int)round(microtime(true)*1000)]);

@@ -302,6 +302,92 @@ await test('v17.4: JS errors are journaled to api/client-log.php (scrubbed)',asy
  await p.ctx.close();
 });
 
+// ---------------- v17.14 Regression Guard ----------------
+const fakePrint=()=>{window.__printed=[];window.__openBlocked=false;window.open=function(){if(window.__openBlocked)return null;const w={closed:false,_h:'',document:{open(){},write(h){w._h+=h},close(){window.__printed.push(w._h)}},focus(){},print(){},addEventListener(){},close(){w.closed=true}};return w;};};
+const late=async p=>{await p.waitForFunction(()=>window.PPPrintMonitor&&window.PPHealth&&document.getElementById('pp1714-print-monitor'),null,{timeout:8000});};
+
+await test('v17.14 print: first print, then duplicate asks first and the copy says KOOPIA',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);await p.goto(url);await late(p);
+ await p.evaluate(()=>window.dispatchEvent(new CustomEvent('pp168:details-opened',{detail:{id:'demo-901',number:'901',status:'new',created:Date.now(),items:[['Margherita',1]]}})));
+ await p.evaluate(()=>window.PPPrint169.printManual({id:'demo-901',number:'901',created:Date.now(),items:[['Margherita',1]]}));
+ await p.waitForFunction(()=>window.PPPrintMonitor.record('demo-901')?.count===1,null,{timeout:5000});
+ assert(await p.evaluate(()=>window.__printed.length===1&&!/KOOPIA/.test(window.__printed[0])),'first print wrong');
+ await p.evaluate(()=>window.PPPrint169.printManual({id:'demo-901',number:'901',created:Date.now(),items:[['Margherita',1]]}));
+ await p.waitForSelector('#pp1714-print-dialog[open]',{timeout:3000});
+ assert(await p.evaluate(()=>window.__printed.length===1),'printed before the question');
+ await p.click('#pp1714-pd-yes');await p.waitForTimeout(300);
+ assert(await p.evaluate(()=>window.__printed.length===2&&/KOOPIA/.test(window.__printed[1])),'copy not marked KOOPIA');
+ await p.waitForFunction(()=>window.PPPrintMonitor.record('demo-901')?.count===2,null,{timeout:5000});
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 print: blocked popup shows a red bar with "Prindi nüüd"',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);await p.goto(url);await late(p);
+ await p.evaluate(()=>{window.__openBlocked=true;window.PPPrint169.printManual({id:'demo-902',number:'902',created:Date.now(),items:[['Vesi',1]]});});
+ await p.waitForSelector('#pp1714-print-bar.bad:not([hidden])',{timeout:3000});
+ await p.evaluate(()=>{window.__openBlocked=false;});await p.click('#pp1714-print-bar [data-pp1714="now"]');await p.waitForTimeout(300);
+ assert(await p.evaluate(()=>window.__printed.length===1),'"Prindi nüüd" did not print');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 health: Seaded shows LIVE, sync, printer, storage, version and tablet cards',async()=>{
+ const p=await page(browser);await p.goto(url);await late(p);
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());
+ await p.waitForFunction(()=>document.querySelectorAll('#pp1714-health .pp1714-sh-tile').length>=7&&/Kontrollitud/.test(document.querySelector('#pp1714-health .pp1714-sh-head')?.textContent||''),null,{timeout:10000});
+ const keys=await p.evaluate(()=>[...document.querySelectorAll('#pp1714-health .pp1714-sh-tile')].map(t=>t.dataset.key));
+ for(const k of ['live','sync','net','print','storage','version','device','server'])assert(keys.includes(k),'missing card '+k+' in '+keys);
+ const ver=await p.evaluate(()=>document.querySelector('#pp1714-health [data-key="version"]').dataset.state);assert(ver==='ok','version card '+ver);
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 analytics: Statistika shows tiles and the hour chart (DEMO), no staff ranking',async()=>{
+ const p=await page(browser);await p.goto(url);await late(p);
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());
+ await p.waitForSelector('#pp1714-analytics .pp1714-an-hours',{timeout:5000});
+ const r=await p.evaluate(()=>({tiles:document.querySelectorAll('#pp1714-analytics .pp1714-an-tile').length,bars:document.querySelectorAll('#pp1714-analytics .pp1714-an-hour').length,txt:document.getElementById('pp1714-analytics').textContent}));
+ assert(r.tiles>=4&&r.bars>=13,'analytics incomplete '+JSON.stringify(r).slice(0,200));
+ assert(!/töötaja\s*(edetabel|reiting)|parim töötaja/i.test(r.txt),'staff ranking found');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 speed mode: switch adds pp1714-lite and survives reload; off by default',async()=>{
+ const p=await page(browser);await p.goto(url);await late(p);
+ assert(!(await p.evaluate(()=>document.documentElement.classList.contains('pp1714-lite'))),'lite on by default');
+ await p.evaluate(()=>{const i=document.getElementById('pp1714-lite');i.checked=true;i.dispatchEvent(new Event('change'))});
+ await p.reload();await late(p);
+ assert(await p.evaluate(()=>document.documentElement.classList.contains('pp1714-lite')),'lite not kept');
+ await p.evaluate(()=>{const i=document.getElementById('pp1714-lite');i.checked=false;i.dispatchEvent(new Event('change'))});
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 dough: unsaved changes guard, edit window badge, history summary',async()=>{
+ const p=await page(browser);await p.goto(BASE+'dough.php');await p.waitForTimeout(1200);
+ const plus=await p.$('#items .item:not(.disabled) button.plus');assert(plus,'no enabled product');await plus.click();
+ assert(await p.evaluate(()=>!document.getElementById('pp1714-unsaved').hidden),'unsaved marker not shown');
+ await p.click('a.back');await p.waitForSelector('#pp1714-leave[open]',{timeout:3000});
+ await p.click('#pp1714-stay');assert(/dough\.php/.test(p.url()),'left the page');
+ p.once('dialog',d=>d.accept());await p.click('#save');await p.waitForFunction(()=>/salvestatud/.test(document.getElementById('message').textContent),null,{timeout:5000});
+ assert(await p.evaluate(()=>document.getElementById('pp1714-unsaved').hidden),'unsaved marker stays after save');
+ await p.waitForSelector('#history .pp1714-dough-sum',{timeout:4000});
+ assert(await p.evaluate(()=>!!document.querySelector('#history .pp1714-lock.open')),'no "Muudetav kuni" badge');
+ await p.click('#history [data-edit]');await p.waitForSelector('#pp1714-editbar:not([hidden])',{timeout:3000});
+ await p.click('#pp1714-edit-cancel');assert(await p.evaluate(()=>document.getElementById('pp1714-editbar').hidden),'edit bar not closed');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 responsive: no sideways scroll on phone, portrait and landscape tablet',async()=>{
+ for(const vp of [{width:360,height:740},{width:800,height:1280},{width:1280,height:800}]){
+  const p=await page(browser,{viewport:vp});await p.goto(url);await late(p);
+  for(const pg of ['orders','statistics','settings']){
+   await p.evaluate(pg=>document.querySelector('#drawer [data-page="'+pg+'"]')?.click(),pg);await p.waitForTimeout(400);
+   const w=await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);assert(w<=2,vp.width+'px '+pg+' scrolls sideways by '+w+'px');
+  }
+  await p.goto(BASE+'dough.php');await p.waitForTimeout(800);
+  const w=await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);assert(w<=2,vp.width+'px dough scrolls sideways by '+w+'px');
+  assert(!p.errors.length,vp.width+': '+p.errors.join(' | '));await p.ctx.close();
+ }
+});
+
 await browser.close();
 const failed=results.filter(r=>!r.ok);
 console.log(`\n${results.length-failed.length}/${results.length} passed`);

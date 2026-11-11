@@ -99,9 +99,9 @@ function pp178Parse(raw){
  const size=sizeMatch?sizeMatch[1].toLowerCase():null;
  const base=specs.find(v=>/^Põhi\s*:/i.test(v));
  const dough=base?base.replace(/^Põhi\s*:/i,'').trim().toLowerCase():null;
- const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'}};
+ const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'},family:{thin:'PÕ',thick:'PP'},medium:{thin:'KÕ',thick:'KP'}}; // v17.14: pere (family) and keskmine get a code too
  const code=(codes[size]&&codes[size][dough])||null;
- const name=code?main.replace(/\s*\((large|small)\)\s*$/i,'').trim():main;
+ const name=code?main.replace(/\s*\((large|small|family|medium)\)\s*$/i,'').trim():main;
  const words={large:'suur',small:'väike',family:'pere',medium:'keskmine',thin:'õhuke',thick:'paks'};
  const codeTitle=code?`${words[size]||size} · ${words[dough]||dough}`:'';
  // Show only what differs from the standard pizza; "regular" adds nothing for the cook.

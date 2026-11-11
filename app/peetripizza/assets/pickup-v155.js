@@ -19,7 +19,7 @@ function render(){let waiting=0,handed=0;const now=Date.now();
   const ts=Number(c.dataset.readyAt);const ready=ts>0?new Date(ts):null;
   const elapsed=ready&&Number.isFinite(ready.getTime())?Math.max(0,Math.floor((now-ready.getTime())/60000)):null;
   c.classList.toggle('pp154-wait-long',!done&&elapsed!==null&&elapsed>=15);
-  tag.textContent=done?'ÜLE ANTUD · '+fmt(rec.handed_at):elapsed!==null&&elapsed>=10?'Ootab klienti '+elapsed+' min':'';
+  tag.textContent=done?'ÜLE ANTUD · '+fmt(rec.handed_at):elapsed!==null&&elapsed>=10?'⏱ Ootab '+(elapsed>=60?Math.floor(elapsed/60)+' h '+(elapsed%60)+' min':elapsed+' min'):'';
   action.textContent=done?'↶ Tühista':'✓ Üle antud';action.disabled=!connected||pending.has(k)||!valid(k);
  }
  $('pp154-pickup-wait').textContent=waiting+' ootab';$('pp154-pickup-handed').textContent=handed+' üle antud';
