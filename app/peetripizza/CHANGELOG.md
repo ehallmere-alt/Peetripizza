@@ -1,5 +1,10 @@
 # Changelog
 
+## 17.10.0 — 2026-11-11
+- Seaded → "Versioon": version shown on this tablet, version installed on the server (+ file checksum check against `tools/release-manifest.php`) and the newest version in GitHub (latest Release, else `main`). Tells you to reload the page, finish the install or install the new release.
+- New read-only `api/version.php` (login required). GitHub is asked by the server (page CSP stays `connect-src 'self'`), cached 10 min in `private_data/github-latest.json`.
+- New `assets/ops-v1710.js/.css`.
+
 ## 17.9.0 — 2026-11-11
 - New order you can see without sound: big green "UUS TELLIMUS #… name" banner + flashing screen edge until tapped or accepted (`ops-v179.js/.css`).
 - Urgent orders (< 5 min or late) move to the top of their column, pulse and give one short "urgent" signal per order.
