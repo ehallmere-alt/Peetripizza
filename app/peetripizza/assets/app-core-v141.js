@@ -179,7 +179,7 @@ function pp145Notify(){
  // Local-only UI event; no external requests. Dataset is already visible to this signed-in browser.
  const snapshot={
    source:window.pp150LiveConnecting?'LIVE_CONNECTING':document.body.classList.contains('live-active')?'LIVE':isPreview()?'JSON':'DEMO',
-   orders:shownOrders().map(o=>({id:String(o.id),status:o.status,number:o.number,created:Number(o.created)||0,completed:Number(o.completed)||0,minutes:Number(o.minutes)||20,deadline:Number(o.deadline)||0,deadlineSource:o.deadlineSource||'estimated',dineIn:!!o.dineIn,items:Array.isArray(o.items)?o.items.map(x=>[String(x[0]),Number(x[1])||0]):[]}))
+   orders:shownOrders().map(o=>({id:String(o.id),status:o.status,number:o.number,created:Number(o.created)||0,completed:Number(o.completed)||0,minutes:Number(o.minutes)||20,deadline:Number(o.deadline)||0,deadlineSource:o.deadlineSource||'estimated',dineIn:!!o.dineIn,amount:Number(o.amount)||0,items:Array.isArray(o.items)?o.items.map(x=>[String(x[0]),Number(x[1])||0]):[]}))
  };
  window.pp145LatestSnapshot=snapshot;
  window.dispatchEvent(new CustomEvent('pp145:orders',{detail:snapshot}));
