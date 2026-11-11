@@ -1,5 +1,5 @@
 # Builds the paste-into-SSH update automatically when a new version lands on main.
-# Trigger: push to main that changes app/peetripizza and raises <meta name="peetri-release">.
+# Trigger: push to main that changes app/peetripizza and raises <meta name="peetri-release"> (compared with main before the push).
 # Output: patches/update-<old>-to-<new>-ssh.txt, patches/update-any-to-<new>-ssh.txt,
 #         git tag v<new> and a GitHub Release with both files attached.
 name: SSH patch
@@ -20,18 +20,23 @@ jobs:
       - name: Versions
         id: v
         run: |
-          NEW=$(grep -o 'name="peetri-release" content="[0-9.]*"' app/peetripizza/dashboard.php | grep -o '[0-9][0-9.]*')
-          OLD=$(git tag --list 'v*' --sort=-v:refname | head -n1 | sed 's/^v//')
-          echo "new=$NEW" >> "$GITHUB_OUTPUT"; echo "old=$OLD" >> "$GITHUB_OUTPUT"
-          if [ -z "$OLD" ] || [ "$NEW" = "$OLD" ] || git rev-parse -q --verify "refs/tags/v$NEW" >/dev/null; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Nothing to build (old=$OLD new=$NEW)"; fi
+          ver(){ git show "$1:app/peetripizza/dashboard.php" 2>/dev/null | grep -o 'name="peetri-release" content="[0-9.]*"' | grep -o '[0-9][0-9.]*'; }
+          # Base = main before this push (manual run: latest release tag, else previous commit).
+          BASE="${{ github.event.before }}"
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            BASE=$(git tag --list 'v*' --sort=-v:refname | head -n1); [ -n "$BASE" ] || BASE=HEAD~1
+          fi
+          NEW=$(ver HEAD); OLD=$(ver "$BASE")
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"; echo "new=$NEW" >> "$GITHUB_OUTPUT"; echo "old=$OLD" >> "$GITHUB_OUTPUT"
+          if [ -z "$OLD" ] || [ -z "$NEW" ] || [ "$NEW" = "$OLD" ] || git rev-parse -q --verify "refs/tags/v$NEW" >/dev/null; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Nothing to build (old=$OLD new=$NEW)"; fi
       - name: Build patch
         if: steps.v.outputs.skip != '1'
         run: |
           set -euo pipefail
           OLD=${{ steps.v.outputs.old }}; NEW=${{ steps.v.outputs.new }}
           OS=$(echo "$OLD" | sed 's/\.0$//'); NS=$(echo "$NEW" | sed 's/\.0$//')
-          rm -rf /tmp/base && mkdir -p /tmp/base && git archive "v$OLD" app/peetripizza | tar -x -C /tmp/base
-          FILES=$(git diff --name-only "v$OLD" HEAD -- app/peetripizza | sed 's#^app/peetripizza/##' | grep -v '^tools/release-manifest.php$' | grep -v '^private_data/' || true)
+          rm -rf /tmp/base && mkdir -p /tmp/base && git archive "${{ steps.v.outputs.base }}" app/peetripizza | tar -x -C /tmp/base
+          FILES=$(git diff --name-only "${{ steps.v.outputs.base }}" HEAD -- app/peetripizza | sed 's#^app/peetripizza/##' | grep -v '^tools/release-manifest.php$' | grep -v '^private_data/' || true)
           [ -n "$FILES" ] || { echo "No app changes"; exit 0; }
           python3 tools/gen_patch.py /tmp/base/app/peetripizza app/peetripizza "$OLD" "$NEW" "patches/update-$OS-to-$NS-ssh.txt" $FILES
           PREV_ANY="patches/update-any-to-$OS-ssh.txt"
