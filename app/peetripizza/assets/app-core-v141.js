@@ -187,12 +187,26 @@ function pp145Notify(){
 // v17.4: remember exactly which data the cards on screen were rendered from.
 let pp174LastFp='';
 const pp174Fp=()=>{try{return (document.body.classList.contains('live-active')?'L':'D')+(window.PPKitchenStatus?.ready()?'R':'N')+JSON.stringify(shownOrders())}catch(_){return String(Math.random())}};
+// v17.16: keep the card of an order whose data did not change (same DOM node: no flicker, a tap is never lost).
+// Only a card with changed data is rebuilt; timers keep ticking via refreshTimers(). Set html.pp1716-full-render to go back to the old way.
+let pp1716Built=0;window.pp1716BuiltCards=()=>pp1716Built;
+function pp1716Patch(box,list,emptyTitle){
+ if(!box)return;
+ if(!list.length||document.documentElement.classList.contains('pp1716-full-render')){box.innerHTML=list.length?list.map(card).join(''):empty(emptyTitle,'Selle filtri jaoks tellimusi ei ole.');return;}
+ const ctx=(isPreview()?'P':'D')+(document.body.classList.contains('live-active')?'L':'-')+(window.PPKitchenStatus?.ready()?'R':'N')+(compact?'C':'-');
+ const old=new Map();for(const el of box.children)if(el.__pp1716&&el.dataset.orderId)old.set(el.dataset.orderId,el);
+ const tpl=document.createElement('template');
+ const nodes=list.map(o=>{const sig=ctx+JSON.stringify(o),prev=old.get(String(o.id));if(prev&&prev.__pp1716===sig){old.delete(String(o.id));return prev}
+  tpl.innerHTML=card(o).trim();const el=tpl.content.firstElementChild;el.__pp1716=sig;pp1716Built++;return el});
+ const keep=new Set(nodes);for(const el of [...box.children])if(!keep.has(el))el.remove();
+ nodes.forEach((el,i)=>{const at=box.children[i];if(at!==el)box.insertBefore(el,at||null)});
+}
 function renderOrders(){
  pp174LastFp=pp174Fp();
  pp145Notify();
  updateSourceUI(); countMetrics();const p=sortedOrders(filtered(pending())),a=sortedOrders(filtered(active()));updateLateNotice();
- $('newOrders').innerHTML=p.length?p.map(card).join(''):empty('Uusi tellimusi pole','Selle filtri jaoks tellimusi ei ole.');
- $('activeOrders').innerHTML=a.length?a.map(card).join(''):empty('Kõik on valmis','Selle filtri jaoks tellimusi ei ole.');
+ pp1716Patch($('newOrders'),p,'Uusi tellimusi pole');
+ pp1716Patch($('activeOrders'),a,'Kõik on valmis');
  const done=shownOrders().filter(o=>o.status==='done'&&(!historyQuery||String(o.number).toLocaleLowerCase('et-EE').includes(historyQuery)||o.items.some(i=>String(i[0]).toLocaleLowerCase('et-EE').includes(historyQuery)))).sort((x,y)=>historySort==='oldest'?(x.completed||0)-(y.completed||0):historySort==='amount'?y.amount-x.amount:(y.completed||0)-(x.completed||0));
  $('doneCount').textContent=shownOrders().filter(o=>o.status==='done').length;
  $('historyShown').textContent=done.length+' tellimust';
@@ -499,6 +513,8 @@ const liveRecent=new Map();
 function decorateNewLiveOrders(){
  const now=Date.now();
  for(const [key,until] of liveRecent)if(until<=now)liveRecent.delete(key);
+ // v17.16: cards are kept between polls now, so take the UUS mark off once its 45 s are over.
+ document.querySelectorAll('#ordersPage .ordercard.live-just-arrived').forEach(c=>{if(!liveRecent.has(String(c.dataset.orderId||''))){c.classList.remove('live-just-arrived');c.querySelector('.live-new-badge')?.remove();}});
  for(const order of shownOrders()){
   if(!liveRecent.has(liveOrderKey(order)))continue;
   for(const card of document.querySelectorAll('.ordercard.card-v15')){

@@ -1,5 +1,15 @@
 # Changelog
 
+## 17.16.0 — 2026-11-11
+- **LIVE without needless redraws**: `renderOrders()` keeps the DOM node of every card whose order data did not change (`pp1716Patch` in app-core); only new or changed orders get a new card, removed ones go away, order is kept. Timers still tick via `refreshTimers()`. The "UUS" mark is taken off after 45 s (cards now live longer). `html.pp1716-full-render` switches back to the old full innerHTML way.
+- **Tablet picks up a new version by itself**: `api/release.php` (login, returns only the version) is asked every 5 min; when the server is newer a yellow bar shows and the page reloads as soon as no order is in Uued/Valmistamisel, no dialog/typing, Tellimused view. LIVE is switched back on after the reload (sessionStorage `pp1716-resume`). Sound needs one tap after any reload (Chrome rule; the existing sound bar asks for it).
+- **Night reload**: once a day 05:00–05:30 Tallinn, only if the page was open 6 h+ and the same "nothing in work" rule holds.
+- **Daily data copy**: `api/backup.php` copies this pizzeria's internal-status, pickup, dough, wait, print-log, analytics files to `private_data/backups/<id>/<date>/` once a day (on the first tablet call), keeps 14 days. Seaded → "Andmete varukoopia": pick a copy → "Taasta valitud" (asks first; the current state is saved as `<date>-enne` so a restore can be undone). Per-file locks are respected.
+- **LIVE silent 3 min**: red blinking bar on top + "offline" sound once a minute ("🔇 10 min" mutes the sound, the bar stays; "↻ Proovi uuesti"). Only in LIVE and while the screen is on.
+- The old "↻ Reaalsed tellimused" button is hidden (still in the page: the DEMO|LIVE switch clicks it). "Lukusta menüü" is already in Seaded since 17.6.
+- **Statistika** (owner's request): "Täna köögis" with "Karbid täna", "Köögi analüütika", "Päevaaruanne" and the "Lõpeta vahetus" button are hidden (CSS only, the blocks stay in the DOM; Lõpeta vahetus remains in the side menu). Remaining: totals, Tellimuste näitajad, Tellimused ja pitsad.
+- Tests: API 119/119 (+17 backup/release checks), browser 31/31 (+5; the 17.4 "changed data" test now expects unchanged cards to stay).
+
 ## 17.15.0 — 2026-11-11
 - **Faster load**: the page now uses `kitchen-release-v1715.css` (322 → 302 KB, gzip 59 → 51 KB): overridden duplicate declarations and never-matching selectors removed by `tools/css-prune.py`. Computed styles of every element compared with the original on 8 screens × 3 sizes (1280, 800, 390 px): identical. The original v166 file stays on the server.
 - Settings-only modules (print-v169, operations-v168, health-v169, ops-v1710) load after first paint via `late-v1714.js`.

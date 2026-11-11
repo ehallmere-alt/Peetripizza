@@ -26,7 +26,7 @@ def check(name,cond,info=''):
 def mode(m):open(A+'/mode.txt','w').write(m)
 mode('ok')
 # --- unauthenticated
-for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php','print-log.php','kitchen-analytics.php']:
+for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php','print-log.php','kitchen-analytics.php','backup.php','release.php']:
   c,j,_=req('api/'+ep);check('no login -> 401: '+ep,c==401 and j and j.get('error')=='authentication_required',(c,j))
 c,j,_=req('api/customer-links.php','POST',{});check('no login -> 401: customer-links.php',c==401,(c,j))
 c,j,_=req('api/track-status.php?t=bad');check('track-status bad token -> 404 (public endpoint)',c==404,(c,j))
@@ -153,6 +153,28 @@ c,j,_=req('api/dough.php','POST',{'action':'status','id':oid,'expected_revision'
 # --- v17.14 System Health 2.0
 c,j,_=req('api/system-health.php');check('v17.14 system-health: storage size, disk, server time',c==200 and isinstance(j.get('storage'),dict) and j['storage']['files']>=1 and abs(j['server_time']-int(time.time()*1000))<60000 and any(x['key']=='storage_size' for x in j['checks']),(c,str(j)[:300]))
 check('v17.14 system-health: no file names or secrets',not re.search(r'internal-status|dough-|password|session',json.dumps(j.get('storage'))),j.get('storage'))
+# --- v17.16 release + daily data copy
+import hashlib
+c,j,_=req('api/release.php');check('v17.16 release.php: server version only',c==200 and j=={'ok':True,'version':re.search(r'peetri-release" content="([0-9.]+)',open(WEB+'/dashboard.php').read()).group(1)},(c,j))
+c,j,_=req('api/backup.php');check('v17.16 backup GET makes today\'s copy',c==200 and j['ok'] and j['made'] and len(j['backups'])==1 and j['backups'][0]['files']>=3,(c,j))
+TODAY=j['today'] if j else ''
+c,j,_=req('api/backup.php');check('v17.16 backup GET again: no second copy the same day',c==200 and j['made'] is False and len(j['backups'])==1,(c,j))
+BK=PD+'/backups/65/'+TODAY
+check('v17.16 backup holds only this pizzeria, no locks',os.path.isdir(BK) and all(re.match(r'^(internal-status|pickup|dough|wait|print-log|analytics)\.json$|^meta\.json$',f) for f in os.listdir(BK)),os.listdir(BK) if os.path.isdir(BK) else 'no dir')
+DF=PD+'/dough-65.json';orig=hashlib.sha256(open(DF,'rb').read()).hexdigest()
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY});check('v17.16 restore without CSRF refused',c==403,(c,j))
+for bad in ['../65','2026-1-1','x','2026-11-11/../..']:
+  c,j,_=req('api/backup.php','POST',{'action':'restore','date':bad},headers=CS);check('v17.16 restore bad date refused: '+bad,c==400,(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':'2001-01-01'},headers=CS);check('v17.16 restore unknown day -> 404',c==404,(c,j))
+open(DF,'w').write('{"orders":[]}')
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY},headers=CS)
+check('v17.16 restore brings the day copy back',c==200 and j['restored']>=3 and hashlib.sha256(open(DF,'rb').read()).hexdigest()==orig,(c,j))
+check('v17.16 restore first saved the state before it (-enne)',c==200 and any(b['date']==TODAY+'-enne' for b in j['backups']),(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY+'-enne'},headers=CS)
+check('v17.16 restore can be undone (-enne copy)',c==200 and open(DF).read()=='{"orders":[]}',(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY},headers=CS)
+check('v17.16 restore again -> original data',c==200 and hashlib.sha256(open(DF,'rb').read()).hexdigest()==orig,(c,j))
+c,j,_=req('api/dough.php');check('v17.16 dough API still reads restored file',c==200 and j and j.get('ok'),(c,str(j)[:200]))
 # --- upstream failures
 mode('expired');c,j,_=req('api/live.php');check('upstream session expired -> 401 (so the login banner shows)',c==401,(c,j))
 mode('down');c,j,_=req('api/live.php');check('upstream down -> 502',c==502,(c,j))

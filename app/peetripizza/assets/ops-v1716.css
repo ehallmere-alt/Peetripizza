@@ -1,0 +1,15 @@
+/* Peetri Pizza v17.16 — update bar, LIVE silent bar, Seaded data copy card. */
+html body button.pp1716-native-live{display:none!important}
+#pp1716-update{bottom:16px}
+#pp1716-silent{top:76px;bottom:auto;z-index:96;font-size:16px;animation:pp1716-blink 1.2s ease-in-out infinite}
+#pp1716-silent b{font-size:18px}
+@keyframes pp1716-blink{50%{box-shadow:0 0 0 6px rgba(179,38,30,.35),0 10px 30px rgba(0,0,0,.25)}}
+html.pp1714-lite #pp1716-silent{animation:none}
+#settingsPage .pp1716-last{margin:10px 0 0;font-weight:700;color:#196a3b}
+#settingsPage .pp1716-restore{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+#settingsPage .pp1716-restore select{flex:1 1 220px;min-height:44px;padding:0 10px;border-radius:10px;border:1px solid #cfdcd2;background:#fff;font:600 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#settingsPage #pp1716-restore{min-height:44px;padding:0 16px;border-radius:10px;font-weight:800}
+#settingsPage .pp1716-note{margin:8px 0 0;color:#5d6d62;font-size:13px}
+/* 17.16: Statistika without "Täna köögis" (+ Karbid täna), "Köögi analüütika", "Päevaaruanne" and the "Lõpeta vahetus" button — owner's request.
+   Hidden only: the blocks stay in the page because other scripts still fill them. */
+#statisticsPage #pp176-today,#statisticsPage #pp1714-analytics,#statisticsPage #pp143-report,#statisticsPage #pp1711-shift-open,#statisticsPage .pp176-boxes{display:none!important}

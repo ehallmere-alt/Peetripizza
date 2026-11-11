@@ -223,7 +223,7 @@ await test('v17.4: identical LIVE polls keep the same cards, changed data re-ren
  assert(t1&&t2&&t1!==t2,'timers stopped ticking ('+t1+' / '+t2+')');
  extra=true;await p.waitForTimeout(11000);
  const after=await p.evaluate(()=>({n:document.querySelectorAll('#ordersPage .ordercard').length,marked:document.querySelectorAll('#ordersPage .ordercard[data-pp174-mark]').length}));
- assert(after.n===3,'new LIVE order not shown, cards='+after.n);assert(after.marked===0,'cards not re-rendered after data change');
+ assert(after.n===3,'new LIVE order not shown, cards='+after.n);assert(after.marked===2,'v17.16: unchanged cards must stay, only the new one is built (marked='+after.marked+')');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
@@ -340,13 +340,15 @@ await test('v17.14 health: Seaded shows LIVE, sync, printer, storage, version an
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
-await test('v17.14 analytics: Statistika shows tiles and the hour chart (DEMO), no staff ranking',async()=>{
+await test('v17.16 Statistika: Täna köögis, Karbid, Köögi analüütika, Päevaaruanne, Lõpeta vahetus hidden; the rest stays',async()=>{
  const p=await page(browser);await p.goto(url);await late(p);
- await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());
- await p.waitForSelector('#pp1714-analytics .pp1714-an-hours',{timeout:5000});
- const r=await p.evaluate(()=>({tiles:document.querySelectorAll('#pp1714-analytics .pp1714-an-tile').length,bars:document.querySelectorAll('#pp1714-analytics .pp1714-an-hour').length,txt:document.getElementById('pp1714-analytics').textContent}));
- assert(r.tiles>=4&&r.bars>=13,'analytics incomplete '+JSON.stringify(r).slice(0,200));
- assert(!/töötaja\s*(edetabel|reiting)|parim töötaja/i.test(r.txt),'staff ranking found');
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());await p.waitForTimeout(800);
+ for(const sel of ['#pp176-today','#pp1714-analytics','#pp143-report','#pp1711-shift-open'])assert(!(await visible(p,sel)),sel+' still visible');
+ const txt=await p.evaluate(()=>document.getElementById('statisticsPage').innerText);
+ assert(!/Karbid täna|Täna köögis|Köögi analüütika|Päevaaruanne|Lõpeta vahetus/.test(txt),'hidden block text on screen');
+ for(const sel of ['#statsData','#performanceStats','#statisticsPage .pp145-insights'])assert(await visible(p,sel),sel+' disappeared');
+ assert(await p.evaluate(()=>!!document.getElementById('pp1714-analytics')&&!!document.getElementById('pp176-today')),'blocks were removed from the DOM (must only be hidden)');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
@@ -395,6 +397,101 @@ await test('v17.15: Seaded → Versioon shows the permanent update command; slim
  const cmd=await p.textContent('#pp1715-update code');assert(/raw\.githubusercontent\.com\/ehallmere-alt\/Peetripizza\/main\/patches\/update-latest-ssh\.txt/.test(cmd)&&/&& bash /.test(cmd),'command '+cmd);
  const css=await p.evaluate(()=>[...document.styleSheets].map(s=>s.href||'').filter(h=>/kitchen-release/.test(h)));assert(css.length===1&&/v1715/.test(css[0]),'css '+css);
  assert(await p.evaluate(()=>typeof window.PPPrint169.printManual==='function'&&!!document.getElementById('pp169-health-check')),'late modules missing');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 LIVE: only the changed card is rebuilt, the rest stay the same node',async()=>{
+ const p=await page(browser);let st1='new',extra=false;
+ await p.route('**/api/live.php*',r=>{const orders=[liveOrder(1,st1),liveOrder(3,'active')];if(extra)orders.push(liveOrder(4,'new'));return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders,updated_at:Math.floor(Date.now()/1000)})})});
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2500);
+ await p.evaluate(()=>document.querySelectorAll('#ordersPage .ordercard').forEach(c=>c.dataset.m=c.dataset.orderId));
+ const built0=await p.evaluate(()=>window.pp1716BuiltCards());
+ extra=true;st1='active';await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(2500);
+ const r=await p.evaluate(()=>({nw:[...document.querySelectorAll('#newOrders .ordercard')].map(c=>[c.dataset.orderId.slice(-1),c.dataset.m||'']),act:[...document.querySelectorAll('#activeOrders .ordercard')].map(c=>[c.dataset.orderId.slice(-1),c.dataset.m||'']),built:window.pp1716BuiltCards()}));
+ const a3=r.act.find(x=>x[0]==='3'),a1=r.act.find(x=>x[0]==='1'),n4=r.nw.find(x=>x[0]==='4');
+ assert(a3&&a3[1],'unchanged order 3 was rebuilt '+JSON.stringify(r));
+ assert(a1&&!a1[1],'order 1 moved to active but card not rebuilt '+JSON.stringify(r));
+ assert(n4&&!n4[1],'new order 4 missing '+JSON.stringify(r));
+ assert(r.built-built0===2,'expected 2 built cards, got '+(r.built-built0));
+ const t1=await p.textContent('#activeOrders [data-timer]');await p.waitForTimeout(2100);assert(t1!==await p.textContent('#activeOrders [data-timer]'),'timer stopped on kept card');
+ assert(!(await visible(p,'button[aria-label="Laadi päris tellimused ainult lugemiseks"]')),'v17.16: old "Reaalsed tellimused" button still visible');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+const empty=(r,list)=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:list||[],updated_at:Math.floor(Date.now()/1000)})});
+await test('v17.16 self-update: new server version reloads only when no orders, LIVE comes back on',async()=>{
+ const p=await page(browser);let list=[liveOrder(1,'new')],ver='17.99.0';
+ await p.route('**/api/live.php*',r=>empty(r,list));
+ await p.route('**/api/release.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,version:ver})}));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ await p.evaluate(()=>{window.__same=1});
+ await p.evaluate(()=>window.PP1716.checkVersion());await p.waitForTimeout(800);
+ assert(await p.evaluate(()=>window.__same===1),'reloaded while an order was in work');
+ assert(await visible(p,'#pp1716-update'),'update bar not shown');
+ list=[];await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ ver=await p.evaluate(()=>document.querySelector('meta[name="peetri-release"]').content);
+ await p.evaluate(()=>window.PP1716._test.setServer('17.99.0'));
+ await Promise.all([p.waitForNavigation({timeout:8000}),p.evaluate(()=>window.PP1716.tryUpdate())]);
+ await p.waitForTimeout(4500);
+ assert(await p.evaluate(()=>window.__same===undefined),'page not reloaded');
+ assert(await p.evaluate(()=>document.body.classList.contains('live-active')),'LIVE not switched back on after reload');
+ assert(!(await visible(p,'#pp1716-update')),'update bar still shown on the new version');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 night reload: only 05:00–05:30 Tallinn, after 6 h open, once a day, no orders',async()=>{
+ const p=await page(browser);
+ await p.route('**/api/live.php*',r=>empty(r,[]));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ const r=await p.evaluate(()=>{const at=h=>new Date(Date.UTC(2026,10,12,h-2,10));const N=window.PP1716.nightTick;
+  return {day:N(at(14),8*3600000),young:N(at(5),3600000),orders:window.PP1716.busyReason()}});
+ assert(r.day===false&&r.young===false,'reload at a wrong time '+JSON.stringify(r));
+ assert(r.orders==='','busy with no orders: '+r.orders);
+ await p.evaluate(()=>{window.__same=1;try{localStorage.removeItem('pp1716-night')}catch(_){}});
+ await Promise.all([p.waitForNavigation({timeout:8000}),p.evaluate(()=>window.PP1716.nightTick(new Date(Date.UTC(2026,10,12,3,10)),7*3600000))]);
+ await p.waitForTimeout(4500);
+ assert(await p.evaluate(()=>window.__same===undefined&&document.body.classList.contains('live-active')),'night reload or LIVE resume failed');
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ assert(await p.evaluate(()=>window.PP1716.nightTick(new Date(Date.UTC(2026,10,12,3,15)),7*3600000))===false,'second night reload on the same day');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 LIVE silent 3 min: red bar + sound, gone after a good sync',async()=>{
+ const p=await page(browser);
+ await p.route('**/api/live.php*',r=>empty(r,[liveOrder(1,'new')]));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ assert(!(await visible(p,'#pp1716-silent')),'silent bar without reason');
+ const r=await p.evaluate(()=>{let beeps=0;const old=window.PPSound.play;window.PPSound.play=k=>{if(k==='offline')beeps++;return true};
+  window.PP1716._test.setLastOk(Date.now()-200000);const a=window.PP1716.silentTick();const b=window.PP1716.silentTick();window.PPSound.play=old;return {a,b,beeps}});
+ assert(r.a&&r.beeps===1,'bar/sound not triggered once '+JSON.stringify(r));
+ assert(await visible(p,'#pp1716-silent'),'silent bar not visible');
+ assert(/3/.test(await p.textContent('#pp1716-silent-min')),'minutes not shown');
+ await p.click('#pp1716-silent-retry');await p.waitForTimeout(1500);
+ assert(!(await visible(p,'#pp1716-silent')),'bar stays after LIVE answered again');
+ await p.click('#pp172-mode [data-mode="demo"]');await p.waitForTimeout(500);
+ await p.evaluate(()=>window.PP1716._test.setLastOk(Date.now()-900000));
+ assert(await p.evaluate(()=>window.PP1716.silentTick())===false,'alarm in DEMO');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 Seaded: daily data copy card, restore asks first',async()=>{
+ const p=await page(browser);
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());
+ await p.evaluate(()=>window.PP1716.loadBackups());
+ await p.waitForFunction(()=>/Viimane koopia/.test(document.getElementById('pp1716-last')?.textContent||''),null,{timeout:8000});
+ assert(await visible(p,'#pp1716-backup'),'card not visible in Seaded');
+ let asked='';p.once('dialog',d=>{asked=d.message();d.dismiss()});
+ await p.click('#pp1716-restore');await p.waitForTimeout(500);
+ assert(/Taastada/.test(asked),'restore did not ask first');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 await browser.close();
