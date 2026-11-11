@@ -1,0 +1,33 @@
+/* Peetri Pizza v17.11 — full ready cards on the home screen, undo bar, end-of-shift summary. */
+body.pp1711-cards #ordersPage #pp158-pickup-rows{display:none!important}
+html body #ordersPage .pp1711-pickup{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:12px;margin-top:12px}
+html body #ordersPage .pp1711-pickup .pp112-done-card{margin:0!important;border:2px solid #f0a35e!important;border-radius:18px!important;background:#fff!important}
+html body #ordersPage .pp1711-pickup .pp112-done-card.pp1711-late{border-color:#e5484d!important;box-shadow:0 0 0 3px rgba(229,72,77,.15)!important}
+html body #ordersPage .pp1711-pickup .pp112-done-card .pp154-handover{min-height:52px!important;padding:0 22px!important;font-size:17px!important}
+html body #ordersPage .pp1711-pickup .pp1711-empty{grid-column:1/-1;margin:4px 0;padding:14px;border-radius:14px;background:#f2f8f3;color:#196a3b;font-weight:700;text-align:center}
+#pp1711-undo{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:98;display:flex;align-items:center;gap:14px;max-width:calc(100vw - 32px);padding:10px 10px 10px 18px;border-radius:16px;background:#1f2a22;color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.35);font:700 16px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#pp1711-undo[hidden]{display:none!important}
+#pp1711-undo span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pp1711-undo button{flex:0 0 auto;min-height:48px;padding:0 18px;border:0;border-radius:12px;background:#f5b400;color:#1f2a22;font:800 17px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
+#pp1711-undo button b{display:inline-block;min-width:22px;margin-left:6px;padding:3px 6px;border-radius:8px;background:rgba(0,0,0,.15);font-variant-numeric:tabular-nums}
+.pp1711-shift-open{display:inline-flex;align-items:center;min-height:48px;margin:6px 0 12px;padding:0 18px;border:0;border-radius:12px;background:#196a3b;color:#fff;font-weight:800;font-size:16px;cursor:pointer}
+dialog.pp1711-shift{width:min(640px,calc(100vw - 24px));max-height:calc(100vh - 24px);padding:0;border:0;border-radius:20px;box-shadow:0 30px 70px rgba(0,0,0,.35);color:#14251a;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+dialog.pp1711-shift::backdrop{background:rgba(15,25,18,.55)}
+.pp1711-shift-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:18px 20px 6px}
+.pp1711-shift-head small{color:#5d6d62;font-weight:700;letter-spacing:.05em}
+.pp1711-shift-head h2{margin:2px 0 0;font-size:24px}
+.pp1711-shift-head button{width:44px;height:44px;border:0;border-radius:12px;background:#f0f4f1;font-size:18px;cursor:pointer}
+.pp1711-shift-body{padding:0 20px 8px}
+.pp1711-shift-when{margin:0 0 12px;color:#4b5b50;font-weight:600}
+.pp1711-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.pp1711-tile{padding:10px 12px;border:1px solid #e1ebe3;border-radius:14px;background:#f8fbf8}
+.pp1711-tile small{display:block;color:#5d6d62;font-weight:600}
+.pp1711-tile strong{display:block;font-size:24px;margin-top:2px;font-variant-numeric:tabular-nums}
+.pp1711-tile span{display:block;color:#6b7b70;font-size:12px;margin-top:2px}
+.pp1711-shift-body h3{margin:16px 0 6px;font-size:16px}
+.pp1711-list{display:grid;gap:4px}
+.pp1711-list div{display:flex;justify-content:space-between;gap:10px;padding:7px 10px;border-radius:10px;background:#f6f8f6}
+.pp1711-none{margin:4px 0;color:#5d6d62}
+.pp1711-shift-actions{display:flex;flex-wrap:wrap;gap:10px;padding:12px 20px 18px}
+.pp1711-shift-actions button{min-height:48px;padding:0 18px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer}
+#pp1711-shift-print{border:0;background:#196a3b;color:#fff}

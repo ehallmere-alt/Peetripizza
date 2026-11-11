@@ -1,5 +1,11 @@
 # Changelog
 
+## 17.11.0 — 2026-11-11
+- Home screen "Klienti ootavad tellimused": full ready cards (name, number, products, sum, "Ootab klienti N min", big Üle antud) for every waiting order, oldest first; red frame after 15 min. Cards are copies of the real `#doneOrders` cards and every button presses the original one. The old 3-row list stays in the DOM (hidden) for other scripts.
+- "↶ Tagasi" bar for 10 s after LIVE Võta vastu / Valmis (reverts via `api/kitchen-status.php`) and after Üle antud (LIVE and DEMO). The LIVE "Kas tellimus on valmis?" question is no longer shown; the undo bar replaces it.
+- "🧾 Lõpeta vahetus" (Statistika + menu): today's orders, sum, ready / late, average cook time (LIVE), handed over, average wait at the counter, boxes by size, top 5 products; 80 mm print. Read-only.
+- New `assets/ops-v1711.js/.css`.
+
 ## 17.10.0 — 2026-11-11
 - Seaded → "Versioon": version shown on this tablet, version installed on the server (+ file checksum check against `tools/release-manifest.php`) and the newest version in GitHub (latest Release, else `main`). Tells you to reload the page, finish the install or install the new release.
 - New read-only `api/version.php` (login required). GitHub is asked by the server (page CSP stays `connect-src 'self'`), cached 10 min in `private_data/github-latest.json`.
