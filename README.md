@@ -2,7 +2,7 @@
 
 Кухонное приложение пиццерии (PHP + чистый JS + CSS). Интерфейс на эстонском. Работает на планшете Android (Chrome, горизонтально), сервер: crestudio.ee/peetripizza.
 
-Текущая версия: **17.7.0**.
+Текущая версия: **17.8.0**.
 
 ## Что где лежит
 
@@ -35,10 +35,13 @@ node tests/browser/run-tests.js
 
 ## Как сделать новую версию
 
-1. Скопировать текущую `app/peetripizza` (это база), внести изменения.
-2. Поднять версию: `<meta name="peetri-release">`, `?v=` у изменённых файлов, подпись в меню, `tools/release-check.php`, `tools/v17-smoke-check.php`.
-3. `python3 tools/gen_manifest.py app/peetripizza 17.8.0`
-4. `python3 tools/gen_patch.py <старая_папка> app/peetripizza 17.7.0 17.8.0 patches/update-17.7-to-17.8-ssh.txt <изменённые файлы>`. Файл `tools/release-manifest.php` в список не передавать: патч сам его пересчитывает.
-5. Проверить патч на копии старой версии: `PP_APP=/путь/к/копии bash patches/...txt`.
+1. Ветка от `main`, правки в `app/peetripizza`.
+2. Поднять версию: `<meta name="peetri-release">` в `dashboard.php`, `?v=` у изменённых файлов, подпись в меню, `tools/release-check.php`, `tools/v17-smoke-check.php`.
+3. `python3 tools/gen_manifest.py app/peetripizza 17.9.0`
+4. Pull request → слияние в `main`.
+
+После слияния GitHub сам (workflow `.github/workflows/ssh-patch.yml`) соберёт `patches/update-<старая>-to-<новая>-ssh.txt` и `update-any-to-<новая>-ssh.txt`, проверит патч на копии старой версии, поставит тег `v<новая>` и создаст Release с файлами. Их и вставлять в SSH.
+
+Вручную то же самое: `python3 tools/gen_patch.py <старая_папка> app/peetripizza 17.8.0 17.9.0 patches/update-17.8-to-17.9-ssh.txt <изменённые файлы>` (`tools/release-manifest.php` в список не передавать).
 
 Правила проекта для людей и ИИ-помощников: [AGENTS.md](AGENTS.md).

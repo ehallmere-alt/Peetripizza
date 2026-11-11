@@ -1,0 +1,48 @@
+# Builds the paste-into-SSH update automatically when a new version lands on main.
+# Trigger: push to main that changes app/peetripizza and raises <meta name="peetri-release">.
+# Output: patches/update-<old>-to-<new>-ssh.txt, patches/update-any-to-<new>-ssh.txt,
+#         git tag v<new> and a GitHub Release with both files attached.
+name: SSH patch
+on:
+  push:
+    branches: [main]
+    paths: ['app/peetripizza/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: ssh-patch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Versions
+        id: v
+        run: |
+          NEW=$(grep -o 'name="peetri-release" content="[0-9.]*"' app/peetripizza/dashboard.php | grep -o '[0-9][0-9.]*')
+          OLD=$(git tag --list 'v*' --sort=-v:refname | head -n1 | sed 's/^v//')
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"; echo "old=$OLD" >> "$GITHUB_OUTPUT"
+          if [ -z "$OLD" ] || [ "$NEW" = "$OLD" ] || git rev-parse -q --verify "refs/tags/v$NEW" >/dev/null; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Nothing to build (old=$OLD new=$NEW)"; fi
+      - name: Build patch
+        if: steps.v.outputs.skip != '1'
+        run: |
+          set -euo pipefail
+          OLD=${{ steps.v.outputs.old }}; NEW=${{ steps.v.outputs.new }}
+          OS=$(echo "$OLD" | sed 's/\.0$//'); NS=$(echo "$NEW" | sed 's/\.0$//')
+          rm -rf /tmp/base && mkdir -p /tmp/base && git archive "v$OLD" app/peetripizza | tar -x -C /tmp/base
+          FILES=$(git diff --name-only "v$OLD" HEAD -- app/peetripizza | sed 's#^app/peetripizza/##' | grep -v '^tools/release-manifest.php$' | grep -v '^private_data/' || true)
+          [ -n "$FILES" ] || { echo "No app changes"; exit 0; }
+          python3 tools/gen_patch.py /tmp/base/app/peetripizza app/peetripizza "$OLD" "$NEW" "patches/update-$OS-to-$NS-ssh.txt" $FILES
+          PREV_ANY="patches/update-any-to-$OS-ssh.txt"
+          if [ -f "$PREV_ANY" ]; then cat "$PREV_ANY" "patches/update-$OS-to-$NS-ssh.txt" > "patches/update-any-to-$NS-ssh.txt"; fi
+          # Self-check: apply the new patch to a copy of the old version.
+          cp -r /tmp/base/app/peetripizza /tmp/check && (cd /tmp && HOME=/tmp PP_APP=/tmp/check bash "$GITHUB_WORKSPACE/patches/update-$OS-to-$NS-ssh.txt") | tee /tmp/apply.log
+          grep -q "ГОТОВО: версия $NEW" /tmp/apply.log
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add patches/ && git commit -m "SSH patch $OLD -> $NEW" && git push
+          git tag "v$NEW" && git push origin "v$NEW"
+          ASSETS="patches/update-$OS-to-$NS-ssh.txt"; [ -f "patches/update-any-to-$NS-ssh.txt" ] && ASSETS="$ASSETS patches/update-any-to-$NS-ssh.txt"
+          gh release create "v$NEW" $ASSETS --title "Peetri Pizza $NEW" --notes "Установка: открыть файл, скопировать целиком и вставить в SSH. update-any подходит для любой старой версии."
+        env:
+          GH_TOKEN: ${{ github.token }}

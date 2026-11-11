@@ -1,0 +1,18 @@
+/* Peetri Pizza v17.8 — Väljastus with name/phone/boxes, boxes in Statistika, field-check link. */
+.pp155-station .pp155-station-order{align-items:center}
+.pp155-station .pp178-who{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0}
+.pp155-station .pp178-who>strong{display:inline-flex;align-items:center;min-height:38px;padding:0 12px;border-radius:9px;background:#14532d;color:#fff;font-size:22px;font-weight:900}
+.pp155-station .pp178-name{font-size:24px;font-weight:900;color:#0f2117;overflow-wrap:anywhere}
+.pp155-station .pp178-phone{display:inline-flex;align-items:center;min-height:32px;padding:0 10px;border-radius:8px;border:1.5px solid #c9d8cd;background:#fff;color:#0f2117;font-weight:850;font-size:15px;text-decoration:none;white-space:nowrap}
+.pp155-station .pp178-boxes{flex-basis:100%;font-size:14px;font-weight:800;color:#5c4a2e}
+.pp155-station .pp155-station-order button[data-pp155-pickup]{min-height:58px;padding:0 20px;font-size:18px;font-weight:900}
+.pp178-boxes-head{display:flex;align-items:baseline;gap:10px;margin:16px 0 8px}
+.pp178-boxes-head strong{font-size:17px;font-weight:850}
+.pp178-boxes-head span{font-size:13px;color:#5b6b60;font-weight:700}
+.pp178-box-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.pp178-box{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:12px;background:#f7f4ee;border:1px solid #e6dccb}
+.pp178-box strong{font-size:26px;font-weight:900;color:#3d2f19}
+.pp178-box small{font-size:12px;font-weight:850;color:#6b5636;letter-spacing:.03em}
+.pp178-box-none{margin:0;color:#5b6b60}
+.pp178-shape-link{margin:10px 0 0}
+.pp178-shape-link a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:10px;border:1px solid #d1e3d5;background:#f6faf7;color:#196a3b;font-weight:800;text-decoration:none}

@@ -1,5 +1,19 @@
 # Changelog
 
+## 17.8.0 — 2026-11-11
+- One order parser for card, print, Väljastus and Statistika: `window.PPOrderInfo` (parse, boxes) in `app-core-v141.js`.
+- 80 mm ticket (`print-v169.js`): big system number, name, phone, KAASA/KOHALE/KOHAPEAL, ready time, box line, SÕ/VÕ codes, only non-default modifiers, extras, note.
+- Väljastus (`kitchen-v155.js`): number + big name + phone + boxes per order; done cards carry `data-phone` / `data-boxes`.
+- Statistika: "Karbid täna" (boxes by size, branded separately, dine-in count).
+- `api/order-shape.php?view=html`: readable field check (keys + short code-like values only, no customer data); link in Seaded.
+- New `assets/ops-v178.css`.
+
+## 17.7.0 — 2026-11-11
+- New order card: big name, number YYMMDD-N (261111-2), customer phone, box summary, only non-default modifiers, SÕ/VÕ captions, orange qty > 1, one big action button (`card-v177.css`).
+
+## 17.6.0 — 2026-11-11
+- Adaptive polling, site wait time / closed badge, "Kodulehel otsas" in Tooted, menu lock in Seaded, offline service worker, "Täna köögis" in Statistika.
+
 ## 17.2.0 — 2026-11-11
 - Header is identical on every page (orders-view header rules re-applied to all pages via generated block in `assets/ui-v172.css`); never wraps; duplicate Uued/Töös totals hidden below 1500 px; stale "v16" sub-label removed.
 - DEMO / LIVE switch in the header (`#pp172-mode`), replaces the read-only status chip; it clicks the original read-only LIVE button. Phones: one pill that toggles.

@@ -22,14 +22,25 @@ function safe_keys(array $data):array{
   $out[]=$k;if(count($out)>=45)break;
  }return $out;
 }
+// v17.8: short code-like values only (letters, _ and -; no digits, so no phones/ids/addresses).
+const PP178_ENUM_KEYS=['status','state','serving','delivery_type','deliveryType','type','order_type','orderType','service','service_type','packaging','package','size','pizzaSize','base','dough','doughType','rim','crust','cheese','payment_type','paymentType'];
+function enum_values(array $data):array{
+ $out=[];foreach(PP178_ENUM_KEYS as $k){$v=$data[$k]??null;
+  if(is_array($v)){$v=$v['et']??$v['en']??$v['name']??$v['value']??null;}
+  if(is_bool($v)){$out[$k]=$v?'true':'false';continue;}
+  if(is_string($v)&&strlen($v)<=30&&preg_match('/^[A-Za-zÕÄÖÜõäöü _-]*$/u',$v))$out[$k]=$v;
+ }return $out;
+}
 function shape(array $order):array{
- $out=['keys'=>safe_keys($order),'arrays'=>[],'objects'=>[]];
+ $out=['keys'=>safe_keys($order),'arrays'=>[],'objects'=>[],'values'=>enum_values($order)];
+ $num=$order['order_number']??$order['number']??null;
+ if(is_scalar($num))$out['order_number_format']=preg_replace(['/[0-9]/','/[A-Za-z]/'],['9','A'],substr((string)$num,0,24));
  foreach($order as $k=>$v){
   if(!is_string($k)||!preg_match('/^[A-Za-z][A-Za-z0-9_]{0,48}$/D',$k))continue;
   if(!is_array($v))continue;
   if(array_is_list($v)){
-   $sample=null;foreach($v as $x){if(is_array($x)){$sample=safe_keys($x);break;}}
-   $out['arrays'][$k]=['count'=>count($v),'element_keys'=>$sample];
+   $sample=null;$vals=[];$sub=[];foreach($v as $x){if(is_array($x)){$sample=safe_keys($x);$vals=enum_values($x);foreach($x as $sk=>$sv)if(is_string($sk)&&is_array($sv)&&preg_match('/^[A-Za-z][A-Za-z0-9_]{0,48}$/D',$sk))$sub[$sk]=array_is_list($sv)?(is_array($sv[0]??null)?safe_keys($sv[0]):'list'):safe_keys($sv);break;}}
+   $out['arrays'][$k]=['count'=>count($v),'element_keys'=>$sample,'element_values'=>$vals,'element_nested'=>$sub];
   }else $out['objects'][$k]=safe_keys($v);
   if(count($out['arrays'])+count($out['objects'])>=18)break;
  }
@@ -48,5 +59,12 @@ $sample=[];foreach($container as $order){
  if(!is_array($order))continue;
  $sample[]=shape($order);
  if(count($sample)>=3)break;
+}
+$result=['ok'=>true,'diagnostic'=>'keys_and_counts_only','pizzeria_id'=>(int)$loc['id'],'total_orders'=>count($container),'samples'=>$sample];
+if(($_GET['view']??'')==='html'){
+ header('Content-Type: text/html; charset=utf-8');
+ $json=htmlspecialchars(json_encode($result,JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT|JSON_INVALID_UTF8_SUBSTITUTE),ENT_QUOTES,'UTF-8');
+ echo '<!doctype html><html lang="et"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Tellimuse väljad</title><style>body{font:15px/1.45 system-ui,sans-serif;margin:0;padding:16px;background:#f5f7f5;color:#14231a}h1{font-size:20px;margin:0 0 6px}p{margin:0 0 12px;color:#4b5a50}pre{background:#fff;border:1px solid #d7e2da;border-radius:12px;padding:14px;overflow:auto;font-size:13px;white-space:pre-wrap}a{color:#196a3b;font-weight:700}</style></head><body><h1>Peetri Pizza tellimuse väljad</h1><p>Ainult väljade nimed ja lühikesed koodid (nt <b>takeaway</b>, <b>large</b>). Klientide nimesid, telefone ega aadresse siin ei ole. Tee sellest ekraanipilt ja saada arendajale.</p><pre>'.$json.'</pre><p><a href="../dashboard.php">← Tagasi töölauale</a></p></body></html>';
+ exit;
 }
 echo json_encode(['ok'=>true,'diagnostic'=>'keys_and_counts_only','pizzeria_id'=>(int)$loc['id'],'total_orders'=>count($container),'samples'=>$sample],JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE);

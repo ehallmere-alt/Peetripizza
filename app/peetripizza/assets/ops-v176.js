@@ -88,6 +88,15 @@
 
  /* ---------- 6: today's kitchen summary (Statistika) ---------- */
  const todayKey=d=>{const x=new Date(d);return x.getFullYear()+'-'+x.getMonth()+'-'+x.getDate();};
+ // v17.8: pizza boxes used today (orders on screen, by size; branded counted separately).
+ function boxesHtml(list){
+  const info=window.PPOrderInfo;if(!info)return '';
+  const total=new Map();let dine=0;
+  for(const o of list){const b=info.boxes(o);if(b===null){dine++;continue;}for(const [k,n] of b)total.set(k,(total.get(k)||0)+n);}
+  const rows=info.boxOrder.filter(k=>total.has(k)).map(k=>'<div class="pp178-box"><strong>'+esc(total.get(k))+'</strong><small>'+esc(k)+'</small></div>').join('');
+  const sum=[...total.values()].reduce((a,b)=>a+b,0);
+  return '<div class="pp178-boxes-head"><strong>📦 Karbid täna</strong><span>'+esc(sum)+' kokku'+(dine?' · '+esc(dine)+' tellimust kohapeal':'')+'</span></div>'+(rows?'<div class="pp178-box-row">'+rows+'</div>':'<p class="pp178-box-none">Täna pole veel pitsakarpe vaja läinud.</p>');
+ }
  async function summary(){
   const page=$('statisticsPage');if(!page)return true;
   let box=$('pp176-today');
@@ -113,12 +122,12 @@
   const tile=(label,val,hint)=>'<div class="pp176-tile"><small>'+esc(label)+'</small><strong>'+esc(val)+'</strong>'+(hint?'<span>'+esc(hint)+'</span>':'')+'</div>';
   const html='<div class="pp176-today-head"><strong>Täna köögis</strong><span>'+esc(src)+'</span></div><div class="pp176-tiles">'+
    tile('Tellimusi täna',todays.length,'ekraanil olevad')+tile('Vastu võetud',accepted,'')+tile('Valmis',done,'')+
-   tile('Keskmine valmimisaeg',avg==null?'—':avg+' min',src==='LIVE'?'Võta vastu → Valmis':'arvutatakse LIVE režiimis')+tile('Hilinenud',late,'valmis pärast tähtaega')+'</div>';
+   tile('Keskmine valmimisaeg',avg==null?'—':avg+' min',src==='LIVE'?'Võta vastu → Valmis':'arvutatakse LIVE režiimis')+tile('Hilinenud',late,'valmis pärast tähtaega')+'</div>'+boxesHtml(todays);
   if(box.innerHTML!==html)box.innerHTML=html;
   return true;
  }
  window.addEventListener('pp145:orders',()=>{if($('statisticsPage')?.classList.contains('active'))summary();});
- document.addEventListener('click',e=>{if(e.target.closest?.('[data-page="statistics"],#pp171-stats'))setTimeout(summary,50);});
+ document.addEventListener('click',e=>{if(e.target.closest?.('[data-page="statistics"],#pp171-stats')){setTimeout(summary,50);setTimeout(summary,700);}});
 
  /* ---------- start ---------- */
  function start(){lockRow();placeBadge();every(60000,loadSite)();every(60000,summary)();}

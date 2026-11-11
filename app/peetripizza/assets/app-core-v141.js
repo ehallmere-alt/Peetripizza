@@ -85,13 +85,14 @@ function kitchenNote(o){
  return typeof value==='string'?value.trim().slice(0,400):'';
 }
 function kitchenQty(q){const n=Number(q);return Number.isFinite(n)&&n>=0?Math.min(n,999):0;}
-function kitchenProductLabel(raw){
+// v17.8: one parser for card, print, Väljastus and Statistika (window.PPOrderInfo).
+function pp178Parse(raw){
  const text=String(raw||'').trim();
  const cut=text.indexOf(' — ');
  const main=cut<0?text:text.slice(0,cut);
  const details=cut<0?'':text.slice(cut+3);
  const segments=details.split(';').map(v=>v.trim()).filter(Boolean);
- const extras=segments.filter(v=>/^Lisandid\s*:/i.test(v)).map(v=>v.replace(/^Lisandid\s*:/i,'').trim()).filter(v=>v.length>0);
+ const extras=segments.filter(v=>/^Lisandid\s*:/i.test(v)).map(v=>v.replace(/^Lisandid\s*:/i,'').trim()).flatMap(x=>x.split(',')).map(x=>x.trim()).filter(Boolean);
  const specs=segments.filter(v=>!/^Lisandid\s*:/i.test(v));
  // Codes are assigned only when BOTH size and dough type are explicit.
  const sizeMatch=main.match(/\((large|small|family|medium)\)\s*$/i);
@@ -101,15 +102,13 @@ function kitchenProductLabel(raw){
  const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'}};
  const code=(codes[size]&&codes[size][dough])||null;
  const name=code?main.replace(/\s*\((large|small)\)\s*$/i,'').trim():main;
- // The coded size and base are not repeated; all other specs remain visible.
- const visibleSpecs=code?specs.filter(v=>!/^Põhi\s*:/i.test(v)):specs;
- // v17.7: show only what differs from the standard pizza; "regular" adds nothing for the cook.
  const words={large:'suur',small:'väike',family:'pere',medium:'keskmine',thin:'õhuke',thick:'paks'};
- const codeTitle=code?`${words[size]||size} · ${words[dough]||dough} põhi`:'';
+ const codeTitle=code?`${words[size]||size} · ${words[dough]||dough}`:'';
+ // Show only what differs from the standard pizza; "regular" adds nothing for the cook.
  const mods=[];
- for(const v of (code?visibleSpecs:specs)){
+ for(const v of (code?specs.filter(v=>!/^Põhi\s*:/i.test(v)):specs)){
   const m=v.match(/^([^:]+):\s*(.*)$/);const label=m?m[1].trim():'';const val=(m?m[2]:v).trim();const low=val.toLowerCase();
-  if(!val||/^(regular|tavaline|normal|standard|default|tavaline)$/i.test(low))continue;
+  if(!val||/^(regular|tavaline|normal|standard|default)$/i.test(low))continue;
   if(/^juust$/i.test(label)){
    if(/^(none|no|without|ilma|0)$/.test(low)){mods.push(['ILMA JUUSTUTA','warn']);continue;}
    if(/^(extra|double|topelt|lisa|more)$/.test(low)){mods.push(['TOPELT JUUST','warn']);continue;}
@@ -119,21 +118,29 @@ function kitchenProductLabel(raw){
   if(/^pakend$/i.test(label)){mods.push([/brand|bränd/i.test(val)?'Brändikarp':'Pakend: '+val,'info']);continue;}
   mods.push([label?label+': '+val:val,'warn']);
  }
- return `<strong class="pp94-pizza">${code?`<span class="pp119-code pp177-code" data-size="${code[0]}" data-dough="${code[1]}" title="${escapeHtml(codeTitle)}"><b>${escapeHtml(code)}</b><small>${escapeHtml(codeTitle.replace(' põhi',''))}</small></span> `:''}<span class="pp177-name">${escapeHtml(name)}</span></strong>${mods.length?`<span class="pp94-specs pp177-mods">${mods.map(([t,k])=>`<em class="pp177-mod pp177-mod-${k}">${escapeHtml(t)}</em>`).join('')}</span>`:''}${extras.length?`<span class="pp94-extras pp177-extras"><b>+ LISA</b>${extras.flatMap(x=>x.split(',')).map(x=>x.trim()).filter(Boolean).map(x=>`<em>${escapeHtml(x)}</em>`).join('')}</span>`:''}`;
+ const pack=(text.match(/Pakend\s*:\s*([^;]+)/i)||[])[1]||'';
+ const boxLabel={small:'VÄIKE',medium:'KESKMINE',large:'SUUR',family:'PERE'}[size]||null;
+ const box=!boxLabel||/^(none|no|ilma|puudub|ei)$/i.test(pack.trim())?null:(/brand|bränd/i.test(pack)?'BRÄNDI '+boxLabel:boxLabel);
+ return {name,code,codeTitle,mods,extras,size,box};
+}
+const PP178_BOX_ORDER=['VÄIKE','KESKMINE','SUUR','PERE','BRÄNDI VÄIKE','BRÄNDI KESKMINE','BRÄNDI SUUR','BRÄNDI PERE'];
+// [[label,count],...] sorted; [] when no pizza boxes; null when eaten in the pizzeria.
+function pp178BoxCounts(o){
+ if(o&&o.dineIn)return null;
+ const count=new Map();
+ for(const it of (Array.isArray(o?.items)?o.items:[])){const [raw,qty]=Array.isArray(it)?it:[it?.name,it?.quantity];const b=pp178Parse(raw).box;if(b)count.set(b,(count.get(b)||0)+kitchenQty(qty??1));}
+ return [...count].sort((a,b)=>PP178_BOX_ORDER.indexOf(a[0])-PP178_BOX_ORDER.indexOf(b[0]));
+}
+window.PPOrderInfo={parse:pp178Parse,boxes:pp178BoxCounts,boxOrder:PP178_BOX_ORDER};
+function kitchenProductLabel(raw){
+ const {name,code,codeTitle,mods,extras}=pp178Parse(raw);
+ return `<strong class="pp94-pizza">${code?`<span class="pp119-code pp177-code" data-size="${code[0]}" data-dough="${code[1]}" title="${escapeHtml(codeTitle+' põhi')}"><b>${escapeHtml(code)}</b><small>${escapeHtml(codeTitle)}</small></span> `:''}<span class="pp177-name">${escapeHtml(name)}</span></strong>${mods.length?`<span class="pp94-specs pp177-mods">${mods.map(([t,k])=>`<em class="pp177-mod pp177-mod-${k}">${escapeHtml(t)}</em>`).join('')}</span>`:''}${extras.length?`<span class="pp94-extras pp177-extras"><b>+ LISA</b>${extras.map(x=>`<em>${escapeHtml(x)}</em>`).join('')}</span>`:''}`;
 }
 // v17.7: which pizza boxes this order needs (from pizza size + "Pakend" in the order).
 function pp177Boxes(o,items){
- if(o.dineIn)return '<div class="pp177-boxes pp177-dinein"><b>🍽 KOHAPEAL</b><span>karpi pole vaja</span></div>';
- const label={small:'VÄIKE',medium:'KESKMINE',large:'SUUR',family:'PERE'},order=['VÄIKE','KESKMINE','SUUR','PERE','BRÄNDI VÄIKE','BRÄNDI KESKMINE','BRÄNDI SUUR','BRÄNDI PERE'];const count=new Map();
- for(const [raw,qty] of items){
-  const text=String(raw||'');const main=text.split(' — ')[0];const m=main.match(/\((small|medium|large|family)\)\s*$/i);if(!m)continue;
-  const pack=(text.match(/Pakend\s*:\s*([^;]+)/i)||[])[1]||'';
-  if(/^(none|no|ilma|puudub|ei)$/i.test(pack.trim()))continue;
-  const size=label[m[1].toLowerCase()];const key=/brand|bränd/i.test(pack)?'BRÄNDI '+size:size;
-  count.set(key,(count.get(key)||0)+kitchenQty(qty));
- }
- if(!count.size)return '';
- const list=[...count].sort((a,b)=>order.indexOf(a[0])-order.indexOf(b[0]));
+ const list=pp178BoxCounts({...o,items});
+ if(list===null)return '<div class="pp177-boxes pp177-dinein"><b>🍽 KOHAPEAL</b><span>karpi pole vaja</span></div>';
+ if(!list.length)return '';
  return `<div class="pp177-boxes"><b>📦 KARBID</b>${list.map(([k,n])=>`<em data-box="${escapeHtml(k)}"><strong>${n}×</strong> ${escapeHtml(k)}</em>`).join('')}</div>`;
 }
 function card(o){
@@ -172,7 +179,7 @@ function pp145Notify(){
  // Local-only UI event; no external requests. Dataset is already visible to this signed-in browser.
  const snapshot={
    source:window.pp150LiveConnecting?'LIVE_CONNECTING':document.body.classList.contains('live-active')?'LIVE':isPreview()?'JSON':'DEMO',
-   orders:shownOrders().map(o=>({id:String(o.id),status:o.status,number:o.number,created:Number(o.created)||0,completed:Number(o.completed)||0,minutes:Number(o.minutes)||20,deadline:Number(o.deadline)||0,deadlineSource:o.deadlineSource||'estimated',items:Array.isArray(o.items)?o.items.map(x=>[String(x[0]),Number(x[1])||0]):[]}))
+   orders:shownOrders().map(o=>({id:String(o.id),status:o.status,number:o.number,created:Number(o.created)||0,completed:Number(o.completed)||0,minutes:Number(o.minutes)||20,deadline:Number(o.deadline)||0,deadlineSource:o.deadlineSource||'estimated',dineIn:!!o.dineIn,items:Array.isArray(o.items)?o.items.map(x=>[String(x[0]),Number(x[1])||0]):[]}))
  };
  window.pp145LatestSnapshot=snapshot;
  window.dispatchEvent(new CustomEvent('pp145:orders',{detail:snapshot}));
@@ -197,7 +204,8 @@ function renderOrders(){
   const products=Array.isArray(o.items)?o.items:[];
   const items=products.map(([name,qty])=>`<li class="pp112-product"><span class="pp112-qty">${kitchenQty(qty)}×</span><div class="pp112-product-text">${kitchenProductLabel(name)}</div></li>`).join('');
   const amount=Number(o.amount)||0;
-  return `<article class="pp112-done-card" data-order-id="${escapeHtml(o.id)}" data-ready-at="${o.completed&&Number.isFinite(Number(o.completed))?Number(o.completed):''}" aria-label="Valmis tellimus ${escapeHtml(o.number)}"><div class="pp112-card-top"><div class="pp112-card-identity"><span class="pp112-check" aria-hidden="true">✓</span><div><strong class="pp112-customer pp121-customer-first ${customer?'':'pp112-name-missing'}">${customer?escapeHtml(customer):'Nimi puudub'}</strong><span class="pp112-number">#${escapeHtml(o.number)}</span></div></div><div class="pp112-completed"><span>VALMIS</span><strong>${finished}</strong>${o.internalStatus?`<span class="pp153-local-ready">Valmis ainult köögis</span>`:''}</div></div><div class="pp112-card-body"><ul class="pp112-products">${items||'<li>Tooted puuduvad</li>'}</ul></div><div class="pp112-card-footer"><span>${products.length} ${products.length===1?'tooterida':'tooterida'}</span><strong>${money(amount)}</strong>${o.internalStatus&&o.officialStatus!=='done'?`<button type="button" class="pp153-local-btn" data-kitchen-action="active" data-id="${escapeHtml(o.id)}">↶ Tühista valmis</button>`:''}</div></article>`;
+  const pp178Box=pp178BoxCounts(o);
+  return `<article class="pp112-done-card" data-order-id="${escapeHtml(o.id)}" data-phone="${escapeHtml(String(o.customerPhone||'').replace(/[^0-9+ -]/g,'').slice(0,20))}" data-boxes="${escapeHtml(pp178Box===null?'KOHAPEAL':pp178Box.map(([k,n])=>n+'× '+k).join(' · '))}" data-ready-at="${o.completed&&Number.isFinite(Number(o.completed))?Number(o.completed):''}" aria-label="Valmis tellimus ${escapeHtml(o.number)}"><div class="pp112-card-top"><div class="pp112-card-identity"><span class="pp112-check" aria-hidden="true">✓</span><div><strong class="pp112-customer pp121-customer-first ${customer?'':'pp112-name-missing'}">${customer?escapeHtml(customer):'Nimi puudub'}</strong><span class="pp112-number">#${escapeHtml(o.number)}</span></div></div><div class="pp112-completed"><span>VALMIS</span><strong>${finished}</strong>${o.internalStatus?`<span class="pp153-local-ready">Valmis ainult köögis</span>`:''}</div></div><div class="pp112-card-body"><ul class="pp112-products">${items||'<li>Tooted puuduvad</li>'}</ul></div><div class="pp112-card-footer"><span>${products.length} ${products.length===1?'tooterida':'tooterida'}</span><strong>${money(amount)}</strong>${o.internalStatus&&o.officialStatus!=='done'?`<button type="button" class="pp153-local-btn" data-kitchen-action="active" data-id="${escapeHtml(o.id)}">↶ Tühista valmis</button>`:''}</div></article>`;
  }).join(''):empty('Valmis tellimusi pole','Valmis tellimused ilmuvad siia.');
  document.body.classList.toggle('compact',compact);
  $('compactMode').checked=compact;$('compactSetting').checked=compact;
@@ -223,7 +231,7 @@ function refreshTimers(){
   const progress=card.querySelector('[data-progress]');if(progress){const p=100-remainingMs/Math.max(1,o.minutes*60000)*100;const percent=Math.min(100,Math.max(0,p)).toFixed(1)+'%';progress.style.width=percent;card.querySelector('.pp117-countdown')?.style.setProperty('--pp117-fill',percent);}
  });
 }
-function showDetails(o){$('detailTitle').textContent=`Tellimus #${o.number}`;const entries=[['Kliendi nimi',o.customerName||'—'],['Telefon',o.customerPhone||'—'],['Staatus',o.status==='new'?'Uus':o.status==='active'?'Valmistamisel':'Valmis'],['Tellitud',timeString(new Date(o.created))],['Teenindus',o.serving==='delivery'?'Kohaletoimetamine':'Kaasa'],['Makse',o.payment],['Aeg',o.minutes+' min'],['Summa',money(o.amount)],['Tellimuse ID',o.id]];const note=kitchenNote(o);if(o.officialStatus&&o.officialStatus!==o.status)entries.push(['Ametlik Peetri Pizza staatus',o.officialStatus==='new'?'Uus':o.officialStatus==='active'?'Valmistamisel':'Valmis'],['Hoiatus','Köögis muudetud olekut ei saadeta kliendile']);$('detailBody').innerHTML=`<div class="detail-list">${entries.map(([k,v])=>`<div><span>${k}</span><strong>${escapeHtml(v)}</strong></div>`).join('')}</div><h3>Tooted</h3><div class="detail-list">${o.items.map(([name,qty])=>`<div><span>${escapeHtml(name)}</span><strong>${Number(qty)}×</strong></div>`).join('')}</div>${note?`<div class="customer-note"><strong>⚑ KLIENDI MÄRKUS</strong><p>${escapeHtml(note)}</p></div>`:''}<div class="modal-note">${isPreview()?'LIVE — ainult vaatamiseks. Kontrolli toodete andmeid originaaltellimusega.':'Näidistellimus. Ühtegi muudatust Peetri Pizza originaalsüsteemi ei saadeta.'}</div>`;$('orderDialog').showModal();window.dispatchEvent(new CustomEvent('pp168:details-opened',{detail:{id:String(o.id),number:String(o.number),customer:String(o.customerName||''),status:String(o.status),serving:String(o.serving||''),note:kitchenNote(o),created:Number(o.created)||0,items:o.items.map(v=>[String(v[0]),Number(v[1])||0])}}))}
+function showDetails(o){$('detailTitle').textContent=`Tellimus #${o.number}`;const entries=[['Kliendi nimi',o.customerName||'—'],['Telefon',o.customerPhone||'—'],['Staatus',o.status==='new'?'Uus':o.status==='active'?'Valmistamisel':'Valmis'],['Tellitud',timeString(new Date(o.created))],['Teenindus',o.serving==='delivery'?'Kohaletoimetamine':'Kaasa'],['Makse',o.payment],['Aeg',o.minutes+' min'],['Summa',money(o.amount)],['Tellimuse ID',o.id]];const note=kitchenNote(o);if(o.officialStatus&&o.officialStatus!==o.status)entries.push(['Ametlik Peetri Pizza staatus',o.officialStatus==='new'?'Uus':o.officialStatus==='active'?'Valmistamisel':'Valmis'],['Hoiatus','Köögis muudetud olekut ei saadeta kliendile']);$('detailBody').innerHTML=`<div class="detail-list">${entries.map(([k,v])=>`<div><span>${k}</span><strong>${escapeHtml(v)}</strong></div>`).join('')}</div><h3>Tooted</h3><div class="detail-list">${o.items.map(([name,qty])=>`<div><span>${escapeHtml(name)}</span><strong>${Number(qty)}×</strong></div>`).join('')}</div>${note?`<div class="customer-note"><strong>⚑ KLIENDI MÄRKUS</strong><p>${escapeHtml(note)}</p></div>`:''}<div class="modal-note">${isPreview()?'LIVE — ainult vaatamiseks. Kontrolli toodete andmeid originaaltellimusega.':'Näidistellimus. Ühtegi muudatust Peetri Pizza originaalsüsteemi ei saadeta.'}</div>`;$('orderDialog').showModal();window.dispatchEvent(new CustomEvent('pp168:details-opened',{detail:{id:String(o.id),number:String(o.number),customer:String(o.customerName||''),customerName:String(o.customerName||''),customerPhone:String(o.customerPhone||''),dineIn:!!o.dineIn,status:String(o.status),serving:String(o.serving||''),deadline:Number(o.deadline)||0,note:kitchenNote(o),created:Number(o.created)||0,items:o.items.map(v=>[String(v[0]),Number(v[1])||0])}}))}
 function onOrdersClick(e){
  const btn=e.target.closest('[data-action]');if(!btn)return;
  const o=shownOrders().find(x=>x.id===btn.dataset.id);if(!o)return;

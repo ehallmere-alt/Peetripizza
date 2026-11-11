@@ -28,7 +28,8 @@ $login = file_get_contents($root . '/index.php') ?: '';
 if (!str_contains($login, 'login-v175.js') || !is_file($root . '/assets/login-v175.js') || !is_file($root . '/assets/login-v175.css')) $errors[] = 'Missing v17.5 login page assets';
 if (!str_contains($html, 'ops-v176.js') || !str_contains($html, 'ops-v176.css') || !is_file($root . '/sw.js') || !is_file($root . '/api/site-status.php')) $errors[] = 'Missing v17.6 layer (ops-v176, sw.js, site-status)';
 if (!str_contains($html, 'card-v177.css') || !is_file($root . '/assets/card-v177.css')) $errors[] = 'Missing v17.7 order card layer';
-echo "Peetri Pizza v17.7 local smoke check — " . count($seen) . " assets referenced\n";
+if (!str_contains($html, 'ops-v178.css') || !is_file($root . '/assets/ops-v178.css')) $errors[] = 'Missing v17.8 layer';
+echo "Peetri Pizza v17.8 local smoke check — " . count($seen) . " assets referenced\n";
 if ($errors) { foreach ($errors as $error) echo "FAIL: $error\n"; exit(1); }
 echo "OK: all referenced assets present, page IDs and boot guards found.\n";
 echo "NOTE: not a test of upstream LIVE, real printer, or PHP session setup.\n";
