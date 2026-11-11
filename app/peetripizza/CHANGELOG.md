@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.12.0 — 2026-11-11
+- Taigna tellimine: "Tarnekuupäev" row hidden (owner's request). The hidden input still defaults to tomorrow, so save/edit work as before (`dough-v1712.css`).
+- Seaded: "Ekraani seaded / Personaalne töölaud" hidden; "Köögimeeskond" hidden in Seaded and menu even if a script adds it later (`ops-v1712.js/.css`). Hidden, not removed.
+
 ## 17.11.0 — 2026-11-11
 - Home screen "Klienti ootavad tellimused": full ready cards (name, number, products, sum, "Ootab klienti N min", big Üle antud) for every waiting order, oldest first; red frame after 15 min. Cards are copies of the real `#doneOrders` cards and every button presses the original one. The old 3-row list stays in the DOM (hidden) for other scripts.
 - "↶ Tagasi" bar for 10 s after LIVE Võta vastu / Valmis (reverts via `api/kitchen-status.php`) and after Üle antud (LIVE and DEMO). The LIVE "Kas tellimus on valmis?" question is no longer shown; the undo bar replaces it.
