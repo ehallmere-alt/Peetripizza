@@ -494,6 +494,28 @@ await test('v17.16 Seaded: daily data copy card, restore asks first',async()=>{
  assert(/Taastada/.test(asked),'restore did not ask first');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
+
+await test('v17.17 allergy: "allergia", "ilma …" and gluteenivaba marked red on the card and on the 80 mm ticket',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);
+ const o1={...liveOrder(1,'new'),note:'Lapsel on pähkliallergia! Palun ilma sibulata.',items:[['Pepperoni — Põhi: gluteenivaba',1],['Vesi',2]]};
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:[o1,liveOrder(3,'active')],updated_at:Math.floor(Date.now()/1000)})}));
+ await p.goto(url);await late(p);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2500);
+ const r=await p.evaluate(()=>{const c=document.querySelector('#ordersPage .ordercard[data-order-id$="1"]'),c3=document.querySelector('#ordersPage .ordercard[data-order-id$="3"]');
+  return {marks:[...c.querySelectorAll('mark.pp1717')].map(m=>m.textContent),badge:c.querySelector('.pp1717-badge')?.textContent||'',alert:c.classList.contains('pp1717-alert'),clean:!c3.querySelector('mark.pp1717,.pp1717-badge'),bg:getComputedStyle(c.querySelector('mark.pp1717')).backgroundColor}});
+ assert(r.marks.some(x=>/pähkliallergia/i.test(x))&&r.marks.some(x=>/ilma sibulata/i.test(x))&&r.marks.some(x=>/gluteenivaba/i.test(x)),'marks '+JSON.stringify(r));
+ assert(/⚠/.test(r.badge)&&r.alert,'badge/frame missing '+JSON.stringify(r));
+ assert(r.clean,'order without allergy got marks');
+ assert(/198, 40, 40|rgb\(198/.test(r.bg),'mark not red: '+r.bg);
+ await p.evaluate(o=>window.PPPrint169.printManual({id:o.id,number:o.number,created:Date.now(),note:o.note,items:o.items}),o1);
+ await p.waitForFunction(()=>window.__printed.length===1,null,{timeout:5000});
+ const html=await p.evaluate(()=>window.__printed[0]);
+ assert(/class="allergy"[^>]*>⚠[^<]*PÄHKLIALLERGIA|class="allergy"[^>]*>⚠[^<]*pähkliallergia/i.test(html)&&/ilma sibulata/i.test(html),'ticket has no allergy line');
+ // a kept card (unchanged data) keeps its marks after the next poll
+ await p.waitForTimeout(11000);
+ assert(await p.evaluate(()=>document.querySelectorAll('#ordersPage mark.pp1717').length>=3),'marks lost after poll');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
 await browser.close();
 const failed=results.filter(r=>!r.ok);
 console.log(`\n${results.length-failed.length}/${results.length} passed`);

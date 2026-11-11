@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.17.0 — 2026-11-11
+- **Allergies and "ilma …" in red** (owner picked #5 of the orders pack): words like allergia/pähkliallergia, gluteenivaba, laktoosivaba, piimavaba, vegan, vegetaar, "ilma <sõna>", "without <word>", "без <слово>", аллергия are marked red in the customer note and in product lines; the card gets a red frame and a badge "⚠ PÄHKLIALLERGIA · ILMA SIBULATA" next to the number. The 80 mm ticket gets a black box with the same words under KARBID. `window.PPAlert {find, mark}` in app-core, styles appended to card-v177.css (no extra request). Marks are applied when a card is built, so kept cards (17.16) keep them.
+- Tests: browser 32/32 (+1), API 119/119.
+
 ## 17.16.0 — 2026-11-11
 - **LIVE without needless redraws**: `renderOrders()` keeps the DOM node of every card whose order data did not change (`pp1716Patch` in app-core); only new or changed orders get a new card, removed ones go away, order is kept. Timers still tick via `refreshTimers()`. The "UUS" mark is taken off after 45 s (cards now live longer). `html.pp1716-full-render` switches back to the old full innerHTML way.
 - **Tablet picks up a new version by itself**: `api/release.php` (login, returns only the version) is asked every 5 min; when the server is newer a yellow bar shows and the page reloads as soon as no order is in Uued/Valmistamisel, no dialog/typing, Tellimused view. LIVE is switched back on after the reload (sessionStorage `pp1716-resume`). Sound needs one tap after any reload (Chrome rule; the existing sound bar asks for it).

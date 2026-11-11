@@ -174,3 +174,8 @@ html body #ordersPage#ordersPage .pp112-done-card .pp113-detail-toggle{white-spa
 html body #ordersPage#ordersPage .pp112-done-card .pp112-card-footer strong{font-size:20px!important;white-space:nowrap!important;margin-left:auto!important}
 html body #ordersPage#ordersPage .pp112-done-card .pp154-handover{white-space:nowrap!important;min-height:48px!important;padding:0 14px!important;font-size:15px!important;flex:0 0 auto!important}
 html body .pp177-code[data-size="P"] b{white-space:nowrap!important}
+/* v17.17: allergy / "ilma" words in the note and product lines (red, can't be missed). */
+html body #ordersPage#ordersPage mark.pp1717{background:#c62828!important;color:#fff!important;font-weight:900!important;padding:0 4px!important;margin:0 3px 0 0!important;border-radius:4px!important;text-transform:uppercase;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+html body #ordersPage#ordersPage .pp1717-badge{display:inline-flex!important;align-items:center;gap:4px;background:#c62828!important;color:#fff!important;font:900 13px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;padding:3px 8px!important;border-radius:999px!important;letter-spacing:.02em;white-space:normal}
+html body #ordersPage#ordersPage .ordercard.pp1717-alert{box-shadow:inset 0 0 0 3px #c62828!important}
+html body #ordersPage#ordersPage .product-name mark.pp1717{margin-right:.35em!important}
