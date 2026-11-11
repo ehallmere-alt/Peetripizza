@@ -36,7 +36,7 @@ jobs:
           OLD=${{ steps.v.outputs.old }}; NEW=${{ steps.v.outputs.new }}
           OS=$(echo "$OLD" | sed 's/\.0$//'); NS=$(echo "$NEW" | sed 's/\.0$//')
           rm -rf /tmp/base && mkdir -p /tmp/base && git archive "${{ steps.v.outputs.base }}" app/peetripizza | tar -x -C /tmp/base
-          FILES=$(git diff --name-only "${{ steps.v.outputs.base }}" HEAD -- app/peetripizza | sed 's#^app/peetripizza/##' | grep -v '^tools/release-manifest.php$' | grep -v '^private_data/' || true)
+          FILES=$(git diff --name-only "${{ steps.v.outputs.base }}" HEAD -- app/peetripizza | sed 's#^app/peetripizza/##' | grep -v '^tools/release-manifest.php$' | grep -v '\.md$' | grep -v '^private_data/' || true)
           [ -n "$FILES" ] || { echo "No app changes"; exit 0; }
           python3 tools/gen_patch.py /tmp/base/app/peetripizza app/peetripizza "$OLD" "$NEW" "patches/update-$OS-to-$NS-ssh.txt" $FILES
           PREV_ANY="patches/update-any-to-$OS-ssh.txt"
