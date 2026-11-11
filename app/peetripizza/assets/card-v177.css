@@ -61,3 +61,94 @@ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em strong{
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em[data-box^="BRÄNDI"]{background:#14532d;border-color:#14532d;color:#fff}
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes.pp177-dinein{background:#eef6ff;border-color:#d6e6f7;color:#1e3a5f}
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes.pp177-dinein span{font-weight:700;color:#3b5878}
+
+/* Peetri Pizza v17.13 — compact, livelier order card. Same markup and buttons as 17.7; only the look changes.
+ * About half the height of the 17.7 card: one header line (name + timer pill), small chips, tight product rows,
+ * one footer row (sum · icons · big action). A colour stripe on the left shows the state at a glance.
+ */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket{--c:#2f855a;--ct:#e9f6ee;position:relative!important;padding:0!important;border:1px solid #dfe8e2!important;border-left:0!important;border-radius:16px!important;background:#fff!important;box-shadow:0 2px 10px rgba(16,42,26,.07)!important;overflow:hidden!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket::before{content:""!important;position:absolute!important;left:0;top:0;bottom:0;width:6px!important;background:var(--c)!important;z-index:1!important;display:block!important;border-radius:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp118-new{--c:#f08a24;--ct:#fff4e6}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp118-active{--c:#2563eb;--ct:#eaf1ff}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-soon{--c:#e8a317;--ct:#fff6dd}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late{--c:#dc2626;--ct:#fdecec;border-color:#f3c4c4!important}
+/* header */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-header{display:flex!important;align-items:flex-start!important;gap:10px!important;padding:10px 12px 8px 18px!important;margin:0!important;background:linear-gradient(90deg,var(--ct),#fff 70%)!important;border:0!important;min-height:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-identity{flex:1 1 auto!important;min-width:0!important;padding:0!important;margin:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp92-customer{display:block!important;font-size:21px!important;line-height:1.15!important;font-weight:850!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;margin:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp92-customer.pp111-name-missing{font-size:15px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-identity-line{gap:5px 6px!important;margin-top:5px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .order-number{min-height:24px!important;padding:0 8px!important;border-radius:7px!important;font-size:14px!important;font-weight:900!important;letter-spacing:.01em!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-serving{min-height:24px!important;padding:0 7px!important;border-radius:7px!important;font-size:11.5px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-order-time{font-size:12px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-phone{min-height:24px!important;padding:0 8px!important;border-radius:7px!important;font-size:13px!important;border-width:1px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-count{display:none!important}
+/* timer: compact pill with a progress line instead of the big ring */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter.pp117-countdown{position:relative!important;flex:0 0 auto!important;width:auto!important;height:auto!important;min-width:78px!important;min-height:0!important;margin:0!important;padding:5px 10px 7px!important;border-radius:12px!important;
+ background:linear-gradient(90deg,var(--c) var(--pp117-fill,0%),rgba(0,0,0,.08) 0) left bottom/100% 4px no-repeat,#fff!important;box-shadow:0 0 0 1.5px var(--c) inset!important;animation:none!important;text-align:center!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter.pp117-countdown::before,html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter.pp117-countdown::after{display:none!important;content:none!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .prep-label{position:static!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:0!important;padding:0!important;transform:none!important;inset:auto!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .prep-label>span{display:none!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .timer{font-size:22px!important;line-height:1.05!important;color:#0f2117!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-soon .prep-meter .timer{color:#9a5b00!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-meter .timer{color:#c81e1e!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .pp117-due{font-size:11px!important;line-height:1.1!important;color:#5d7064!important;margin:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-track{display:none!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-meter.pp117-countdown{background:#fdecec!important}
+/* corner labels (KIIRE / HILINENUD) and the UUS pill: small and out of the way */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket [class*="urgency-badge"],html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp110-priority,html body #ordersPage#ordersPage .ordercard.pp117-ticket [data-pp110-priority]{font-size:9.5px!important;padding:2px 7px!important;top:0!important}
+html body #ordersPage#ordersPage .ordercard .live-new-badge{top:6px!important;right:auto!important;left:auto!important;position:static!important;display:inline-flex!important;margin-left:6px!important;font-size:10.5px!important;padding:2px 8px!important;vertical-align:middle}
+/* boxes and note: one slim line */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes{padding:5px 12px 5px 18px!important;gap:4px 6px!important;font-size:11px!important;border-color:#f0e8da!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes b{font-size:10.5px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em{min-height:22px!important;padding:0 7px!important;font-size:12px!important;border-width:1px!important;border-radius:6px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-boxes em strong{font-size:13px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .customer-note{margin:6px 0 2px!important;padding:6px 10px!important;border-radius:9px!important;font-size:13.5px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .customer-note strong{font-size:10.5px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .customer-note p{margin:1px 0 0!important;font-size:14px!important}
+/* products */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-items{padding:2px 12px 0 18px!important;margin:0!important;gap:0!important;border:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-line{padding:6px 0!important;gap:8px!important;align-items:center!important;border-bottom:1px dashed #e7ede9!important;border-top:0!important;min-height:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-line:last-child{border-bottom:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-line .product-qty{min-width:34px!important;height:28px!important;margin:0!important;padding:0 6px!important;border-radius:8px!important;font-size:15px!important;align-self:center!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-multi .product-qty{font-size:17px!important;box-shadow:0 0 0 2px rgba(245,158,11,.25)!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp94-pizza{gap:7px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-name,html body #ordersPage#ordersPage .ordercard.pp117-ticket .product-name{font-size:17px!important;line-height:1.2!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code{flex-direction:row!important;align-items:baseline!important;gap:5px!important;min-width:0!important;padding:2px 7px!important;border-radius:7px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code b{font-size:14px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-code small{font-size:9px!important;margin:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-mods,html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-extras{gap:4px!important;margin-top:4px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-mod,html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-extras em{min-height:22px!important;padding:0 7px!important;font-size:12px!important;border-radius:6px!important}
+/* footer: sum · ⓘ · 🔗 · action, always one row */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer{flex-wrap:nowrap!important;align-items:center!important;gap:6px!important;padding:8px 10px 10px 18px!important;margin:0!important;border-top:1px solid #eef2ef!important;background:#fbfcfb!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .price{font-size:13.5px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.details,.pp155-share-btn){flex:0 0 48px!important;width:48px!important;min-width:48px!important;min-height:48px!important;height:48px!important;padding:0!important;font-size:0!important;border-radius:12px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .details::before{content:"ⓘ";font-size:22px;line-height:1}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .pp155-share-btn::before{content:"🔗";font-size:18px;line-height:1}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.pp153-local-btn,.accept,.done){flex:1 1 auto!important;min-width:0!important;max-width:240px!important;min-height:48px!important;height:48px!important;font-size:18px!important;border-radius:12px!important;padding:0 14px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .pp118-new-action,html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp118-new .pp117-ticket-footer :is(.pp153-local-btn,.accept){background:#f08a24!important;border-color:#f08a24!important;color:#fff!important}
+@container (max-width:430px){
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer{flex-wrap:nowrap!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.pp153-local-btn,.accept,.done){flex:1 1 auto!important;max-width:none!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer :is(.details,.pp155-share-btn){flex:0 0 46px!important;width:46px!important;min-width:46px!important}
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp92-customer{font-size:19px!important}
+}
+@container (max-width:330px){
+ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .price{display:none!important}
+}
+/* state word lives inside the timer pill instead of a corner ribbon that covered it */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .cardtop::after{display:none!important;content:none!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket:is(.urgency-soon,.urgency-late) .prep-meter .prep-label>span{display:block!important;font-size:9.5px!important;line-height:1.2!important;font-weight:950!important;letter-spacing:.06em!important;color:var(--c)!important;text-transform:uppercase}
+/* timer v2: caption · big time · "→ 20:50", thick progress line; late = solid red pill, soon = amber */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter.pp117-countdown{min-width:92px!important;padding:5px 10px 10px!important;background:linear-gradient(90deg,var(--c) var(--pp117-fill,0%),rgba(15,33,23,.1) 0) 8px calc(100% - 4px)/calc(100% - 16px) 5px no-repeat,#fff!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .prep-label>span{display:block!important;font-size:9px!important;line-height:1.2!important;font-weight:950!important;letter-spacing:.06em!important;color:#5d7064!important;text-transform:uppercase;white-space:nowrap}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .timer{font-size:24px!important;letter-spacing:-.01em!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .pp117-due::before{content:"→ ";opacity:.7}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-soon .prep-meter.pp117-countdown{background:linear-gradient(90deg,#e8a317 var(--pp117-fill,0%),rgba(15,33,23,.1) 0) 8px calc(100% - 4px)/calc(100% - 16px) 5px no-repeat,#fff6dd!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-soon .prep-meter .prep-label>span{color:#9a5b00!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-meter.pp117-countdown{background:#dc2626!important;box-shadow:0 0 0 1.5px #b91c1c inset,0 4px 14px rgba(220,38,38,.35)!important;padding-bottom:6px!important;animation:pp1713-late 2s ease-in-out infinite!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-meter :is(.timer,.pp117-due,.prep-label>span){color:#fff!important}
+@keyframes pp1713-late{50%{box-shadow:0 0 0 1.5px #b91c1c inset,0 4px 22px rgba(220,38,38,.6)}}
+@media (prefers-reduced-motion:reduce){html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-meter.pp117-countdown{animation:none!important}}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .timer,html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .timer.overdue{background:none!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;border-radius:0!important;white-space:nowrap!important;width:auto!important;min-width:0!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter.pp117-countdown{min-width:100px!important;overflow:visible!important}

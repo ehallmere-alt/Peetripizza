@@ -2,11 +2,11 @@
 const $ = id => document.getElementById(id);
 const now = Date.now();
 const DEFAULT_ORDERS = [
- {id:'demo-101',number:101,status:'new',customerName:'Mari (DEMO)',items:[['Pepperoni pizza',1],['Coca-Cola 0,5 l',1]],amount:14.90,created:now-3*60000,minutes:20,serving:'takeAway',payment:'online'},
- {id:'demo-102',number:102,status:'new',customerName:'Mari (DEMO)',items:[['Margherita pizza',2],['Küüslaugukaste',1]],amount:22.50,created:now-6*60000,minutes:20,serving:'takeAway',payment:'card'},
- {id:'demo-103',number:103,status:'active',customerName:'Jaan (DEMO)',items:[['BBQ kana pizza',1],['Friikartulid',1]],amount:19.40,created:now-11*60000,minutes:20,serving:'delivery',payment:'online'},
- {id:'demo-104',number:104,status:'active',customerName:'Jaan (DEMO)',items:[['Hawaii pizza',1],['Vesi',2]],amount:17.20,created:now-18*60000,minutes:20,serving:'takeAway',payment:'cash'},
- {id:'demo-105',number:105,status:'done',customerName:'Katrin (DEMO)',items:[['Margherita pizza',1],['Coca-Cola 0,5 l',1]],amount:13.50,created:now-27*60000,completed:now-8*60000,minutes:20,serving:'takeAway',payment:'online'}
+ // v17.13: three demo orders that look like real LIVE ones (SÕ/VÕ codes, boxes): KAASA, KOHAPEAL, KULLERIGA.
+ {id:'demo-201',number:'DEMO-1',status:'new',customerName:'Mari (DEMO)',items:[['Peetri Pizza (large) — Põhi: thin; Äär: regular; Juust: regular',1],['Margherita (small) — Põhi: thick; Äär: regular; Juust: extra',2],['Coca-Cola 0,5l',1]],amount:31.70,created:now-2*60000,minutes:20,serving:'takeAway',payment:'card'},
+ {id:'demo-202',number:'DEMO-2',status:'active',customerName:'Jaan (DEMO)',dineIn:true,items:[['Pepperoni (family) — Põhi: thin; Äär: juustuäär; Juust: regular',1],['Küüslaugukaste',2]],amount:24.40,created:now-14*60000,minutes:20,serving:'takeAway',payment:'card'},
+ {id:'demo-203',number:'DEMO-3',status:'active',customerName:'Katrin (DEMO)',items:[['Hawaii (large) — Põhi: thin; Äär: regular; Juust: regular; Pakend: branded',1],['Topolino (small) — Põhi: thin; Äär: regular; Juust: none',1]],amount:21.90,created:now-19*60000,minutes:20,serving:'delivery',payment:'online',note:'Helistage, kui olete ukse taga'},
+ {id:'demo-204',number:'DEMO-4',status:'done',customerName:'Liis (DEMO)',items:[['Kebab (small) — Põhi: thin',1],['Vesi',1]],amount:11.50,created:now-27*60000,completed:now-6*60000,minutes:20,serving:'takeAway',payment:'online'}
 ];
 const safeLoad=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key));return v??fallback}catch{return fallback}};
 let filter='all';
@@ -19,7 +19,7 @@ let historyQuery='';
 let historySort='newest';
 let overviewExpanded=!!safeLoad('pp-overview-expanded-v22',false);
 let focusMode=!!safeLoad('pp-focus-v15',false);
-let orders=safeLoad('pp-demo-orders-v1',DEFAULT_ORDERS);
+let orders=safeLoad('pp-demo-orders-v2',DEFAULT_ORDERS);
 let previewOrders=null;
 const shownOrders=()=>previewOrders===null?orders:previewOrders;
 const isPreview=()=>previewOrders!==null;
@@ -44,7 +44,7 @@ let productStatus='Kõik';
 let productUndo=null;
 let productUndoTimer=null;
 const saveProducts=()=>localStorage.setItem('pp-products-v1',JSON.stringify(products));
-const save=()=>localStorage.setItem('pp-demo-orders-v1',JSON.stringify(orders));
+const save=()=>localStorage.setItem('pp-demo-orders-v2',JSON.stringify(orders));
 // One-step reversible demo workflow. Never applies to imported JSON or a remote system.
 let lastDemoChange=null;
 let undoTimeout=null;
@@ -78,7 +78,7 @@ function updateLateNotice(){const late=shownOrders().filter(o=>(o.status==='new'
 const pending=()=>shownOrders().filter(o=>o.status==='new');const active=()=>shownOrders().filter(o=>o.status==='active');
 function countMetrics(){const n=pending().length,a=active().length,done=shownOrders().filter(o=>o.status==='done').length;$('metricNew').textContent=n;$('metricActive').textContent=a;$('metricDone').textContent=done;$('metricAvg').innerHTML=`${minutes} <em>min</em>`;$('newCount').textContent=n;$('activeCount').textContent=a;$('navCount').textContent=n;}
 function orderDeadline(o){const exact=Number(o.deadline);return Number.isFinite(exact)&&exact>0?exact:(o.created+o.minutes*60000);}
-function remaining(o){const target=orderDeadline(o);const delta=Math.ceil((target-Date.now())/1000),abs=Math.abs(delta);return {text:`${delta<0?'−':''}${pad(Math.floor(abs/60))}:${pad(abs%60)}`,late:delta<0}}
+function remaining(o){const target=orderDeadline(o);const delta=Math.ceil((target-Date.now())/1000),abs=Math.abs(delta);return {text:`${delta<0?'+':''}${pad(Math.floor(abs/60))}:${pad(abs%60)}`,late:delta<0}}
 // Safe kitchen presentation: notes are displayed as text, never executable HTML.
 function kitchenNote(o){
  const value=o.note??o.notes??o.comment??o.customerNote??'';
@@ -147,7 +147,7 @@ function card(o){
  const timer=remaining(o),remainingMs=orderDeadline(o)-Date.now();
  const totalMs=Math.max(1,o.minutes*60000),progress=Math.max(0,Math.min(100,100-remainingMs/totalMs*100));
  const urgency=timer.late?'late':remainingMs<5*60000?'soon':'normal';
- const serving=o.serving==='delivery'?'KOHALE':'KAASA';
+ const serving=o.serving==='delivery'?'KULLERIGA':'KAASA';
  const note=kitchenNote(o);
  const customerName=typeof o.customerName==='string'?o.customerName.trim().slice(0,90):'';
  const phone=typeof o.customerPhone==='string'?o.customerPhone.replace(/[^0-9+ -]/g,'').trim().slice(0,20):'';
@@ -155,7 +155,7 @@ function card(o){
  const dueTime=timeString(new Date(orderDeadline(o)));
  const dueCaption=o.deadlineSource==='official'?'API aeg':'Hinnanguline aeg';
  const stage=o.status==='new'?'pp118-new':'pp118-active';
- const urgencyLabel=timer.late?'⏱ ÜLE AJA':urgency==='soon'?'⏱ KIIRE':'Aega jäänud';
+ const urgencyLabel=timer.late?'⏱ HILJA':urgency==='soon'?'⏱ KIIRE':'⏱ JÄÄNUD';
  return `<article class="ordercard card-v15 pp110-card pp117-ticket pp118-ticket ${stage} urgency-${urgency} ${o.status==='new'?'urgent':''}" data-order-id="${escapeHtml(o.id)}">
   <div class="cardtop pp117-ticket-header">
    <div class="orderid pp117-ticket-identity">
@@ -226,7 +226,7 @@ function refreshTimers(){
   card.classList.toggle('urgency-soon',urgent==='soon');
   card.classList.toggle('urgency-normal',urgent==='normal');
   const timer=card.querySelector('[data-timer]');if(timer){timer.textContent=time.text;timer.classList.toggle('overdue',time.late);timer.classList.toggle('timer-soon',urgent==='soon');}
-  const label=card.querySelector('.prep-label>span');if(label)label.textContent=urgent==='late'?'⏱ ÜLE AJA':urgent==='soon'?'⏱ KIIRE':'⏱ Aega jäänud';
+  const label=card.querySelector('.prep-label>span');if(label)label.textContent=urgent==='late'?'⏱ HILJA':urgent==='soon'?'⏱ KIIRE':'⏱ JÄÄNUD';
   const priority=card.querySelector('[data-pp110-priority]');if(priority){priority.hidden=urgent==='normal';priority.textContent=urgent==='late'?'● HILINENUD':'● KIIRE';priority.classList.toggle('is-late',urgent==='late');priority.classList.toggle('is-soon',urgent==='soon');}
   const progress=card.querySelector('[data-progress]');if(progress){const p=100-remainingMs/Math.max(1,o.minutes*60000)*100;const percent=Math.min(100,Math.max(0,p)).toFixed(1)+'%';progress.style.width=percent;card.querySelector('.pp117-countdown')?.style.setProperty('--pp117-fill',percent);}
  });
@@ -250,7 +250,11 @@ function onOrdersClick(e){
  toast(action==='accept'?'Tellimus vastu võetud':'Tellimus märgitud valmis');
 }
 
-function addDemo(){if(isPreview()){toast('JSON eelvaade on ainult lugemiseks');return;}const number=Math.max(100,...orders.map(o=>Number(o.number)||100))+1;orders.unshift({id:'demo-'+Date.now(),number,status:'new',customerName:'Mari (DEMO)',items:[['Peetri eripizza',1],['Kaste',1]],amount:16.90,created:Date.now(),minutes,serving:Math.random()>.5?'delivery':'takeAway',payment:'online'});save();renderOrders();beep();toast('Uus näidistellimus lisatud')}
+function addDemo(){if(isPreview()){toast('JSON eelvaade on ainult lugemiseks');return;}const n=orders.filter(o=>String(o.id).startsWith('demo-')).length;const kind=n%3;const number='DEMO-'+(n+1);
+ const pick=[{customerName:'Mari (DEMO)',items:[['Peetri Pizza (large) — Põhi: thin; Äär: regular; Juust: regular',1],['Coca-Cola 0,5l',1]],amount:16.90,serving:'takeAway'},
+  {customerName:'Jaan (DEMO)',dineIn:true,items:[['Margherita (small) — Põhi: thin; Äär: regular; Juust: regular',2]],amount:15.80,serving:'takeAway'},
+  {customerName:'Katrin (DEMO)',items:[['BBQ (family) — Põhi: thick; Äär: regular; Juust: extra',1],['Küüslaugukaste',1]],amount:21.40,serving:'delivery'}][kind];
+ orders.unshift(Object.assign({id:'demo-'+Date.now(),number,status:'new',created:Date.now(),minutes,payment:'online'},pick));save();renderOrders();beep();toast('Uus näidistellimus lisatud')}
 const pages={orders:['Tellimuste ülevaade','Kiire ja selge köögi töölaud.'],couriers:['Kullerite haldus','Meeskond ja tarneülevaade.'],products:['Toodete saadavus','Hallake demo toodete saadavust.'],statistics:['Statistika','Tellimuste tulemused ühes kohas.'],settings:['Seaded','Kohandage oma töölauda.']};
 function showPage(page){if(!pages[page])return;document.body.classList.toggle('pp-orders-view',page==='orders');document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===page+'Page'));document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));$('pageTitle').innerHTML=pages[page][0]+'<span class="period">.</span>';$('pageSubtitle').textContent=pages[page][1];$('overview').style.display=page==='orders'?'':'none';$('demoAdd').style.display=page==='orders'&&!isPreview()&&!document.body.classList.contains('live-active')?'':'none';renderAux();if(typeof renderPerformance==='function')renderPerformance();closeMenu();window.scrollTo({top:0,behavior:'smooth'})}
 function openMenu(){$('drawer').classList.add('open');$('drawer').setAttribute('aria-hidden','false');$('backdrop').hidden=false;$('menuBtn').setAttribute('aria-expanded','true')}

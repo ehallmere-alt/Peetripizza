@@ -33,7 +33,8 @@ if (!str_contains($html, 'ops-v179.js') || !is_file($root . '/assets/ops-v179.js
 if (!str_contains($html, 'ops-v1710.js') || !is_file($root . '/assets/ops-v1710.js') || !is_file($root . '/api/version.php')) $errors[] = 'Missing v17.10 layer';
 if (!str_contains($html, 'ops-v1711.js') || !is_file($root . '/assets/ops-v1711.js')) $errors[] = 'Missing v17.11 layer';
 if (!str_contains($html, 'ops-v1712.js') || !is_file($root . '/assets/ops-v1712.js') || !is_file($root . '/assets/dough-v1712.css')) $errors[] = 'Missing v17.12 layer';
-echo "Peetri Pizza v17.12 local smoke check — " . count($seen) . " assets referenced\n";
+if (!str_contains($html, 'card-v177.css?v=17.13') || !str_contains((string)@file_get_contents($root . '/assets/card-v177.css'), 'v17.13')) $errors[] = 'Missing v17.13 card styles';
+echo "Peetri Pizza v17.13 local smoke check — " . count($seen) . " assets referenced\n";
 if ($errors) { foreach ($errors as $error) echo "FAIL: $error\n"; exit(1); }
 echo "OK: all referenced assets present, page IDs and boot guards found.\n";
 echo "NOTE: not a test of upstream LIVE, real printer, or PHP session setup.\n";
