@@ -127,8 +127,8 @@ c,j,_=req('api/print-log.php');check('v17.14 print-log lists the order',c==200 a
 raw=open(PD+'/print-log-65.json').read();check('v17.14 print-log on disk has no customer data',not re.search(r'Mari|Maasikas|5555|@',raw),raw[:200])
 # --- v17.14 Kitchen Analytics
 nowms=int(time.time()*1000)
-c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-30*60000,'deadline':nowms-25*60000}]});check('v17.14 analytics sync without CSRF refused',c==403,(c,j))
-c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-30*60000,'deadline':nowms-25*60000},{'id':'bad','number':'x'}]},headers=CS);check('v17.14 analytics sync stored',c==200 and j['ok'],(c,j))
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-5000,'deadline':nowms-120000}]});check('v17.14 analytics sync without CSRF refused',c==403,(c,j))
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-5000,'deadline':nowms-120000},{'id':'bad','number':'x'}]},headers=CS);check('v17.14 analytics sync stored',c==200 and j['ok'],(c,j))
 c,j,_=req('api/kitchen-analytics.php?period=today');check('v17.14 analytics today: order, prep time, late',c==200 and j['orders']>=1 and j['prep_count']>=1 and j['late']>=1 and len(j['hours'])==24,(c,str(j)[:300]))
 check('v17.14 analytics: no staff names or ratings',c==200 and not re.search(r'actor|staff|rating|K..k',json.dumps(j)),str(j)[:200])
 c,j,_=req('api/kitchen-analytics.php?period=year');check('v17.14 analytics bad period -> 422',c==422,(c,j))

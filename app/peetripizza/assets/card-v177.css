@@ -152,3 +152,24 @@ html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-mete
 @media (prefers-reduced-motion:reduce){html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late .prep-meter.pp117-countdown{animation:none!important}}
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .timer,html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter .timer.overdue{background:none!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;border-radius:0!important;white-space:nowrap!important;width:auto!important;min-width:0!important}
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .prep-meter.pp117-countdown{min-width:100px!important;overflow:visible!important}
+
+/* v17.14: size chip shows only the code (SÕ, VÕ, PÕ…); full words stay in the tooltip and on the paper ticket. */
+html body .pp177-code small{display:none!important}
+html body #ordersPage#ordersPage .pp177-code[data-size="P"]{background:#7c2d12!important;color:#fff!important;border-color:#7c2d12!important}
+/* v17.14: compact ready cards (Klienti ootavad / Valmis) */
+html body #ordersPage#ordersPage .pp112-done-card .pp112-card-top{padding:10px 14px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp112-card-body{padding:4px 14px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp112-product{padding:5px 0!important;gap:8px!important;align-items:flex-start!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp112-qty{min-width:34px!important;height:30px!important;font-size:15px!important;padding:0 6px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp177-code{display:inline-flex!important;align-items:center!important;padding:2px 8px!important;border-radius:7px!important;margin-right:6px!important;vertical-align:middle!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp177-code b{font-size:15px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp177-mods,html body #ordersPage#ordersPage .pp112-done-card .pp177-extras{display:flex!important;flex-wrap:wrap!important;gap:4px 8px!important;margin-top:3px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp177-mod{font-style:normal!important;font-size:13px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp177-extras{padding:3px 8px!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp112-card-footer{flex-wrap:nowrap!important;gap:8px!important;padding:8px 12px!important;align-items:center!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp112-card-footer>span:not(.pp154-pickup-tag){display:none!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp154-pickup-tag{white-space:nowrap!important;font-size:13px!important;font-weight:800!important;color:#b45309!important;margin-right:auto!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp154-pickup-tag:empty{display:none!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp113-detail-toggle{white-space:nowrap!important;font-size:12px!important;padding:6px 10px!important;min-height:40px!important;flex:0 0 auto!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp112-card-footer strong{font-size:20px!important;white-space:nowrap!important;margin-left:auto!important}
+html body #ordersPage#ordersPage .pp112-done-card .pp154-handover{white-space:nowrap!important;min-height:48px!important;padding:0 14px!important;font-size:15px!important;flex:0 0 auto!important}
