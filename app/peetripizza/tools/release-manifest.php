@@ -1,8 +1,8 @@
 <?php
-/** Auto-generated 17.8.0 file checksum map; do not include this file itself. */
+/** Auto-generated 17.9.0 file checksum map; do not include this file itself. */
 return [
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '21b1c00d715458eee7346989646f304f6caffdffabf6fe67bb48d09e6017c3f0',
+    'CHANGELOG.md' => 'd25b8acd8030b1a32a2842843303e123d1a59f6ff9bc996171a0a52ae9e5528d',
     'CLAUDE-HANDOFF.md' => '4d671452b73e44dd9af979d1d2af88421334c593add82155ca7f8033990125c4',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'dbef6c207f83dab2f9c5eb8639773e6625714778a76b3acdf6b58302936ab3df',
@@ -32,7 +32,7 @@ return [
     'api/wait-time.php' => '563cc05ded6bc99ae8d683d7aae53b8bfcd836351d15eb58a5574be64f650b64',
     'assets/app-core-v141.js' => '482a4dcb0654dd2f73d5497420ae313639aa165c99a2e5bf0163133e2b5f197d',
     'assets/boot-v170.js' => 'c9327bd31803a961a360b8dd9f7076b0988806334163128f40cbe0105ff77722',
-    'assets/card-v177.css' => '44ebbf61567538e40b558489758aa45b920850ea898fdd769aaa52b6b5d2a23e',
+    'assets/card-v177.css' => '0516d96634ca60d7214216910d3f96badcca44d7cf96891abfd45fc4212c902d',
     'assets/dough-v106.css' => '02bc91861bf8064b7c75ea5066c1f64593a6e507f78c8d09608b1d204cf0a12b',
     'assets/dough-v144.css' => '7dab61b0c562ab203e5f686fb678efb6c3e5a4eb9babb1fdbf1391c289afbba1',
     'assets/dough-v169.css' => '1dcf12f26f1196c6367273f0c47386135bfcae932b55155db320e113c19152f6',
@@ -72,6 +72,8 @@ return [
     'assets/ops-v176.css' => 'f6181a42de1705ec150be6b147a8c36f4ecceef4bec40b279713d319eb2dfea4',
     'assets/ops-v176.js' => 'b98ac41046880742268d604cf09b1db290524bfb1aa5cd26ee93f10db494cbc9',
     'assets/ops-v178.css' => 'e6454040e477251438e58e7cf253efa801efed0eeca57b18711734548babfce9',
+    'assets/ops-v179.css' => 'a548f13b363db6e17c3646519a9162fe9c6b1cd98ff80675a646065496ff06b0',
+    'assets/ops-v179.js' => '8aed046d4005d20a887bdad80689e7323e11b3686236ce37857814b3e1451805',
     'assets/order-adapter.js' => 'bc7e79387d302571b4447d878f87073879f7027189ef21c91b38005af4fa07f3',
     'assets/peetri-pizza-logo.png' => 'ac6166ed0d83edfd8d4891c6eb448af70c9bfa3e46519f3ba57e2425e4b65309',
     'assets/peetri-v160.js' => '9a20558a01b467fb446c4dcfdb93b99ece9cb1f23996e509a045619678d6637b',
@@ -92,9 +94,9 @@ return [
     'auth/bootstrap.php' => 'e14f2d4e2a9c2becd997a71b9f92314084a71c25efebcb7422b3e3718851e811',
     'auth/public-catalog.php' => '80ccdf011ec8816d1e020a5c0afc05cdd52c15f755b26410ca9470157482329d',
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
-    'dashboard.php' => '1d779a6212e8d80ff0f4ee26a95e396e4fd8f787465f5c3b470d962743996305',
+    'dashboard.php' => '090833d05f4c85abb85735d5be40d4f0d12b667e139ccd94d1b0c47b11b52ec6',
     'dough.php' => 'd9fc5914f744d113a899b12da46cc7d63f97783fc73dcb5ce92e01c7daf56fbe',
-    'index.php' => 'eb4e48e09bab5c47184c08e6b969831006f2b8650fe131ef4fb5425c470e9b45',
+    'index.php' => 'c409705b6f68b1b44806056079f5b78e14d449bc42648a58180e118914bf462a',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
     'locations.example.php' => '740c911e14d7ee558e5105b0ba0587e5774a9ac6df4b5cea06f6ac03f3aedd7c',
     'setup_staff.php' => 'a41b7364014dc1f6b0303f428e5f1730d23ef24cf82dacbd602b85c8781ad2cf',
@@ -103,7 +105,7 @@ return [
     'tools/deploy.sh' => '617f61846beff2346ea481b4212ce3b9d3ed5926dbbc4bfe4a40307da707ef95',
     'tools/locations.php' => '766ea444b9c53530fc34e120dae329055e77c2ba0f2a87c80948c1a157283f1e',
     'tools/register-kolde.php' => '2f966fea4be8dd1c2cf11821519230c02a5248fa4047782dd9fec200140b66c2',
-    'tools/release-check.php' => '69a662c12d3e116ebd8567c04ef9b22a1a8b19362857bd7610cf4920fa61c12a',
-    'tools/v17-smoke-check.php' => '46c369e3460c0f5381ea59e42c3fa26cc65182318049f7f98f624f70ce156156',
+    'tools/release-check.php' => '15b51952af7a068f6bd07ad6f05d81fa194b603428fef71e584aa51c6e284239',
+    'tools/v17-smoke-check.php' => '6e9ba965de8069f3a0d19b81ac5bab93019d6101a95dd4937e616cfcee2db0be',
     'tracking.php' => '2e98801bf95a2e8eacf8f42e236bda8bf9eb02942104e56e89ad66108eeaa0bf',
 ];

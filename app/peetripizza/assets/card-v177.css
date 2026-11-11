@@ -9,7 +9,7 @@ html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-delivery{backgro
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp118-order-time{font-size:13px!important;font-weight:700!important;color:#5d7064!important}
 html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp177-count{display:inline-flex;align-items:center;min-height:26px;padding:0 9px;border-radius:999px;background:#f1f4f2;color:#33463a;font:800 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:0;white-space:nowrap}
 /* "UUS" just-arrived pill instead of a wide bar */
-html body #ordersPage#ordersPage .ordercard .live-new-badge{position:absolute!important;top:-9px!important;left:16px!important;width:auto!important;padding:4px 10px!important;border-radius:999px!important;background:#16a34a!important;color:#fff!important;font-size:11px!important;font-weight:900!important;letter-spacing:.08em!important;box-shadow:0 2px 8px rgba(22,163,74,.35)!important;animation:pp177-new 1.4s ease-in-out 4}
+html body #ordersPage#ordersPage .ordercard .live-new-badge{position:absolute!important;top:10px!important;left:auto!important;right:120px!important;z-index:2!important;width:auto!important;padding:4px 10px!important;border-radius:999px!important;background:#16a34a!important;color:#fff!important;font-size:11px!important;font-weight:900!important;letter-spacing:.08em!important;box-shadow:0 2px 8px rgba(22,163,74,.35)!important;animation:pp177-new 1.4s ease-in-out 4}
 html body #ordersPage#ordersPage .ordercard.live-just-arrived{position:relative}
 @keyframes pp177-new{50%{transform:scale(1.08)}}
 /* product lines */
