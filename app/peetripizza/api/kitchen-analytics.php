@@ -100,7 +100,7 @@ foreach($orders as $oid=>$r){
  $count++;
  $h=(int)(new DateTimeImmutable('@'.intdiv($start,1000)))->setTimezone($tz)->format('G');$hours[$h]++;
  $day=(new DateTimeImmutable('@'.intdiv($start,1000)))->setTimezone($tz)->format('Y-m-d');$days[$day]=($days[$day]??0)+1;
- if(isset($r['a'],$r['f'])&&$r['f']>$r['a']&&$r['f']-$r['a']<4*3600000)$prep[]=($r['f']-$r['a'])/60000;
+ if(isset($r['a'],$r['f'])&&$r['f']>=$r['a']&&$r['f']-$r['a']<4*3600000)$prep[]=($r['f']-$r['a'])/60000;
  if(isset($r['c'],$r['f'])&&$r['f']>$r['c']&&$r['f']-$r['c']<4*3600000)$total[]=($r['f']-$r['c'])/60000;
  if(isset($r['d'],$r['f'])){$withDeadline++;if($r['f']>$r['d']+60000)$late[]=['number'=>(string)($r['n']??''),'late_min'=>(int)round(($r['f']-$r['d'])/60000),'ready'=>$r['f']];}
 }
