@@ -30,13 +30,15 @@ if (!str_contains($html, 'ops-v176.js') || !str_contains($html, 'ops-v176.css') 
 if (!str_contains($html, 'card-v177.css') || !is_file($root . '/assets/card-v177.css')) $errors[] = 'Missing v17.7 order card layer';
 if (!str_contains($html, 'ops-v178.css') || !is_file($root . '/assets/ops-v178.css')) $errors[] = 'Missing v17.8 layer';
 if (!str_contains($html, 'ops-v179.js') || !is_file($root . '/assets/ops-v179.js')) $errors[] = 'Missing v17.9 layer';
-if (!str_contains($html, 'ops-v1710.js') || !is_file($root . '/assets/ops-v1710.js') || !is_file($root . '/api/version.php')) $errors[] = 'Missing v17.10 layer';
+if (!str_contains((string)@file_get_contents($root . '/assets/late-v1714.js'), 'ops-v1710.js') || !is_file($root . '/assets/ops-v1710.js') || !is_file($root . '/api/version.php')) $errors[] = 'Missing v17.10 layer';
 if (!str_contains($html, 'ops-v1711.js') || !is_file($root . '/assets/ops-v1711.js')) $errors[] = 'Missing v17.11 layer';
 if (!str_contains($html, 'ops-v1712.js') || !is_file($root . '/assets/ops-v1712.js') || !is_file($root . '/assets/dough-v1712.css')) $errors[] = 'Missing v17.12 layer';
-if (!str_contains($html, 'card-v177.css?v=17.14') || !str_contains((string)@file_get_contents($root . '/assets/card-v177.css'), 'v17.14')) $errors[] = 'Missing v17.14 card styles';
+if (!str_contains($html, 'card-v177.css?v=17.1') || !str_contains((string)@file_get_contents($root . '/assets/card-v177.css'), 'v17.14')) $errors[] = 'Missing v17.14 card styles';
 foreach (['assets/ops-v1714.js','assets/late-v1714.js','assets/ops-v1714.css','assets/print-monitor-v1714.js','assets/dough-v1714.css','api/print-log.php','api/kitchen-analytics.php','assets/.htaccess'] as $f17) if (!is_file($root . '/' . $f17)) $errors[] = 'Missing v17.14 file ' . $f17;
 if (!str_contains($html, 'late-v1714.js') || !str_contains((string)@file_get_contents($root . '/assets/late-v1714.js'), 'print-monitor-v1714.js')) $errors[] = 'Missing v17.14 layer';
-echo "Peetri Pizza v17.14 local smoke check — " . count($seen) . " assets referenced\n";
+if (!str_contains($html, 'kitchen-release-v1715.css') || !is_file($root . '/assets/kitchen-release-v1715.css') || !is_file($root . '/assets/ops-v1715.js')) $errors[] = 'Missing v17.15 layer';
+foreach (['print-v169.js','operations-v168.js','health-v169.js'] as $f17) if (!str_contains((string)@file_get_contents($root . '/assets/late-v1714.js'), $f17) || !is_file($root . '/assets/' . $f17)) $errors[] = 'Late loader misses ' . $f17;
+echo "Peetri Pizza v17.15 local smoke check — " . count($seen) . " assets referenced\n";
 if ($errors) { foreach ($errors as $error) echo "FAIL: $error\n"; exit(1); }
 echo "OK: all referenced assets present, page IDs and boot guards found.\n";
 echo "NOTE: not a test of upstream LIVE, real printer, or PHP session setup.\n";

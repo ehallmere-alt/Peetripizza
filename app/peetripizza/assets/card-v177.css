@@ -173,3 +173,4 @@ html body #ordersPage#ordersPage .pp112-done-card .pp154-pickup-tag:empty{displa
 html body #ordersPage#ordersPage .pp112-done-card .pp113-detail-toggle{white-space:nowrap!important;font-size:12px!important;padding:6px 10px!important;min-height:40px!important;flex:0 0 auto!important}
 html body #ordersPage#ordersPage .pp112-done-card .pp112-card-footer strong{font-size:20px!important;white-space:nowrap!important;margin-left:auto!important}
 html body #ordersPage#ordersPage .pp112-done-card .pp154-handover{white-space:nowrap!important;min-height:48px!important;padding:0 14px!important;font-size:15px!important;flex:0 0 auto!important}
+html body .pp177-code[data-size="P"] b{white-space:nowrap!important}

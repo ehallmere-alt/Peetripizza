@@ -99,7 +99,7 @@ function pp178Parse(raw){
  const size=sizeMatch?sizeMatch[1].toLowerCase():null;
  const base=specs.find(v=>/^Põhi\s*:/i.test(v));
  const dough=base?base.replace(/^Põhi\s*:/i,'').trim().toLowerCase():null;
- const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'},family:{thin:'PÕ',thick:'PP'},medium:{thin:'KÕ',thick:'KP'}}; // v17.14: pere (family) and keskmine get a code too
+ const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'},family:{thin:'Pere Õ',thick:'Pere P'},medium:{thin:'KÕ',thick:'KP'}}; // v17.14/17.15: pere (family) = "Pere Õ" / "Pere P" (owner's wording), keskmine = KÕ/KP
  const code=(codes[size]&&codes[size][dough])||null;
  const name=code?main.replace(/\s*\((large|small|family|medium)\)\s*$/i,'').trim():main;
  const words={large:'suur',small:'väike',family:'pere',medium:'keskmine',thin:'õhuke',thick:'paks'};
@@ -134,7 +134,7 @@ function pp178BoxCounts(o){
 window.PPOrderInfo={parse:pp178Parse,boxes:pp178BoxCounts,boxOrder:PP178_BOX_ORDER};
 function kitchenProductLabel(raw){
  const {name,code,codeTitle,mods,extras}=pp178Parse(raw);
- return `<strong class="pp94-pizza">${code?`<span class="pp119-code pp177-code" data-size="${code[0]}" data-dough="${code[1]}" title="${escapeHtml(codeTitle+' põhi')}"><b>${escapeHtml(code)}</b><small>${escapeHtml(codeTitle)}</small></span> `:''}<span class="pp177-name">${escapeHtml(name)}</span></strong>${mods.length?`<span class="pp94-specs pp177-mods">${mods.map(([t,k])=>`<em class="pp177-mod pp177-mod-${k}">${escapeHtml(t)}</em>`).join('')}</span>`:''}${extras.length?`<span class="pp94-extras pp177-extras"><b>+ LISA</b>${extras.map(x=>`<em>${escapeHtml(x)}</em>`).join('')}</span>`:''}`;
+ return `<strong class="pp94-pizza">${code?`<span class="pp119-code pp177-code" data-size="${code[0]}" data-dough="${code.slice(-1)}" title="${escapeHtml(codeTitle+' põhi')}"><b>${escapeHtml(code)}</b><small>${escapeHtml(codeTitle)}</small></span> `:''}<span class="pp177-name">${escapeHtml(name)}</span></strong>${mods.length?`<span class="pp94-specs pp177-mods">${mods.map(([t,k])=>`<em class="pp177-mod pp177-mod-${k}">${escapeHtml(t)}</em>`).join('')}</span>`:''}${extras.length?`<span class="pp94-extras pp177-extras"><b>+ LISA</b>${extras.map(x=>`<em>${escapeHtml(x)}</em>`).join('')}</span>`:''}`;
 }
 // v17.7: which pizza boxes this order needs (from pizza size + "Pakend" in the order).
 function pp177Boxes(o,items){

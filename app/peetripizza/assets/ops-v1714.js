@@ -39,7 +39,7 @@ function localStorageInfo(){
 }
 async function battery(){try{if(!navigator.getBattery)return null;const b=await navigator.getBattery();return {level:Math.round(b.level*100),charging:b.charging};}catch(_){return null;}}
 function compression(){
- try{const r=performance.getEntriesByType('resource').find(x=>/kitchen-release-v166\.css/.test(x.name));
+ try{const r=performance.getEntriesByType('resource').find(x=>/kitchen-release-v1[0-9]+\.css/.test(x.name));
   if(!r||!r.decodedBodySize)return null;
   if(!r.transferSize)return {state:'info',text:'Võetud vahemälust'};
   return r.transferSize<r.decodedBodySize*0.6?{state:'ok',text:'Sees (CSS '+Math.round(r.transferSize/1024)+' KB / '+Math.round(r.decodedBodySize/1024)+' KB)'}:{state:'warn',text:'Väljas: CSS laaditakse '+Math.round(r.transferSize/1024)+' KB. Aeglane laadimine.'};
