@@ -1,5 +1,10 @@
 # Changelog
 
+## 17.9.0 — 2026-11-11
+- New order you can see without sound: big green "UUS TELLIMUS #… name" banner + flashing screen edge until tapped or accepted (`ops-v179.js/.css`).
+- Urgent orders (< 5 min or late) move to the top of their column, pulse and give one short "urgent" signal per order.
+- Dough reminder on every tablet from 14:00 until the 15:05 cut-off when this pizzeria has no dough order created today; "15 min pärast" snooze, red in the last 20 min. Local only.
+
 ## 17.8.0 — 2026-11-11
 - One order parser for card, print, Väljastus and Statistika: `window.PPOrderInfo` (parse, boxes) in `app-core-v141.js`.
 - 80 mm ticket (`print-v169.js`): big system number, name, phone, KAASA/KOHALE/KOHAPEAL, ready time, box line, SÕ/VÕ codes, only non-default modifiers, extras, note.
