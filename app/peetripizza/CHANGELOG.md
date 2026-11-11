@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.15.0 — 2026-11-11
+- **Faster load**: the page now uses `kitchen-release-v1715.css` (322 → 302 KB, gzip 59 → 51 KB): overridden duplicate declarations and never-matching selectors removed by `tools/css-prune.py`. Computed styles of every element compared with the original on 8 screens × 3 sizes (1280, 800, 390 px): identical. The original v166 file stays on the server.
+- Settings-only modules (print-v169, operations-v168, health-v169, ops-v1710) load after first paint via `late-v1714.js`.
+- **One permanent update command**: Seaded → Versioon shows `curl …/main/patches/update-latest-ssh.txt … && bash …` with a copy button. The GitHub workflow now also writes `patches/update-latest-ssh.txt` (= update-any-to-<new>) and attaches it to the Release; it no longer fails when the patch was already committed.
+- Family pizza chip now reads "Pere Õ" (thin) / "Pere P" (thick), owner's wording (was PÕ/PP). Keskmine stays KÕ/KP.
+- (Ahju nimekiri was built and removed again at the owner's request: the kitchen decides itself what goes in the oven.)
+
 ## 17.14.0 — 2026-11-11
 - **Smart Print Monitor**: shared print log for all tablets (`api/print-log.php`; order id, number, time, kind, tablet label, outcome — no customer data). Auto-print is done by one tablet only (first claim wins); a blocked/failed print does not count, so another tablet may print it. Manual reprint asks "Juba prinditud … Prindi koopia?" (in-app dialog) and the ticket says KOOPIA / KORDUSPRINT. After printing a bar asks "kas tšekk tuli välja? Jah / Ei, prindi uuesti". A blocked popup shows a red bar with "Prindi nüüd". Seaded: "Printimise jälgimine" tiles + list + "Testi printerit"; order window: "Prinditud 2× · viimati 14:05". `print-v169.js` only got hooks.
 - **System Health 2.0** (Seaded): cards for LIVE, Sünkroonimine, Internet, Printer, Salvestus, Versioon, Tahvel (battery, clock vs server, Wake Lock), Laadimiskiirus (are CSS/JS compressed), Server. `system-health.php` also returns private_data size, free disk, files near a read limit and server time. LIVE API test stays a manual button.

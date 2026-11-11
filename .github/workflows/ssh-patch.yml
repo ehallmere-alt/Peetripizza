@@ -1,7 +1,8 @@
 # Builds the paste-into-SSH update automatically when a new version lands on main.
 # Trigger: push to main that changes app/peetripizza and raises <meta name="peetri-release"> (compared with main before the push).
 # Output: patches/update-<old>-to-<new>-ssh.txt, patches/update-any-to-<new>-ssh.txt,
-#         git tag v<new> and a GitHub Release with both files attached.
+#         patches/update-latest-ssh.txt (= update-any-to-<new>, the permanent one-line URL used in Seaded → Versioon),
+#         git tag v<new> and a GitHub Release with the files attached.
 name: SSH patch
 on:
   push:
@@ -41,13 +42,16 @@ jobs:
           python3 tools/gen_patch.py /tmp/base/app/peetripizza app/peetripizza "$OLD" "$NEW" "patches/update-$OS-to-$NS-ssh.txt" $FILES
           PREV_ANY="patches/update-any-to-$OS-ssh.txt"
           if [ -f "$PREV_ANY" ]; then cat "$PREV_ANY" "patches/update-$OS-to-$NS-ssh.txt" > "patches/update-any-to-$NS-ssh.txt"; fi
+          # Permanent name: curl .../main/patches/update-latest-ssh.txt always installs the newest version (steps already applied are skipped).
+          if [ -f "patches/update-any-to-$NS-ssh.txt" ]; then cp "patches/update-any-to-$NS-ssh.txt" patches/update-latest-ssh.txt; fi
           # Self-check: apply the new patch to a copy of the old version.
           cp -r /tmp/base/app/peetripizza /tmp/check && (cd /tmp && HOME=/tmp PP_APP=/tmp/check bash "$GITHUB_WORKSPACE/patches/update-$OS-to-$NS-ssh.txt") | tee /tmp/apply.log
           grep -q "ГОТОВО: версия $NEW" /tmp/apply.log
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add patches/ && git commit -m "SSH patch $OLD -> $NEW" && git push
+          git add patches/
+          if ! git diff --cached --quiet; then git commit -m "SSH patch $OLD -> $NEW" && git push; fi
           git tag "v$NEW" && git push origin "v$NEW"
-          ASSETS="patches/update-$OS-to-$NS-ssh.txt"; [ -f "patches/update-any-to-$NS-ssh.txt" ] && ASSETS="$ASSETS patches/update-any-to-$NS-ssh.txt"
+          ASSETS="patches/update-$OS-to-$NS-ssh.txt"; [ -f "patches/update-any-to-$NS-ssh.txt" ] && ASSETS="$ASSETS patches/update-any-to-$NS-ssh.txt patches/update-latest-ssh.txt"
           gh release create "v$NEW" $ASSETS --title "Peetri Pizza $NEW" --notes "Установка: открыть файл, скопировать целиком и вставить в SSH. update-any подходит для любой старой версии."
         env:
           GH_TOKEN: ${{ github.token }}

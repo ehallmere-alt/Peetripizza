@@ -388,6 +388,15 @@ await test('v17.14 responsive: no sideways scroll on phone, portrait and landsca
  }
 });
 
+await test('v17.15: Seaded → Versioon shows the permanent update command; slimmed CSS and late modules load',async()=>{
+ const p=await page(browser);await p.goto(url);await p.waitForFunction(()=>window.PPPrint169&&window.PPHealth,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());
+ await p.waitForSelector('#pp1715-update code',{timeout:8000});
+ const cmd=await p.textContent('#pp1715-update code');assert(/raw\.githubusercontent\.com\/ehallmere-alt\/Peetripizza\/main\/patches\/update-latest-ssh\.txt/.test(cmd)&&/&& bash /.test(cmd),'command '+cmd);
+ const css=await p.evaluate(()=>[...document.styleSheets].map(s=>s.href||'').filter(h=>/kitchen-release/.test(h)));assert(css.length===1&&/v1715/.test(css[0]),'css '+css);
+ assert(await p.evaluate(()=>typeof window.PPPrint169.printManual==='function'&&!!document.getElementById('pp169-health-check')),'late modules missing');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
 await browser.close();
 const failed=results.filter(r=>!r.ok);
 console.log(`\n${results.length-failed.length}/${results.length} passed`);
