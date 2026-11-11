@@ -22,7 +22,7 @@ foreach (glob($root.'/assets/*')?:[] as $path) {
 foreach (glob($root.'/README-v*.md')?:[] as $path) $extra[]=basename($path);
 foreach (['tests-v150.php','sample-orders.json'] as $rel) if (is_file($root.'/'.$rel)) $extra[]=$rel;
 $extra=array_values(array_unique($extra));sort($extra);
-echo "Peetri Pizza Service App v17.9.0 — audit installed files\n";
+echo "Peetri Pizza Service App v17.10.0 — audit installed files\n";
 echo "Matched: $ok / ".count($manifest)." | Missing: ".count($missing)." | Modified: ".count($changed)." | Legacy leftovers: ".count($extra)."\n";
 foreach (['Missing files'=>$missing,'Modified files'=>$changed,'Legacy leftovers (review before manual deletion)'=>$extra] as $title=>$items) {
     if (!$items) continue;

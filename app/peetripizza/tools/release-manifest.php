@@ -1,8 +1,8 @@
 <?php
-/** Auto-generated 17.9.0 file checksum map; do not include this file itself. */
+/** Auto-generated 17.10.0 file checksum map; do not include this file itself. */
 return [
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => 'd25b8acd8030b1a32a2842843303e123d1a59f6ff9bc996171a0a52ae9e5528d',
+    'CHANGELOG.md' => '4fdf0728cf8dfe9e40b436bfd53470d46bbd6abe6e251bcd45efe83650d4933b',
     'CLAUDE-HANDOFF.md' => '4d671452b73e44dd9af979d1d2af88421334c593add82155ca7f8033990125c4',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'dbef6c207f83dab2f9c5eb8639773e6625714778a76b3acdf6b58302936ab3df',
@@ -29,6 +29,7 @@ return [
     'api/system-health.php' => '879e329a5dea6e53adcfd65dd106e800a7a77f749464428c8e4f5ddeeafbec69',
     'api/track-status.php' => '375b9d3b3fcbe8562d7a4850f080967091e7870a0c787cdd0b10a61a88f5a3b7',
     'api/tracking-store.php' => 'f3bfe4de322603ed68667988cdf90d39595d5ae0e7219c1709cf224f92d7d5fd',
+    'api/version.php' => '825aea48da65762e85860fee80ad7e52d8fa1b9101afb38fc3e32fb18879ea72',
     'api/wait-time.php' => '563cc05ded6bc99ae8d683d7aae53b8bfcd836351d15eb58a5574be64f650b64',
     'assets/app-core-v141.js' => '482a4dcb0654dd2f73d5497420ae313639aa165c99a2e5bf0163133e2b5f197d',
     'assets/boot-v170.js' => 'c9327bd31803a961a360b8dd9f7076b0988806334163128f40cbe0105ff77722',
@@ -67,6 +68,8 @@ return [
     'assets/menu-live-v1692.js' => 'ff17e37140a315b77a5624030f14510cbc2773d2f04214a7e4149dd4f0b0f9a5',
     'assets/online-v142.js' => 'ebe88ba3d29342526430fcd5148f9fef5846734874a9289afd6451c09b14273f',
     'assets/operations-v168.js' => '898896551a27750921c8443bf6a9550a1b8138cafac0641ca84fe7f09f2f455c',
+    'assets/ops-v1710.css' => 'd9347e6b9c285c78b017832985094eeff516468f0cc1a26584e3fcafb09918bd',
+    'assets/ops-v1710.js' => 'e157957732a11a5babc1a32c27be7cdf1267493b6789703b480c88c2f9234c5c',
     'assets/ops-v174.css' => 'f0c95a5f92bdd924149dca5b266d84c3b8c0bf04370f5c8c681fcdc9260645d5',
     'assets/ops-v174.js' => '6b3de4fa339e5539ca87b56949212b3cbac5589bfca821ddb5ae1e11d548e200',
     'assets/ops-v176.css' => 'f6181a42de1705ec150be6b147a8c36f4ecceef4bec40b279713d319eb2dfea4',
@@ -94,9 +97,9 @@ return [
     'auth/bootstrap.php' => 'e14f2d4e2a9c2becd997a71b9f92314084a71c25efebcb7422b3e3718851e811',
     'auth/public-catalog.php' => '80ccdf011ec8816d1e020a5c0afc05cdd52c15f755b26410ca9470157482329d',
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
-    'dashboard.php' => '090833d05f4c85abb85735d5be40d4f0d12b667e139ccd94d1b0c47b11b52ec6',
+    'dashboard.php' => 'f3f691cd528c67e9576ce21e0f77572cd55331b8f2fd08436ed040b3e011cee2',
     'dough.php' => 'd9fc5914f744d113a899b12da46cc7d63f97783fc73dcb5ce92e01c7daf56fbe',
-    'index.php' => 'c409705b6f68b1b44806056079f5b78e14d449bc42648a58180e118914bf462a',
+    'index.php' => '77a6ea00dd29cc241fd69eccca0040215f91dc317985de06f165e0c12866c50d',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
     'locations.example.php' => '740c911e14d7ee558e5105b0ba0587e5774a9ac6df4b5cea06f6ac03f3aedd7c',
     'setup_staff.php' => 'a41b7364014dc1f6b0303f428e5f1730d23ef24cf82dacbd602b85c8781ad2cf',
@@ -105,7 +108,7 @@ return [
     'tools/deploy.sh' => '617f61846beff2346ea481b4212ce3b9d3ed5926dbbc4bfe4a40307da707ef95',
     'tools/locations.php' => '766ea444b9c53530fc34e120dae329055e77c2ba0f2a87c80948c1a157283f1e',
     'tools/register-kolde.php' => '2f966fea4be8dd1c2cf11821519230c02a5248fa4047782dd9fec200140b66c2',
-    'tools/release-check.php' => '15b51952af7a068f6bd07ad6f05d81fa194b603428fef71e584aa51c6e284239',
-    'tools/v17-smoke-check.php' => '6e9ba965de8069f3a0d19b81ac5bab93019d6101a95dd4937e616cfcee2db0be',
+    'tools/release-check.php' => '97302ab879d2cd16abd7f5414ce59dda97d2b219d594b2134114ec5591b568fd',
+    'tools/v17-smoke-check.php' => '46a8cbba24f025282e464402a32f6ed24f91b9ea5396283584d55eefa0ccb63d',
     'tracking.php' => '2e98801bf95a2e8eacf8f42e236bda8bf9eb02942104e56e89ad66108eeaa0bf',
 ];

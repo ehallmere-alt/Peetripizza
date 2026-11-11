@@ -26,7 +26,7 @@ def check(name,cond,info=''):
 def mode(m):open(A+'/mode.txt','w').write(m)
 mode('ok')
 # --- unauthenticated
-for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php']:
+for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php']:
   c,j,_=req('api/'+ep);check('no login -> 401: '+ep,c==401 and j and j.get('error')=='authentication_required',(c,j))
 c,j,_=req('api/customer-links.php','POST',{});check('no login -> 401: customer-links.php',c==401,(c,j))
 c,j,_=req('api/track-status.php?t=bad');check('track-status bad token -> 404 (public endpoint)',c==404,(c,j))
@@ -109,6 +109,10 @@ if c==200:
 c,j,_=req('api/site-status.php','POST',{},headers=CS);check('site-status POST -> 405',c==405,(c,j))
 mode('down');c,j,_=req('api/site-status.php');check('site-status upstream down -> cached (stale ok)',c==200 and j.get('ok'),(c,j))
 mode('ok');os.remove(A+'/pid.txt')
+# --- v17.10 version check (no github=1 here: that would reach the real internet)
+c,j,_=req('api/version.php');check('version.php: release + files ok',c==200 and j.get('ok') and re.match(r'^\d+\.\d+\.\d+$',j.get('version','')) and j['files']['checked'] and j['files']['total']>100 and j['files']['missingCount']==0 and j.get('github') is None,(c,str(j)[:300]))
+check('version.php: no secrets / order data',not re.search(r'session|websocket|password|customer|phone',json.dumps(j),re.I),str(j)[:300])
+c,j,_=req('api/version.php','POST',{},headers=CS);check('version.php POST -> 405',c==405,(c,j))
 # --- upstream failures
 mode('expired');c,j,_=req('api/live.php');check('upstream session expired -> 401 (so the login banner shows)',c==401,(c,j))
 mode('down');c,j,_=req('api/live.php');check('upstream down -> 502',c==502,(c,j))
