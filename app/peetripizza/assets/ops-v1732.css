@@ -21,3 +21,5 @@ html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.price{order:0}
 html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1728-pay{order:1}
 html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1729-print{order:2}
 html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>:not(.price):not(.pp1728-pay):not(.pp1729-print){order:3}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.price{margin-right:0!important}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1728-pay{margin-right:auto!important}
