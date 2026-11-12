@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.66.0 — 2026-11-12
+- Owner picked 1, 5, 6 (`assets/ops-v1766.css/.js`): Valmis/Väljastus cards like main cards (grey type chip, red −/green + toppings, no Brändikarp line, box icon instead of KARBID); dark "N PITSAT" chip on every card (main: app-core count shown again; Valmis cards: counted from lines with a size code); Valmis column head is "Valmis N".
+
 ## 17.65.0 — 2026-11-12
 - Owner: the Valmis column must hide / page. Tablets in "Kolmas veerg" mode show two columns; swipe left (or the green "Valmis N" edge button) slides to Valmistamisel + Valmis, swipe right / "‹ Uued" goes back. `#pp157-columns-mount` uses overflow-x:clip so sticky heads keep working.
 
