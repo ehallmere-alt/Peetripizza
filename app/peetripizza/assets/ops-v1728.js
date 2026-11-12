@@ -31,9 +31,9 @@
   const items=Array.isArray(o.items)?o.items:[];
   const lines=[...card.querySelectorAll('.pp117-ticket-items>.product-line')];
   // 1 + 3
-  let pz=0,other=0;const extra=[];
+  let pz=0,other=0;const extra=[],sizes=new Map();
   if(lines.length===items.length){
-   items.forEach((it,i)=>{const [raw,q]=Array.isArray(it)?it:[it?.name,it?.quantity];if(isPizza(raw))pz+=qty(q);else{other+=qty(q);extra.push(i);}});
+   items.forEach((it,i)=>{const [raw,q]=Array.isArray(it)?it:[it?.name,it?.quantity];if(isPizza(raw)){pz+=qty(q);let c='pitsa';try{c=window.PPOrderInfo.parse(raw).code||'pitsa'}catch(_){}sizes.set(c,(sizes.get(c)||0)+qty(q));}else{other+=qty(q);extra.push(i);}});
    if(pz&&extra.length){
     const box=card.querySelector('.pp117-ticket-items');
     const row=document.createElement('div');row.className='pp1728-lisaks';
@@ -46,7 +46,8 @@
   const line=card.querySelector('.pp117-identity-line');
   if(line&&(pz||other)){
    const s=document.createElement('span');s.className='pp1728-sum';
-   s.textContent=[pz?pz+(pz===1?' pitsa':' pitsat'):'',other?other+' lisa':''].filter(Boolean).join(' · ');
+   // v17.29: pizzas by size code ("2× SÕ · 1× VP"), then the other products
+   s.textContent=[...[...sizes].map(([c,n])=>n+'× '+c),other?other+' lisa':''].filter(Boolean).join(' · ')||(pz?pz+' pitsa':'');
    const t=line.querySelector('.pp118-order-time');t?line.insertBefore(s,t):line.append(s);
   }
   // 4

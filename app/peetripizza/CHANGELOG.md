@@ -1,5 +1,14 @@
 # Changelog
 
+## 17.29.0 — 2026-11-12
+- Order card pack 2 (owner: "Давай", all six), `assets/ops-v1729.js/css` + summary change in `ops-v1728.js`:
+  1. Summary chip by size code: "1× SÕ · 2× VP · 1 lisa".
+  2. Print mark in the card footer from PPPrintMonitor.record(id): "⎙ prinditud 13:05" (green) / "⎙ ei prinditud".
+  3. Tap on the customer name folds the card to header + buttons (▸), again unfolds; remembered per order until reload.
+  4. "ETTETELLIMUS · HH:MM" line when the official ready time is ≥ 90 min after the order arrived (no separate pre-order field known).
+  5. Footer: small price, 40 px ⓘ, the action button takes the rest of the width.
+  6. The Valmis sheet (17.24) lists "Ära unusta": non-pizza products and boxes.
+
 ## 17.28.0 — 2026-11-12
 - Order cards clearer (owner: "Го все"), `assets/ops-v1728.js/css`, works on the DOM only (data, print, LIVE untouched); `html.pp1728-off` switches it off:
   1. Pizzas first; non-pizza lines (no size in the name) hidden and shown as one "Lisaks" row of chips.
