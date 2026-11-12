@@ -1,5 +1,14 @@
 # Changelog
 
+## 17.25.0 — 2026-11-12
+- Design pack 4, owner picked 1, 2, 4, 5, 6 (`assets/ops-v1725.js/css`):
+  1. Header: the Uued counter turns orange and pulses while a new order waits.
+  2. A new order card slides in and glows orange for 10 s (not during the first 8 s after load, not when more than 3 arrive at once).
+  4. Order details sheet: the card's name, number, type, boxes and products on top in big type; the office data small below; big Prindi + Võta vastu / Valmis buttons at the bottom (they press the card's own button, so the Valmis sheet still asks).
+  5. Tooted: big counters, title and duplicate quick chips hidden; category tabs + search stick to the top while scrolling; the Otsas filter shows a red count.
+  6. Line icons instead of emoji on cards, details, empty columns, dough reminder, Statistika and the sound button.
+  Also: bigger text on 17.24 sheet buttons. Patches never touch CHANGELOG.md (not on the server).
+
 ## 17.24.0 — 2026-11-12
 - Design pack 3, owner said "Давай" to all six (`assets/ops-v1724.js/css`):
   1. Late order: red frame around the whole card that slowly pulses (off in Tahvli kiirrežiim / reduced motion).
