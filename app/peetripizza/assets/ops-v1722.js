@@ -1,4 +1,4 @@
-/* Peetri Pizza v17.22 — header, owner said "Давай" to all six:
+/* Peetri Pizza v17.22 (+17.23: LIVE colour moved into the DEMO|LIVE switch) — header, owner said "Давай" to all six:
  * 1 LIVE dot (green / orange / red) + "uuendatud N s tagasi"   2 counters Uued · Töös (+ Valmis button in green)
  * 3 bigger clock with date   4 Ooteaeg as one big button -> 15/20/30/45/60 tiles (same select + change event as before)
  * 5 cleaner: brand subtitle hidden, fullscreen button moved to the side menu   6 phone: header in two rows.
@@ -31,6 +31,8 @@
    else{const sec=Math.max(0,Math.round((Date.now()-lastOk)/1000));state=sec>=180?'bad':sec>=45?'wait':'ok';t=state==='bad'?'LIVE ei vasta':'LIVE';s=ago(sec);}
   }
   if(live.dataset.state!==state)live.dataset.state=state;if(live.classList.contains('pp1722-off')===navigator.onLine)live.classList.toggle('pp1722-off',!navigator.onLine);put('pp1722-live-t',t);put('pp1722-live-s',s);
+  // 17.23: owner asked why a second LIVE plate — the colour now lives in the DEMO|LIVE switch itself.
+  const mode=$('pp172-mode');if(mode){if(mode.dataset.pp1722!==state)mode.dataset.pp1722=state;const tt=state==='demo'?'':t+(s?' · '+s:'');const lb=mode.querySelector('[data-mode=live]');if(lb&&lb.title!==tt)lb.title=tt;}
   return state;
  }
 

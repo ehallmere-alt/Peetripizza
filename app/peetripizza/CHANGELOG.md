@@ -1,5 +1,13 @@
 # Changelog
 
+## 17.23.0 — 2026-11-12
+- Header: the separate LIVE plate from 17.22 is hidden (owner: "зачем вторая плашка live?"). The dot inside the DEMO|LIVE switch is now green / yellow / red; the LIVE button turns red after 3 min without data or without internet.
+- Design pack 2, owner picked 1, 2, 5 (`assets/ops-v1723.js/css`):
+  1. Card contents: bigger quantity chip and product name, size code coloured (Väike blue, Suur green, Pere purple), modifiers and extras on their own line.
+  2. Order columns: orange (Uued) / green (Valmistamisel) strip on top and coloured counter; an empty column shows "Uusi tellimusi pole" / "Midagi ei valmistata".
+  3. Tooted: big banner hidden, products as a tile grid; the whole tile is the button. First tap turns it orange ("Puuduta uuesti"), second tap within 4 s switches Otsas/Saadaval. Replaces the browser confirm() window that froze timers and LIVE. Out-of-stock tiles red and first. Still a local note only.
+  Tests not run (owner's choice); checked in Chromium at 1280 px.
+
 ## 17.22.0 — 2026-11-12
 - **Header** (owner: "Давай" = all six), `assets/ops-v1722.js/css`, loaded from `dashboard.php` (not late) so the header does not jump:
   1. LIVE status: green / orange / red dot with "uuendatud N s tagasi" (from `pp150:live-synced`); red and blinking after 3 min without data or with no internet. Hidden in DEMO (the DEMO|LIVE switch already says it).
