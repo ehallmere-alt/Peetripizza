@@ -69,6 +69,21 @@ function pp150_items(array $order):array {
             }
         }
         $added=array_slice(array_unique($added),0,15);
+        // v17.54: toppings the customer does NOT want -> "Ilma: x" (red "−" chip on the card). Field names guessed, read-only.
+        $removed=[];
+        foreach(['removedToppings','removed_toppings','excludedToppings','excluded_toppings','withoutToppings','without_toppings','removed','excluded','without'] as $key){
+            if(!isset($item[$key])||!is_array($item[$key]))continue;
+            foreach(array_slice($item[$key],0,25) as $t){$v=pp150_label($t);if($v!=='')$removed[]=$v;}
+        }
+        if(isset($item['toppings'])&&is_array($item['toppings'])){
+            foreach(array_slice($item['toppings'],0,50) as $t){
+                if(!is_array($t))continue;
+                $flag=$t['isRemoved']??$t['is_removed']??$t['removed']??$t['excluded']??$t['is_excluded']??false;
+                if(!in_array($flag,[true,1,'1','true'],true))continue;
+                $v=pp150_label($t);if($v!=='')$removed[]=$v;
+            }
+        }
+        foreach(array_slice(array_unique($removed),0,15) as $v)$spec[]='Ilma: '.str_replace(';',',',$v);
         if($added)$spec[]='Lisandid: '.implode(', ',$added);
         if($spec)$name.=' — '.implode('; ',$spec);
         $quantity=$item['quantity']??$item['qty']??1;

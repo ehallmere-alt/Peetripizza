@@ -1,0 +1,24 @@
+/* Peetri Pizza v17.54 — toppings with signs, Ooteaeg − / +, simpler screens (owner picked 2, 3, 4, 5). Hidden, not removed. */
+/* toppings: red − / green + (17.41 had hidden the signs) */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp94-specs .pp177-mod:is(.pp1728-plus,.pp1728-minus){display:inline-flex!important;align-items:center!important;gap:6px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp94-specs .pp177-mod:is(.pp1728-plus,.pp1728-minus)::before{display:inline-grid!important;place-items:center!important;width:20px!important;height:20px!important;border-radius:50%!important;color:#fff!important;font-size:16px!important;font-weight:900!important;line-height:1!important;flex:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp94-specs .pp177-mod.pp1728-plus::before{content:"+"!important;background:#1f9d55!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp94-specs .pp177-mod.pp1728-minus::before{content:"−"!important;background:#d33a2f!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp94-specs .pp177-mod.pp1728-minus{text-decoration:none!important}
+/* Ooteaeg wider with − / + (one joined control) */
+html body .topbar #pp1722-wait.pp1754-wmid{border-radius:0!important;min-width:104px!important;margin:0!important;border-left:0!important;border-right:0!important}
+html body .topbar .pp1754-wstep{align-self:stretch!important;width:46px!important;min-width:46px!important;margin:0!important;border:1px solid #cfe3d6!important;background:#e3f0e7!important;color:#17693a!important;font-size:26px!important;font-weight:800!important;line-height:1!important;padding:0!important;cursor:pointer;box-shadow:none!important}
+html body .topbar #pp1754-wminus{border-radius:12px 0 0 12px!important;border-right:0!important}
+html body .topbar #pp1754-wplus{border-radius:0 12px 12px 0!important;border-left:0!important;margin-right:6px!important}
+html body .topbar .pp1754-wstep:active{background:#cfe6d6!important}
+/* 2: Väljastus block only when an order waits; no kicker, "Ootel: N", technical note */
+html body #pp158-pickup-quick.pp1754-empty{display:none!important}
+html body #pp158-pickup-quick .pp158-pickup-kicker,html body #pp158-pickup-quick #pp160-pickup-wait,html body #pp158-pickup-quick .pp158-pickup-note{display:none!important}
+/* 3: footer */
+html body .shell main>footer{display:none!important}
+/* 4: small explanations in Seaded and Statistika */
+html body #settingsPage .pp163-settings-intro,html body #settingsPage .pp163-pref-title p,html body #settingsPage #pp1730-set>p{display:none!important}
+html body #settingsPage :is(.pp163-setting-row,.settingsrow,.pp164-flow-option) small:not(:has(input,button,select,b,strong)){display:none!important}
+html body #statisticsPage .panel>.section-tag,html body #pp1719-report .pp1719-report-head small,html body #pp1719-report .pp1719-tile span:not(:first-child){display:none!important}
+@media (max-width:760px){html body .topbar #pp1722-wait.pp1754-wmid{min-width:60px!important;width:auto!important;padding:2px 4px!important}html body .topbar .pp1754-wstep{width:32px!important;min-width:32px!important;font-size:22px!important}html body .topbar #pp1754-wplus{margin-right:2px!important}html body .shell>header.topbar.topbar .top-right.top-right{gap:0!important;justify-content:flex-end!important}html body .shell>header.topbar #pp172-mode{margin-left:6px!important}html body .shell>header.topbar.topbar .brandgroup.brandgroup{flex:0 0 auto!important;width:auto!important;max-width:150px!important;justify-content:flex-start!important;gap:8px!important}html body .shell>header.topbar .top-right>.pp158-wait{position:absolute!important;width:1px!important;margin:0!important}}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp177-extras.pp1754-moved.pp1754-moved{display:none!important}

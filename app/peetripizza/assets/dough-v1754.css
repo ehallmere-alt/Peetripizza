@@ -1,0 +1,2 @@
+/* Peetri Pizza v17.54 — Taigna tellimine simpler (owner picked 5): no kicker/subtitle on top, no history filters. Hidden, not removed. */
+html body .intro .eyebrow,html body .intro p,html body .pp169-history-filters{display:none!important}

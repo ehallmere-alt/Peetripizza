@@ -1,5 +1,10 @@
 # Changelog
 
+## 17.54.0 — 2026-11-12
+- Owner: toppings the customer does not want = red chip with "−", added toppings = green chip with "+" (17.41 CSS had hidden the signs). "Ilma: x" → "− X"; "+ LISA" extras moved next to the other chips (they were squeezed under the quantity). `api/live-normalize-v150.php` now also reads removed toppings (removedToppings/excludedToppings/without… arrays, toppings[] with isRemoved/removed/excluded) — field names guessed, not yet seen in real LIVE data.
+- Owner: Ooteaeg in the header wider with "−" and "+" (same select as before, saves the same way). Statistika stays in the header.
+- Owner picked 2, 3, 4, 5 of the "simple" pack (all CSS, hidden not removed): Väljastus block on the main screen only when an order waits, no "VÄLJASTUSKESKUS / 03", "Ootel: N", technical note; no footer; Seaded/Statistika without small explanation lines; Taigna tellimine without the kicker/subtitle and history filters (`assets/ops-v1754.js/.css`, `assets/dough-v1754.css`).
+
 ## 17.53.0 — 2026-11-12
 - Owner picked 1: on a phone (< 760 px) the header is one row: menu, small logo, Ooteaeg, DEMO/LIVE. Clock and full-screen hidden there (CSS only). Tablet unchanged (`assets/ops-v1753.css`).
 - Owner: "search is not needed anywhere, remove it where it is" → all search boxes hidden by CSS, not removed: Tooted (`.pp140-search` + menu shortcut), orders filter (`.order-search`), Valmis history (`.pp112-history-search`), Väljastus station number search (pp156; sort stays).
