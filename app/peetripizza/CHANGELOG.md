@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.56.0 — 2026-11-12
+- Owner: whole-grain badge "SUUR TÄISTERA" smaller (one line height like other codes, `assets/ops-v1755.css`).
+
 ## 17.55.0 — 2026-11-12
 - Owner: "Valmis" out of the header (`#pp171-ready` hidden, not removed); the menu has "Valmis" under Statistika that opens the same view (`assets/ops-v1755.js/.css`).
 - Owner: "Kana-pesto" is shown as "Fit Lap Kanaga" (card, Väljastus, print and statistics use the same parser, `assets/app-core-v141.js` pp178Parse).
