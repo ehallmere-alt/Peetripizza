@@ -1,0 +1,23 @@
+/* Peetri Pizza v17.32 — payment at the sum, arrival under the timer, clearer additions / removals. */
+.pp1732-timecol{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto}
+html body #ordersPage#ordersPage .ordercard .pp1732-timecol .pp118-order-time{font-size:12px!important;font-weight:700!important;color:#6b766f!important;margin:0!important;white-space:nowrap}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer .pp1728-pay{font-size:11.5px;padding:2px 7px}
+
+/* additions and removals: one per line, clear sign */
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mods,
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-extras{gap:6px!important;margin-top:6px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard :is(.pp177-mod,.pp177-extras em){display:inline-flex!important;align-items:center!important;gap:7px!important;min-height:30px!important;padding:3px 11px 3px 4px!important;border-radius:999px!important;font-size:14.5px!important;font-weight:800!important;font-style:normal!important;letter-spacing:.01em!important;text-transform:none!important;line-height:1.1!important}
+html body #ordersPage#ordersPage .ordercard.ordercard :is(.pp177-mod,.pp177-extras em)::before{content:none}
+/* + adds */
+html body #ordersPage#ordersPage .ordercard.ordercard :is(.pp177-mod,.pp177-extras em).pp1728-plus{background:#ecf8f0!important;color:#146c35!important;border:1.5px solid #9fd9b2!important}
+html body #ordersPage#ordersPage .ordercard.ordercard :is(.pp177-mod,.pp177-extras em).pp1728-plus::before{content:"+"!important;display:inline-grid!important;place-items:center;width:22px;height:22px;border-radius:50%;background:#16a34a;color:#fff;font-size:17px;font-weight:900;line-height:1}
+/* − leave out */
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mod.pp1728-minus{background:#fff1f1!important;color:#b42318!important;border:1.5px solid #f5a8a8!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mod.pp1728-minus::before{content:"−"!important;display:inline-grid!important;place-items:center;width:22px;height:22px;border-radius:50%;background:#dc2626;color:#fff;font-size:17px;font-weight:900;line-height:1}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mod.pp1728-minus mark.pp1717{background:none!important;color:inherit!important;padding:0!important;margin:0!important}
+/* info (põhi, karp): quiet grey, no sign */
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mod:not(.pp1728-plus):not(.pp1728-minus){background:#f3f5f4!important;color:#4b5a51!important;border:1px solid #e1e7e3!important;padding-left:11px!important;font-size:13px!important}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.price{order:0}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1728-pay{order:1}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1729-print{order:2}
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>:not(.price):not(.pp1728-pay):not(.pp1729-print){order:3}

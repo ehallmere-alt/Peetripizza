@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.32.0 — 2026-11-12
+- Owner: payment chip moved to the sum in the card footer, "saabus" under the timer box (`assets/ops-v1732.js`, DOM move once per card). Additions / removals as round chips with a green "+" or red "−" badge, info (põhi, karp) quiet grey (`assets/ops-v1732.css`).
+
 ## 17.31.0 — 2026-11-12
 - Owner: all size codes (SÕ, VÕ, SP, VP, Pere Õ/P, KÕ/KP) green with white text, also in details, Klienti ootavad and Väljastus (`assets/ops-v1731.css`). Thick-dough orange underline removed.
 
