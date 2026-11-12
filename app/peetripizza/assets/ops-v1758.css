@@ -5,8 +5,6 @@
 
 /* ---------- 1: strict palette on cards ---------- */
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .carditems>.product-line.pp177-multi .product-qty{background:transparent!important;color:var(--pp58-ink)!important;box-shadow:none!important;font-weight:900!important}
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-pay{background:var(--pp58-bg)!important;color:var(--pp58-mute)!important;border:1px solid var(--pp58-bd)!important;box-shadow:none!important}
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-pay.pp1728-pay-paid{background:var(--pp58-g-bg)!important;color:var(--pp58-g)!important;border-color:transparent!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp118-serving{background:var(--pp58-bg)!important;color:var(--pp58-ink)!important;border:1px solid var(--pp58-bd)!important;box-shadow:none!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp118-serving svg{stroke:currentColor!important;color:var(--pp58-ink)!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="ok"]{background:var(--pp58-bg)!important}
@@ -51,12 +49,7 @@ html body header.topbar #pp172-mode button[aria-pressed="false"]{background:tran
 html body header.topbar #pp173-fullscreen{width:44px!important}
 html body header.topbar #menuBtn{width:44px!important}
 
-/* ---------- 4: one main button, full width; sum and payment small above ---------- */
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:8px 10px!important}
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>.price{font-size:22px!important;order:1!important}
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>.pp1728-pay{order:2!important;font-size:13px!important;padding:3px 8px!important}
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>.pp1729-print{order:3!important;margin-left:auto!important;font-size:13px!important}
-html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done,.done,[data-kitchen-action]):not(.details){order:9!important;flex:1 0 100%!important;width:100%!important;max-width:none!important;min-width:0!important;height:64px!important;background:var(--pp58-g)!important;font-size:24px!important}
+/* ---------- 4: (17.59) sum, payment and button returned to the 17.57 layout by owner ---------- */
 
 /* ---------- 5: icons instead of LISAKS / KARBID words; no ⓘ (tap name/number for details) ---------- */
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-lisaks>b{font-size:0!important;width:0!important;min-width:0!important;padding:0!important;margin:0!important;border:0!important;overflow:hidden!important}
