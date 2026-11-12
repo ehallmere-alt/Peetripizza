@@ -1,5 +1,15 @@
 # Changelog
 
+## 17.24.0 — 2026-11-12
+- Design pack 3, owner said "Давай" to all six (`assets/ops-v1724.js/css`):
+  1. Late order: red frame around the whole card that slowly pulses (off in Tahvli kiirrežiim / reduced motion).
+  2. Order type: the left strip of the card is the type colour (Kulleriga purple, Kaasa green, Kohapeal blue), the type chip filled in the same colour. Urgency stays in the timer box.
+  3. Smooth move: after a tap on a card button the cards slide (FLIP) to their new place; a card that leaves the screen fades out.
+  4. One toast: `window.toast` replaced; top centre, big, green / yellow / red by the words in the text, errors stay 5 s.
+  5. Sheets: order details, share link, Lõpeta vahetus, print dialog, Ooteaeg tiles open from the bottom. `window.confirm` during a button click shows a bottom sheet instead of the browser window and re-clicks the same button on "Jah" (browser window froze timers and LIVE). Väljastus station unchanged. `html.pp1724-native-confirm` brings the browser window back.
+  6. Statistika: tiles with coloured strip and bigger numbers, Kaasa/Kulleriga/Kohapeal as coloured tiles, green tabs.
+  Tests not run (owner's choice); checked in Chromium at 1280 px.
+
 ## 17.23.0 — 2026-11-12
 - Header: the separate LIVE plate from 17.22 is hidden (owner: "зачем вторая плашка live?"). The dot inside the DEMO|LIVE switch is now green / yellow / red; the LIVE button turns red after 3 min without data or without internet.
 - Design pack 2, owner picked 1, 2, 5 (`assets/ops-v1723.js/css`):

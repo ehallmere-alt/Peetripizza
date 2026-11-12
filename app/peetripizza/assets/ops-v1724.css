@@ -1,0 +1,75 @@
+/* Peetri Pizza v17.24 — design pack 3. Only overrides, older files untouched. */
+
+/* 1: late order — red frame that slowly pulses */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late{border-color:#dc2626!important;box-shadow:0 0 0 2px #dc2626,0 6px 18px rgba(220,38,38,.18)!important;animation:pp1724-late 2s ease-in-out infinite!important}
+@keyframes pp1724-late{0%,100%{box-shadow:0 0 0 2px #dc2626,0 6px 18px rgba(220,38,38,.18)}50%{box-shadow:0 0 0 5px rgba(220,38,38,.45),0 6px 22px rgba(220,38,38,.3)}}
+html.pp1714-lite body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late{animation:none!important}
+@media (prefers-reduced-motion:reduce){html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late{animation:none!important}}
+
+/* 2: order type — strip on the left + the chip in the same colour */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kuller::before{background:#7c3aed!important;width:8px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kaasa::before{background:#16a34a!important;width:8px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kohapeal::before{background:#2563eb!important;width:8px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket[class*="pp1724-t-"] .pp118-serving{color:#fff!important;border:0!important;font-size:12.5px!important;font-weight:900!important;padding:3px 9px!important;border-radius:7px!important;letter-spacing:.03em!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kuller .pp118-serving{background:#7c3aed!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kaasa .pp118-serving{background:#16a34a!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kohapeal .pp118-serving{background:#2563eb!important}
+
+/* 3: ghost of a card that left the screen */
+.pp1724-ghost{box-sizing:border-box;overflow:hidden}
+
+/* 4: one toast — top centre, big, colour by meaning */
+html body #toast.pp1724-toast{left:50%!important;right:auto!important;top:76px!important;bottom:auto!important;transform:translate(-50%,-14px)!important;display:flex!important;align-items:center;gap:12px;min-height:54px;max-width:min(640px,calc(100vw - 32px));box-sizing:border-box;padding:12px 20px 12px 14px!important;border-radius:16px!important;font-size:17px!important;font-weight:800!important;line-height:1.3;color:#fff!important;box-shadow:0 14px 34px rgba(15,35,25,.28)!important;z-index:2147483000!important;pointer-events:none;transition:opacity .2s,transform .2s!important}
+html body #toast.pp1724-toast.show{opacity:1!important;transform:translate(-50%,0)!important;pointer-events:auto}
+html body #toast.pp1724-toast b{flex:0 0 30px;height:30px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px}
+html body #toast.pp1724-ok{background:#177245!important}
+html body #toast.pp1724-warn{background:#b7791f!important}
+html body #toast.pp1724-bad{background:#c81e1e!important}
+
+/* 5: dialogs as a sheet from the bottom (Väljastus station stays as it is) */
+html body :is(dialog#orderDialog,dialog.pp155-share-dialog,dialog#pp1711-shift,dialog#pp1714-print-dialog,dialog.pp148-details)[open]{position:fixed!important;inset:auto 0 0 0!important;margin:0 auto!important;width:min(780px,100vw)!important;max-width:100vw!important;max-height:88vh!important;box-sizing:border-box!important;border:0!important;border-radius:22px 22px 0 0!important;box-shadow:0 -12px 40px rgba(10,30,20,.25)!important;animation:pp1724-up .24s cubic-bezier(.2,.8,.2,1)!important;overflow:auto!important}
+html body :is(dialog#orderDialog,dialog.pp155-share-dialog,dialog#pp1711-shift,dialog#pp1714-print-dialog,dialog.pp148-details)::backdrop{background:rgba(10,25,18,.45)}
+@keyframes pp1724-up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+/* Ooteaeg tiles (v17.22 popup) at the bottom, bigger */
+html body #pp1722-wait-pop:not([hidden]){top:auto!important;bottom:0!important;left:50%!important;transform:translateX(-50%);width:min(780px,100vw);box-sizing:border-box;border-radius:22px 22px 0 0!important;padding:18px 18px 22px!important;box-shadow:0 0 0 100vmax rgba(10,25,18,.45),0 -12px 40px rgba(10,30,20,.25)!important;animation:pp1724-up .24s cubic-bezier(.2,.8,.2,1)}
+html body #pp1722-wait-pop div{flex-wrap:wrap}
+html body #pp1722-wait-pop button{flex:1 1 90px;min-height:64px!important;font-size:22px!important}
+
+/* 5: confirm sheet */
+.pp1724-sheet-wrap{position:fixed;inset:0;z-index:2147482000;background:rgba(10,25,18,0);transition:background .2s;display:flex;align-items:flex-end;justify-content:center}
+.pp1724-sheet-wrap.open{background:rgba(10,25,18,.45)}
+.pp1724-sheet{width:min(640px,100vw);box-sizing:border-box;background:#fff;border-radius:22px 22px 0 0;padding:10px 20px 22px;box-shadow:0 -12px 40px rgba(10,30,20,.25);transform:translateY(100%);transition:transform .22s cubic-bezier(.2,.8,.2,1);font-family:inherit}
+.pp1724-sheet-wrap.open .pp1724-sheet{transform:none}
+.pp1724-grip{display:block;width:44px;height:5px;border-radius:3px;background:#d4ddd7;margin:0 auto 14px}
+.pp1724-sheet p{margin:0 0 18px;font-size:20px;font-weight:800;line-height:1.35;color:#13221a;white-space:pre-line}
+.pp1724-sheet-btns{display:flex;gap:12px}
+.pp1724-sheet-btns button{flex:1;min-height:64px;border-radius:14px;font:900 20px/1 inherit;cursor:pointer;border:0}
+.pp1724-no{background:#eef2ef;color:#13221a}
+.pp1724-yes{background:#177245;color:#fff;flex:1.4!important}
+.pp1724-yes.risky{background:#c81e1e}
+html.pp1714-lite .pp1724-sheet,html.pp1714-lite .pp1724-sheet-wrap{transition:none}
+
+/* 6: Statistika in the card style (colours of the columns and of the order types) */
+#statisticsPage .pp1719-report{background:#fff!important;border-color:#e3e8e4!important;box-shadow:0 2px 10px rgba(16,42,26,.06)}
+#statisticsPage .pp1719-tile{position:relative;overflow:hidden;border-radius:14px!important;padding:14px 14px 12px 18px!important;min-height:92px!important;box-shadow:0 2px 8px rgba(16,42,26,.05)}
+#statisticsPage .pp1719-tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:#177245}
+#statisticsPage .pp1719-tile:nth-child(1)::before{background:#f0882a}
+#statisticsPage .pp1719-tile:nth-child(2)::before{background:#177245}
+#statisticsPage .pp1719-tile:nth-child(3)::before{background:#2563eb}
+#statisticsPage .pp1719-tile:nth-child(4)::before{background:#7c3aed}
+#statisticsPage .pp1719-tile:nth-child(5)::before{background:#e8a317}
+#statisticsPage .pp1719-tile.bad::before{background:#dc2626}
+#statisticsPage .pp1719-tile strong{font-size:32px!important;font-weight:900!important;letter-spacing:-.01em}
+#statisticsPage .pp1719-service{gap:10px!important;margin-top:12px!important}
+#statisticsPage .pp1719-service>span{flex:1 1 150px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border-radius:12px;color:#fff;font-weight:800;font-size:15px}
+#statisticsPage .pp1719-service>span b{font-size:24px;color:#fff!important}
+#statisticsPage .pp1719-service>span:nth-child(1){background:#16a34a}
+#statisticsPage .pp1719-service>span:nth-child(2){background:#7c3aed}
+#statisticsPage .pp1719-service>span:nth-child(3){background:#2563eb}
+#statisticsPage .pp1719-chart{border-radius:16px!important;background:#fff!important;box-shadow:0 2px 10px rgba(16,42,26,.06)}
+#statisticsPage .pp1719-tabs button{min-height:48px!important;font-size:16px!important}
+#statisticsPage .pp1719-tabs button[aria-pressed="true"]{background:#177245!important;border-color:#177245!important}
+@media print{#statisticsPage .pp1719-tile::before,#statisticsPage .pp1719-service>span{background:none!important;color:#000!important}}
+
+/* 17.23 fix: an empty column showed two "Uusi tellimusi pole" blocks (the old one from app-core and the new one). Keep the new one. */
+html body #ordersPage .ordercol.pp1723-col :is(#newOrders,#activeOrders)>.empty{display:none!important}
