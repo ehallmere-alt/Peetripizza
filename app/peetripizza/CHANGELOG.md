@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.53.0 — 2026-11-12
+- Owner picked 1: on a phone (< 760 px) the header is one row: menu, small logo, Ooteaeg, DEMO/LIVE. Clock and full-screen hidden there (CSS only). Tablet unchanged (`assets/ops-v1753.css`).
+- Owner: "search is not needed anywhere, remove it where it is" → all search boxes hidden by CSS, not removed: Tooted (`.pp140-search` + menu shortcut), orders filter (`.order-search`), Valmis history (`.pp112-history-search`), Väljastus station number search (pp156; sort stays).
+
 ## 17.52.0 — 2026-11-12
 - Owner: remove the GitHub version from the page. Seaded → Süsteem → Versioon shows only this tablet and the server (`assets/ops-v1710.js`, no `?github=1`, so the server no longer asks GitHub). The old "Uuenda viimasele versioonile" command (ops-v1715, pointed at the old main) hidden by CSS in ops-v1751.css. late-v1714 cache key 17.52.0.
 
