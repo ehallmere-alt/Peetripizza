@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.58.0 — 2026-11-12
+- Owner: "красиво, строго и интуитивно" (`assets/ops-v1758.css/.js`): strict palette (green = ready, red = attention, rest grey; no orange 2×/KAART/Ootel), new-order strip under the header instead of the big pulsing window and screen frame (hides itself after 10 s), header controls in one style, one full-width main button on cards, icons instead of LISAKS/KARBID words, ⓘ hidden (tap name or number for details), Tooted: no green "Saadaval", OTSAS cards red.
+
 ## 17.57.0 — 2026-11-12
 - Owner: whole-grain badge smaller again (10 px text).
 

@@ -1,0 +1,98 @@
+/* Peetri Pizza v17.58 — owner: «сделай все красиво строго и интуитивно».
+   Only colours/layout. Nothing removed from the DOM (hidden elements keep working for other scripts).
+   Palette: green = can/ready, red = attention, everything else grey. */
+:root{--pp58-g:#18704a;--pp58-g-bg:#e6f2ea;--pp58-r:#b3261e;--pp58-r-bg:#fbe5e3;--pp58-bg:#f1f3f2;--pp58-bd:#d9dfdb;--pp58-ink:#16231c;--pp58-mute:#5d6b63}
+
+/* ---------- 1: strict palette on cards ---------- */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .carditems>.product-line.pp177-multi .product-qty{background:transparent!important;color:var(--pp58-ink)!important;box-shadow:none!important;font-weight:900!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-pay{background:var(--pp58-bg)!important;color:var(--pp58-mute)!important;border:1px solid var(--pp58-bd)!important;box-shadow:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-pay.pp1728-pay-paid{background:var(--pp58-g-bg)!important;color:var(--pp58-g)!important;border-color:transparent!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp118-serving{background:var(--pp58-bg)!important;color:var(--pp58-ink)!important;border:1px solid var(--pp58-bd)!important;box-shadow:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp118-serving svg{stroke:currentColor!important;color:var(--pp58-ink)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="ok"]{background:var(--pp58-bg)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="ok"] :is(i,b){color:var(--pp58-ink)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="ok"] .pp1745-bar>span{background:var(--pp58-g)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="soon"]{background:#fcefd6!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="late"]{background:var(--pp58-r-bg)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-due[data-s="late"] :is(i,b){color:var(--pp58-r)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .customer-note{background:var(--pp58-bg)!important;border:1px solid var(--pp58-bd)!important;border-left:4px solid var(--pp58-ink)!important;box-shadow:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .customer-note :is(strong,svg){color:var(--pp58-mute)!important;stroke:currentColor!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .customer-note p{color:var(--pp58-ink)!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1729-print{color:var(--pp58-mute)!important;background:transparent!important}
+/* column heads: grey instead of orange */
+html body #ordersPage .ordercol.pp1723-col{border-top-color:var(--pp58-bd)!important}
+html body #ordersPage .ordercol .section-head .count{background:var(--pp58-ink)!important;color:#fff!important;box-shadow:none!important}
+html body #ordersPage .ordercol .section-head .legend{display:none!important}
+
+/* ---------- 2: new order = calm strip under the header, no screen frame, no pulsing ---------- */
+body.pp179-flash::after{content:none!important;display:none!important;animation:none!important}
+html body #pp179-new{top:72px!important;left:16px!important;right:16px!important;width:auto!important;transform:none!important}
+html body #pp179-new.pp1758-gone{display:none!important}
+html body #pp179-new .pp179-new-box{animation:none!important;flex-wrap:nowrap!important;gap:12px!important;min-height:52px!important;padding:6px 8px 6px 18px!important;border-radius:12px!important;background:var(--pp58-g)!important;box-shadow:0 6px 18px rgba(0,0,0,.18)!important;font-size:16px!important}
+html body #pp179-new .pp179-new-tag{flex-basis:auto!important;font-size:13px!important;opacity:.85!important;white-space:nowrap!important}
+html body #pp179-new .pp179-new-box strong{font-size:22px!important;white-space:nowrap!important}
+html body #pp179-new .pp179-new-box b{font-size:18px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+html body #pp179-new .pp179-new-box small{flex-basis:auto!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;min-width:0!important}
+html body #pp179-new .pp179-new-box button{min-height:40px!important;padding:0 18px!important;font-size:16px!important;border-radius:9px!important;flex:none!important}
+
+/* ---------- 3: header in one style ---------- */
+html body header.topbar :is(#menuBtn,#pp1754-wminus,#pp1754-wplus,#pp1722-wait,#pp171-stats,#pp173-fullscreen,#pp172-mode){height:44px!important;min-height:44px!important;box-sizing:border-box!important;background:#fff!important;border:1px solid var(--pp58-bd)!important;box-shadow:none!important;color:var(--pp58-ink)!important;align-self:center!important;margin-top:0!important;margin-bottom:0!important}
+html body header.topbar :is(#menuBtn,#pp171-stats,#pp173-fullscreen,#pp172-mode){border-radius:10px!important}
+html body header.topbar #pp1754-wminus{border-radius:10px 0 0 10px!important;border-right:0!important}
+html body header.topbar #pp1754-wplus{border-radius:0 10px 10px 0!important;border-left:0!important}
+html body header.topbar #pp1722-wait{border-radius:0!important;background:var(--pp58-bg)!important}
+html body header.topbar #pp1722-wait *{color:var(--pp58-ink)!important}
+html body header.topbar #pp1722-wait small{color:var(--pp58-mute)!important}
+html body header.topbar :is(#pp1754-wminus,#pp1754-wplus){color:var(--pp58-g)!important}
+html body header.topbar #pp172-mode{padding:3px!important;display:inline-flex!important;align-items:stretch!important}
+html body header.topbar #pp172-mode button{height:auto!important;border-radius:7px!important}
+html body header.topbar #pp172-mode button[aria-pressed="true"]{background:var(--pp58-ink)!important;color:#fff!important}
+html body header.topbar #pp172-mode button[aria-pressed="false"]{background:transparent!important;color:var(--pp58-mute)!important}
+html body header.topbar #pp173-fullscreen{width:44px!important}
+html body header.topbar #menuBtn{width:44px!important}
+
+/* ---------- 4: one main button, full width; sum and payment small above ---------- */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:8px 10px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>.price{font-size:22px!important;order:1!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>.pp1728-pay{order:2!important;font-size:13px!important;padding:3px 8px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>.pp1729-print{order:3!important;margin-left:auto!important;font-size:13px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done,.done,[data-kitchen-action]):not(.details){order:9!important;flex:1 0 100%!important;width:100%!important;max-width:none!important;min-width:0!important;height:64px!important;background:var(--pp58-g)!important;font-size:24px!important}
+
+/* ---------- 5: icons instead of LISAKS / KARBID words; no ⓘ (tap name/number for details) ---------- */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1728-lisaks>b{font-size:0!important;width:0!important;min-width:0!important;padding:0!important;margin:0!important;border:0!important;overflow:hidden!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp177-boxes>b{font-size:0!important;letter-spacing:0!important;gap:0!important;padding-right:4px!important;border-right:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp177-boxes>b .pp1725-ic{font-size:16px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp177-boxes>b svg{width:22px!important;height:22px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp177-boxes>.pp1741-det{display:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp117-ticket-identity :is(.pp1734-namerow .pp1733-name,.order-number){cursor:pointer!important}
+
+/* ---------- 6: Tooted — available is plain white, only OTSAS stands out (red) ---------- */
+html body #productsPage .pp140-card.is-available .pp140-pill{display:none!important}
+html body #productsPage .pp140-card.is-available{background:#fff!important;border-color:var(--pp58-bd)!important;box-shadow:none!important}
+html body #productsPage .pp140-card:not(.is-available){background:var(--pp58-r-bg)!important;border:2px solid var(--pp58-r)!important}
+html body #productsPage .pp140-card:not(.is-available) .pp140-pill{background:var(--pp58-r)!important;color:#fff!important;text-transform:uppercase!important;letter-spacing:.06em!important;font-weight:900!important}
+html body #productsPage .pp140-card:not(.is-available) .pp140-pill-dot{display:none!important}
+html body #productsPage .pp140-card .pp140-product-icon{background:var(--pp58-bg)!important;color:var(--pp58-mute)!important}
+html body #productsPage .pp140-card .pp140-product-icon svg{stroke:currentColor!important}
+
+/* details window: same strict palette, normal-size drink icon */
+html body #orderDialog .pp1725-ditems .product-line.pp177-multi .product-qty{background:#eef2ef!important;color:var(--pp58-ink)!important;box-shadow:none!important}
+html body #orderDialog .pp1725-ditems .pp1728-lisaks .pp1746-ic{width:28px!important;height:28px!important;display:inline-flex!important}
+html body #orderDialog .pp1725-ditems .pp1728-lisaks .pp1746-ic svg{width:24px!important;height:24px!important}
+html body #orderDialog .pp1725-ditems .pp1728-lisaks>span{flex-direction:row!important;align-items:center!important;gap:8px!important;padding:8px 12px!important;min-height:0!important}
+
+/* "Ootel" summary in the Uued head: grey like the rest */
+html body #ordersPage#ordersPage .ordercol .pp1747-wait span{background:var(--pp58-bg)!important;color:var(--pp58-ink)!important}
+
+/* phone: the strip is one short line */
+@media (max-width:759px){
+ html body #pp179-new{top:62px!important;left:8px!important;right:8px!important}
+ html body #pp179-new .pp179-new-box{padding:4px 6px 4px 12px!important;min-height:46px!important}
+ html body #pp179-new :is(.pp179-new-box small,.pp179-new-box em,.pp179-new-box b){display:none!important}
+ html body #pp179-new .pp179-new-tag{font-size:12px!important}
+ html body #pp179-new .pp179-new-box strong{font-size:18px!important}
+ html body #pp179-new .pp179-new-box button{margin-left:auto!important;min-height:36px!important;padding:0 12px!important}
+}
+
+/* Tooted: "tap again" hint is red (attention), not orange */
+html body #productsPage .pp1723-hint{background:var(--pp58-r)!important}
