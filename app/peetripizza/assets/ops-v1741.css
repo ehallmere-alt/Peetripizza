@@ -1,47 +1,6 @@
 /* Peetri Pizza v17.41 — main screen like the owner's picture. Overrides only; older layers untouched. */
+/* 17.42: owner wanted only the order cards changed — header, menu and columns are back as in 17.40. */
 :root{--pp41-g:#1b6b45;--pp41-gd:#0f4f31;--pp41-gs:#e3f1e7;--pp41-line:#e7e9e4;--pp41-ink:#151a17;--pp41-mut:#69716b;--pp41-bg:#f3f3f0}
-
-/* ---------- header ---------- */
-html body header.topbar.topbar{position:sticky!important;background:#fafaf8!important;box-shadow:0 1px 0 #e6e7e2,0 2px 10px rgba(0,0,0,.03)!important;min-height:76px!important}
-html body header.topbar .brandgroup.brandgroup.brandgroup.brandgroup.brandgroup{display:flex!important;align-items:center!important;gap:0!important}
-html body header.topbar .brandgroup>#menuBtn{background:transparent!important;border:0!important;box-shadow:none!important;margin-right:14px!important}
-html body header.topbar .brandgroup.brandgroup>:is(.pp116-logo,.pp114-location,.pp160-brand-sub){display:none!important}
-html body header.topbar .pp1741-brand{display:flex;flex-direction:column;justify-content:center;border-left:1.5px solid #d9dbd5;padding-left:18px;min-height:44px;line-height:1.1}
-html body header.topbar .pp1741-brand strong{font-size:24px;font-weight:800;color:var(--pp41-ink);letter-spacing:-.01em}
-html body header.topbar .pp1741-brand small{font-size:15px;color:var(--pp41-mut);font-weight:500;margin-top:2px}
-
-/* Ootaeg in the middle */
-html body header.topbar #pp1722-wait.pp1722-wait.pp1722-wait{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important;height:52px!important;padding:0 18px!important;min-width:300px!important;justify-content:center!important;background:#fff!important;border:1.5px solid var(--pp41-g)!important;border-radius:14px!important;color:var(--pp41-gd)!important;box-shadow:none!important}
-html body header.topbar #pp1722-wait small{font-size:18px!important;font-weight:700!important;letter-spacing:.06em!important;text-transform:uppercase!important;color:var(--pp41-gd)!important;margin:0!important}
-html body header.topbar #pp1722-wait b{font-size:24px!important;font-weight:800!important;color:var(--pp41-gd)!important;margin:0 6px 0 2px!important}
-html body header.topbar #pp1722-wait .pp1741-wi,html body header.topbar #pp1722-wait .pp1741-wc{flex:none;color:var(--pp41-gd)}
-
-/* right side: dot · clock | fullscreen */
-html body header.topbar .top-right :is(#pp171-stats,#pp171-ready,#pp172-mode,#pp1722-live,#pp1722-counts){display:none!important}
-html body header.topbar #pp1722-date{display:none!important}
-html body header.topbar #pp1722-clock{display:flex!important;align-items:center!important}
-html body header.topbar #pp1722-time{font-size:28px!important;font-weight:700!important;color:var(--pp41-ink)!important;letter-spacing:.01em}
-html body header.topbar #pp1741-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#9aa39c;margin-right:14px;flex:none}
-html body header.topbar #pp1741-dot[data-state="live"]{background:#22a447}
-html body header.topbar #pp1741-dot:is([data-state="error"],[data-state="offline"],[data-state="stale"]){background:#d9822b}
-html body header.topbar #pp173-fullscreen.pp173-fs{background:transparent!important;border:0!important;box-shadow:none!important;position:relative!important;margin-left:22px!important;width:44px!important;height:44px!important;color:var(--pp41-ink)!important}
-html body header.topbar #pp173-fullscreen.pp173-fs::before{content:"";position:absolute;left:-12px;top:6px;bottom:6px;border-left:1.5px solid #d9dbd5}
-html body header.topbar #pp173-fullscreen svg{width:26px!important;height:26px!important}
-
-/* menu items that left the header */
-html body .drawer nav #pp1741-mode-nav[data-state="live"]>span:first-child{color:#22a447}
-html body .drawer nav #pp1741-mode-nav[data-state="demo"]>span:first-child{color:#9aa39c}
-html body .drawer nav #pp1741-ready-nav .pp1741-n{margin-left:auto;background:var(--pp41-gs);color:var(--pp41-gd);border-radius:999px;padding:1px 9px;font-size:14px}
-html body .drawer nav #pp1741-ready-nav .pp1741-n:empty{display:none}
-
-/* ---------- columns ---------- */
-html body #ordersPage#ordersPage{background:var(--pp41-bg)!important}
-html body #ordersPage#ordersPage .ordercol.pp1723-col{border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important}
-html body #ordersPage#ordersPage .ordercol .section-head{background:transparent!important;border:0!important;box-shadow:none!important;padding:6px 4px 14px!important;margin:0!important}
-html body #ordersPage#ordersPage .ordercol .section-head :is(.section-tag,.legend){display:none!important}
-html body #ordersPage#ordersPage .ordercol .section-head h2{font-size:40px!important;font-weight:800!important;letter-spacing:-.02em!important;color:#0f2a1c!important;display:flex!important;align-items:center!important;gap:6px!important;margin:0!important;line-height:1.1!important}
-html body #ordersPage#ordersPage .ordercol .section-head h2 .count{min-width:44px!important;height:44px!important;border-radius:50%!important;display:inline-grid!important;place-items:center!important;font-size:22px!important;font-weight:800!important;padding:0!important;background:#fbdcae!important;color:#7a4a08!important;border:0!important}
-html body #ordersPage#ordersPage .ordercol.pp1723-col-work .section-head h2 .count{background:#d5ebdc!important;color:var(--pp41-gd)!important}
 
 /* ---------- card ---------- */
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.pp117-ticket{background:#fff!important;border:0!important;border-radius:22px!important;box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.05)!important;padding:22px 24px 20px!important;overflow:hidden!important}
@@ -134,8 +93,6 @@ html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardf
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done):active{background:#0f5a39!important}
 
 @media (max-width:900px){
- html body header.topbar #pp1722-wait.pp1722-wait.pp1722-wait{position:static!important;transform:none!important;min-width:0!important;height:44px!important}
- html body header.topbar #pp1722-wait small{display:none!important}
  html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp92-customer,html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1733-name{font-size:30px!important}
  html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1728-due.pp1728-due{min-width:130px!important}
  html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1728-due b{font-size:34px!important}
@@ -145,8 +102,6 @@ html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardf
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1732-timecol>.prep-meter.prep-meter.prep-meter{width:auto!important;max-width:none!important;overflow:visible!important;outline:0!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1732-timecol>.prep-meter::before,html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1732-timecol>.prep-meter::after{display:none!important}
 /* fit on narrower columns */
-html body.pp-orders-view{background:var(--pp41-bg)!important}
-html body #ordersPage#ordersPage .pp157-home-shell{background:transparent!important;box-shadow:none!important;border:0!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot .price{flex:none!important;font-size:30px!important;white-space:nowrap!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot .pp1728-pay{flex:none!important;white-space:nowrap!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot button.details{flex:none!important;width:40px!important;padding:0!important;margin-right:6px!important}
@@ -168,8 +123,6 @@ html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp177
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp177-boxes>button.details.pp1741-det::before{content:"i"!important;display:grid!important;place-items:center!important;position:absolute!important;inset:5px!important;border:2px solid #9aa29c!important;border-radius:50%!important;color:#7d857f!important;font:700 17px/1 Georgia,serif!important;background:transparent!important;width:auto!important;height:auto!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done,[data-kitchen-action]):not(.details){flex:1 1 230px!important;margin-left:auto!important;font-size:clamp(18px,1.8vw,23px)!important;padding:0 14px!important;gap:10px!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1741-count{letter-spacing:0!important;font-weight:700!important;color:#4f5751!important}
-html body #drawer :is(#pp1741-ready-nav,#pp1741-mode-nav)>span{width:30px!important;height:30px!important;display:grid!important;place-items:center!important;background:#f1f5f2!important;border-radius:9px!important;flex:none!important}
-html body #drawer :is(#pp1741-ready-nav,#pp1741-mode-nav)>em{font-style:normal!important;white-space:nowrap!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .carditems>.product-line:not(.pp1728-moved){grid-template-columns:62px 92px 1fr!important}
 html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .carditems>.product-line .pp119-code{padding:5px 9px!important;white-space:nowrap!important}
 /* details window: same words and colour as the card */

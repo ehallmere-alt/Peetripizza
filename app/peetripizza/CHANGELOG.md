@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.42.0 — 2026-11-12
+- Owner: the picture was meant for the order cards only. Header (logo + KOLDE, Ootaeg, Statistika, Valmis, DEMO/LIVE), side menu and column heads are back exactly as in 17.40; the new card from 17.41 stays (`assets/ops-v1741.js/.css`).
+
 ## 17.41.0 — 2026-11-12
 - Owner's picture of the main screen ("Давай сделаем вот так"). Header: "Kolde / Peetri Pizza" text instead of the logo, Ootaeg as a wide pill in the middle, status dot + clock + fullscreen on the right; Statistika / Valmis / DEMO-LIVE hidden from the header (elements kept) and reachable from the side menu (new items "Valmis tellimused" and "DEMO · vaheta LIVE peale" click the hidden buttons). Columns "Uued" / "Valmistamisel" with round counters. Card: white, no type stripe, outline handset + big name, meta row "#id | KAASA | N pitsat", soft time box (green; amber ≤5 min; red HILJA +N min / pidi; pre-order shows Täna/Homme + time, chip just ETTETELLIMUS), item rows qty | size | name with notes in grey and JUUST / ILMA as outlined chips, KARBID row with ⓘ (details) at its end, yellow Kliendi märkus, footer price | MAKSTUD | big green button; "Võta vastu" reads "Alusta valmistamist" (same button, same time sheet). Print mark and "saabus" hidden from the card (`assets/ops-v1741.js/.css`, small edits in `ops-v1728.js`, `ops-v1729.js`, `ops-v1725.js`).
 

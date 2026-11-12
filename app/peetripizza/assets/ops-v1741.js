@@ -1,4 +1,4 @@
-/* Peetri Pizza v17.41 — main screen like the owner's picture (12.11.2026, "Давай сделаем вот так").
+/* Peetri Pizza v17.41/17.42 (17.42: cards only, header/menu/columns untouched) — main screen like the owner's picture (12.11.2026, "Давай сделаем вот так").
  * Screen only, data untouched. Nothing removed: header buttons are hidden and reachable from the menu.
  * - header: "Kolde / Peetri Pizza" text, Ootaeg in the middle, status dot + clock + fullscreen on the right
  * - menu gets "Valmis tellimused" and "DEMO / LIVE" (they left the header)
@@ -104,9 +104,7 @@
  }
 
  function tick(){
-  try{header()}catch(_){}
-  try{menu()}catch(_){}
-  try{heads()}catch(_){}
+  // 17.42: header(), menu(), heads() off — owner wanted only the cards changed
   try{cards()}catch(_){}
   document.documentElement.classList.add('pp1741-on');
  }
