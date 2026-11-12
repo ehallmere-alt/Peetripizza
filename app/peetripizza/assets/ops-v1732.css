@@ -23,3 +23,4 @@ html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1729-print{o
 html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>:not(.price):not(.pp1728-pay):not(.pp1729-print){order:3}
 html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.price{margin-right:0!important}
 html body #ordersPage#ordersPage .ordercard .pp117-ticket-footer>.pp1728-pay{margin-right:auto!important}
+html body #ordersPage#ordersPage .ordercard>.customer-note.pp1732-note{margin:8px 12px 8px 18px!important}
