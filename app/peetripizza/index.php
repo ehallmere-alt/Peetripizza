@@ -71,7 +71,7 @@ $many=count($configured)>6;
   <li><span class="pl-dot"></span>Taimerid, heli ja 80 mm print</li>
   <li><span class="pl-dot"></span>Taigna tellimine ühest kohast</li>
  </ul>
- <div class="pl-ver">Service App v17.42</div>
+ <div class="pl-ver">Service App v17.43</div>
 </section>
 <section class="pl-panel">
  <form method="post" action="/peetripizza/" autocomplete="on" id="pl-form" class="pl-card" novalidate>

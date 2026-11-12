@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.43.0 — 2026-11-12
+- Owner: "выровняй, чтобы не накладывалось". Card spacing by gaps instead of margins/divider bars: meta row (#id, type, N pitsat) and footer (price, payment, button) wrap cleanly, chips never touch the button, qty and size chips centred in their columns, Lisaks row aligned. Checked at 1024/1280/1366 for overlaps (`assets/ops-v1741.css`).
+
 ## 17.42.0 — 2026-11-12
 - Owner: the picture was meant for the order cards only. Header (logo + KOLDE, Ootaeg, Statistika, Valmis, DEMO/LIVE), side menu and column heads are back exactly as in 17.40; the new card from 17.41 stays (`assets/ops-v1741.js/.css`).
 

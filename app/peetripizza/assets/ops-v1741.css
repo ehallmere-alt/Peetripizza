@@ -136,3 +136,27 @@ html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardf
  html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .carditems>.product-line :is(.pp177-name,.pp94-specs){padding-left:14px!important}
  html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot .price{font-size:24px!important}
 }
+/* 17.43: even spacing, nothing touches */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line{column-gap:12px!important;row-gap:8px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>*{margin:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>.order-number{padding:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>:is(.pp118-serving,.pp1741-count,.pp1728-pay)::before{display:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>.pp118-serving{font-size:15px!important;padding:6px 12px!important;display:inline-flex!important;align-items:center!important;gap:6px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>.pp1741-count{color:#4f5751!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>.pp1741-count::after{content:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardtop{display:flex!important;gap:16px!important;align-items:flex-start!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1732-timecol{flex:none!important;margin:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot.cardfoot{column-gap:14px!important;row-gap:12px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot .price{padding:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot .pp1728-pay{margin:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot .pp1728-pay::before{display:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done,[data-kitchen-action]):not(.details){flex:1 1 220px!important;margin:0 0 0 auto!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp177-boxes{column-gap:10px!important;row-gap:8px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp177-boxes>*{margin-top:0!important;margin-bottom:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .carditems>.product-line .product-qty{justify-self:center!important;min-width:44px!important;text-align:center!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .carditems>.product-line .pp119-code{justify-self:center!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1728-lisaks{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:8px 10px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1728-lisaks>span{margin:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>:is(.order-number,.pp118-serving,.pp1741-count,.pp1728-pay).pp1741x,html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line>:is(.order-number,.pp118-serving,.pp1741-count,.pp1728-pay){margin:0!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp117-identity-line{justify-content:flex-start!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .cardfoot.cardfoot{justify-content:flex-start!important}
