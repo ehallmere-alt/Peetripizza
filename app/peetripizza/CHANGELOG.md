@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.30.0 — 2026-11-12
+- Owner picked 1, 2, 3, 6 (not Puhasta ekraan, not OTSAS on the card):
+  1. "Klienti ootavad tellimused": copies decorated by `assets/ops-v1730.js` — type strip, type + payment chips, "ootab N min" (red from 15 min), bigger Üle antud. Buttons still forward to the real card (ops-v1711).
+  2. 80 mm ticket (`assets/print-v169.js`): pizzas first, "LISAKS" for the rest, − / + on modifiers, KARBID moved under the products, "MAKSE: …" line. `late-v1714.js` version bumped so tablets reload the print module.
+  3. Seaded → Köök → "Tellimuse kaart": switches for price, payment, print mark, summary, arrival time (localStorage `pp1730-card`, html.pp1730-no-*).
+  6. Details sheet: time line saabus → vastu võetud → prinditud → valmis with minutes between steps (only the steps we know).
+
 ## 17.29.0 — 2026-11-12
 - Order card pack 2 (owner: "Давай", all six), `assets/ops-v1729.js/css` + summary change in `ops-v1728.js`:
   1. Summary chip by size code: "1× SÕ · 2× VP · 1 lisa".
