@@ -39,7 +39,7 @@
    const pre=o.deadlineSource==='official'&&dl>0&&cr>0&&dl-cr>=PRE&&o.status!=='done';
    let p=card.querySelector(':scope>.pp1729-pre');
    if(pre&&!p){p=document.createElement('div');p.className='pp1729-pre';card.prepend(p);}
-   if(p){if(!pre)p.remove();else{const tx='ETTETELLIMUS · '+hm(dl);if(p.textContent!==tx)p.textContent=tx;}}
+   if(p){if(!pre)p.remove();else{const tx='ETTETELLIMUS';if(p.textContent!==tx)p.textContent=tx;}}
    // 2
    if(pm&&typeof pm.record==='function'){
     const foot=card.querySelector('.cardfoot');if(!foot)continue;

@@ -90,7 +90,7 @@
   if(act&&!act.disabled){
    const b=document.createElement('button');b.type='button';
    const accept=(act.dataset.kitchenAction||act.dataset.action)==='accept'||(act.dataset.kitchenAction==='active');
-   b.className='pp1725-dact '+(accept?'accept':'done');b.textContent=accept?'Võta vastu':'✓ Valmis';
+   b.className='pp1725-dact '+(accept?'accept':'done');b.textContent=accept?'Alusta valmistamist':'✓ Valmis';
    b.addEventListener('click',()=>{try{dlg.close()}catch(_){};const again=document.querySelector('#ordersPage .ordercard[data-order-id="'+CSS.escape(id)+'"] .cardfoot '+(act.dataset.kitchenAction?'button[data-kitchen-action]':'button[data-action="'+act.dataset.action+'"]'));(again||act).click();});
    foot.append(b);
   }
