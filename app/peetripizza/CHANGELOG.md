@@ -1,5 +1,11 @@
 # Changelog
 
+## 17.18.0 — 2026-11-12
+- **Night screen** (owner picked #4): after closing time (today's hours from `api/site-status.php`, +30 min) and with no order in work, a dark full screen with a big clock and "Suletud · avame kell 11:00". A new order wakes it at once, a tap hides it for 15 min. Unknown hours = never dims. A web page cannot change the backlight, so the picture is only made dark.
+- **Ooteaeg hint** (owner picked #6): 6+ orders in work → the Ooteaeg box turns orange with "Tõsta 30 min?" (10+ → 45). One tap saves through the normal Ooteaeg; ✕ hides it for 20 min. Never changes anything by itself.
+- Statistika: "Päevaaruanne" and "Lõpeta vahetus" are visible again (owner asked).
+- Files: `assets/ops-v1718.js/.css` (late loaded). Tests: browser 34/34.
+
 ## 17.17.0 — 2026-11-11
 - **Allergies and "ilma …" in red** (owner picked #5 of the orders pack): words like allergia/pähkliallergia, gluteenivaba, laktoosivaba, piimavaba, vegan, vegetaar, "ilma <sõna>", "without <word>", "без <слово>", аллергия are marked red in the customer note and in product lines; the card gets a red frame and a badge "⚠ PÄHKLIALLERGIA · ILMA SIBULATA" next to the number. The 80 mm ticket gets a black box with the same words under KARBID. `window.PPAlert {find, mark}` in app-core, styles appended to card-v177.css (no extra request). Marks are applied when a card is built, so kept cards (17.16) keep them.
 - Tests: browser 32/32 (+1), API 119/119.

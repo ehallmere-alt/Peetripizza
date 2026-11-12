@@ -340,14 +340,15 @@ await test('v17.14 health: Seaded shows LIVE, sync, printer, storage, version an
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
-await test('v17.16 Statistika: Täna köögis, Karbid, Köögi analüütika, Päevaaruanne, Lõpeta vahetus hidden; the rest stays',async()=>{
+await test('v17.16/17.18 Statistika: Täna köögis, Karbid, Köögi analüütika hidden; Päevaaruanne and Lõpeta vahetus back',async()=>{
  const p=await page(browser);await p.goto(url);await late(p);
  await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
  await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());await p.waitForTimeout(800);
- for(const sel of ['#pp176-today','#pp1714-analytics','#pp143-report','#pp1711-shift-open'])assert(!(await visible(p,sel)),sel+' still visible');
+ for(const sel of ['#pp176-today','#pp1714-analytics'])assert(!(await visible(p,sel)),sel+' still visible');
  const txt=await p.evaluate(()=>document.getElementById('statisticsPage').innerText);
- assert(!/Karbid täna|Täna köögis|Köögi analüütika|Päevaaruanne|Lõpeta vahetus/.test(txt),'hidden block text on screen');
- for(const sel of ['#statsData','#performanceStats','#statisticsPage .pp145-insights'])assert(await visible(p,sel),sel+' disappeared');
+ assert(!/Karbid täna|Täna köögis|Köögi analüütika/.test(txt),'hidden block text on screen');
+ // 17.18: owner asked for Päevaaruanne and Lõpeta vahetus back
+ for(const sel of ['#statsData','#performanceStats','#statisticsPage .pp145-insights','#pp143-report','#pp1711-shift-open'])assert(await visible(p,sel),sel+' disappeared');
  assert(await p.evaluate(()=>!!document.getElementById('pp1714-analytics')&&!!document.getElementById('pp176-today')),'blocks were removed from the DOM (must only be hidden)');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
@@ -514,6 +515,45 @@ await test('v17.17 allergy: "allergia", "ilma …" and gluteenivaba marked red o
  // a kept card (unchanged data) keeps its marks after the next poll
  await p.waitForTimeout(11000);
  assert(await p.evaluate(()=>document.querySelectorAll('#ordersPage mark.pp1717').length>=3),'marks lost after poll');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.18 night screen: after closing with no orders goes dark, new order wakes it, tap hides',async()=>{
+ const p=await page(browser);let list=[];
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:list,updated_at:Math.floor(Date.now()/1000)})}));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1718,null,{timeout:8000});
+ const c=await p.evaluate(()=>{const C=window.PP1718.isClosed,h={from:660,to:1320};return {day:C(14*60,h),before:C(10*60+40,h),justAfter:C(22*60+10,h),night:C(23*60+30,h),late:C(3*60,{from:660,to:120}),lateOpen:C(1*60,{from:660,to:120}),closedDay:C(14*60,'closed'),unknown:C(3*60,null)}});
+ assert(!c.day&&!c.before&&!c.justAfter&&c.night&&c.late&&!c.lateOpen&&c.closedDay&&!c.unknown,'hours logic '+JSON.stringify(c));
+ await p.evaluate(()=>{window.PP1718._test.setHours('closed');window.PP1718.tick()});
+ assert(await visible(p,'#pp1718-night'),'night screen not shown when closed and empty');
+ assert(/\d\d:\d\d/.test(await p.textContent('#pp1718-night-clock')),'clock missing');
+ list=[liveOrder(1,'new')];await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ assert(!(await visible(p,'#pp1718-night')),'new order did not wake the screen');
+ list=[];await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ await p.evaluate(()=>window.PP1718.tick());assert(await visible(p,'#pp1718-night'),'did not go dark again');
+ await p.click('#pp1718-night');assert(!(await visible(p,'#pp1718-night')),'tap did not hide');
+ assert(await p.evaluate(()=>window.PP1718.tick()===false),'came back right after tap');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.18 Ooteaeg hint: 6+ orders in work → orange + "Tõsta 30 min?", tap saves via the normal Ooteaeg',async()=>{
+ const p=await page(browser);let list=[1,2,3,4,5].map(i=>liveOrder(i,'new'));let posted=null;
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:list,updated_at:Math.floor(Date.now()/1000)})}));
+ await p.route('**/api/wait-time.php*',r=>{if(r.request().method()==='POST'){posted=JSON.parse(r.request().postData()||'{}');return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,minutes:Number(posted.minutes)})})}return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,minutes:posted?Number(posted.minutes):20})})});
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1718,null,{timeout:8000});
+ assert(await p.evaluate(()=>window.PP1718.waitTick())===0&&!(await visible(p,'#pp1718-wait-hint')),'hint with 5 orders');
+ list.push(liveOrder(6,'active'));await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ assert(await visible(p,'#pp1718-wait-hint'),'no hint with 6 orders');
+ assert(/Tõsta 30 min/.test(await p.textContent('#pp1718-wait-yes')),'wrong suggestion');
+ assert(await p.evaluate(()=>document.querySelector('.pp1718-wait-hot')!==null),'Ooteaeg box not orange');
+ await p.click('#pp1718-wait-yes');await p.waitForTimeout(1200);
+ assert(posted&&String(posted.minutes)==='30','Ooteaeg not saved through wait-time.php: '+JSON.stringify(posted));
+ assert(!(await visible(p,'#pp1718-wait-hint')),'hint stays after raising');
+ assert(await p.evaluate(()=>window.PP1718.suggestion(10,30)===45&&window.PP1718.suggestion(12,45)===0&&window.PP1718.suggestion(6,30)===0),'suggestion rules');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 await browser.close();
