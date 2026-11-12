@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.33.0 — 2026-11-12
+- Owner: print mark hidden on cards, the ILMA/allergy badge in the card header hidden (the "−" chip at the pizza stays), name 25 px with a round initial in the order-type colour (`assets/ops-v1733.js`), 18 px between order cards with a slightly stronger border and shadow (`assets/ops-v1733.css`).
+
 ## 17.32.0 — 2026-11-12
 - Owner: payment chip moved to the sum in the card footer, "saabus" under the timer box, Kliendi märkus under the boxes (`assets/ops-v1732.js`, DOM move once per card). Additions / removals as round chips with a green "+" or red "−" badge, info (põhi, karp) quiet grey (`assets/ops-v1732.css`).
 
