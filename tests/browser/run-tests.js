@@ -330,26 +330,54 @@ await test('v17.14 print: blocked popup shows a red bar with "Prindi nüüd"',as
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
-await test('v17.14 health: Seaded shows LIVE, sync, printer, storage, version and tablet cards',async()=>{
+await test('v17.19 Seaded: System Health, Köögitoimingute ajalugu, Ühendus ja LIVE, Andmed hidden; health still runs in the page',async()=>{
  const p=await page(browser);await p.goto(url);await late(p);
- await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());
- await p.waitForFunction(()=>document.querySelectorAll('#pp1714-health .pp1714-sh-tile').length>=7&&/Kontrollitud/.test(document.querySelector('#pp1714-health .pp1714-sh-head')?.textContent||''),null,{timeout:10000});
- const keys=await p.evaluate(()=>[...document.querySelectorAll('#pp1714-health .pp1714-sh-tile')].map(t=>t.dataset.key));
- for(const k of ['live','sync','net','print','storage','version','device','server'])assert(keys.includes(k),'missing card '+k+' in '+keys);
- const ver=await p.evaluate(()=>document.querySelector('#pp1714-health [data-key="version"]').dataset.state);assert(ver==='ok','version card '+ver);
+ await p.waitForFunction(()=>!!window.PP1719,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());await p.waitForTimeout(600);
+ for(const sel of ['#settingsPage .pp169-health-settings','#settingsPage .pp168-audit-settings','#pp74-settings-mode','#resetDemo','#checkConnection'])assert(!(await visible(p,sel)),sel+' still visible');
+ for(const sel of ['#settingsPage .pp169-print-settings','#pp1710-version','#pp1716-backup','#pp176-lock'])assert(await visible(p,sel),sel+' disappeared');
+ assert(await p.evaluate(()=>!!document.getElementById('pp1714-health')&&!!document.getElementById('resetDemo')),'blocks removed from DOM (must only be hidden)');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
-await test('v17.16/17.18 Statistika: Täna köögis, Karbid, Köögi analüütika hidden; Päevaaruanne and Lõpeta vahetus back',async()=>{
+await test('v17.19 Statistika: report first with Täna/Eile/See kuu/Eelmine kuu/Kogu aeg, then charts; old blocks hidden',async()=>{
  const p=await page(browser);await p.goto(url);await late(p);
- await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
- await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());await p.waitForTimeout(800);
- for(const sel of ['#pp176-today','#pp1714-analytics'])assert(!(await visible(p,sel)),sel+' still visible');
- const txt=await p.evaluate(()=>document.getElementById('statisticsPage').innerText);
- assert(!/Karbid täna|Täna köögis|Köögi analüütika/.test(txt),'hidden block text on screen');
- // 17.18: owner asked for Päevaaruanne and Lõpeta vahetus back
- for(const sel of ['#statsData','#performanceStats','#statisticsPage .pp145-insights','#pp143-report','#pp1711-shift-open'])assert(await visible(p,sel),sel+' disappeared');
- assert(await p.evaluate(()=>!!document.getElementById('pp1714-analytics')&&!!document.getElementById('pp176-today')),'blocks were removed from the DOM (must only be hidden)');
+ await p.waitForFunction(()=>!!window.PP1719,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());
+ await p.waitForSelector('#pp1719-report .pp1719-tile',{timeout:5000});
+ const r=await p.evaluate(()=>{const s=document.getElementById('pp1719-stats');const kids=[...document.querySelector('#statisticsPage .panel').children].filter(e=>e.getClientRects().length);
+  return {tabs:[...s.querySelectorAll('[data-pp1719]')].map(b=>b.textContent),first:kids.findIndex(e=>e.id==='pp1719-stats'),title:s.querySelector('h3')?.textContent||'',tiles:[...s.querySelectorAll('.pp1719-tile small')].map(x=>x.textContent),charts:s.querySelectorAll('.pp1719-chart').length,txt:document.getElementById('statisticsPage').innerText}});
+ assert(r.tabs.join('|')==='Täna|Eile|See kuu|Eelmine kuu|Kogu aeg','tabs '+r.tabs);
+ assert(r.first<=1,'report is not on top ('+r.first+')');
+ assert(/Päevaaruanne/.test(r.title),'title '+r.title);
+ for(const t of ['Tellimusi','Käive','Keskmine tšekk','Pitsasid'])assert(r.tiles.includes(t),'tile '+t+' missing');
+ assert(r.charts>=2,'charts '+r.charts);
+ assert(!/Karbid täna|Täna köögis|Köögi analüütika|Lõpeta vahetus|Tellimuste näitajad/.test(r.txt),'old block text visible');
+ for(const sel of ['#pp176-today','#pp1714-analytics','#pp143-report','#pp1711-shift-open','#statsData','#performanceStats'])assert(!(await visible(p,sel)),sel+' visible');
+ await p.click('[data-pp1719="month"]');await p.waitForTimeout(300);
+ assert(/ainult „Täna“/.test(await p.textContent('#pp1719-stats')),'DEMO month should explain LIVE only');
+ await p.click('[data-pp1719="today"]');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.19 Statistika LIVE: month report from the server, print opens an 80 mm report',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:[liveOrder(1,'new')],updated_at:Math.floor(Date.now()/1000)})}));
+ let synced=null;
+ await p.route('**/api/kitchen-analytics.php*',r=>{if(r.request().method()==='POST'){synced=JSON.parse(r.request().postData());return r.fulfill({status:200,contentType:'application/json',body:'{"ok":true}'})}
+  const per=new URL(r.request().url()).searchParams.get('period');
+  return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,period:per,from:'2026-11-01',to:'2026-11-12',orders:0,hours:Array(24).fill(0),late_list:[],report:{orders:120,amount_cents:250000,amount_orders:120,avg_check_cents:2083,pizzas:180,prep_avg:14.5,total_avg:22,late:6,with_deadline:100,service:{k:70,d:40,h:10},hours:Array.from({length:24},(_,h)=>h>=11&&h<=22?10:0),top:{'Margherita':40,'Pepperoni':30},days:{'2026-11-01':{n:10,m:20000},'2026-11-02':{n:12,m:25000}},first_day:'2026-11-01'}})})});
+ await p.goto(url);await late(p);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());
+ await p.click('[data-pp1719="month"]');await p.waitForSelector('#pp1719-report h3',{timeout:5000});
+ const r=await p.evaluate(()=>({t:document.querySelector('#pp1719-report h3').textContent,txt:document.getElementById('pp1719-stats').innerText,days:document.querySelectorAll('.pp1719-chart .pp1719-col').length}));
+ assert(/Kuuaruanne/.test(r.t)&&/november 2026/.test(r.t),'title '+r.t);
+ assert(/2500,00 €|2 500,00 €|2\s?500,00 €/.test(r.txt)&&/20,83 €/.test(r.txt)&&/Margherita/.test(r.txt)&&/päeva järgi/.test(r.txt),'numbers '+r.txt.slice(0,300));
+ assert(synced&&synced.orders[0].m===1250&&synced.orders[0].s==='k'&&synced.orders[0].z&&!('customerName' in synced.orders[0])&&!JSON.stringify(synced).includes('Klient'),'sync payload '+JSON.stringify(synced));
+ await p.click('#pp1719-print');await p.waitForFunction(()=>window.__printed.length===1,null,{timeout:4000});
+ assert(await p.evaluate(()=>/Kuuaruanne/.test(window.__printed[0])&&/80mm/.test(window.__printed[0])),'print report');
+ await p.click('[data-pp1719="today"]');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 

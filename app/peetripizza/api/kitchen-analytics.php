@@ -5,6 +5,9 @@
  * (created, deadline, accepted, ready). No customer data, no staff names, no ratings.
  * GET  ?period=today|yesterday|7d  -> merges the kitchen status events, returns the numbers.
  * POST {action:'sync', orders:[{id,number,created,deadline}]} -> stores times seen on the tablet (LIVE only).
+ * v17.19: sync may also carry amount (m, cents), service (s: k=kaasa, d=kuller, h=kohapeal) and product counts (z: name->qty,
+ * product names only, max 30). Daily totals go to private_data/analytics-days-<id>.json and are kept forever, so
+ * ?period=month|lastmonth|all work after the 35-day order list is trimmed. Still no customer data.
  * Nothing is sent to peetripizza.ee.
  */
 declare(strict_types=1);
@@ -30,7 +33,7 @@ if($method==='POST'){
  if(!preg_match('~^application/json(?:\s*;|\s*$)~i',(string)($_SERVER['CONTENT_TYPE']??'')))pp1714a_reply(415,['ok'=>false,'error'=>'json_required']);
 }
 $period=$_GET['period']??'today';
-if($method==='GET'&&!in_array($period,['today','yesterday','7d'],true))pp1714a_reply(422,['ok'=>false,'error'=>'invalid_period']);
+if($method==='GET'&&!in_array($period,['today','yesterday','7d','month','lastmonth','all'],true))pp1714a_reply(422,['ok'=>false,'error'=>'invalid_period']);
 $dir=dirname(__DIR__).'/private_data';
 if(!is_dir($dir)&&!@mkdir($dir,0700,true))pp1714a_reply(503,['ok'=>false,'error'=>'storage_unavailable']);
 $file=$dir.'/analytics-'.$id.'.json';
@@ -58,6 +61,10 @@ if($method==='POST'){
   if($num!=='')$r['n']=$num;
   if($valid($o['created']??null))$r['c']=$o['created'];
   if($valid($o['deadline']??null))$r['d']=$o['deadline'];
+  if(is_int($o['m']??null)&&$o['m']>=0&&$o['m']<10000000)$r['m']=$o['m'];
+  if(in_array($o['s']??null,['k','d','h'],true))$r['s']=$o['s'];
+  if(is_int($o['p']??null)&&$o['p']>=0&&$o['p']<500)$r['p']=$o['p'];
+  if(is_array($o['z']??null)){$z=[];foreach(array_slice($o['z'],0,30,true) as $nm=>$q){$nm=is_string($nm)?trim(preg_replace('/[\x00-\x1f<>]+/u','',$nm)):'';if($nm!==''&&is_int($q)&&$q>0&&$q<500)$z[mb_substr($nm,0,60)]=$q;}if($z)$r['z']=$z;}
   if($r!==$before){$orders[$oid]=$r;$changed=true;}
  }
 }
@@ -87,11 +94,40 @@ if($changed){
  if(!is_string($data)||file_put_contents($tmp,$data,LOCK_EX)===false||!rename($tmp,$file)){@unlink($tmp);error_log('[Peetri analytics v17.14] save_failure');pp1714a_reply(503,['ok'=>false,'error'=>'storage_write_failed']);}
  @chmod($file,0600);
 }
+// v17.19: daily totals (Tallinn days) kept forever; days still covered by the order list are recomputed every time.
+$tz=new DateTimeZone('Europe/Tallinn');
+$dayOf=static fn(int $ms)=>(new DateTimeImmutable('@'.intdiv($ms,1000)))->setTimezone($tz)->format('Y-m-d');
+$fresh=[];
+foreach($orders as $r){
+ if(!is_array($r))continue;$start=(int)($r['c']??$r['a']??0);if($start<=0)continue;
+ $d=$dayOf($start);$x=$fresh[$d]??['n'=>0,'m'=>0,'mn'=>0,'p'=>0,'late'=>0,'dl'=>0,'ps'=>0,'pn'=>0,'ts'=>0,'tn'=>0,'h'=>array_fill(0,24,0),'s'=>['k'=>0,'d'=>0,'h'=>0],'z'=>[]];
+ $x['n']++;$x['h'][(int)(new DateTimeImmutable('@'.intdiv($start,1000)))->setTimezone($tz)->format('G')]++;
+ if(isset($r['m'])){$x['m']+=(int)$r['m'];$x['mn']++;}
+ $x['p']+=(int)($r['p']??0);
+ if(isset($r['s']))$x['s'][$r['s']]++;
+ foreach((array)($r['z']??[]) as $nm=>$q)$x['z'][$nm]=($x['z'][$nm]??0)+(int)$q;
+ if(isset($r['a'],$r['f'])&&$r['f']>=$r['a']&&$r['f']-$r['a']<4*3600000){$x['ps']+=($r['f']-$r['a'])/60000;$x['pn']++;}
+ if(isset($r['c'],$r['f'])&&$r['f']>$r['c']&&$r['f']-$r['c']<4*3600000){$x['ts']+=($r['f']-$r['c'])/60000;$x['tn']++;}
+ if(isset($r['d'],$r['f'])){$x['dl']++;if($r['f']>$r['d']+60000)$x['late']++;}
+ $fresh[$d]=$x;
+}
+foreach($fresh as $d=>$x){arsort($x['z']);$x['z']=array_slice($x['z'],0,40,true);$x['ps']=round($x['ps'],1);$x['ts']=round($x['ts'],1);$fresh[$d]=$x;}
+$dfile=$dir.'/analytics-days-'.$id.'.json';$days=[];
+if(is_file($dfile)){$dj=json_decode((string)@file_get_contents($dfile),true);if(is_array($dj)&&is_array($dj['days']??null))$days=$dj['days'];}
+$oldest=$orders?min(array_map(static fn($r)=>(int)($r['c']??$r['a']??PHP_INT_MAX),$orders)):PHP_INT_MAX;
+$covered=$oldest<PHP_INT_MAX?$dayOf($oldest):'9999-99-99';
+$merged=$days;foreach($merged as $d=>$_)if($d>=$covered&&!isset($fresh[$d]))unset($merged[$d]);
+foreach($fresh as $d=>$x)$merged[$d]=$x;ksort($merged);
+if($merged!==$days){$tmp=$dfile.'.'.bin2hex(random_bytes(6)).'.tmp';$data=json_encode(['days'=>$merged],JSON_UNESCAPED_UNICODE);
+ if(is_string($data)&&file_put_contents($tmp,$data,LOCK_EX)!==false&&rename($tmp,$dfile))@chmod($dfile,0600);else @unlink($tmp);}
+$dayTotals=$merged;
 if($method==='POST')pp1714a_reply(200,['ok'=>true,'stored'=>count($orders)]);
 // Period in Tallinn time.
-$tz=new DateTimeZone('Europe/Tallinn');
 $today=(new DateTimeImmutable('now',$tz))->setTime(0,0);
-[$from,$to]=match($period){'yesterday'=>[$today->modify('-1 day'),$today],'7d'=>[$today->modify('-6 days'),$today->modify('+1 day')],default=>[$today,$today->modify('+1 day')]};
+$first=$dayTotals?new DateTimeImmutable(array_key_first($dayTotals).' 00:00',$tz):$today;
+[$from,$to]=match($period){'yesterday'=>[$today->modify('-1 day'),$today],'7d'=>[$today->modify('-6 days'),$today->modify('+1 day')],
+ 'month'=>[$today->modify('first day of this month'),$today->modify('+1 day')],'lastmonth'=>[$today->modify('first day of last month'),$today->modify('first day of this month')],
+ 'all'=>[min($first,$today),$today->modify('+1 day')],default=>[$today,$today->modify('+1 day')]};
 $fromMs=$from->getTimestamp()*1000;$toMs=$to->getTimestamp()*1000;
 $hours=array_fill(0,24,0);$prep=[];$total=[];$late=[];$count=0;$withDeadline=0;$days=[];
 foreach($orders as $oid=>$r){
@@ -109,7 +145,19 @@ $median=static function(array $a){if(!$a)return null;sort($a);$n=count($a);retur
 usort($late,static fn($a,$b)=>$b['ready']<=>$a['ready']);
 $peak=max($hours);
 ksort($days);
-pp1714a_reply(200,['ok'=>true,'period'=>$period,'from'=>$from->format('Y-m-d'),'to'=>$to->modify('-1 day')->format('Y-m-d'),
+$fd=$from->format('Y-m-d');$td=$to->modify('-1 day')->format('Y-m-d');
+$T=['n'=>0,'m'=>0,'mn'=>0,'p'=>0,'late'=>0,'dl'=>0,'ps'=>0,'pn'=>0,'ts'=>0,'tn'=>0,'s'=>['k'=>0,'d'=>0,'h'=>0]];$Th=array_fill(0,24,0);$Tz=[];$Td=[];
+foreach($dayTotals as $d=>$x){if($d<$fd||$d>$td||!is_array($x))continue;
+ foreach(['n','m','mn','p','late','dl','ps','pn','ts','tn'] as $k)$T[$k]+=$x[$k]??0;
+ foreach(['k','d','h'] as $k)$T['s'][$k]+=(int)($x['s'][$k]??0);
+ foreach((array)($x['h']??[]) as $h=>$n)$Th[(int)$h]+=(int)$n;
+ foreach((array)($x['z']??[]) as $nm=>$q)$Tz[$nm]=($Tz[$nm]??0)+(int)$q;
+ $Td[$d]=['n'=>(int)($x['n']??0),'m'=>(int)($x['m']??0)];}
+arsort($Tz);
+$report=['orders'=>$T['n'],'amount_cents'=>$T['m'],'amount_orders'=>$T['mn'],'avg_check_cents'=>$T['mn']?(int)round($T['m']/$T['mn']):null,
+ 'pizzas'=>$T['p'],'prep_avg'=>$T['pn']?round($T['ps']/$T['pn'],1):null,'total_avg'=>$T['tn']?round($T['ts']/$T['tn'],1):null,
+ 'late'=>$T['late'],'with_deadline'=>$T['dl'],'service'=>$T['s'],'hours'=>$Th,'top'=>(object)array_slice($Tz,0,10,true),'days'=>(object)$Td,'first_day'=>$dayTotals?array_key_first($dayTotals):null];
+pp1714a_reply(200,['ok'=>true,'period'=>$period,'report'=>$report,'from'=>$from->format('Y-m-d'),'to'=>$to->modify('-1 day')->format('Y-m-d'),
  'orders'=>$count,'prep_avg'=>$avg($prep),'prep_median'=>$median($prep),'prep_count'=>count($prep),
  'total_avg'=>$avg($total),'total_count'=>count($total),
  'late'=>count($late),'with_deadline'=>$withDeadline,'late_list'=>array_slice($late,0,10),

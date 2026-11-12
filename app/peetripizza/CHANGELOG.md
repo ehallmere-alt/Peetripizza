@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.19.0 — 2026-11-12
+- **New Statistika** (owner: "first the day report, then month, choose all time, then charts and statistics"): on top a report with Täna · Eile · See kuu · Eelmine kuu · Kogu aeg — Tellimusi, Käive, Keskmine tšekk, Pitsasid, Keskmine valmimisaeg, Hilinenud, Kaasa/Kulleriga/Kohapeal, 🖨 Prindi (80 mm). Below: orders by hour, by day (by month for long periods), most popular products. DEMO shows only Täna (from the screen).
+- `api/kitchen-analytics.php`: sync also takes amount (cents), service (k/d/h), pizza count and product counts (names only); daily totals in `private_data/analytics-days-<id>.json` are kept forever (the 35-day order list is unchanged), new periods month / lastmonth / all with a `report` object. Included in the daily backup.
+- Old Statistika blocks (totals, Tellimuste näitajad, Tellimused ja pitsad, Päevaaruanne, Lõpeta vahetus, Köögi analüütika, Täna köögis) hidden; Lõpeta vahetus stays in the side menu.
+- **Seaded** (owner): System Health, Köögitoimingute ajalugu, Ühendus ja LIVE, Andmed hidden (DOM kept, health checks still run).
+- Owner asked to skip tests for now (12.11.2026); this release was still run: browser 35/35, API 129/129 (one test regex updated for the new backup file).
+
 ## 17.18.0 — 2026-11-12
 - **Night screen** (owner picked #4): after closing time (today's hours from `api/site-status.php`, +30 min) and with no order in work, a dark full screen with a big clock and "Suletud · avame kell 11:00". A new order wakes it at once, a tap hides it for 15 min. Unknown hours = never dims. A web page cannot change the backlight, so the picture is only made dark.
 - **Ooteaeg hint** (owner picked #6): 6+ orders in work → the Ooteaeg box turns orange with "Tõsta 30 min?" (10+ → 45). One tap saves through the normal Ooteaeg; ✕ hides it for 20 min. Never changes anything by itself.

@@ -24,7 +24,7 @@ if(!is_dir($dir)&&!@mkdir($dir,0700,true))pp1716b_reply(503,['ok'=>false,'error'
 $root=$dir.'/backups/'.$id;
 if(!is_dir($root)&&!@mkdir($root,0700,true))pp1716b_reply(503,['ok'=>false,'error'=>'storage_unavailable']);
 // The kitchen data files of one pizzeria (each guarded by its own .lock used by the API that writes it).
-const PP1716B_NAMES=['internal-status','pickup','dough','wait','print-log','analytics'];
+const PP1716B_NAMES=['internal-status','pickup','dough','wait','print-log','analytics','analytics-days'];
 $tz=new DateTimeZone('Europe/Tallinn');
 $today=(new DateTimeImmutable('now',$tz))->format('Y-m-d');
 $global=@fopen($root.'/.lock','c');
