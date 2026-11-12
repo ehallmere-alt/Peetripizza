@@ -1,0 +1,14 @@
+/* Peetri Pizza v17.35 — owner: no round initial at the name, KOLDE under the logo, fullscreen in the header instead of sound, menu tidy-up. */
+html body #ordersPage#ordersPage .ordercard .pp1733-ini{display:none!important}
+
+html body .topbar .brandgroup.brandgroup.brandgroup.brandgroup{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto!important;column-gap:12px!important;row-gap:0!important;gap:0 12px!important;align-items:center!important;align-content:center!important}
+html body .topbar .brandgroup>#menuBtn{grid-column:1!important;grid-row:1/3!important}
+html body .topbar .brandgroup>.pp116-logo{grid-column:2!important;grid-row:1!important;align-self:end!important;margin:0!important}
+html body .topbar .brandgroup>.pp114-location{grid-column:2!important;grid-row:2!important;justify-self:start!important;align-self:start!important;margin:0!important}
+
+html.pp1722 body .topbar #pp173-fullscreen,html body .topbar #pp173-fullscreen{display:inline-grid!important;place-items:center!important}
+html body .topbar #soundBtn{display:none!important}
+
+html body #drawer #pp1711-shift-nav,html body #drawer #pp1722-fs-nav{display:none!important}
+html body #drawer #pp1735-sound-nav>span{width:30px!important;height:30px!important;display:grid!important;place-items:center!important;background:#f1f5f2!important;border-radius:9px!important}
+html body #drawer #pp1735-sound-nav>em{font-style:normal!important}

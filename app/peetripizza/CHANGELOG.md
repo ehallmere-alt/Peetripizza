@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.35.0 — 2026-11-12
+- Owner: "TOPELT JUUST" chip is now "JUUST", "Äär: juustuäär" is "Juustuäär" (app-core `pp178Parse`, + sign on card and ticket). Round initial at the name hidden. KOLDE under the Peetri Pizza logo. Fullscreen button in the header where the sound button was; sound on/off is a side-menu item that clicks the hidden `#soundBtn`. "Lõpeta vahetus" and the duplicate "Täisekraan" hidden from the menu (`assets/ops-v1735.js/.css`).
+
 ## 17.34.0 — 2026-11-12
 - Owner: pizza lines ordered several at a time go first, then by size (Pere, Suur, Keskmine, Väike); same pizzas end up next to each other (`assets/ops-v1734.js`, DOM reorder only, LIVE/print untouched). Whole grain dough is shown as "FITLAP" (`pp178Parse` in app-core, also on the ticket). Customer phone sits right next to the name (`assets/ops-v1734.css`). Demo orders got phones and a Fitlap pizza.
 

@@ -25,7 +25,7 @@ function html(details,kind){
   const q=Math.max(0,Math.min(999,Number(n)||0));
   const p=info?info.parse(raw):{name:text(raw),code:null,codeTitle:'',mods:[],extras:[]};
   // v17.30: same marks as on the card: − for "ilma/vähem", + for additions.
-  const sign=t=>/^(ilma|vähem|without|no\b|-)/i.test(t)?'− ':(/^(topelt|lisa|extra|äär|\+)/i.test(t)||/:\s*(juustuäär|extra|topelt)/i.test(t))?'+ ':'';
+  const sign=t=>/^(ilma|vähem|without|no\b|-)/i.test(t)?'− ':(/^(topelt|lisa|extra|äär|\+|juust$|[\p{L}-]*äär$)/iu.test(t)||/:\s*(juustuäär|extra|topelt)/i.test(t))?'+ ':'';
   const mods=p.mods.map(([t,k])=>`<span class="mod ${k==='warn'?'warn':''}">${esc(sign(t)+t)}</span>`).join('');
   const extras=p.extras.length?`<div class="extras">+ ${p.extras.map(esc).join(', ')}</div>`:'';
   return [!!(p.size||p.code),`<div class="line${q>1?' multi':''}"><b class="q">${esc(q)}×</b><div class="what">${p.code?`<span class="code">${esc(p.code)}</span>`:''}<strong>${esc(text(p.name))}</strong>${p.code?`<small>${esc(p.codeTitle)}</small>`:''}${mods?`<div class="mods">${mods}</div>`:''}${extras}</div></div>`];

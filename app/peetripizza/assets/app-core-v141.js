@@ -112,10 +112,11 @@ function pp178Parse(raw){
   if(!val||/^(regular|tavaline|normal|standard|default)$/i.test(low))continue;
   if(/^juust$/i.test(label)){
    if(/^(none|no|without|ilma|0)$/.test(low)){mods.push(['ILMA JUUSTUTA','warn']);continue;}
-   if(/^(extra|double|topelt|lisa|more)$/.test(low)){mods.push(['TOPELT JUUST','warn']);continue;}
+   if(/^(extra|double|topelt|lisa|more)$/.test(low)){mods.push(['JUUST','warn']);continue;}
    if(/^(light|less|vähe|vähem)$/.test(low)){mods.push(['VÄHEM JUUSTU','warn']);continue;}
   }
   if(/^põhi$/i.test(label)){mods.push([fit?'FITLAP':(words[low]||val)+' põhi','info']);continue;} // v17.34: owner calls whole grain dough "Fitlap"
+  if(/^äär$/i.test(label)){mods.push([val.charAt(0).toUpperCase()+val.slice(1),'warn']);continue;} // v17.35: "Äär: juustuäär" -> "Juustuäär"
   if(/^pakend$/i.test(label)){mods.push([/brand|bränd/i.test(val)?'Brändikarp':'Pakend: '+val,'info']);continue;}
   mods.push([label?label+': '+val:val,'warn']);
  }

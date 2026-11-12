@@ -57,7 +57,7 @@
   for(const m of card.querySelectorAll('.pp177-mod')){
    const t=(m.textContent||'').trim();
    if(/^(ilma|vähem|without|no\b|-)/i.test(t))m.classList.add('pp1728-minus');
-   else if(/^(topelt|lisa|extra|äär|\+)/i.test(t)||/:\s*(juustuäär|extra|topelt)/i.test(t))m.classList.add('pp1728-plus');
+   else if(/^(topelt|lisa|extra|äär|\+|juust$|[\p{L}-]*äär$)/iu.test(t)||/:\s*(juustuäär|extra|topelt)/i.test(t))m.classList.add('pp1728-plus');
   }
   for(const e of card.querySelectorAll('.pp177-extras em'))e.classList.add('pp1728-plus');
   // 6
