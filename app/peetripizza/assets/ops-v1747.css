@@ -1,0 +1,21 @@
+/* Peetri Pizza v17.47 — one-tap Valmis panel, Ootel chips, fresh-order frame (see ops-v1747.js). No animation loops. */
+#pp1747-forget{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:97;width:min(640px,calc(100vw - 32px));box-sizing:border-box;padding:14px 18px 16px;border-radius:18px;background:#fff7e3;border:2px solid #f0c25e;color:#3d2a05;box-shadow:0 14px 34px rgba(0,0,0,.22);font-family:inherit;cursor:pointer}
+#pp1747-forget[hidden]{display:none!important}
+#pp1747-forget .pp1747-fh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+#pp1747-forget .pp1747-fh b{font-size:16px;font-weight:800;letter-spacing:.08em;color:#8a5208}
+#pp1747-forget .pp1747-fh span{font-size:16px;font-weight:700;color:#6b5a3a}
+#pp1747-forget .pp1747-fh i{margin-left:auto;font-style:normal;font-size:18px;color:#8a7a5a}
+#pp1747-forget .pp1747-fl{display:flex;flex-wrap:wrap;gap:8px 10px}
+#pp1747-forget .pp1747-fl span{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;background:#fff;border:1px solid #f0d9a4;font-size:22px;font-weight:700;color:#1c1a14}
+#pp1747-forget .pp1747-fl em{display:inline-flex;width:24px;height:24px;font-style:normal}
+#pp1747-forget .pp1747-fl em svg{width:24px;height:24px}
+#pp1747-forget .pp1747-f-cup em{color:#1f6fb2}
+#pp1747-forget .pp1747-f-dip em{color:#b5651d}
+#pp1747-forget .pp1747-f-box em{color:#1b7a4b}
+#pp1747-forget .pp1747-f-other em{color:#8a7a5a}
+html body #ordersPage#ordersPage .pp1723-col-new .section-head{gap:12px!important;align-items:center!important}
+html body #ordersPage#ordersPage .pp1723-col-new .section-head>div:first-child{flex:0 0 auto!important}
+html body #ordersPage#ordersPage .pp1723-col-new .section-head>div:first-child h2{white-space:nowrap!important}
+html body #ordersPage#ordersPage .pp1723-col-new .section-head>.legend{display:none!important}
+html body #ordersPage#ordersPage .pp1747-wait span{background:#fdf0dc!important;color:#6b3f06!important}
+html body #ordersPage#ordersPage #newOrders .ordercard.ordercard.ordercard.pp1747-fresh{box-shadow:0 0 0 3px #2e9d62,0 6px 18px rgba(0,0,0,.06)!important}

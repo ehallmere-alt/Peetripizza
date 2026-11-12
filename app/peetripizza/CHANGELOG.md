@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.47.0 — 2026-11-12
+- Owner picked 1, 2, 3, 4 (`assets/ops-v1747.js/.css`): (1) card "Valmis" is one tap in DEMO too (LIVE already was since 17.11): confirm() answers yes for that click, undo bars stay; (2) "ÄRA UNUSTA" panel at the bottom for 10 s after Valmis with drinks/sauces/boxes and icons, tap closes; (3) "Ootel" chips in the Uued head (folded pre-orders not counted); (4) new order: static green frame for the first 3 min. Off switch: `html.pp1747-off`.
+
 ## 17.46.0 — 2026-11-12
 - Owner picked 1 and 4 from the next pack (3 "Kotti" already exists as "Ära unusta" in the Valmis sheet, ops-v1729). `assets/ops-v1746.js/.css`: (1) "Ahju" chips in the Valmistamisel column head = pizzas by size code over all cards in #activeOrders (SÕ, SP, VÕ, VP, KÕ, KP, Pere; Fitlap as S/V/K/Pere); (4) icons in the Lisaks row: cup for drinks, dip bowl for sauces (by name). Off switch: `html.pp1746-off`.
 
