@@ -1,0 +1,25 @@
+/* Peetri Pizza v17.45 — time bar, folded pre-orders, long names fit (see ops-v1745.js). No animation loops. */
+/* 1: time bar under JÄÄNUD */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard .pp1728-due.pp1728-due{position:relative!important;overflow:hidden!important}
+html body #ordersPage#ordersPage .ordercard .pp1728-due .pp1745-bar{position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:6px!important;background:rgba(0,0,0,.07)!important;display:block!important;pointer-events:none!important}
+html body #ordersPage#ordersPage .ordercard .pp1728-due .pp1745-bar>span{display:block!important;height:100%!important;width:0;background:#1b7a4b!important;transition:width 4s linear!important;border-radius:0 3px 3px 0!important}
+html body #ordersPage#ordersPage .ordercard .pp1728-due[data-s="soon"] .pp1745-bar>span{background:#c77a0a!important}
+html body #ordersPage#ordersPage .ordercard .pp1728-due:is([data-s="late"],[data-s="pre"]) .pp1745-bar{display:none!important}
+
+/* 3: folded pre-orders go to the bottom of "Uued" as one line */
+html body #ordersPage#ordersPage #newOrders .ordercard.pp1745-fold{order:90!important;padding:0!important;min-height:0!important}
+html body #ordersPage#ordersPage #newOrders .ordercard.pp1745-fold>:not(.pp1745-foldline){display:none!important}
+html body #ordersPage#ordersPage #newOrders .ordercard.pp1745-pre:not(.pp1745-fold){order:80!important}
+html body #ordersPage#ordersPage .pp1745-foldline{display:flex!important;align-items:center!important;gap:14px!important;width:100%!important;min-height:56px!important;margin:0!important;padding:10px 18px!important;border:0!important;border-radius:inherit!important;background:#eef6f0!important;color:#123e28!important;font:inherit!important;font-size:18px!important;text-align:left!important;cursor:pointer!important;box-shadow:none!important}
+html body #ordersPage#ordersPage .pp1745-foldline b{font-size:13px!important;font-weight:800!important;letter-spacing:.06em!important;color:#1b7a4b!important;background:#d7ebde!important;padding:4px 8px!important;border-radius:6px!important;flex:0 0 auto!important}
+html body #ordersPage#ordersPage .pp1745-foldline .pp1745-fn{font-weight:700!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+html body #ordersPage#ordersPage .pp1745-foldline .pp1745-ft{font-weight:800!important;flex:0 0 auto!important;white-space:nowrap!important}
+html body #ordersPage#ordersPage .pp1745-foldline .pp1745-fc{color:#4f5a52!important;flex:0 0 auto!important;white-space:nowrap!important}
+html body #ordersPage#ordersPage .pp1745-foldline i{font-style:normal!important;color:#4f5a52!important;flex:0 0 auto!important}
+@media (max-width:1100px){html body #ordersPage#ordersPage .pp1745-foldline .pp1745-fc{display:none!important}}
+
+/* 6: long names — the name column may shrink next to the time box; JS lowers the font until it fits */
+html body #ordersPage#ordersPage .ordercard .pp117-ticket-identity{min-width:0!important}
+html body #ordersPage#ordersPage .ordercard .pp1734-namerow{max-width:100%!important;min-width:0!important}
+html body #ordersPage#ordersPage .ordercard .pp1734-namerow .pp92-customer{min-width:0!important;flex:0 1 auto!important}
+html body #ordersPage#ordersPage .ordercard .pp1745-wrap.pp1745-wrap{white-space:normal!important;overflow-wrap:anywhere!important;text-overflow:clip!important;line-height:1.1!important}

@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.45.0 — 2026-11-12
+- Owner picked 1, 3, 6 (`assets/ops-v1745.js/.css`, loaded before boot-v170): (1) thin bar at the bottom of the JÄÄNUD box shrinks from order time to deadline, orange when ≤5 min, hidden when late or pre-order; (3) ETTETELLIMUS cards in "Uued" fold into one line at the bottom (name, day+time, N pitsat), open by tap (sessionStorage `pp1745-open`) or by themselves when under an hour (state `pre` from ops-v1728 ends); (6) long customer/product names: font steps down to 62 %, then two lines at 72 % instead of "…"; name column may shrink next to the time box (it used to run under it). Off switch: `html.pp1745-off`.
+
 ## 17.44.0 — 2026-11-12
 - Owner: time box shows minutes left big ("JÄÄNUD / 18 min") and the ready time small ("valmis 17:12"). Late stays "HILJA / +8 min / pidi 17:48", far pre-order stays "Homme / 17:30" (`assets/ops-v1728.js` timers).
 
