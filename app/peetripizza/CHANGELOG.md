@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.21.0 — 2026-11-12
+- **Seaded redesign** (owner picked design #6): four big tabs Köök · Heli · Printer · Süsteem instead of one 3700 px long column; the chosen tab is remembered on the tablet. Full width, equal white cards, Köök settings in two columns on the wide tablet, switches 30 % bigger, stepper/buttons/selects at least 50 px high, bigger checkboxes in Heli. Duplicate inner "Töölaua seaded / Seaded" heading hidden. No block removed: everything is only sorted and restyled (`assets/ops-v1721.js/css`, loaded by `late-v1714.js`). Tests not run (owner's choice); checked in Chromium at 1280×800 and 390×844.
+
 ## 17.20.0 — 2026-11-12
 - **Login page on phones** (owner): no auto-focus on touch screens (the keyboard jumped up on load and covered the page); choosing a pizzeria scrolls to the password instead. Up to 600 px: pizzerias in one column without the inner scroll box (names were cut mid-word, "Mustamä e"), compact header, 16 px inputs (no iPhone zoom), safe-area padding, bigger submit button. New file `assets/login-v1720.css`. Tests not run (owner's choice); checked in Chromium as iPhone 13 / Pixel 5 / 360 px with 1 and 10 pizzerias.
 

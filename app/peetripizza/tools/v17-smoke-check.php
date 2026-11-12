@@ -42,7 +42,8 @@ foreach (['assets/ops-v1716.js','assets/ops-v1716.css','api/backup.php','api/rel
 if (!str_contains((string)@file_get_contents($root . '/assets/app-core-v141.js'), 'pp1717Mark') || !str_contains((string)@file_get_contents($root . '/assets/card-v177.css'), 'pp1717')) $errors[] = 'Missing v17.17 allergy marks';
 if (!is_file($root . '/assets/ops-v1718.js') || !is_file($root . '/assets/ops-v1718.css') || !str_contains((string)@file_get_contents($root . '/assets/late-v1714.js'), 'ops-v1718.js')) $errors[] = 'Missing v17.18 layer';
 if (!is_file($root . '/assets/ops-v1719.js') || !is_file($root . '/assets/ops-v1719.css') || !str_contains((string)@file_get_contents($root . '/assets/late-v1714.js'), 'ops-v1719.js')) $errors[] = 'Missing v17.19 layer';
-echo "Peetri Pizza v17.20 local smoke check — " . count($seen) . " assets referenced\n";
+if (!is_file($root . '/assets/ops-v1721.js') || !is_file($root . '/assets/ops-v1721.css') || !str_contains((string)@file_get_contents($root . '/assets/late-v1714.js'), 'ops-v1721.js')) $errors[] = 'Missing v17.21 layer';
+echo "Peetri Pizza v17.21 local smoke check — " . count($seen) . " assets referenced\n";
 if ($errors) { foreach ($errors as $error) echo "FAIL: $error\n"; exit(1); }
 echo "OK: all referenced assets present, page IDs and boot guards found.\n";
 echo "NOTE: not a test of upstream LIVE, real printer, or PHP session setup.\n";
