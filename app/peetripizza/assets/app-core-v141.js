@@ -3,9 +3,9 @@ const $ = id => document.getElementById(id);
 const now = Date.now();
 const DEFAULT_ORDERS = [
  // v17.13: three demo orders that look like real LIVE ones (SÕ/VÕ codes, boxes): KAASA, KOHAPEAL, KULLERIGA.
- {id:'demo-201',number:'DEMO-1',status:'new',customerName:'Mari (DEMO)',items:[['Peetri Pizza (large) — Põhi: thin; Äär: regular; Juust: regular',1],['Margherita (small) — Põhi: thick; Äär: regular; Juust: extra',2],['Coca-Cola 0,5l',1]],amount:31.70,created:now-2*60000,minutes:20,serving:'takeAway',payment:'card'},
- {id:'demo-202',number:'DEMO-2',status:'active',customerName:'Jaan (DEMO)',dineIn:true,items:[['Pepperoni (family) — Põhi: thin; Äär: juustuäär; Juust: regular',1],['Küüslaugukaste',2]],amount:24.40,created:now-14*60000,minutes:20,serving:'takeAway',payment:'card'},
- {id:'demo-203',number:'DEMO-3',status:'active',customerName:'Katrin (DEMO)',items:[['Hawaii (large) — Põhi: thin; Äär: regular; Juust: regular; Pakend: branded',1],['Topolino (small) — Põhi: thin; Äär: regular; Juust: none',1]],amount:21.90,created:now-19*60000,minutes:20,serving:'delivery',payment:'online',note:'Helistage, kui olete ukse taga'},
+ {id:'demo-201',number:'DEMO-1',status:'new',customerName:'Mari (DEMO)',customerPhone:'+372 5123 4567',items:[['Peetri Pizza (large) — Põhi: thin; Äär: regular; Juust: regular',1],['Margherita (small) — Põhi: thick; Äär: regular; Juust: extra',2],['Coca-Cola 0,5l',1]],amount:31.70,created:now-2*60000,minutes:20,serving:'takeAway',payment:'card'},
+ {id:'demo-202',number:'DEMO-2',status:'active',customerName:'Jaan (DEMO)',customerPhone:'+372 5555 0101',dineIn:true,items:[['Pepperoni (family) — Põhi: thin; Äär: juustuäär; Juust: regular',1],['Küüslaugukaste',2]],amount:24.40,created:now-14*60000,minutes:20,serving:'takeAway',payment:'card'},
+ {id:'demo-203',number:'DEMO-3',status:'active',customerName:'Katrin (DEMO)',customerPhone:'+372 5822 3344',items:[['Hawaii (large) — Põhi: thin; Äär: regular; Juust: regular; Pakend: branded',1],['Kana-pesto (small) — Põhi: whole grain; Äär: regular; Juust: regular',1],['Topolino (small) — Põhi: thin; Äär: regular; Juust: none',1]],amount:21.90,created:now-19*60000,minutes:20,serving:'delivery',payment:'online',note:'Helistage, kui olete ukse taga'},
  {id:'demo-204',number:'DEMO-4',status:'done',customerName:'Liis (DEMO)',items:[['Kebab (small) — Põhi: thin',1],['Vesi',1]],amount:11.50,created:now-27*60000,completed:now-6*60000,minutes:20,serving:'takeAway',payment:'online'}
 ];
 const safeLoad=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key));return v??fallback}catch{return fallback}};
@@ -100,13 +100,14 @@ function pp178Parse(raw){
  const base=specs.find(v=>/^Põhi\s*:/i.test(v));
  const dough=base?base.replace(/^Põhi\s*:/i,'').trim().toLowerCase():null;
  const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'},family:{thin:'Pere Õ',thick:'Pere P'},medium:{thin:'KÕ',thick:'KP'}}; // v17.14/17.15: pere (family) = "Pere Õ" / "Pere P" (owner's wording), keskmine = KÕ/KP
- const code=(codes[size]&&codes[size][dough])||null;
+ const fit=!!dough&&/whole[\s_-]*grain|wholegrain|täistera|fitlap/i.test(dough); // v17.34: whole grain = "Fitlap": size code only, FITLAP chip stays
+ const code=(codes[size]&&codes[size][dough])||(fit&&size?{large:'S',small:'V',family:'Pere',medium:'K'}[size]||null:null);
  const name=code?main.replace(/\s*\((large|small|family|medium)\)\s*$/i,'').trim():main;
  const words={large:'suur',small:'väike',family:'pere',medium:'keskmine',thin:'õhuke',thick:'paks'};
- const codeTitle=code?`${words[size]||size} · ${words[dough]||dough}`:'';
+ const codeTitle=code?(fit?`${words[size]||size} · fitlap`:`${words[size]||size} · ${words[dough]||dough}`):'';
  // Show only what differs from the standard pizza; "regular" adds nothing for the cook.
  const mods=[];
- for(const v of (code?specs.filter(v=>!/^Põhi\s*:/i.test(v)):specs)){
+ for(const v of (code&&!fit?specs.filter(v=>!/^Põhi\s*:/i.test(v)):specs)){
   const m=v.match(/^([^:]+):\s*(.*)$/);const label=m?m[1].trim():'';const val=(m?m[2]:v).trim();const low=val.toLowerCase();
   if(!val||/^(regular|tavaline|normal|standard|default)$/i.test(low))continue;
   if(/^juust$/i.test(label)){
@@ -114,7 +115,7 @@ function pp178Parse(raw){
    if(/^(extra|double|topelt|lisa|more)$/.test(low)){mods.push(['TOPELT JUUST','warn']);continue;}
    if(/^(light|less|vähe|vähem)$/.test(low)){mods.push(['VÄHEM JUUSTU','warn']);continue;}
   }
-  if(/^põhi$/i.test(label)){mods.push([(words[low]||val)+' põhi','info']);continue;}
+  if(/^põhi$/i.test(label)){mods.push([fit?'FITLAP':(words[low]||val)+' põhi','info']);continue;} // v17.34: owner calls whole grain dough "Fitlap"
   if(/^pakend$/i.test(label)){mods.push([/brand|bränd/i.test(val)?'Brändikarp':'Pakend: '+val,'info']);continue;}
   mods.push([label?label+': '+val:val,'warn']);
  }

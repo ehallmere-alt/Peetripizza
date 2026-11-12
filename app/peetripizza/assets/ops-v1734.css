@@ -1,0 +1,4 @@
+/* Peetri Pizza v17.34 — phone right next to the customer name. */
+html body #ordersPage#ordersPage .ordercard .pp1734-namerow{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:6px 12px!important;min-width:0!important}
+html body #ordersPage#ordersPage .ordercard .pp1734-namerow>.pp92-customer{min-width:0!important;max-width:100%!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp1734-namerow>.pp177-phone{min-height:28px!important;padding:0 10px!important;border-radius:999px!important;border:1px solid #cfdcd4!important;background:#f4f8f5!important;color:#1f3a2a!important;font-size:15px!important;font-weight:800!important;letter-spacing:.01em!important;text-decoration:none!important;white-space:nowrap!important}

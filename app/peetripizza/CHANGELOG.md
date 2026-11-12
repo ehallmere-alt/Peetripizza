@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.34.0 — 2026-11-12
+- Owner: pizza lines ordered several at a time go first, then by size (Pere, Suur, Keskmine, Väike); same pizzas end up next to each other (`assets/ops-v1734.js`, DOM reorder only, LIVE/print untouched). Whole grain dough is shown as "FITLAP" (`pp178Parse` in app-core, also on the ticket). Customer phone sits right next to the name (`assets/ops-v1734.css`). Demo orders got phones and a Fitlap pizza.
+
 ## 17.33.0 — 2026-11-12
 - Owner: print mark hidden on cards, the ILMA/allergy badge in the card header hidden (the "−" chip at the pizza stays), name 25 px with a round initial in the order-type colour (`assets/ops-v1733.js`), 18 px between order cards with a slightly stronger border and shadow (`assets/ops-v1733.css`).
 
