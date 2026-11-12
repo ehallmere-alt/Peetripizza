@@ -77,8 +77,9 @@
    // v17.41: pre-order far ahead shows the day ("Täna"/"Homme") over the time; state for colours
    const cr=Number(o.created),pre=!late&&o.deadlineSource==='official'&&cr>0&&dl-cr>=90*60000&&dl-now>=60*60000;
    const day=()=>{const a=new Date(dl),t=new Date(now);const d0=new Date(t.getFullYear(),t.getMonth(),t.getDate()).getTime();const dd=Math.round((new Date(a.getFullYear(),a.getMonth(),a.getDate()).getTime()-d0)/86400000);return dd<=0?'Täna':dd===1?'Homme':pad(a.getDate())+'.'+pad(a.getMonth()+1);};
-   const l=late?'HILJA':pre?day():'VALMIS';const a=late?'+'+Math.max(1,Math.floor((now-dl)/60000))+' min':hm(dl);
-   const b=late?'pidi '+hm(dl):pre?'':(min<=1?'kohe':'veel '+min+' min');
+   // v17.44 (owner): big = minutes left, small = ready time
+   const l=late?'HILJA':pre?day():'JÄÄNUD';const a=late?'+'+Math.max(1,Math.floor((now-dl)/60000))+' min':pre?hm(dl):Math.max(1,min)+' min';
+   const b=late?'pidi '+hm(dl):pre?'':'valmis '+hm(dl);
    const st=late?'late':pre?'pre':min<=5?'soon':'ok';if(d.dataset.s!==st)d.dataset.s=st;
    const [L,B,S]=d.children;if(L.textContent!==l)L.textContent=l;if(B.textContent!==a)B.textContent=a;if(S.textContent!==b)S.textContent=b;
   }

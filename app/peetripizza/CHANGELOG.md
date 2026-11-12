@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.44.0 — 2026-11-12
+- Owner: time box shows minutes left big ("JÄÄNUD / 18 min") and the ready time small ("valmis 17:12"). Late stays "HILJA / +8 min / pidi 17:48", far pre-order stays "Homme / 17:30" (`assets/ops-v1728.js` timers).
+
 ## 17.43.0 — 2026-11-12
 - Owner: "выровняй, чтобы не накладывалось". Card spacing by gaps instead of margins/divider bars: meta row (#id, type, N pitsat) and footer (price, payment, button) wrap cleanly, chips never touch the button, qty and size chips centred in their columns, Lisaks row aligned. Checked at 1024/1280/1366 for overlaps (`assets/ops-v1741.css`).
 
