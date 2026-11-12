@@ -12,3 +12,5 @@ html body #ordersPage#ordersPage .pp1745-foldline .pp1745-fs{flex:0 0 auto!impor
  html.pp1726-scrolled body .shell>header.topbar.topbar.topbar,html body .shell>header.topbar.topbar.topbar{height:auto!important;min-height:54px!important;background:#fff!important}
  html body #pp1721-tabs,html body .pp140-toolbar,html body #kitchenTools{top:calc(var(--pp1751-hh,58px) + 6px)!important}
 }
+/* 17.52: Versioon without GitHub — the old "Uuenda viimasele versioonile" command (ops-v1715) pointed at main, which is old. Hidden, not deleted. */
+html body #pp1715-update{display:none!important}

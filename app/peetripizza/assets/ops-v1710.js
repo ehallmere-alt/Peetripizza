@@ -12,7 +12,7 @@
  window.pp1710Compare=cmp;
 
  async function info(force){
-  const r=await fetch('api/version.php?github=1'+(force?'&force=1':'')+'&t='+Date.now(),{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
+  const r=await fetch('api/version.php?'+(force?'&force=1':'')+'&t='+Date.now(),{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
   if(!r.ok){const e=new Error('http_'+r.status);e.status=r.status;throw e;}
   return r.json();
  }
@@ -21,7 +21,7 @@
   if($('pp1710-version'))return $('pp1710-version');
   const panel=document.querySelector('#settingsPage .panel');if(!panel)return null;
   const box=document.createElement('div');box.id='pp1710-version';box.className='pp1710-card';
-  box.innerHTML='<div class="pp1710-head"><div><strong>Versioon</strong><small>Mis versioon on planšetis, serveris ja GitHubis</small></div><button type="button" class="secondary" id="pp1710-refresh">↻ Kontrolli</button></div><div class="pp1710-rows" id="pp1710-rows"></div><p class="pp1710-verdict" id="pp1710-verdict" role="status" aria-live="polite"></p>';
+  box.innerHTML='<div class="pp1710-head"><div><strong>Versioon</strong><small>Mis versioon on planšetis ja serveris</small></div><button type="button" class="secondary" id="pp1710-refresh">↻ Kontrolli</button></div><div class="pp1710-rows" id="pp1710-rows"></div><p class="pp1710-verdict" id="pp1710-verdict" role="status" aria-live="polite"></p>';
   const after=panel.querySelector('.pp141-sound-main');
   (after&&after.parentNode===panel)?after.insertAdjacentElement('afterend',box):panel.appendChild(box);
   $('pp1710-refresh').addEventListener('click',()=>check(true));
@@ -36,7 +36,7 @@
   btn.disabled=true;verdict.dataset.state='wait';verdict.textContent='Kontrollin…';
   const page=pageVersion();
   let s=null,errStatus=0;try{const j=await info(force);if(j&&j.ok)s=j;}catch(e){errStatus=e.status||0;}
-  const g=s&&s.github&&s.github.version?s.github:null;
+  const g=null; // 17.52: owner asked to drop the GitHub version from the page
   let html=row('Selles planšetis',esc(page||'?'),'ok');
   let files='';
   if(s){
@@ -49,7 +49,7 @@
   }else{
    html+=row('Serveris',errStatus===401?'logi uuesti sisse':'ei vastanud','bad');
   }
-  html+=g?row('GitHubis uusim',esc(g.version),'ok',g.from==='main'?'<small>main-harus, Release veel puudub</small>':(g.stale?'<small>vana teave, GitHub ei vastanud</small>':'')):row('GitHubis uusim','ei õnnestunud kontrollida','unknown','<small>serveril pole internetti või repo on privaatne</small>');
+  // 17.52: no GitHub row
   rows.innerHTML=html;
 
   const srvV=s&&s.version;let state='ok',msg='',action='';
@@ -57,7 +57,7 @@
   else if(s&&s.files&&s.files.checked&&((s.files.missingCount||0)+(s.files.changedCount||0))){state='bad';msg='Paigaldus pole täielik. Käivita SSH-käsk uuesti või taasta varukoopiast.';}
   else if(srvV&&g&&cmp(g.version,srvV)>0){state='warn';msg='Uus versioon '+g.version+' on olemas. Paigalda SSH-käsuga.';action='<a href="'+esc(/^https:\/\/github\.com\//.test(g.url)?g.url:'https://github.com/')+'" target="_blank" rel="noopener noreferrer">Ava GitHub Releases ↗</a>';}
   else if(srvV&&g){msg='✓ Kõik on uusim ('+srvV+').';}
-  else if(srvV){state='unknown';msg='Serveris on '+srvV+'. GitHubi ei saanud kontrollida.';}
+  else if(srvV){msg='✓ Planšet ja server: '+srvV+'.';}
   else{state='bad';msg='Serverit ei saanud kontrollida.';}
   verdict.dataset.state=state;verdict.innerHTML=esc(msg)+(action?' '+action:'');
   $('pp1710-reload')?.addEventListener('click',()=>{try{navigator.serviceWorker?.controller?.postMessage('pp-clear-shell')}catch(_){}setTimeout(()=>location.reload(),150);});

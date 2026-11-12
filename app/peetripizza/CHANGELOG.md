@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.52.0 — 2026-11-12
+- Owner: remove the GitHub version from the page. Seaded → Süsteem → Versioon shows only this tablet and the server (`assets/ops-v1710.js`, no `?github=1`, so the server no longer asks GitHub). The old "Uuenda viimasele versioonile" command (ops-v1715, pointed at the old main) hidden by CSS in ops-v1751.css. late-v1714 cache key 17.52.0.
+
 ## 17.51.0 — 2026-11-12
 - Owner picked 2, 5, 6.
 - (2) Folded pre-order line shows "Alusta HH:MM" = ready time minus Seaded → Valmistamisaeg (`assets/ops-v1745.js`, chip style in ops-v1751.css because ops-v1745.css is inside the 17.48 bundle).
