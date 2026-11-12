@@ -1,5 +1,14 @@
 # Changelog
 
+## 17.28.0 — 2026-11-12
+- Order cards clearer (owner: "Го все"), `assets/ops-v1728.js/css`, works on the DOM only (data, print, LIVE untouched); `html.pp1728-off` switches it off:
+  1. Pizzas first; non-pizza lines (no size in the name) hidden and shown as one "Lisaks" row of chips.
+  2. Timer box: "VALMIS / 13:22 / veel 17 min", late "HILJA / +3 min / pidi 13:22". Old label/timer only hidden, refreshTimers keeps running.
+  3. Summary chip "3 pitsat · 1 lisa".
+  4. Payment chip from `payment` (online/paid → MAKSTUD, cash → SULARAHA, card → KAART, other value shown as is). LIVE value of payment_type not yet seen on a real order.
+  5. Modifiers: "ilma/vähem" get "−", "topelt/lisa/äär" and extras get "+" in green.
+  6. KARBID / KOHAPEAL row moved to the bottom, above the buttons.
+
 ## 17.27.0 — 2026-11-12
 - Calmer (owner: "как на ёлке все горит"), `assets/ops-v1727.css` only: no pulsing on Uued, new cards (plain orange border 10 s) or late cards (steady red border); type chips light with coloured text; sound-off flash is one soft thin blink; dough bar stays yellow, urgent = red title only.
 
