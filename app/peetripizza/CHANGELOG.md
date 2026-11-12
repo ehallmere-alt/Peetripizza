@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.27.0 — 2026-11-12
+- Calmer (owner: "как на ёлке все горит"), `assets/ops-v1727.css` only: no pulsing on Uued, new cards (plain orange border 10 s) or late cards (steady red border); type chips light with coloured text; sound-off flash is one soft thin blink; dough bar stays yellow, urgent = red title only.
+
 ## 17.26.0 — 2026-11-12
 - Design pack 5, owner picked 1, 3, 5, 6 (not 2 queue numbers, not 4 empty screen) — `assets/ops-v1726.js/css`:
   1. Header sticky on every screen (`.shell>header.topbar.topbar.topbar` beats the old `position:relative!important`), 54 px with a shadow after 40 px of scroll.

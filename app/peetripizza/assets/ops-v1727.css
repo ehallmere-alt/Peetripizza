@@ -1,0 +1,24 @@
+/* Peetri Pizza v17.27 — calmer (owner: "как на ёлке все горит"). Only overrides of 17.24–17.26, no logic changes. */
+
+/* Uued in the header: orange while a new order waits, no pulsing */
+#pp1722-counts.pp1722-has-new .pp1722-c-new{animation:none!important;box-shadow:none!important}
+
+/* new card: short slide in + plain orange border for 10 s, no glowing */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1725-fresh{animation:pp1725-in .35s ease-out!important;box-shadow:0 0 0 2px #f0882a!important}
+
+/* late card: steady red border, no pulsing (the timer box already shows it) */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.urgency-late{animation:none!important;box-shadow:0 0 0 2px #dc2626!important}
+
+/* order type chip: light background, coloured text (the strip on the left keeps the colour) */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kuller .pp118-serving{background:#f1eafe!important;color:#6d28d9!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kaasa .pp118-serving{background:#e7f6ec!important;color:#15803d!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1724-t-kohapeal .pp118-serving{background:#e8effd!important;color:#1d4ed8!important}
+
+/* sound-off flash: one soft blink of a thin frame instead of three bright ones */
+#pp1726-flash{box-shadow:inset 0 0 0 5px #f0882a!important}
+#pp1726-flash.on{animation:pp1726-flash 1.2s ease-in-out 1!important}
+
+/* dough bar: stays yellow; the last minutes only make the text red */
+html body #pp179-dough.pp179-dough-urgent .pp179-dough-box{background:#fff4d6!important;border-color:#e0a800!important;color:#3d2a00!important}
+html body #pp179-dough.pp179-dough-urgent .pp179-dough-box strong{color:#b3261e!important}
+html body #pp179-dough.pp179-dough-urgent .pp179-dough-box button{background:#fff!important;color:#3d2a00!important;border:1px solid #e0a800!important}
