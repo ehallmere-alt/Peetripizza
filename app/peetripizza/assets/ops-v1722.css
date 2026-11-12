@@ -1,0 +1,65 @@
+/* Peetri Pizza v17.22 — header (all six). Old elements only hidden, never removed. */
+html.pp1722 body .topbar .pp160-brand-sub{display:none!important}
+html.pp1722 body .topbar #pp173-fullscreen{display:none!important}
+html.pp1722 body .topbar .top-right>#clock{display:none!important}
+html.pp1722 body .topbar .top-right>.pp158-wait{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;opacity:0!important;pointer-events:none!important;margin:0!important;padding:0!important;border:0!important}
+html.pp1722 body .topbar .top-right{gap:10px!important;align-items:center!important}
+/* 4 Ooteaeg button */
+#pp1722-wait{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:86px;height:50px;padding:0 12px;border-radius:14px;border:1px solid #d9e6dc;background:#f4f8f5;color:#173d27;font-family:inherit;cursor:pointer;line-height:1;box-shadow:none}
+#pp1722-wait small{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#5f7567;margin-bottom:4px}
+#pp1722-wait b{font-size:19px;font-weight:900;white-space:nowrap}
+#pp1722-wait.hot{background:#fff3e2;border-color:#f0a54a;color:#9a4d00;animation:pp1722-pulse 2s ease-in-out infinite}
+@keyframes pp1722-pulse{50%{box-shadow:0 0 0 4px rgba(240,165,74,.25)}}
+#pp1722-wait-pop{position:fixed;z-index:1000;background:#fff;border:1px solid #d9e6dc;border-radius:20px;box-shadow:0 18px 40px rgba(15,45,25,.22);padding:14px 16px 16px}
+#pp1722-wait-pop[hidden]{display:none}
+#pp1722-wait-pop strong{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#5f7567;margin:0 2px 10px}
+#pp1722-wait-pop div{display:flex;gap:10px}
+#pp1722-wait-pop button{width:84px;height:84px;border-radius:16px;border:2px solid #d9e6dc;background:#f4f8f5;color:#173d27;font-family:inherit;font-size:30px;font-weight:900;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+#pp1722-wait-pop button small{font-size:12px;font-weight:800;color:#5f7567}
+#pp1722-wait-pop button.on{background:#1f6b3a;border-color:#1f6b3a;color:#fff}
+#pp1722-wait-pop button.on small{color:#d6eadc}
+/* 2 counters */
+#pp1722-counts{display:inline-flex;gap:6px}
+#pp1722-counts span{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:58px;height:50px;border-radius:14px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;line-height:1}
+#pp1722-counts b{font-size:22px;font-weight:900;margin-bottom:3px;letter-spacing:0}
+.pp1722-c-new{background:#e8f0fe;color:#1d4fa8}
+.pp1722-c-work{background:#fff1e0;color:#a55400}
+#pp1722-counts.pp1722-has-new .pp1722-c-new{background:#2563c9;color:#fff}
+html.pp1722 body .topbar #pp171-ready{background:#e7f5ea!important;border-color:#bfe0c7!important;color:#14632f!important}
+html.pp1722 body .topbar #pp171-ready-count{font-size:17px!important;min-width:26px!important;background:#1f7a3d!important;color:#fff!important}
+/* 1 LIVE dot */
+#pp1722-live[data-state=demo]{display:none}
+#pp1722-live{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 12px 0 10px;border-radius:14px;background:#f4f6f5;border:1px solid #e1e8e3;line-height:1.1;min-width:128px}
+#pp1722-live i{width:14px;height:14px;border-radius:50%;background:#9aa7a0;flex:none}
+#pp1722-live span{display:flex;flex-direction:column}
+#pp1722-live b{font-size:14px;font-weight:900;color:#173d27}
+#pp1722-live small{font-size:11px;color:#617468;white-space:nowrap}
+#pp1722-live[data-state=ok] i{background:#1fa34a;box-shadow:0 0 0 4px rgba(31,163,74,.18)}
+#pp1722-live[data-state=wait] i{background:#f0a020;box-shadow:0 0 0 4px rgba(240,160,32,.2)}
+#pp1722-live[data-state=bad]{background:#fde8e8;border-color:#f3b4b4}
+#pp1722-live[data-state=bad] i{background:#d92b2b;animation:pp1722-blink 1s steps(2) infinite}
+#pp1722-live[data-state=bad] b{color:#b01e1e}
+@keyframes pp1722-blink{50%{opacity:.25}}
+/* 3 clock */
+#pp1722-clock{display:inline-flex;flex-direction:column;align-items:flex-end;line-height:1;min-width:70px}
+#pp1722-clock b{font-size:26px;font-weight:900;color:#173d27;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+#pp1722-clock small{font-size:11px;font-weight:700;color:#617468;margin-top:3px;text-transform:capitalize}
+/* narrower tablets */
+@media (max-width:1180px){#pp1722-live small{display:none}#pp1722-live{min-width:0}html.pp1722 body .topbar .pp171-label{display:none!important}}
+@media (max-width:900px){#pp1722-counts{display:none}#pp1722-clock small{display:none}}
+/* 6 phone: two rows */
+@media (max-width:600px){
+ html.pp1722 body header.topbar.topbar.topbar{flex-wrap:wrap!important;height:auto!important;min-height:0!important;row-gap:8px!important;padding-top:8px!important;padding-bottom:8px!important}
+ html.pp1722 body header.topbar.topbar .brandgroup.brandgroup{flex:1 1 100%!important;width:100%!important;min-width:0!important;overflow:visible!important}
+ html.pp1722 body header.topbar.topbar .top-right.top-right{flex:1 1 100%!important;width:100%!important;justify-content:space-between!important;gap:8px!important;flex-wrap:nowrap!important}
+ #pp1722-wait{height:46px;min-width:76px}
+ #pp1722-live{height:46px;min-width:0;flex:1 1 auto;padding:0 10px}
+ #pp1722-live small{display:block;font-size:10px;overflow:hidden;text-overflow:ellipsis}
+ #pp1722-live span{min-width:0;overflow:hidden}
+ #pp1722-wait b{font-size:17px}
+ #pp1722-clock b{font-size:22px}
+ #pp1722-wait-pop button{width:58px;height:66px;font-size:24px}
+ #pp1722-wait-pop div{gap:6px}
+}
+@media (min-width:601px){#pp1722-live:not([data-state=demo]):not(.pp1722-off) small:not(:empty)::before{content:"uuendatud "}}
+html body #drawer #pp1722-fs-nav>span{width:30px!important;height:30px!important;display:grid!important;place-items:center!important;background:#f1f5f2!important;border-radius:9px!important;color:#386448!important;font-size:18px!important}

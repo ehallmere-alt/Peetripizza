@@ -1,5 +1,15 @@
 # Changelog
 
+## 17.22.0 — 2026-11-12
+- **Header** (owner: "Давай" = all six), `assets/ops-v1722.js/css`, loaded from `dashboard.php` (not late) so the header does not jump:
+  1. LIVE status: green / orange / red dot with "uuendatud N s tagasi" (from `pp150:live-synced`); red and blinking after 3 min without data or with no internet. Hidden in DEMO (the DEMO|LIVE switch already says it).
+  2. Counters Uued (blue, solid when there are new orders) and Töös (orange); Valmis button in green.
+  3. Bigger clock (Tallinn time) with weekday and date.
+  4. Ooteaeg as one big button; tap opens big tiles 15/20/30/45/60. It sets the same select and fires the same `change` event as before; the 17.18 hint makes the button orange.
+  5. "TEENINDUS · KÖÖGI TÖÖLAUD" hidden; fullscreen button moved to the side menu ("Täisekraan").
+  6. Phone: header in two rows, nothing falls out.
+  Old header elements are only hidden. 17.21 tab font fixed (was a broken `font:` shorthand). Tests not run (owner's choice); checked in Chromium at 1280, 1024, 390 px.
+
 ## 17.21.0 — 2026-11-12
 - **Seaded redesign** (owner picked design #6): four big tabs Köök · Heli · Printer · Süsteem instead of one 3700 px long column; the chosen tab is remembered on the tablet. Full width, equal white cards, Köök settings in two columns on the wide tablet, switches 30 % bigger, stepper/buttons/selects at least 50 px high, bigger checkboxes in Heli. Duplicate inner "Töölaua seaded / Seaded" heading hidden. No block removed: everything is only sorted and restyled (`assets/ops-v1721.js/css`, loaded by `late-v1714.js`). Tests not run (owner's choice); checked in Chromium at 1280×800 and 390×844.
 

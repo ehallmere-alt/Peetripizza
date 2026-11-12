@@ -3,7 +3,7 @@ html body #settingsPage>.panel.pp1721{max-width:1400px!important;width:auto!impo
 html body #settingsPage>.panel.pp1721>.section-tag,html body #settingsPage>.panel.pp1721>h2{display:none!important}
 html body #settingsPage>.panel.pp1721>.pp163-settings-intro{margin:0 0 12px!important;font-size:14px!important;color:#5b6b62!important}
 #pp1721-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px;position:sticky;top:76px;z-index:5;padding:8px;background:#fff;border:1px solid #e3ebe5;border-radius:18px;box-shadow:0 4px 14px rgba(20,60,35,.06)}
-#pp1721-tabs button{flex:1 1 0;min-width:120px;min-height:56px;border-radius:13px;border:0;background:#f1f6f2;color:#1d4a30;font:800 17px/1 inherit;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:none}
+#pp1721-tabs button{flex:1 1 0;min-width:120px;min-height:56px;border-radius:13px;border:0;background:#f1f6f2;color:#1d4a30;font-family:inherit;font-size:17px;font-weight:800;line-height:1;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:none}
 #pp1721-tabs button span{font-size:18px;opacity:.75}
 #pp1721-tabs button.on{background:#1f6b3a;color:#fff}
 #pp1721-tabs button.on span{opacity:1}
