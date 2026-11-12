@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.49.0 — 2026-11-12
+- Owner picked 2, 3, 5, 6 (`assets/ops-v1749.js/.css`, `assets/dough-v1749.css`, `check.php`, `api/heartbeat.php`, `assets/check-v1749.js/.css`).
+- (2) Seaded → Köök: Tahvli kiirrežiim, Suur köögiekraan, Kompaktne töölaud, Ülikompaktsed tellimused, Keri uue tellimuseni moved (same nodes) into folded "Veel seadeid".
+- (3) Statistika: big line "N tellimust · N pitsat · N € käive" on top (Tellimusi/Käive/Pitsasid tiles only hidden), tiles and service chips without colour bars, charts in greens.
+- (5) Owner check page `check.php` (login): tablets post a heartbeat each minute (random device id in localStorage `pp1749-device`, version, DEMO/LIVE, last LIVE data time, page, screen; no order data) to `api/heartbeat.php` → `private_data/heartbeat-<id>.json`, 7 days.
+- (6) Taigna tellimine: products as cards in two columns, 52 px buttons, total + Salvesta sticky at the bottom.
+
 ## 17.48.0 — 2026-11-12
 - Owner picked 1, 3, 4, 5, 6 of the whole-app pack.
 - (1) Faster start: the 35 head stylesheets + inline drawer style are glued into `assets/app-v1748.css` (same order, comments stripped, `tools/css-bundle.py`); CSS requests 41 → 7, screenshots of Tellimused/Tooted/Statistika/Seaded identical pixel for pixel. Original links kept in an HTML comment after the new link; source files stay. Later layers keep their own `<link>` after it. ops-v1714 compression check also looks at app-v17*.css.
