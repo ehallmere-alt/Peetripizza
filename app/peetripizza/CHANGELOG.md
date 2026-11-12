@@ -1,7 +1,7 @@
 # Changelog
 
 ## 17.36.0 — 2026-11-12
-- Owner: green phone handset in front of the customer name (tap = call), the number as plain text next to the name (`assets/ops-v1736.js/.css`). No handset when the order has no phone.
+- Owner: green phone handset in front of the customer name ; the number is hidden until the handset is tapped, then shown next to the name (tap the number = call) (`assets/ops-v1736.js/.css`). No handset when the order has no phone.
 
 ## 17.35.0 — 2026-11-12
 - Owner: "TOPELT JUUST" chip is now "JUUST", "Äär: juustuäär" is "Juustuäär" (app-core `pp178Parse`, + sign on card and ticket). Round initial at the name hidden. KOLDE under the Peetri Pizza logo. Fullscreen button in the header where the sound button was; sound on/off is a side-menu item that clicks the hidden `#soundBtn`. "Lõpeta vahetus" and the duplicate "Täisekraan" hidden from the menu (`assets/ops-v1735.js/.css`).

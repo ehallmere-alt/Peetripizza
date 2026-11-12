@@ -2,7 +2,7 @@
 /** Auto-generated 17.36.0 file checksum map; do not include this file itself. */
 return [
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '38250e621ba907578c68229afbc744efaa238261f317fff3c60caa0b2ccf8aeb',
+    'CHANGELOG.md' => '6c4baf440e901e0de9b4e9dc917196e164862d61d850e0b9ee0f4b14e979b464',
     'CLAUDE-HANDOFF.md' => '4d671452b73e44dd9af979d1d2af88421334c593add82155ca7f8033990125c4',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'dbef6c207f83dab2f9c5eb8639773e6625714778a76b3acdf6b58302936ab3df',
@@ -122,8 +122,8 @@ return [
     'assets/ops-v1734.js' => 'd204b3c8f705234b476997e0a4a892d07b1b6365e0c27fbb5ee529d9ae17e30d',
     'assets/ops-v1735.css' => 'b8de15881edf5a0259821821e83bb4c470111f1d022dfac946f4eb994a99d168',
     'assets/ops-v1735.js' => '7926a2995b358f0d885f4789525ce5e3de4b10ddbd56e2cc960bebe2d1408265',
-    'assets/ops-v1736.css' => '1832560a17b653b02ba3919c5b87fbe91038c607989b96354c0e57d9cc0f4e94',
-    'assets/ops-v1736.js' => 'da74fadb64cac37a346716582d0589905e1e4f0f41ef017d93a1c1eb7ebcee00',
+    'assets/ops-v1736.css' => '426322ed99f81e86069abee96eb8dea8966c06a03d05509305e4b7205d2a2d5c',
+    'assets/ops-v1736.js' => '56ca4889abd3375542a91fa9d5d25e63005ad7b953f36eac0401fbae63098479',
     'assets/ops-v174.css' => 'f0c95a5f92bdd924149dca5b266d84c3b8c0bf04370f5c8c681fcdc9260645d5',
     'assets/ops-v174.js' => '6b3de4fa339e5539ca87b56949212b3cbac5589bfca821ddb5ae1e11d548e200',
     'assets/ops-v176.css' => 'f6181a42de1705ec150be6b147a8c36f4ecceef4bec40b279713d319eb2dfea4',
