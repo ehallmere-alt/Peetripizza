@@ -1,0 +1,36 @@
+/* Peetri Pizza v17.39 — design pass: same calm style on every screen (owner: "ровно, в одном стиле, под бренд"). */
+
+/* Tooted: "Kodulehel otsas" folded at the bottom */
+#pp176-missing{margin-top:18px!important}
+#pp176-missing.pp1739-has .pp176-missing-head{cursor:pointer;display:flex!important;align-items:center;gap:12px;flex-wrap:wrap}
+#pp176-missing.pp1739-has .pp176-missing-head::after{content:attr(data-n) " · Näita ▾";margin-left:auto;font-size:14px;font-weight:800;color:#1f6b3a;background:#eef5f0;border-radius:10px;padding:8px 12px}
+#pp176-missing.pp1739-has.pp1739-open .pp176-missing-head::after{content:"Peida ▴"}
+#pp176-missing.pp1739-has:not(.pp1739-open) .pp176-chips{display:none!important}
+
+/* Order details window: same as the card (no letter circle, no loud top badge, green phone) */
+#orderDialog .pp1733-ini,#orderDialog .pp117-identity-line .pp1717-badge{display:none!important}
+#orderDialog .pp1734-namerow{display:flex!important;align-items:center!important;gap:6px 12px!important;flex-wrap:wrap!important}
+#orderDialog a.pp177-phone{color:#1f6b3a!important;text-decoration:none!important;font-size:17px!important;font-weight:800!important;background:#eef5f0!important;border-radius:999px!important;padding:4px 12px!important;border:0!important}
+
+/* Statistika: same tabs as Seaded, calm tinted type tiles instead of solid colours */
+#statisticsPage .pp1719-tabs{display:flex!important;width:100%!important;box-sizing:border-box!important;gap:10px!important;flex-wrap:wrap!important;background:#fff;border:1px solid #e3ebe5;border-radius:16px;padding:8px}
+#statisticsPage .pp1719-tabs button{flex:1 1 0!important;min-width:110px!important;min-height:48px!important;border-radius:12px!important;border:0!important;background:#f1f6f2!important;color:#1d4a30!important;font-weight:800!important;font-size:16px!important;box-shadow:none!important;white-space:nowrap!important}
+#statisticsPage .pp1719-tabs button[aria-pressed="true"]{background:#1f6b3a!important;color:#fff!important}
+#statisticsPage .pp1719-service>span{color:#13221a!important;border:1px solid #e3ebe5!important;border-left-width:6px!important}
+#statisticsPage .pp1719-service>span b{color:#13221a!important}
+#statisticsPage .pp1719-service>span:nth-child(1){background:#f0faf3!important;border-left-color:#16a34a!important}
+#statisticsPage .pp1719-service>span:nth-child(2){background:#f6f2fe!important;border-left-color:#7c3aed!important}
+#statisticsPage .pp1719-service>span:nth-child(3){background:#eff4fe!important;border-left-color:#2563eb!important}
+#statisticsPage .pp1719-service>span svg{color:inherit}
+
+/* Side menu: every item the same weight and colour */
+#drawer nav .navitem{font-weight:700!important;color:#1d3a2a!important}
+#drawer nav .navitem.active{color:#14532d!important}
+
+/* Native selects look like the rest of the inputs */
+#historySort,#orderSort,#pp156-pickup-sort,#pp169-paper,#pp1716-pick,#pp141-sound-tone{appearance:none;-webkit-appearance:none;min-height:44px;border:1px solid #cfdcd4!important;border-radius:12px!important;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231f6b3a' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center!important;padding:0 40px 0 14px!important;font-weight:700!important;color:#13221a!important;font-family:inherit!important}
+#orderDialog .pp177-mod:has(mark){background:#fdecec!important;border:1px solid #f5c2c2!important;color:#c62828!important;font-weight:800!important}
+#orderDialog .pp177-mod mark{background:transparent!important;color:inherit!important;padding:0!important}
+/* Valmis: section title left, next to its icon, like the other sections */
+html body .history-head{justify-content:flex-start!important;gap:14px!important}
+html body .history-head .pp111-history-heading{text-align:left!important;margin:0!important;order:2}

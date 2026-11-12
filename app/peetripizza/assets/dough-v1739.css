@@ -1,0 +1,6 @@
+/* Peetri Pizza v17.39 — Taigna tellimine with the same header as the kitchen app: real logo, location badge. */
+header.top .brand.pp1739-brand{display:flex;align-items:center;gap:10px;font-size:0}
+header.top .brand.pp1739-brand img{height:34px;width:auto;display:block}
+header.top .branch{background:#eef5f0!important;color:#14532d!important;font-weight:900!important;letter-spacing:.045em;text-transform:uppercase;border-radius:8px!important}
+header.top .back{font-weight:800}
+header.top .brand.pp1739-brand img{mix-blend-mode:multiply}

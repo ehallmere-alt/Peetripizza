@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.39.0 — 2026-11-12
+- Owner design pass ("ровно, в одном стиле, под бренд"): Tooted → "Kodulehel otsas" moved to the bottom and folded (tap the title, "N otsas · Näita"). Order details window like the card (no letter circle, no loud top badge, green phone chip, red-tinted ILMA chip). Statistika period tabs like Seaded tabs, Kaasa/Kulleriga/Kohapeal tiles tinted instead of solid colours. Side menu items one weight, footer shows the real version (was v17.15). Native selects styled. Valmis section title left. Taigna tellimine header uses the real logo and the location badge (`assets/ops-v1739.js/.css`, `assets/dough-v1739.css`, `dough.php`).
+
 ## 17.38.0 — 2026-11-12
 - Owner: KOLDE centred under the logo, Uued/Töös counters hidden from the header (`#pp1722-counts`, element kept). Seaded → Köök: "Ekraani suurus" 80–130 % (A− / slider / A+ / tap the % to reset), CSS zoom on <html>, saved per tablet in localStorage `pp1738-zoom` (`assets/ops-v1738.js/.css`).
 
