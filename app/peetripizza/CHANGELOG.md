@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.64.0 — 2026-11-12
+- Owner: "эти сигналы не слышно". `assets/sound-v141.js`: amplitude cap .28 removed, master compressor + gain; new tones Kell (default), Häire, Piiks-piiks in 1–3 kHz; urgent = 2× four fast 2.4 kHz beeps; offline louder. Old tones kept as "Vana: …". New tone key `pp-sound-tone-v1764` so every tablet starts on Kell; default volume 80%.
+
 ## 17.63.0 — 2026-11-12
 - Owner: ready orders either under the columns (as before) or as a third column next to Uued / Valmistamisel; on phones a third tab "Valmis". Switch in Seaded → Köök → "Valmis tellimused" (per tablet, localStorage `pp1763-valmis`). `assets/ops-v1763.js/.css` move the existing #pp157-ready-section node only.
 - Fix: "karpi pole vaja" row really hidden now (17.60 rule lost on specificity).

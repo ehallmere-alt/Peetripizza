@@ -1,13 +1,16 @@
-/* Peetri Pizza v14.1 — local Web Audio notifications, never communicates with upstream API. */
+/* Peetri Pizza v14.1 — local Web Audio notifications, never communicates with upstream API.
+   v17.64: owner «эти не слышно» — new loud tones (bell, alarm, beep) in 1–3 kHz that cut through kitchen noise,
+   master compressor+gain instead of the old .28 amplitude cap; old tones kept as options. */
 (function(){
  'use strict';
  const AudioCtor=window.AudioContext||window.webkitAudioContext;
- const allowedTones=new Set(['double','classic','soft']);
+ const allowedTones=new Set(['bell','alarm','beep','double','classic','soft']);
  const read=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key));return v===null?fallback:v}catch(_){return fallback}};
- const state={tone:read('pp-sound-tone-v141','double'),volume:read('pp-sound-volume-v141',60)};
- if(!allowedTones.has(state.tone))state.tone='double';
+ const TONE_KEY='pp-sound-tone-v1764';
+ const state={tone:read(TONE_KEY,'bell'),volume:read('pp-sound-volume-v141',80)};
+ if(!allowedTones.has(state.tone))state.tone='bell';
  state.volume=Math.max(0,Math.min(100,Number(state.volume)||0));
- let ctx=null,needsGesture=true,failed=false,activePromise=null;
+ let ctx=null,bus=null,needsGesture=true,failed=false,activePromise=null;
  const id=name=>document.getElementById(name);
  const enabled=()=>!!read('pp-sound-v1',false);
  const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch(_){}};
@@ -31,7 +34,9 @@
  function unlock(){
    if(!AudioCtor){failed=true;update();return Promise.resolve(false)}
    try{
-     if(!ctx){ctx=new AudioCtor();ctx.onstatechange=()=>{needsGesture=ctx.state!=='running';update()};}
+     if(!ctx){ctx=new AudioCtor();ctx.onstatechange=()=>{needsGesture=ctx.state!=='running';update()};
+       try{const comp=ctx.createDynamicsCompressor();comp.threshold.value=-20;comp.knee.value=6;comp.ratio.value=8;comp.attack.value=.002;comp.release.value=.15;
+         const g=ctx.createGain();g.gain.value=1.6;comp.connect(g);g.connect(ctx.destination);bus=comp;}catch(_){bus=null;}}
      if(ctx.state==='running'){needsGesture=false;failed=false;update();return Promise.resolve(true)}
      // Always call resume directly from gesture event when possible.
      if(!activePromise){activePromise=ctx.resume().then(()=>{
@@ -43,34 +48,46 @@
  function oscillatorAt(start,hz,duration,wave,level){
    const osc=ctx.createOscillator(),env=ctx.createGain();
    osc.type=wave;osc.frequency.setValueAtTime(hz,start);
-   const amplitude=Math.max(.0001,Math.min(.28,level*(state.volume/100)));
+   const amplitude=Math.max(.0001,Math.min(1,level*(state.volume/100)));
    env.gain.setValueAtTime(.0001,start);
    env.gain.exponentialRampToValueAtTime(amplitude,start+.015);
    env.gain.exponentialRampToValueAtTime(.0001,start+duration);
-   osc.connect(env);env.connect(ctx.destination);
+   osc.connect(env);env.connect(bus||ctx.destination);
    osc.start(start);osc.stop(start+duration+.015);
    osc.onended=()=>{osc.disconnect();env.disconnect()};
+ }
+ // v17.64 bell: inharmonic partials like a counter bell, decays naturally
+ function bellAt(t,hz,level){
+   [[1,1,1.1],[2.76,.55,.7],[5.4,.3,.45],[8.93,.15,.3]].forEach(([m,l,d])=>{
+     const osc=ctx.createOscillator(),env=ctx.createGain();osc.type='sine';osc.frequency.setValueAtTime(hz*m,t);
+     const a=Math.max(.0001,Math.min(1,level*l*(state.volume/100)));
+     env.gain.setValueAtTime(.0001,t);env.gain.exponentialRampToValueAtTime(a,t+.004);env.gain.exponentialRampToValueAtTime(.0001,t+d);
+     osc.connect(env);env.connect(bus||ctx.destination);osc.start(t);osc.stop(t+d+.02);osc.onended=()=>{osc.disconnect();env.disconnect()};
+   });
  }
  function urgentPattern(){
    if(!ctx||ctx.state!=='running'||state.volume<=0||document.hidden)return false;
    try{const t=ctx.currentTime+.025;
-     oscillatorAt(t,740,.13,'square',.12);oscillatorAt(t+.18,1040,.14,'square',.12);
-     oscillatorAt(t+.38,740,.13,'square',.12);return true;
+     for(let i=0;i<4;i++){oscillatorAt(t+i*.16,2400,.1,'square',.55);}
+     for(let i=0;i<4;i++){oscillatorAt(t+.8+i*.16,2400,.1,'square',.55);}return true;
    }catch(_){return false}
  }
  function offlinePattern(){
    if(!ctx||ctx.state!=='running'||state.volume<=0||document.hidden)return false;
-   try{const t=ctx.currentTime+.025;oscillatorAt(t,560,.20,'sine',.14);oscillatorAt(t+.24,400,.27,'sine',.14);return true;}catch(_){return false}
+   try{const t=ctx.currentTime+.025;oscillatorAt(t,880,.25,'square',.4);oscillatorAt(t+.3,587,.4,'square',.4);return true;}catch(_){return false}
  }
  function soundPattern(){
    if(!ctx||ctx.state!=='running'||state.volume<=0||document.hidden)return false;
    try{
      const t=ctx.currentTime+.025;
-     if(state.tone==='classic')oscillatorAt(t,820,.25,'sine',.22);
+     if(state.tone==='bell'){bellAt(t,1320,.9);bellAt(t+.45,1320,.9);bellAt(t+.9,1760,1);}
+     else if(state.tone==='alarm'){for(let i=0;i<3;i++){oscillatorAt(t+i*.5,1000,.22,'square',.5);oscillatorAt(t+i*.5+.24,1500,.22,'square',.5);}}
+     else if(state.tone==='beep'){for(let i=0;i<3;i++){oscillatorAt(t+i*.3,2000,.18,'square',.55);}}
+     else if(state.tone==='classic')oscillatorAt(t,820,.25,'sine',.5);
      else if(state.tone==='soft'){
-       oscillatorAt(t,560,.22,'sine',.16);oscillatorAt(t+.25,710,.31,'sine',.14);
+       oscillatorAt(t,560,.22,'sine',.4);oscillatorAt(t+.25,710,.31,'sine',.38);
      }else{
-       oscillatorAt(t,880,.17,'triangle',.24);oscillatorAt(t+.23,1100,.23,'triangle',.22);
+       oscillatorAt(t,880,.17,'triangle',.6);oscillatorAt(t+.23,1100,.23,'triangle',.55);
      }
      return true;
    }catch(_){failed=true;update();return false}
@@ -97,12 +114,12 @@
    unlock();
  },{capture:true});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&enabled())update()});
- id('pp141-sound-tone')?.addEventListener('change',e=>{if(!allowedTones.has(e.target.value))return;state.tone=e.target.value;save('pp-sound-tone-v141',state.tone);update()});
+ id('pp141-sound-tone')?.addEventListener('change',e=>{if(!allowedTones.has(e.target.value))return;state.tone=e.target.value;save(TONE_KEY,state.tone);update();preview()});
  id('pp141-sound-volume')?.addEventListener('input',e=>{state.volume=Math.max(0,Math.min(100,Number(e.target.value)||0));save('pp-sound-volume-v141',state.volume);update()});
  id('pp141-activate-sound')?.addEventListener('click',()=>{unlock()});
  id('pp141-test-sound')?.addEventListener('click',()=>preview());
- window.addEventListener('storage',e=>{if(['pp-sound-v1','pp-sound-tone-v141','pp-sound-volume-v141'].includes(e.key)){
-   state.tone=read('pp-sound-tone-v141','double');state.volume=Math.max(0,Math.min(100,Number(read('pp-sound-volume-v141',60))||0));update();
+ window.addEventListener('storage',e=>{if(['pp-sound-v1',TONE_KEY,'pp-sound-volume-v141'].includes(e.key)){
+   state.tone=read(TONE_KEY,'bell');if(!allowedTones.has(state.tone))state.tone='bell';state.volume=Math.max(0,Math.min(100,Number(read('pp-sound-volume-v141',80))||0));update();
  }});
  window.PPSound={play,unlock,preview,sync:update,diagnostics:()=>({supported:!!AudioCtor,enabled:enabled(),state:ctx?.state||'not-initialized',tone:state.tone,volume:state.volume})};
  update();
