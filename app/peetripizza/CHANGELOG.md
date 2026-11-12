@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.26.0 — 2026-11-12
+- Design pack 5, owner picked 1, 3, 5, 6 (not 2 queue numbers, not 4 empty screen) — `assets/ops-v1726.js/css`:
+  1. Header sticky on every screen (`.shell>header.topbar.topbar.topbar` beats the old `position:relative!important`), 54 px with a shadow after 40 px of scroll.
+  3. "Telli tainas!" reminder: a slim full-width bar at the bottom; the page gets 64 px bottom padding while it shows, so no card is covered.
+  5. New order while sound is off or blocked (PPSound state not running): the screen frame flashes orange 3 times. Not during the first 8 s, not for more than 3 at once.
+  6. Tooted: compact tiles (no category caption, no inner button, smaller icon), ~6 per row at 1280 px.
+
 ## 17.25.0 — 2026-11-12
 - Design pack 4, owner picked 1, 2, 4, 5, 6 (`assets/ops-v1725.js/css`):
   1. Header: the Uued counter turns orange and pulses while a new order waits.
