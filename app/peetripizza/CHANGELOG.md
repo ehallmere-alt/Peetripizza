@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.37.0 — 2026-11-12
+- Owner: preparation time is chosen when a new order is accepted. "Võta vastu" opens a sheet (10–60 min, default = Ooteaeg); the card timer becomes now + N min. LIVE: `api/kitchen-status.php` takes optional `prep_minutes` (5–180) on new→active and stores `prep_minutes`/`prep_until` in the kitchen record (shared by tablets, never sent upstream); `live-status-v155.js` overlay uses it as the deadline until the order is done. DEMO: sets the demo order's deadline (`assets/ops-v1737.js/.css`).
+
 ## 17.36.0 — 2026-11-12
 - Owner: green phone handset in front of the customer name ; the number is hidden until the handset is tapped, then shown next to the name (tap the number = call) (`assets/ops-v1736.js/.css`). No handset when the order has no phone.
 

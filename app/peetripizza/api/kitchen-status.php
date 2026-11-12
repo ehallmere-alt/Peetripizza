@@ -46,6 +46,11 @@ if(!in_array($next,$allow[$from]??[],true))pp153_reply(422,['ok'=>false,'error'=
 $time=(new DateTimeImmutable('now',new DateTimeZone('Europe/Tallinn')))->format(DATE_ATOM);
 $actor=is_string($_SESSION['pp_staff']??null)?substr($_SESSION['pp_staff'],0,80):'Köök';
 $rec=['status'=>$next,'revision'=>$revision+1,'changed_at'=>$time,'changed_by'=>$actor,'ready_at'=>$next==='done'?$time:($next==='active'?null:($old['ready_at']??null))];
+// v17.37: preparation time chosen in the kitchen when the order is accepted (kitchen only, never sent upstream).
+$prep=$payload['prep_minutes']??null;
+if($prep!==null&&(!is_int($prep)||$prep<5||$prep>180))pp153_reply(422,['ok'=>false,'error'=>'invalid_prep_minutes']);
+if($next==='active'&&$from==='new'&&is_int($prep)){$rec['prep_minutes']=$prep;$rec['prep_until']=(int)round(microtime(true)*1000)+$prep*60000;}
+elseif(is_array($old)&&isset($old['prep_until'])){$rec['prep_minutes']=(int)($old['prep_minutes']??0);$rec['prep_until']=(int)$old['prep_until'];}
 $state['records'][$order]=$rec;
 $state['events'][]=['event_id'=>bin2hex(random_bytes(8)),'id'=>$order,'from'=>$from,'to'=>$next,'at'=>$time,'actor'=>$actor,'revision'=>$revision+1,'source'=>'internal_kitchen'];
 $state['events']=array_slice($state['events'],-400);

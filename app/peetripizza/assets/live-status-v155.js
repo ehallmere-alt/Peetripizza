@@ -15,7 +15,8 @@ function overlay(o){
  if(!local||!Object.hasOwn(stateRank,local)||!Object.hasOwn(stateRank,orig))return {...o,officialStatus:orig};
  const effective=stateRank[local]>stateRank[orig]?local:orig;
  const internal=effective!==orig;
- return {...o,officialStatus:orig,status:effective,internalStatus:internal,
+ const prep=Number(rec.prep_until)>0&&effective!=='done'?{deadline:Number(rec.prep_until),minutes:Number(rec.prep_minutes)||o.minutes,deadlineSource:'kitchen'}:{}; // v17.37: time chosen at Võta vastu
+ return {...o,...prep,officialStatus:orig,status:effective,internalStatus:internal,
   completed:internal&&effective==='done'&&rec.ready_at?Date.parse(rec.ready_at)||o.completed:o.completed};
 }
 window.PPKitchenStatus={overlay, ready:()=>connected&&writable(), revision:id=>records[id]?.revision||0, get:id=>records[id], pull};
@@ -43,7 +44,7 @@ document.addEventListener('click',async e=>{
  const raw=window.pp153RawLiveOrders?.find(o=>o.id===id);
  if(!raw){status('⚠ Tellimust ei leitud',true);return;}
  outstanding.add(id);button.disabled=true;button.dataset.pp155Saving='yes';button.textContent='⌛ Salvestan…';
- try{const response=await fetch(endpoint,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({id,status:next,official_status:raw.status,expected_revision:records[id]?.revision||0})});
+ try{const response=await fetch(endpoint,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({id,status:next,official_status:raw.status,expected_revision:records[id]?.revision||0,...(next==='active'&&Number.isInteger(window.PP1737?.take?.(id))?{prep_minutes:window.PP1737.last}:{})})});
   const data=await response.json();
   if(!response.ok){if(response.status===409&&data.records){records=data.records;window.pp153UpdateKitchenUI?.();throw new Error('Teine töötaja muutis tellimust. Andmed värskendatud.')}throw new Error(data.error||'HTTP '+response.status);}
   records=data.records;status('● Salvestatud köögi serverisse · kliendile EI SAADETA');window.pp153UpdateKitchenUI?.();window.dispatchEvent(new CustomEvent('pp155:status-saved',{detail:{id,status:next}}));
