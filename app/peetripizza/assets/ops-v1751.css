@@ -1,0 +1,14 @@
+/* Peetri Pizza v17.51 — CSV button; Väljastus: a ready order waiting 15+ min gets an orange time box (calm, no blinking). */
+html body #pp1719-report .pp1719-report-head{display:flex!important;align-items:center!important;gap:10px!important}
+html body #pp1719-report #pp1751-csv{margin-left:auto!important}
+html body #pp1719-report #pp1751-csv+#pp1719-print{margin-left:0!important}
+html body #ordersPage#ordersPage #pp1711-pickup .pp1711-copy.pp1711-copy.pp1711-copy .pp112-completed:has(.pp1730-wait.long){background:#fcefd6!important}
+html body #ordersPage#ordersPage #pp1711-pickup .pp1711-copy.pp1711-copy.pp1711-copy .pp112-completed:has(.pp1730-wait.long)>*{color:#8a5208!important}
+html body #ordersPage#ordersPage #pp1711-pickup .pp1711-copy.pp1711-copy.pp1711-copy .pp112-completed>em.pp1730-wait.long{font-weight:800!important;font-size:17px!important}
+html body #ordersPage#ordersPage .pp1745-foldline .pp1745-fs{flex:0 0 auto!important;white-space:nowrap!important;padding:4px 10px!important;border-radius:8px!important;background:#fdf0dc!important;color:#8a5208!important;font-size:16px!important;font-weight:800!important}
+/* Phone (narrow): the header wraps into two rows. The scrolled header kept 54 px (ops-v1726), so the second row
+   (Ooteaeg, DEMO, clock) hung over the page. Let it grow; sticky bars sit under its real height (--pp1751-hh, JS). */
+@media (max-width:760px){
+ html.pp1726-scrolled body .shell>header.topbar.topbar.topbar,html body .shell>header.topbar.topbar.topbar{height:auto!important;min-height:54px!important;background:#fff!important}
+ html body #pp1721-tabs,html body .pp140-toolbar,html body #kitchenTools{top:calc(var(--pp1751-hh,58px) + 6px)!important}
+}

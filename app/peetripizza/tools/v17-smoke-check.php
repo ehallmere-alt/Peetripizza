@@ -64,7 +64,7 @@ if (!is_file($root . '/assets/ops-v1739.js') || !is_file($root . '/assets/ops-v1
 if (!is_file($root . '/assets/ops-v1740.js') || !is_file($root . '/assets/ops-v1740.css') || !is_file($root . '/assets/login-v1740.css') || !is_file($root . '/assets/dough-v1740.css') || !is_file($root . '/assets/manifest-v1740.json') || !str_contains((string)@file_get_contents($root . '/dashboard.php'), 'ops-v1740.js')) $errors[] = 'Missing v17.40 layer';
 if (!is_file($root . '/assets/ops-v1741.js') || !is_file($root . '/assets/ops-v1741.css') || !str_contains((string)@file_get_contents($root . '/dashboard.php'), 'ops-v1741.js')) $errors[] = 'Missing v17.41 layer';
 if (!is_file($root . '/assets/app-v1748.css') || !str_contains($html, 'assets/app-v1748.css?v=') || !is_file($root . '/api/dough-site.php')) $errors[] = 'Missing v17.48 layer (one stylesheet, dough-site)';
-echo "Peetri Pizza v17.50 local smoke check — " . count($seen) . " assets referenced\n";
+echo "Peetri Pizza v17.51 local smoke check — " . count($seen) . " assets referenced\n";
 if ($errors) { foreach ($errors as $error) echo "FAIL: $error\n"; exit(1); }
 echo "OK: all referenced assets present, page IDs and boot guards found.\n";
 echo "NOTE: not a test of upstream LIVE, real printer, or PHP session setup.\n";

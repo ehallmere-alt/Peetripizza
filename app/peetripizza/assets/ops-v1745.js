@@ -35,13 +35,19 @@
   const want=pre&&!open.has(id);
   let line=card.querySelector(':scope>.pp1745-foldline');
   if(want){
-   if(!line){line=document.createElement('button');line.type='button';line.className='pp1745-foldline';line.innerHTML='<b>ETTETELLIMUS</b><span class="pp1745-fn"></span><span class="pp1745-ft"></span><span class="pp1745-fc"></span><i aria-hidden="true">▾</i>';card.prepend(line);}
+   if(!line){line=document.createElement('button');line.type='button';line.className='pp1745-foldline';line.innerHTML='<b>ETTETELLIMUS</b><span class="pp1745-fn"></span><span class="pp1745-ft"></span><span class="pp1745-fs"></span><span class="pp1745-fc"></span><i aria-hidden="true">▾</i>';card.prepend(line);}
+   // v17.51 (owner): when to start = deadline minus the kitchen's prep time
+   if(!line.querySelector('.pp1745-fs')){const fs=document.createElement('span');fs.className='pp1745-fs';line.querySelector('.pp1745-ft')?.after(fs);}
+   let prep=0;try{if(typeof minutes!=='undefined')prep=Number(minutes);}catch(_){} // Seaded → Valmistamisaeg
+   if(!(prep>0))prep=Number(o.minutes);
+   if(!(prep>0))prep=20;
+   const st=new Date(deadline(o)-prep*60000),hm=String(st.getHours()).padStart(2,'0')+':'+String(st.getMinutes()).padStart(2,'0');
    const name=(card.querySelector('.pp1733-name')||card.querySelector('.pp92-customer'))?.textContent?.trim()||'';
    const [L,B]=[due.children[0]?.textContent||'',due.children[1]?.textContent||''];
    const t=(L+' '+B).trim();
    const c=card.querySelector('.pp1741-count')?.textContent?.trim()||'';
    const set=(sel,v)=>{const e=line.querySelector(sel);if(e&&e.textContent!==v)e.textContent=v;};
-   set('.pp1745-fn',name);set('.pp1745-ft',t);set('.pp1745-fc',c);
+   set('.pp1745-fn',name);set('.pp1745-ft',t);set('.pp1745-fs','Alusta '+hm);set('.pp1745-fc',c);
    card.classList.add('pp1745-fold');
   }else{
    card.classList.remove('pp1745-fold');

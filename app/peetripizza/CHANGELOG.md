@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.51.0 — 2026-11-12
+- Owner picked 2, 5, 6.
+- (2) Folded pre-order line shows "Alusta HH:MM" = ready time minus Seaded → Valmistamisaeg (`assets/ops-v1745.js`, chip style in ops-v1751.css because ops-v1745.css is inside the 17.48 bundle).
+- (5) Statistika "⬇ CSV" next to Prindi: per day Kuupäev;Tellimusi;Pitsasid;Käive (€) + Kokku for the selected month/last month/all (Täna/Eile → this month). Excel format (BOM, ";", decimal comma). Our server only, LIVE days, no customer data (`assets/ops-v1751.js/.css`, `api/kitchen-analytics.php` days now carry pizzas).
+- Fix (owner screenshot, phone): the scrolled header kept 54 px (ops-v1726) while on a narrow screen it has two rows, so Ooteaeg/DEMO/clock hung over Seaded tabs. Under 760 px the header grows; sticky bars sit under its real height (`--pp1751-hh`). Tablet unchanged.
+- (6) Väljastus: "ootab N min" after 15 min turns the time box orange (ops-v1730 red was hidden by 17.48 card CSS). No blinking.
+
 ## 17.50.0 — 2026-11-12
 - Owner picked 5 and 6.
 - (5) Seaded → Heli "Korda uue tellimuse heli…" (existing checkbox #pp145-repeat-enabled, off by default): now every 30 s (was 2 min), also in DEMO, not for a pre-order more than an hour ahead, quiet while the night screen is on (`assets/features-v145.js`).

@@ -152,7 +152,7 @@ foreach($dayTotals as $d=>$x){if($d<$fd||$d>$td||!is_array($x))continue;
  foreach(['k','d','h'] as $k)$T['s'][$k]+=(int)($x['s'][$k]??0);
  foreach((array)($x['h']??[]) as $h=>$n)$Th[(int)$h]+=(int)$n;
  foreach((array)($x['z']??[]) as $nm=>$q)$Tz[$nm]=($Tz[$nm]??0)+(int)$q;
- $Td[$d]=['n'=>(int)($x['n']??0),'m'=>(int)($x['m']??0)];}
+ $Td[$d]=['n'=>(int)($x['n']??0),'m'=>(int)($x['m']??0),'p'=>(int)($x['p']??0)];} // v17.51: pizzas per day for the CSV
 arsort($Tz);
 $report=['orders'=>$T['n'],'amount_cents'=>$T['m'],'amount_orders'=>$T['mn'],'avg_check_cents'=>$T['mn']?(int)round($T['m']/$T['mn']):null,
  'pizzas'=>$T['p'],'prep_avg'=>$T['pn']?round($T['ps']/$T['pn'],1):null,'total_avg'=>$T['tn']?round($T['ts']/$T['tn'],1):null,
