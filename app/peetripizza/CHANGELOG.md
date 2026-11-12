@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.57.0 — 2026-11-12
+- Owner: whole-grain badge smaller again (10 px text).
+
 ## 17.56.0 — 2026-11-12
 - Owner: whole-grain badge "SUUR TÄISTERA" smaller (one line height like other codes, `assets/ops-v1755.css`).
 
