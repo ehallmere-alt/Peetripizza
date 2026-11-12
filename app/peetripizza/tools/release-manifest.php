@@ -1,8 +1,8 @@
 <?php
-/** Auto-generated 17.37.0 file checksum map; do not include this file itself. */
+/** Auto-generated 17.38.0 file checksum map; do not include this file itself. */
 return [
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '0f4d313ca7d5647fc04634fe13e8b1f75cb6ec0000cfa86b62e6def71d563f37',
+    'CHANGELOG.md' => '2a98b06c24807da9f2972317778dd101c84212cfca0e80eb25f2e15b8d847fd7',
     'CLAUDE-HANDOFF.md' => '4d671452b73e44dd9af979d1d2af88421334c593add82155ca7f8033990125c4',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'dbef6c207f83dab2f9c5eb8639773e6625714778a76b3acdf6b58302936ab3df',
@@ -126,6 +126,8 @@ return [
     'assets/ops-v1736.js' => '56ca4889abd3375542a91fa9d5d25e63005ad7b953f36eac0401fbae63098479',
     'assets/ops-v1737.css' => '2f13e2dd7dc8146c3b0d97b5efeb189d753ac2426206adf2ba182ba68bdbcfc9',
     'assets/ops-v1737.js' => '1ca2407e5ef9dc46a67063d674cbc36f91c7fcb1fb7374e60291318a32f87a58',
+    'assets/ops-v1738.css' => 'f9f835fd7f500c12eb090d4ec965e80cc7de68ce9c8ffe4ccc04c3adbc44f97d',
+    'assets/ops-v1738.js' => '81311d82720d727179af6144cd3ca43d07b7867d7be00b5df68e5a494149b359',
     'assets/ops-v174.css' => 'f0c95a5f92bdd924149dca5b266d84c3b8c0bf04370f5c8c681fcdc9260645d5',
     'assets/ops-v174.js' => '6b3de4fa339e5539ca87b56949212b3cbac5589bfca821ddb5ae1e11d548e200',
     'assets/ops-v176.css' => 'f6181a42de1705ec150be6b147a8c36f4ecceef4bec40b279713d319eb2dfea4',
@@ -154,9 +156,9 @@ return [
     'auth/bootstrap.php' => 'e14f2d4e2a9c2becd997a71b9f92314084a71c25efebcb7422b3e3718851e811',
     'auth/public-catalog.php' => '80ccdf011ec8816d1e020a5c0afc05cdd52c15f755b26410ca9470157482329d',
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
-    'dashboard.php' => '77487ac314f03c916bbf05388f067cda0a79d145d5807ebc578cc73e9e85dc0d',
+    'dashboard.php' => '95a85694509aed6bd729aa20e4373cb3309e1e593e86963bd2307f2167afb94b',
     'dough.php' => '28e9292528ddef68000e9b78f19ea12b2164add246a53c0fd86de25ae243ffb9',
-    'index.php' => 'a09401193fb8077d3060a0c7c6516f01c44260743bad8ff4efce4830625bf00b',
+    'index.php' => 'd34cc3ce9ef6a75e472162170fc838d01db8f8e26fe23b699906293e45f0a36b',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
     'locations.example.php' => '740c911e14d7ee558e5105b0ba0587e5774a9ac6df4b5cea06f6ac03f3aedd7c',
     'setup_staff.php' => 'a41b7364014dc1f6b0303f428e5f1730d23ef24cf82dacbd602b85c8781ad2cf',
@@ -165,7 +167,7 @@ return [
     'tools/deploy.sh' => '617f61846beff2346ea481b4212ce3b9d3ed5926dbbc4bfe4a40307da707ef95',
     'tools/locations.php' => '766ea444b9c53530fc34e120dae329055e77c2ba0f2a87c80948c1a157283f1e',
     'tools/register-kolde.php' => '2f966fea4be8dd1c2cf11821519230c02a5248fa4047782dd9fec200140b66c2',
-    'tools/release-check.php' => '2e8725a1961e63f8151d4a30ae6bbece9bb21348a63f1baadfe536a1d3c65c94',
-    'tools/v17-smoke-check.php' => '68fb41ca4e8ef9fd4a72d395999645a5fa4b1a12f0586c4780d1b122a7f90f00',
+    'tools/release-check.php' => '7af953ef46b4a83f03abfd66e708af597af586ee5811efa83888a6e6fb5d4c3c',
+    'tools/v17-smoke-check.php' => 'aaed8d0003f0426c4ee6db203a1afbffb15c15b4283c147f1e94f8bd9cb144fc',
     'tracking.php' => '2e98801bf95a2e8eacf8f42e236bda8bf9eb02942104e56e89ad66108eeaa0bf',
 ];
