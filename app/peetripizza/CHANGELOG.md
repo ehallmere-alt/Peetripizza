@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.31.0 — 2026-11-12
+- Owner: all size codes (SÕ, VÕ, SP, VP, Pere Õ/P, KÕ/KP) green with white text, also in details, Klienti ootavad and Väljastus (`assets/ops-v1731.css`). Thick-dough orange underline removed.
+
 ## 17.30.0 — 2026-11-12
 - Owner picked 1, 2, 3, 6 (not Puhasta ekraan, not OTSAS on the card):
   1. "Klienti ootavad tellimused": copies decorated by `assets/ops-v1730.js` — type strip, type + payment chips, "ootab N min" (red from 15 min), bigger Üle antud. Buttons still forward to the real card (ops-v1711).

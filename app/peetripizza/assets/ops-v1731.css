@@ -1,0 +1,7 @@
+/* Peetri Pizza v17.31 — owner: all size codes (SÕ VÕ SP VP Pere …) green. */
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard .pp177-code.pp177-code,
+html body #ordersPage#ordersPage .pp119-code.pp119-code.pp119-code,
+html body :is(#orderDialog,#pp1711-pickup,.pp155-station,#statisticsPage) :is(.pp177-code,.pp119-code).pp119-code,
+html body .pp1725-ditems .pp177-code.pp177-code{background:#1f6b3a!important;color:#fff!important;border-color:#1f6b3a!important;box-shadow:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard .pp177-code.pp177-code :is(b,small),
+html body :is(#orderDialog,#pp1711-pickup,.pp155-station) .pp119-code :is(b,small){color:#fff!important}
