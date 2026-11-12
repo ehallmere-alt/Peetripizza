@@ -1,4 +1,4 @@
-/* Peetri Pizza v17.63 — owner: ready orders (Valmis / Väljastus) in two ways, chosen in Seaded → Köök:
+/* Peetri Pizza v17.63 (+17.65 tablet paging: two columns visible, swipe or edge button for Valmis) — owner: ready orders (Valmis / Väljastus) in two ways, chosen in Seaded → Köök:
    "All" (as before, block under the columns) or "Veerg" (third column next to Uued / Valmistamisel;
    on a phone a third tab "Valmis" next to the Uued / Valmistamisel switch).
    Moves the existing #pp157-ready-section node only; its own scripts keep working on it. Per tablet (localStorage). */
@@ -26,7 +26,8 @@
    if(page.dataset.pp109Tab==='ready')page.querySelector('[data-pp109-tab="new"]')?.click();
   }
   document.documentElement.classList.toggle('pp1763-col',mode==='col');
-  tabs();
+  if(mode!=='col'&&typeof setPage==='function')setPage(false);
+  tabs();if(typeof edge==='function')edge();
   return true;
  }
 
@@ -58,6 +59,27 @@
  }
  function paint(){document.querySelectorAll('#pp1763-row [data-v]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===mode)));}
 
+ /* v17.65 tablet: only two columns fit; the third (Valmis) slides in by swipe or the edge button */
+ const wide=()=>window.matchMedia('(min-width:761px)').matches;
+ let p2=false;
+ function setPage(v){p2=!!v&&mode==='col'&&wide();document.documentElement.classList.toggle('pp1763-p2',p2);edge();}
+ function edge(){
+  let b=document.getElementById('pp1763-edge');
+  const on=mode==='col'&&wide()&&page&&page.classList.contains('active');
+  if(!on){if(b)b.hidden=true;return;}
+  if(!b){b=document.createElement('button');b.type='button';b.id='pp1763-edge';document.body.append(b);
+   b.addEventListener('click',e=>{e.preventDefault();setPage(!p2);});}
+  b.hidden=false;
+  const n=document.querySelectorAll('#pp158-pickup-rows .pp158-pickup-row').length;
+  const html=p2?'‹ <span>Uued</span>':'<span>Valmis</span> <b>'+n+'</b> ›';
+  if(b.innerHTML!==html)b.innerHTML=html;b.classList.toggle('pp1763-back',p2);
+ }
+ let sx=0,sy=0,st=0;
+ window.addEventListener('touchstart',e=>{const m=e.target.closest&&e.target.closest('#pp157-columns-mount');if(!m||mode!=='col'||!wide()){st=0;return;}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();},{capture:true,passive:true});
+ window.addEventListener('touchend',e=>{if(!st)return;const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;st=0;
+  if(Math.abs(dx)>70&&Math.abs(dx)>2*Math.abs(dy)){if(dx<0&&!p2)setPage(true);else if(dx>0&&p2)setPage(false);}},{capture:true,passive:true});
+ window.addEventListener('resize',()=>{if(!wide())setPage(false);edge();});
+ setInterval(edge,1500);
  let n=0;const t=setInterval(()=>{settingsRow();if(place()&&document.getElementById('pp1763-row')||++n>40)clearInterval(t);},500);
  setInterval(()=>{if(mode==='col')place();},2000); // ready block may be re-created; keep it in the column and the tab count fresh
 })();

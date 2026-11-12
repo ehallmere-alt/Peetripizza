@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.65.0 — 2026-11-12
+- Owner: the Valmis column must hide / page. Tablets in "Kolmas veerg" mode show two columns; swipe left (or the green "Valmis N" edge button) slides to Valmistamisel + Valmis, swipe right / "‹ Uued" goes back. `#pp157-columns-mount` uses overflow-x:clip so sticky heads keep working.
+
 ## 17.64.0 — 2026-11-12
 - Owner: "эти сигналы не слышно". `assets/sound-v141.js`: amplitude cap .28 removed, master compressor + gain; new tones Kell (default), Häire, Piiks-piiks in 1–3 kHz; urgent = 2× four fast 2.4 kHz beeps; offline louder. Old tones kept as "Vana: …". New tone key `pp-sound-tone-v1764` so every tablet starts on Kell; default volume 80%.
 

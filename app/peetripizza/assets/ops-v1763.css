@@ -4,8 +4,15 @@
 #pp1763-row .pp1763-seg button[aria-pressed="true"]{background:#18704a;color:#fff}
 /* tablet: three columns */
 @media (min-width:761px){
- html.pp1763-col body #ordersPage .columns.columns{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ /* 17.65: two columns visible, the third slides in (swipe / edge button). clip, not hidden: keeps sticky heads working */
+ html.pp1763-col body #pp157-columns-mount{overflow-x:clip!important}
+ html.pp1763-col body #ordersPage .columns.columns{width:calc(150% + 8px)!important;max-width:none!important;gap:16px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;transition:transform .28s ease!important;transform:none}
+ html.pp1763-col.pp1763-p2 body #ordersPage .columns.columns{transform:translateX(calc((100% + 16px) / -3))!important}
 }
+#pp1763-edge{position:fixed;right:0;top:50%;z-index:60;transform:translateY(-50%);min-height:120px;padding:10px 8px;border:0;border-radius:14px 0 0 14px;background:#18704a;color:#fff;font:800 16px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;writing-mode:vertical-rl;box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer}
+#pp1763-edge b{display:inline-block;margin:6px 0;padding:4px 2px;border-radius:8px;background:#fff;color:#18704a;writing-mode:horizontal-tb;min-width:22px;text-align:center}
+#pp1763-edge.pp1763-back{right:auto;left:0;border-radius:0 14px 14px 0;background:#fff;color:#18704a;border:1px solid #d9dfdb}
+#pp1763-edge[hidden]{display:none!important}
 html.pp1763-col body #ordersPage .pp1763-col-ready{min-width:0}
 /* in the column the block is always visible, cards one per row, header compact */
 html.pp1763-col body #ordersPage .pp1763-col-ready #pp157-ready-section{display:block!important;margin:0!important}
@@ -22,14 +29,7 @@ html.pp1763-col body #ordersPage .pp1763-col-ready .pp158-pickup-rows:empty::aft
  html.pp1763-col body #ordersPage:not([data-pp109-tab="ready"]) .columns>.pp1763-col-ready{display:none!important}
  html.pp1763-col body #ordersPage[data-pp109-tab="ready"] .columns>.ordercol:not(.pp1763-col-ready){display:none!important}
 }
-/* narrow columns: names don't break inside a word, smaller headline; ready-card footer wraps */
-@media (min-width:761px){
- html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1733-name{font-size:26px!important;word-break:normal!important;overflow-wrap:normal!important}
- html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1732-timecol{min-width:0!important}
- html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot{flex-wrap:wrap!important}
- html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done,[data-kitchen-action]):not(.details){flex:1 0 100%!important;max-width:none!important}
- html.pp1763-col body #ordersPage#ordersPage .pp1763-col-ready .pp112-done-card.pp112-done-card.pp112-done-card .pp112-customer{font-size:26px!important;word-break:normal!important;overflow-wrap:normal!important}
-}
+/* (17.65: columns are half-width again, no narrow-card tweaks needed on tablets) */
 html.pp1763-col body #ordersPage#ordersPage .pp1763-col-ready .pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer{display:flex!important;flex-wrap:wrap!important;grid-template-columns:none!important}
 html.pp1763-col body #ordersPage#ordersPage .pp1763-col-ready .pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer .pp154-handover.pp154-handover{flex:1 0 100%!important;max-width:none!important;min-width:0!important}
 #ordersPage .pp109-mobile-tabs.pp1763-3 button{font-size:13px!important;padding:8px 4px!important;white-space:nowrap!important}
