@@ -1,5 +1,8 @@
 <?php
 declare(strict_types=1);
+// v17.48: login lasts 14 days, or 2 days without any use (was 12 h / 1 h idle).
+const PP_SESSION_MAX=1209600;
+const PP_SESSION_IDLE=172800;
 function pp_start(): void {
     if (session_status() === PHP_SESSION_ACTIVE) return;
     if (!headers_sent()) {
@@ -9,7 +12,13 @@ function pp_start(): void {
         ini_set('session.cookie_secure', '1');
         ini_set('session.cookie_samesite', 'Strict');
         session_name('PEETRI_STAFF');
-        session_set_cookie_params(['lifetime'=>0,'path'=>'/peetripizza/','secure'=>true,'httponly'=>true,'samesite'=>'Strict']);
+        // v17.48 (owner): the kitchen tablet stays logged in for days. Own session folder, so the hosting's
+        // shared 24-minute session cleanup cannot log the tablet out; falls back to the default folder.
+        $sd=dirname(__DIR__).'/private_data/sessions';
+        if(!is_dir($sd)&&@mkdir($sd,0700,true))@file_put_contents($sd.'/.htaccess',"Require all denied\n");
+        if(is_dir($sd)&&is_writable($sd))session_save_path($sd);
+        ini_set('session.gc_maxlifetime', (string)PP_SESSION_MAX);
+        session_set_cookie_params(['lifetime'=>PP_SESSION_MAX,'path'=>'/peetripizza/','secure'=>true,'httponly'=>true,'samesite'=>'Strict']);
     }
     session_start();
 }
@@ -24,7 +33,7 @@ function pp_authenticated(): bool {
     pp_start();
     if ((empty($_SESSION['pp_staff']) || !is_string($_SESSION['pp_staff'])) && (empty($_SESSION['pp_pizzeria']) || !is_array($_SESSION['pp_pizzeria']))) return false;
     $now=time();
-    if (($now - (int)($_SESSION['pp_last_seen'] ?? 0)) > 3600 || ($now - (int)($_SESSION['pp_logged_in'] ?? 0)) > 43200) {
+    if (($now - (int)($_SESSION['pp_last_seen'] ?? 0)) > PP_SESSION_IDLE || ($now - (int)($_SESSION['pp_logged_in'] ?? 0)) > PP_SESSION_MAX) {
         unset($_SESSION['pp_staff'],$_SESSION['pp_pizzeria'],$_SESSION['pp_upstream_session'],$_SESSION['pp_last_seen'],$_SESSION['pp_logged_in']);
         return false;
     }

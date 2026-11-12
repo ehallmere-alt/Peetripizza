@@ -1,0 +1,8 @@
+/* Peetri Pizza v17.48 — "Kodulehel tellitud täna" line on Taigna tellimine. */
+#pp1748-site{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 16px;padding:14px 18px;border-radius:14px;background:#e2f0e5;color:#123e28;font-size:17px;line-height:1.3}
+#pp1748-site[hidden]{display:none}
+#pp1748-site b{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#1b7a4b}
+#pp1748-site span{font-weight:600}
+#pp1748-site span strong{font-weight:800;margin-right:4px}
+#pp1748-site[data-state="none"]{background:#f3f5f3;color:#4f5a52}
+#pp1748-site .pp1748-none{color:#4f5a52;font-weight:500}

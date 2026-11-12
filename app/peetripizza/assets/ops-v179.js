@@ -66,7 +66,9 @@
   try{const r=await fetch('api/dough.php',{credentials:'same-origin',cache:'no-store'});const j=await r.json();
    const fmt=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Tallinn',year:'numeric',month:'2-digit',day:'2-digit'});
    const ok=r.ok&&j.ok&&Array.isArray(j.orders)&&j.orders.some(o=>o&&o.created_at&&fmt.format(new Date(o.created_at))===date&&o.status!=='Tühistatud');
-   orderedCache={date,at:Date.now(),ordered:!!ok};return !!ok;
+   // v17.48: also counts dough already ordered today in the official Peetri Pizza panel (read-only)
+   let site=false;if(!ok){try{const r2=await fetch('api/dough-site.php',{credentials:'same-origin',cache:'no-store'});const j2=await r2.json();site=!!(r2.ok&&j2.ok&&Array.isArray(j2.orders)&&j2.orders.length);}catch(_){}}
+   orderedCache={date,at:Date.now(),ordered:!!(ok||site)};return !!(ok||site);
   }catch(_){return false}
  }
  async function doughCheck(){

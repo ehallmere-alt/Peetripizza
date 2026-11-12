@@ -1,5 +1,13 @@
 # Changelog
 
+## 17.48.0 — 2026-11-12
+- Owner picked 1, 3, 4, 5, 6 of the whole-app pack.
+- (1) Faster start: the 35 head stylesheets + inline drawer style are glued into `assets/app-v1748.css` (same order, comments stripped, `tools/css-bundle.py`); CSS requests 41 → 7, screenshots of Tellimused/Tooted/Statistika/Seaded identical pixel for pixel. Original links kept in an HTML comment after the new link; source files stay. Later layers keep their own `<link>` after it. ops-v1714 compression check also looks at app-v17*.css.
+- (3) `api/dough-site.php` (GET, read-only): today's dough orders from the official panel (`/api/internal-orders/todays-orders`, x-session-id), cached 2 min. Taigna tellimine shows "Kodulehel tellitud täna 13:46 10× Jahutatud" (`assets/dough-v1748.js/.css`); the 14:00 reminder (ops-v179) also stops when the site already has an order today.
+- (4) Väljastus cards look like order cards (`assets/ops-v1748.js/.css`): no colour bar, big name, light code chips, VALMIS time box, KARBID row from data-boxes, big "Üle antud"; duplicate type/payment chips hidden.
+- (5) Menu already has only 7 items, nothing hidden.
+- (6) Login lasts 14 days (2 days idle), was 12 h / 1 h idle; sessions in `private_data/sessions` (own folder, .htaccess deny) so the host's 24-min cleanup does not log out the tablet.
+
 ## 17.47.0 — 2026-11-12
 - Owner picked 1, 2, 3, 4 (`assets/ops-v1747.js/.css`): (1) card "Valmis" is one tap in DEMO too (LIVE already was since 17.11): confirm() answers yes for that click, undo bars stay; (2) "ÄRA UNUSTA" panel at the bottom for 10 s after Valmis with drinks/sauces/boxes and icons, tap closes; (3) "Ootel" chips in the Uued head (folded pre-orders not counted); (4) new order: static green frame for the first 3 min. Off switch: `html.pp1747-off`.
 
