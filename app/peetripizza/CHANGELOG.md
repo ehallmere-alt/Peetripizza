@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.46.0 — 2026-11-12
+- Owner picked 1 and 4 from the next pack (3 "Kotti" already exists as "Ära unusta" in the Valmis sheet, ops-v1729). `assets/ops-v1746.js/.css`: (1) "Ahju" chips in the Valmistamisel column head = pizzas by size code over all cards in #activeOrders (SÕ, SP, VÕ, VP, KÕ, KP, Pere; Fitlap as S/V/K/Pere); (4) icons in the Lisaks row: cup for drinks, dip bowl for sauces (by name). Off switch: `html.pp1746-off`.
+
 ## 17.45.0 — 2026-11-12
 - Owner picked 1, 3, 6 (`assets/ops-v1745.js/.css`, loaded before boot-v170): (1) thin bar at the bottom of the JÄÄNUD box shrinks from order time to deadline, orange when ≤5 min, hidden when late or pre-order; (3) ETTETELLIMUS cards in "Uued" fold into one line at the bottom (name, day+time, N pitsat), open by tap (sessionStorage `pp1745-open`) or by themselves when under an hour (state `pre` from ops-v1728 ends); (6) long customer/product names: font steps down to 62 %, then two lines at 72 % instead of "…"; name column may shrink next to the time box (it used to run under it). Off switch: `html.pp1745-off`.
 

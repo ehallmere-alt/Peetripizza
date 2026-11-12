@@ -1,0 +1,15 @@
+/* Peetri Pizza v17.46 — "Ahju" line in the Valmistamisel head, icons in Lisaks (see ops-v1746.js). */
+html body #ordersPage#ordersPage .pp1723-col-work .section-head{gap:12px!important;align-items:center!important}
+html body #ordersPage#ordersPage .pp1746-oven{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-end!important;gap:6px 8px!important;margin-left:auto!important;min-width:0!important}
+html body #ordersPage#ordersPage .pp1746-oven b{font-size:13px!important;font-weight:800!important;letter-spacing:.06em!important;text-transform:uppercase!important;color:#4f5a52!important;margin-right:2px!important}
+html body #ordersPage#ordersPage .pp1746-oven span{display:inline-flex!important;align-items:center!important;gap:4px!important;padding:4px 10px!important;border-radius:8px!important;background:#e2f0e5!important;color:#123e28!important;font-size:17px!important;font-weight:700!important;white-space:nowrap!important}
+html body #ordersPage#ordersPage .pp1746-oven span strong{font-weight:800!important}
+html body #ordersPage#ordersPage .pp1723-col-work .section-head>.legend{display:none!important}
+html body #ordersPage#ordersPage .pp1728-lisaks>span{display:inline-flex!important;align-items:center!important;gap:5px!important}
+html body #ordersPage#ordersPage .pp1746-ic{display:inline-flex!important;width:18px!important;height:18px!important;flex:0 0 18px!important;font-style:normal!important}
+html body #ordersPage#ordersPage .pp1746-ic svg{width:18px!important;height:18px!important}
+html body #ordersPage#ordersPage .pp1746-cup{color:#1f6fb2!important}
+html body #ordersPage#ordersPage .pp1746-dip{color:#b5651d!important}
+html body #ordersPage#ordersPage .pp1723-col-work .section-head>div:first-child{flex:0 0 auto!important}
+html body #ordersPage#ordersPage .pp1723-col-work .section-head>div:first-child h2{white-space:nowrap!important}
+@media (max-width:1180px){html body #ordersPage#ordersPage .pp1746-oven span{font-size:15px!important;padding:3px 7px!important}html body #ordersPage#ordersPage .pp1746-oven b{display:none!important}}
