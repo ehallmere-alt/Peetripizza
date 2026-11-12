@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.61.0 — 2026-11-12
+- Owner picked 2 and 6: menu tighter without the "Juhtpaneel" title, sound item reads "Heli: väljas / sees" (`ops-v1761.css`, `ops-v1735.js`); Taigna history starts collapsed, refreshes itself every 2 min instead of the "Värskenda" button, empty history hidden (`dough-v1761.js/.css`).
+
 ## 17.60.0 — 2026-11-12
 - Owner picked 1–5 of the "simpler" pack (`assets/ops-v1760.css`, app-core marks Brändikarp with `pp1760-brand`): no "N pitsat" on cards, no grey "Brändikarp" line, no "karpi pole vaja" row, Tooted without status filter and count texts, "Kodulehel otsas" only when something is out or the pizzeria is closed on the site.
 

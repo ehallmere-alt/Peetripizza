@@ -1,0 +1,3 @@
+/* Peetri Pizza v17.61 — 6: Taigna history without "Värskenda" (auto refresh every 2 min), empty history hidden. */
+html body #reload{display:none!important}
+html body .pp144-history.pp1761-empty{display:none!important}

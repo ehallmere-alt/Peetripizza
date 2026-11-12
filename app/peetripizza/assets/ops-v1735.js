@@ -4,7 +4,7 @@
  'use strict';
  if(window.PP1735)return;
  const $id=id=>document.getElementById(id);
- function soundLabel(){const s=$id('soundBtn');const off=!s||s.getAttribute('aria-pressed')==='false';return off?'Heli väljas · lülita sisse':'Heli sees · lülita välja';}
+ function soundLabel(){const s=$id('soundBtn');const off=!s||s.getAttribute('aria-pressed')==='false';return off?'Heli: väljas':'Heli: sees';}
  function place(){
   const s=$id('soundBtn'),fs=$id('pp173-fullscreen');
   if(s&&fs&&s.previousElementSibling!==fs)s.before(fs);
