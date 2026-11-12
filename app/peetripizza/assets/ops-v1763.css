@@ -1,0 +1,36 @@
+/* Peetri Pizza v17.63 — ready orders as a third column (Seaded → Köök → Valmis tellimused). */
+#pp1763-row .pp1763-seg{display:inline-flex;gap:4px;padding:3px;border:1px solid #d9dfdb;border-radius:10px;background:#fff}
+#pp1763-row .pp1763-seg button{min-height:40px;padding:0 16px;border:0;border-radius:7px;background:transparent;color:#5d6b63;font-weight:800;font-size:15px}
+#pp1763-row .pp1763-seg button[aria-pressed="true"]{background:#18704a;color:#fff}
+/* tablet: three columns */
+@media (min-width:761px){
+ html.pp1763-col body #ordersPage .columns.columns{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+html.pp1763-col body #ordersPage .pp1763-col-ready{min-width:0}
+/* in the column the block is always visible, cards one per row, header compact */
+html.pp1763-col body #ordersPage .pp1763-col-ready #pp157-ready-section{display:block!important;margin:0!important}
+html.pp1763-col body #ordersPage .pp1763-col-ready #pp158-pickup-quick{display:block!important;margin:0!important}
+html.pp1763-col body #ordersPage .pp1763-col-ready .pp158-pickup-rows{display:grid!important;grid-template-columns:1fr!important}
+html.pp1763-col body #ordersPage .pp1763-col-ready .pp158-pickup-head{flex-wrap:wrap!important;gap:8px!important}
+html.pp1763-col body #ordersPage .pp1763-col-ready .pp158-pickup-rows:empty::after{content:"Valmis tellimusi pole";display:block;padding:24px 8px;text-align:center;color:#5d6b63;font-weight:700}
+/* phone: third tab */
+#ordersPage .pp109-mobile-tabs.pp1763-3{grid-template-columns:1fr 1fr 1fr!important}
+#ordersPage .pp109-mobile-tabs .pp1763-tab{padding:11px 8px;min-height:45px;border:1px solid #dce8df;border-radius:11px;background:#fff;color:#365844;font-weight:850;font-size:14px}
+#ordersPage .pp109-mobile-tabs .pp1763-tab[aria-pressed="true"]{background:#147a48;color:#fff;border-color:#147a48}
+#ordersPage .pp109-mobile-tabs .pp1763-tab b{margin-left:7px}
+@media (max-width:760px){
+ html.pp1763-col body #ordersPage:not([data-pp109-tab="ready"]) .columns>.pp1763-col-ready{display:none!important}
+ html.pp1763-col body #ordersPage[data-pp109-tab="ready"] .columns>.ordercol:not(.pp1763-col-ready){display:none!important}
+}
+/* narrow columns: names don't break inside a word, smaller headline; ready-card footer wraps */
+@media (min-width:761px){
+ html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1733-name{font-size:26px!important;word-break:normal!important;overflow-wrap:normal!important}
+ html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp1732-timecol{min-width:0!important}
+ html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot{flex-wrap:wrap!important}
+ html.pp1763-col body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .cardfoot>button:is(.accept,.pp1741-start,.pp1741-done,[data-kitchen-action]):not(.details){flex:1 0 100%!important;max-width:none!important}
+ html.pp1763-col body #ordersPage#ordersPage .pp1763-col-ready .pp112-done-card.pp112-done-card.pp112-done-card .pp112-customer{font-size:26px!important;word-break:normal!important;overflow-wrap:normal!important}
+}
+html.pp1763-col body #ordersPage#ordersPage .pp1763-col-ready .pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer{display:flex!important;flex-wrap:wrap!important;grid-template-columns:none!important}
+html.pp1763-col body #ordersPage#ordersPage .pp1763-col-ready .pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer .pp154-handover.pp154-handover{flex:1 0 100%!important;max-width:none!important;min-width:0!important}
+#ordersPage .pp109-mobile-tabs.pp1763-3 button{font-size:13px!important;padding:8px 4px!important;white-space:nowrap!important}
+#ordersPage .pp109-mobile-tabs.pp1763-3 b{margin-left:4px!important}

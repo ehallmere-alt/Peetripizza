@@ -5,7 +5,7 @@ html body #ordersPage#ordersPage .ordercard .pp117-identity-line :is(.pp1741-cou
 html body :is(#ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard,#orderDialog#orderDialog) .pp177-mods .pp177-mod.pp1760-brand.pp1760-brand{display:none!important}
 html body :is(#ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard,#orderDialog#orderDialog) .pp177-mods.pp177-mods:not(:has(.pp177-mod:not(.pp1760-brand))){display:none!important}
 /* 3: no "karpi pole vaja" row for Kohapeal (the details button there stays reachable via name/number) */
-html body #ordersPage#ordersPage .ordercard .pp177-boxes.pp177-dinein{display:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard .pp177-boxes.pp177-boxes.pp177-dinein{display:none!important}
 /* 4: Tooted without status filter and count texts (filter is never saved, always "Kõik") */
 html body #productsPage :is(.pp140-filters,.pp140-results-meta){display:none!important}
 /* 5: "Kodulehel otsas" only when the site really has something out (or the pizzeria is closed there) */

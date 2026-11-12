@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.63.0 — 2026-11-12
+- Owner: ready orders either under the columns (as before) or as a third column next to Uued / Valmistamisel; on phones a third tab "Valmis". Switch in Seaded → Köök → "Valmis tellimused" (per tablet, localStorage `pp1763-valmis`). `assets/ops-v1763.js/.css` move the existing #pp157-ready-section node only.
+- Fix: "karpi pole vaja" row really hidden now (17.60 rule lost on specificity).
+
 ## 17.62.0 — 2026-11-12
 - Owner: "Heli" and "Valmis" hidden from the menu (`ops-v1761.css`). Sound is still switched in Seaded → Heli.
 
