@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.40.0 — 2026-11-12
+- Owner picked 1,2,3,4,6 (not the ticket logo). 1: `api/site-status.php` collects names from nested catalog answers (categories → items), keeps a nameless catalog only 5 min, `?debug=names` shows the answer shape (logged in, no secrets). 2: finished orders on Valmis styled like kitchen cards (`ops-v1740.js/.css`). 3: Taigna tellimine with a white sticky header (back, logo + location, clock), app buttons and history cards (`dough-v1740.css/.js`). 4: login in brand green with the square logo and wide pizzeria tile (`login-v1740.css`). 6: web app manifest + icons (home screen icon, green Android splash) and a 1-second green logo screen on load (fades by itself, not shown with reduced motion or Tahvli kiirrežiim). `tools/gen_patch.py` can ship binary files (base64).
+
 ## 17.39.0 — 2026-11-12
 - Owner design pass ("ровно, в одном стиле, под бренд"): Tooted → "Kodulehel otsas" moved to the bottom and folded (tap the title, "N otsas · Näita"). Order details window like the card (no letter circle, no loud top badge, green phone chip, red-tinted ILMA chip). Statistika period tabs like Seaded tabs, Kaasa/Kulleriga/Kohapeal tiles tinted instead of solid colours. Side menu items one weight, footer shows the real version (was v17.15). Native selects styled. Valmis section title left. Taigna tellimine header uses the real logo and the location badge (`assets/ops-v1739.js/.css`, `assets/dough-v1739.css`, `dough.php`).
 

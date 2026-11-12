@@ -72,14 +72,28 @@ $status=pp176_cache($dir.'/site-status-'.$id.'.json',60,static function()use($id
 if(!empty($status['_error']))pp176_reply(200,['ok'=>false,'error'=>'site_unavailable']);
 
 // 2) Names for missing ids (catalog shared by all pizzerias, cached 1 h).
-$catalog=pp176_cache($dir.'/site-catalog.json',3600,static function()use($token):?array{
-    $out=['toppings'=>[],'products'=>[]];$any=false;
+// v17.40: the catalog may be nested (categories → items) — every object with an id and a name is collected, at any depth.
+// A catalog without any names is kept only 5 min, so a bad answer does not hide names for an hour.
+function pp1740_collect(mixed $v,array &$out,int $depth=0): void {
+    if(!is_array($v)||$depth>6)return;
+    $container=false;foreach($v as $child)if(is_array($child)&&array_is_list($child)&&$child!==[]&&is_array($child[0]??null)){$container=true;break;}
+    if(!$container&&!array_is_list($v)&&isset($v['id'])&&is_numeric($v['id'])){$n=pp176_name($v);$rid=(int)$v['id'];if($rid>0&&$n!==''&&!isset($out[(string)$rid]))$out[(string)$rid]=$n;}
+    foreach($v as $child)if(is_array($child))pp1740_collect($child,$out,$depth+1);
+}
+$catFile=$dir.'/site-catalog.json';
+if(is_file($catFile)){$c=json_decode((string)@file_get_contents($catFile),true);if(is_array($c)&&empty($c['toppings'])&&empty($c['products'])&&time()-(int)($c['_at']??0)>300)@unlink($catFile);}
+$catalog=pp176_cache($catFile,3600,static function()use($token):?array{
+    $out=['toppings'=>[],'products'=>[],'_shape'=>[]];$any=false;
     foreach(['toppings'=>'toppings','products'=>'simple-products'] as $key=>$path){
-        $j=pp176_get($path,$token);if(!is_array($j))continue;$any=true;
-        foreach(pp176_list($j) as $row){if(!is_array($row))continue;$rid=(int)($row['id']??0);$n=pp176_name($row);if($rid>0&&$n!=='')$out[$key][(string)$rid]=$n;}
+        $j=pp176_get($path,$token);if(!is_array($j)){$out['_shape'][$key]='no answer';continue;}$any=true;
+        $out['_shape'][$key]=array_is_list($j)?('list '.count($j)):('keys '.implode(',',array_slice(array_map('strval',array_keys($j)),0,8)));
+        $names=[];pp1740_collect($j,$names);$out[$key]=$names;
     }
     return $any?$out:null;
 });
+if(($_GET['debug']??'')==='names'){ // logged-in kitchen only: shape of the catalog answers, no secrets
+    pp176_reply(200,['ok'=>true,'shape'=>$catalog['_shape']??null,'toppings'=>count($catalog['toppings']??[]),'products'=>count($catalog['products']??[]),'stale'=>!empty($catalog['_stale'])]);
+}
 $named=static function(array $ids,string $key)use($catalog):array{
     $out=[];foreach($ids as $i){$n=$catalog[$key][(string)$i]??'';$out[]=['id'=>$i,'name'=>$n!==''?$n:('#'.$i)];}
     usort($out,static fn($a,$b)=>strcmp($a['name'],$b['name']));return $out;

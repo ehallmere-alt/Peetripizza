@@ -1,0 +1,10 @@
+/* Peetri Pizza v17.40 — #4 login in the brand style: brand green panel with the green square logo, big pizzeria tiles. */
+.pl-brand{background:linear-gradient(160deg,#00824a 0%,#006b3d 100%)!important}
+html body .pl-brand .pl-logo{background:transparent!important;box-shadow:none!important;padding:0!important;width:120px!important;height:120px!important;border-radius:24px!important;overflow:hidden!important}
+html body .pl-logo img{width:120px!important;height:120px!important;max-width:none!important;display:block!important;object-fit:cover!important}
+html body .pl-places:not(.pl-places-many){display:grid!important;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important;gap:10px!important}
+html body .pl-place-box{display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px!important;min-height:64px!important;width:100%!important;box-sizing:border-box!important}
+html body .pl-place{width:100%!important;font-size:18px!important}
+.pl-submit{background:#00824a!important}
+.pl-submit:hover{background:#006b3d!important}
+@media(max-width:700px){html body .pl-logo,html body .pl-brand .pl-logo,html body .pl-logo img{width:64px!important;height:64px!important;border-radius:14px!important}}
