@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.20.0 — 2026-11-12
+- **Login page on phones** (owner): no auto-focus on touch screens (the keyboard jumped up on load and covered the page); choosing a pizzeria scrolls to the password instead. Up to 600 px: pizzerias in one column without the inner scroll box (names were cut mid-word, "Mustamä e"), compact header, 16 px inputs (no iPhone zoom), safe-area padding, bigger submit button. New file `assets/login-v1720.css`. Tests not run (owner's choice); checked in Chromium as iPhone 13 / Pixel 5 / 360 px with 1 and 10 pizzerias.
+
 ## 17.19.0 — 2026-11-12
 - **New Statistika** (owner: "first the day report, then month, choose all time, then charts and statistics"): on top a report with Täna · Eile · See kuu · Eelmine kuu · Kogu aeg — Tellimusi, Käive, Keskmine tšekk, Pitsasid, Keskmine valmimisaeg, Hilinenud, Kaasa/Kulleriga/Kohapeal, 🖨 Prindi (80 mm). Below: orders by hour, by day (by month for long periods), most popular products. DEMO shows only Täna (from the screen).
 - `api/kitchen-analytics.php`: sync also takes amount (cents), service (k/d/h), pizza count and product counts (names only); daily totals in `private_data/analytics-days-<id>.json` are kept forever (the 35-day order list is unchanged), new periods month / lastmonth / all with a `report` object. Included in the daily backup.

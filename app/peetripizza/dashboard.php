@@ -4,7 +4,7 @@ require_once __DIR__ . '/auth/bootstrap.php';
 pp_require_login(false);
 header('Cache-Control: no-store, private');
 ?>
-<!doctype html><html lang="et" class="pp170-booting"><head><meta charset="utf-8"><meta name="pp-wait-csrf" content="<?= htmlspecialchars(pp_csrf(), ENT_QUOTES, 'UTF-8') ?>"><meta name="pp-location-id" content="<?= (int)($_SESSION['pp_pizzeria']['id']??0) ?>"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f7f5"><meta name="description" content="Peetri Pizza köögi töölaud"><title>Peetri Pizza — Service OS</title><meta name="peetri-release" content="17.19.0"><style id="pp170-boot-guard">/* Prevent legacy kitchen markup from flashing before client layout finishes. */
+<!doctype html><html lang="et" class="pp170-booting"><head><meta charset="utf-8"><meta name="pp-wait-csrf" content="<?= htmlspecialchars(pp_csrf(), ENT_QUOTES, 'UTF-8') ?>"><meta name="pp-location-id" content="<?= (int)($_SESSION['pp_pizzeria']['id']??0) ?>"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f7f5"><meta name="description" content="Peetri Pizza köögi töölaud"><title>Peetri Pizza — Service OS</title><meta name="peetri-release" content="17.20.0"><style id="pp170-boot-guard">/* Prevent legacy kitchen markup from flashing before client layout finishes. */
 html.pp170-booting #ordersPage.page.active{visibility:hidden!important}
 /* v17.1: the legacy topbar was still visible during boot on slow tablets; hide the whole shell until hydration (same 3s fail-safe). */
 html.pp170-booting body>.shell{visibility:hidden!important}
