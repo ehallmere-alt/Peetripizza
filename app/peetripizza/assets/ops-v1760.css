@@ -1,0 +1,14 @@
+/* Peetri Pizza v17.60 — owner picked 1–5 of the "чистить и проще" pack. Only hides; nothing removed from the DOM. */
+/* 1: no "N pitsat" on the card (pizzas are listed anyway) */
+html body #ordersPage#ordersPage .ordercard .pp117-identity-line :is(.pp1741-count,.pp177-count){display:none!important}
+/* 2: no grey "Brändikarp" line under the pizza (shown in KARBID as BRÄNDI …) */
+html body :is(#ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard,#orderDialog#orderDialog) .pp177-mods .pp177-mod.pp1760-brand.pp1760-brand{display:none!important}
+html body :is(#ordersPage#ordersPage .ordercard.ordercard.ordercard.ordercard.ordercard,#orderDialog#orderDialog) .pp177-mods.pp177-mods:not(:has(.pp177-mod:not(.pp1760-brand))){display:none!important}
+/* 3: no "karpi pole vaja" row for Kohapeal (the details button there stays reachable via name/number) */
+html body #ordersPage#ordersPage .ordercard .pp177-boxes.pp177-dinein{display:none!important}
+/* 4: Tooted without status filter and count texts (filter is never saved, always "Kõik") */
+html body #productsPage :is(.pp140-filters,.pp140-results-meta){display:none!important}
+/* 5: "Kodulehel otsas" only when the site really has something out (or the pizzeria is closed there) */
+html body #productsPage #pp176-missing:not(.pp1739-has):not(:has(.pp176-closed)){display:none!important}
+/* Tooted: no empty divider line left under the categories */
+html body #productsPage .pp140-toolbar .pp140-categories{border-bottom:0!important;margin-bottom:0!important;padding-bottom:0!important}

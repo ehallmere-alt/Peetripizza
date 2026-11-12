@@ -119,7 +119,7 @@ function pp178Parse(raw){
   }
   if(/^põhi$/i.test(label)){if(fit&&code)continue;mods.push([fit?'TÄISTERA':(words[low]||val)+' põhi','info']);continue;} // v17.55: whole grain is in the badge // v17.34: owner calls whole grain dough "Fitlap"
   if(/^äär$/i.test(label)){mods.push([val.charAt(0).toUpperCase()+val.slice(1),'warn']);continue;} // v17.35: "Äär: juustuäär" -> "Juustuäär"
-  if(/^pakend$/i.test(label)){mods.push([/brand|bränd/i.test(val)?'Brändikarp':'Pakend: '+val,'info']);continue;}
+  if(/^pakend$/i.test(label)){mods.push([/brand|bränd/i.test(val)?'Brändikarp':'Pakend: '+val,/brand|bränd/i.test(val)?'info pp1760-brand':'info']);continue;}
   mods.push([label?label+': '+val:val,'warn']);
  }
  const pack=(text.match(/Pakend\s*:\s*([^;]+)/i)||[])[1]||'';

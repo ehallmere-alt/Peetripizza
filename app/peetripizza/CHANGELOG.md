@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.60.0 — 2026-11-12
+- Owner picked 1–5 of the "simpler" pack (`assets/ops-v1760.css`, app-core marks Brändikarp with `pp1760-brand`): no "N pitsat" on cards, no grey "Brändikarp" line, no "karpi pole vaja" row, Tooted without status filter and count texts, "Kodulehel otsas" only when something is out or the pizzeria is closed on the site.
+
 ## 17.59.0 — 2026-11-12
 - Owner: sum, payment chip and main button back as in 17.57 (removed the 17.58 card-footer rules).
 
