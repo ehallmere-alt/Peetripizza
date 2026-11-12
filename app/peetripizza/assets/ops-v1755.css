@@ -1,0 +1,7 @@
+/* Peetri Pizza v17.55 — "Valmis" hidden in the header (menu has it); whole-grain badge "Suur täistera" / "Väike täistera" on two lines. */
+html body header.topbar #pp171-ready{display:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code.pp1755-fit,html body .pp177-code.pp1755-fit{width:auto!important;min-width:0!important;max-width:110px!important;height:auto!important;padding:4px 8px!important;line-height:1.05!important;white-space:normal!important;text-align:center!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code.pp1755-fit>b,html body .pp177-code.pp1755-fit>b{font-size:14px!important;line-height:1.1!important;white-space:normal!important;letter-spacing:.02em!important;text-transform:uppercase!important}
+html body .pp177-code.pp1755-fit.pp1755-fit>b{font-size:12px!important;overflow-wrap:normal!important;word-break:keep-all!important;hyphens:none!important}
+html body .pp177-code.pp1755-fit.pp1755-fit{max-width:none!important;overflow:visible!important}
+html body #drawer #pp1755-ready-nav>span{display:inline-grid!important;place-items:center!important;width:30px!important;height:30px!important;border-radius:9px!important;background:#eef5f0!important;color:#17693a!important;font-size:15px!important;margin-right:4px!important}

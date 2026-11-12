@@ -1,5 +1,10 @@
 # Changelog
 
+## 17.55.0 — 2026-11-12
+- Owner: "Valmis" out of the header (`#pp171-ready` hidden, not removed); the menu has "Valmis" under Statistika that opens the same view (`assets/ops-v1755.js/.css`).
+- Owner: "Kana-pesto" is shown as "Fit Lap Kanaga" (card, Väljastus, print and statistics use the same parser, `assets/app-core-v141.js` pp178Parse).
+- Owner: whole-grain pizza badge reads "SUUR TÄISTERA" / "VÄIKE TÄISTERA" (PERE/KESKMINE too) instead of "S"/"V"; the separate FITLAP chip is gone. Summary chips (Ahju/Ootel/Kokkuvõte) keep the short code.
+
 ## 17.54.0 — 2026-11-12
 - Owner: toppings the customer does not want = red chip with "−", added toppings = green chip with "+" (17.41 CSS had hidden the signs). "Ilma: x" → "− X"; "+ LISA" extras moved next to the other chips (they were squeezed under the quantity). `api/live-normalize-v150.php` now also reads removed toppings (removedToppings/excludedToppings/without… arrays, toppings[] with isRemoved/removed/excluded) — field names guessed, not yet seen in real LIVE data.
 - Owner: Ooteaeg in the header wider with "−" and "+" (same select as before, saves the same way). Statistika stays in the header.

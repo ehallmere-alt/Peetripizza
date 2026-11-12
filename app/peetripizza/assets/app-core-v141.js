@@ -102,7 +102,9 @@ function pp178Parse(raw){
  const codes={large:{thin:'SÕ',thick:'SP'},small:{thin:'VÕ',thick:'VP'},family:{thin:'Pere Õ',thick:'Pere P'},medium:{thin:'KÕ',thick:'KP'}}; // v17.14/17.15: pere (family) = "Pere Õ" / "Pere P" (owner's wording), keskmine = KÕ/KP
  const fit=!!dough&&/whole[\s_-]*grain|wholegrain|täistera|fitlap/i.test(dough); // v17.34: whole grain = "Fitlap": size code only, FITLAP chip stays
  const code=(codes[size]&&codes[size][dough])||(fit&&size?{large:'S',small:'V',family:'Pere',medium:'K'}[size]||null:null);
- const name=code?main.replace(/\s*\((large|small|family|medium)\)\s*$/i,'').trim():main;
+ const name0=code?main.replace(/\s*\((large|small|family|medium)\)\s*$/i,'').trim():main;
+ const name=/^kana[\s-]*pesto$/i.test(name0)?'Fit Lap Kanaga':name0; // v17.55: owner's name for Kana-pesto
+ const badge=fit&&size?{large:'Suur täistera',small:'Väike täistera',family:'Pere täistera',medium:'Keskmine täistera'}[size]||null:null; // v17.55: card badge for whole grain
  const words={large:'suur',small:'väike',family:'pere',medium:'keskmine',thin:'õhuke',thick:'paks'};
  const codeTitle=code?(fit?`${words[size]||size} · fitlap`:`${words[size]||size} · ${words[dough]||dough}`):'';
  // Show only what differs from the standard pizza; "regular" adds nothing for the cook.
@@ -115,7 +117,7 @@ function pp178Parse(raw){
    if(/^(extra|double|topelt|lisa|more)$/.test(low)){mods.push(['JUUST','warn']);continue;}
    if(/^(light|less|vähe|vähem)$/.test(low)){mods.push(['VÄHEM JUUSTU','warn']);continue;}
   }
-  if(/^põhi$/i.test(label)){mods.push([fit?'FITLAP':(words[low]||val)+' põhi','info']);continue;} // v17.34: owner calls whole grain dough "Fitlap"
+  if(/^põhi$/i.test(label)){if(fit&&code)continue;mods.push([fit?'TÄISTERA':(words[low]||val)+' põhi','info']);continue;} // v17.55: whole grain is in the badge // v17.34: owner calls whole grain dough "Fitlap"
   if(/^äär$/i.test(label)){mods.push([val.charAt(0).toUpperCase()+val.slice(1),'warn']);continue;} // v17.35: "Äär: juustuäär" -> "Juustuäär"
   if(/^pakend$/i.test(label)){mods.push([/brand|bränd/i.test(val)?'Brändikarp':'Pakend: '+val,'info']);continue;}
   mods.push([label?label+': '+val:val,'warn']);
@@ -123,7 +125,7 @@ function pp178Parse(raw){
  const pack=(text.match(/Pakend\s*:\s*([^;]+)/i)||[])[1]||'';
  const boxLabel={small:'VÄIKE',medium:'KESKMINE',large:'SUUR',family:'PERE'}[size]||null;
  const box=!boxLabel||/^(none|no|ilma|puudub|ei)$/i.test(pack.trim())?null:(/brand|bränd/i.test(pack)?'BRÄNDI '+boxLabel:boxLabel);
- return {name,code,codeTitle,mods,extras,size,box};
+ return {name,code,codeTitle,mods,extras,size,box,badge};
 }
 const PP178_BOX_ORDER=['VÄIKE','KESKMINE','SUUR','PERE','BRÄNDI VÄIKE','BRÄNDI KESKMINE','BRÄNDI SUUR','BRÄNDI PERE'];
 // [[label,count],...] sorted; [] when no pizza boxes; null when eaten in the pizzeria.
@@ -135,8 +137,8 @@ function pp178BoxCounts(o){
 }
 window.PPOrderInfo={parse:pp178Parse,boxes:pp178BoxCounts,boxOrder:PP178_BOX_ORDER};
 function kitchenProductLabel(raw){
- const {name,code,codeTitle,mods,extras}=pp178Parse(raw);
- return `<strong class="pp94-pizza">${code?`<span class="pp119-code pp177-code" data-size="${code[0]}" data-dough="${code.slice(-1)}" title="${escapeHtml(codeTitle+' põhi')}"><b>${escapeHtml(code)}</b><small>${escapeHtml(codeTitle)}</small></span> `:''}<span class="pp177-name">${escapeHtml(name)}</span></strong>${mods.length?`<span class="pp94-specs pp177-mods">${mods.map(([t,k])=>`<em class="pp177-mod pp177-mod-${k}">${escapeHtml(t)}</em>`).join('')}</span>`:''}${extras.length?`<span class="pp94-extras pp177-extras"><b>+ LISA</b>${extras.map(x=>`<em>${escapeHtml(x)}</em>`).join('')}</span>`:''}`;
+ const {name,code,codeTitle,mods,extras,badge}=pp178Parse(raw);
+ return `<strong class="pp94-pizza">${code?`<span class="pp119-code pp177-code${badge?' pp1755-fit':''}" data-size="${code[0]}" data-dough="${code.slice(-1)}" title="${escapeHtml(codeTitle+' põhi')}"><b>${escapeHtml(badge||code)}</b><small>${escapeHtml(codeTitle)}</small></span> `:''}<span class="pp177-name">${escapeHtml(name)}</span></strong>${mods.length?`<span class="pp94-specs pp177-mods">${mods.map(([t,k])=>`<em class="pp177-mod pp177-mod-${k}">${escapeHtml(t)}</em>`).join('')}</span>`:''}${extras.length?`<span class="pp94-extras pp177-extras"><b>+ LISA</b>${extras.map(x=>`<em>${escapeHtml(x)}</em>`).join('')}</span>`:''}`;
 }
 // v17.7: which pizza boxes this order needs (from pizza size + "Pakend" in the order).
 function pp177Boxes(o,items){
