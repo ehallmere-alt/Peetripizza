@@ -1,5 +1,10 @@
 # Changelog
 
+## 17.50.0 — 2026-11-12
+- Owner picked 5 and 6.
+- (5) Seaded → Heli "Korda uue tellimuse heli…" (existing checkbox #pp145-repeat-enabled, off by default): now every 30 s (was 2 min), also in DEMO, not for a pre-order more than an hour ahead, quiet while the night screen is on (`assets/features-v145.js`).
+- (6) Night screen in the new look (`assets/ops-v1750.js/.css` on top of ops-v1718): "Peetri Pizza" + pizzeria name, big light clock, status pill, "Täna N tellimust · N pitsat" (LIVE from api/kitchen-analytics.php?period=today, DEMO from screen). No animation.
+
 ## 17.49.0 — 2026-11-12
 - Owner picked 2, 3, 5, 6 (`assets/ops-v1749.js/.css`, `assets/dough-v1749.css`, `check.php`, `api/heartbeat.php`, `assets/check-v1749.js/.css`).
 - (2) Seaded → Köök: Tahvli kiirrežiim, Suur köögiekraan, Kompaktne töölaud, Ülikompaktsed tellimused, Keri uue tellimuseni moved (same nodes) into folded "Veel seadeid".

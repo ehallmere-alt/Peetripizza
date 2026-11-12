@@ -82,9 +82,12 @@ if(window.pp145LatestSnapshot){window.dispatchEvent(new CustomEvent('pp145:order
 setInterval(()=>{
  if(!baselineReady||document.hidden)return;
  checkAlerts();
- if(!prefs.repeat||currentSource!=='LIVE')return;
- const pending=currentOrders.some(o=>o.status==='new');
- if(pending&&Date.now()-lastReminder>=120000){lastReminder=Date.now();window.PPSound?.play('new')}
+ // v17.50 (owner): repeat every 30 s (was 2 min), in DEMO too; a pre-order more than an hour ahead does not ring; quiet on the night screen.
+ if(!prefs.repeat||currentSource==='JSON')return;
+ const nowMs=Date.now();
+ const pending=currentOrders.some(o=>o.status==='new'&&!(o.deadlineSource==='official'&&Number(o.deadline)-nowMs>=3600000));
+ const night=!!document.getElementById('pp1718-night')&&!document.getElementById('pp1718-night').hidden;
+ if(pending&&!night&&nowMs-lastReminder>=30000){lastReminder=nowMs;window.PPSound?.play('new')}
  else if(!pending)lastReminder=0;
 },15000);
 })();
