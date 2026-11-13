@@ -41,7 +41,10 @@ jobs:
           [ -n "$FILES" ] || { echo "No app changes"; exit 0; }
           python3 tools/gen_patch.py /tmp/base/app/peetripizza app/peetripizza "$OLD" "$NEW" "patches/update-$OS-to-$NS-ssh.txt" $FILES
           PREV_ANY="patches/update-any-to-$OS-ssh.txt"
-          if [ -f "$PREV_ANY" ]; then cat "$PREV_ANY" "patches/update-$OS-to-$NS-ssh.txt" > "patches/update-any-to-$NS-ssh.txt"; fi
+          # A chain already committed by the branch (step by step, e.g. 17.50 -> ... -> NEW) is kept: one big OLD->NEW step
+          # would refuse servers that are between OLD and NEW.
+          if [ -f "patches/update-any-to-$NS-ssh.txt" ]; then echo "keeping committed update-any-to-$NS"
+          elif [ -f "$PREV_ANY" ]; then cat "$PREV_ANY" "patches/update-$OS-to-$NS-ssh.txt" > "patches/update-any-to-$NS-ssh.txt"; fi
           # Permanent name: curl .../main/patches/update-latest-ssh.txt always installs the newest version (steps already applied are skipped).
           if [ -f "patches/update-any-to-$NS-ssh.txt" ]; then cp "patches/update-any-to-$NS-ssh.txt" patches/update-latest-ssh.txt; fi
           # Self-check: apply the new patch to a copy of the old version.
