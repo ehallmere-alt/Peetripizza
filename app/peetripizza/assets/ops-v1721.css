@@ -1,0 +1,29 @@
+/* Peetri Pizza v17.21 — Seaded: tabs, full width, equal cards, big switches. Layout only. */
+html body #settingsPage>.panel.pp1721{max-width:1400px!important;width:auto!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+html body #settingsPage>.panel.pp1721>.section-tag,html body #settingsPage>.panel.pp1721>h2{display:none!important}
+html body #settingsPage>.panel.pp1721>.pp163-settings-intro{margin:0 0 12px!important;font-size:14px!important;color:#5b6b62!important}
+#pp1721-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px;position:sticky;top:76px;z-index:5;padding:8px;background:#fff;border:1px solid #e3ebe5;border-radius:18px;box-shadow:0 4px 14px rgba(20,60,35,.06)}
+#pp1721-tabs button{flex:1 1 0;min-width:120px;min-height:56px;border-radius:13px;border:0;background:#f1f6f2;color:#1d4a30;font-family:inherit;font-size:17px;font-weight:800;line-height:1;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:none}
+#pp1721-tabs button span{font-size:18px;opacity:.75}
+#pp1721-tabs button.on{background:#1f6b3a;color:#fff}
+#pp1721-tabs button.on span{opacity:1}
+html body #settingsPage>.panel.pp1721>.pp1721-off{display:none!important}
+/* equal cards */
+html body #settingsPage>.panel.pp1721>[data-pp1721]{background:#fff!important;border:1px solid #e3ebe5!important;border-radius:20px!important;box-shadow:0 4px 14px rgba(20,60,35,.05)!important;padding:20px 22px!important;margin:0 0 16px!important}
+html body #settingsPage .pp1721 .settingsrow,html body #settingsPage .pp1721 .pp163-setting-row,html body #settingsPage .pp1721 .pp164-flow-option{min-height:76px!important;padding:14px 4px!important;margin:0!important;border-top:0!important;border-bottom:1px solid #edf2ee!important;gap:18px!important;align-items:center!important}
+html body #settingsPage .pp1721 .settingsrow strong,html body #settingsPage .pp1721 .pp163-setting-row strong,html body #settingsPage .pp1721 .pp164-flow-option strong{font-size:17px!important}
+html body #settingsPage .pp1721 .settingsrow small,html body #settingsPage .pp1721 .pp163-setting-row small,html body #settingsPage .pp1721 .pp164-flow-option small{font-size:13px!important;line-height:1.35!important;color:#6a7a71!important}
+/* big switches, easy for a finger */
+html body #settingsPage .pp1721 label.switch,html body #settingsPage .pp1721 .pp163-setting-row>label,html body #settingsPage .pp1721 .pp164-flow-option>input{transform:scale(1.3);transform-origin:right center;margin-right:4px!important;flex:none!important}
+html body #settingsPage .pp1721 .stepper button{min-width:52px!important;min-height:52px!important;font-size:24px!important}
+html body #settingsPage .pp1721 button.secondary,html body #settingsPage .pp1721 .pp141-sound-buttons button,html body #settingsPage .pp1721 .pp164-audio-tests button{min-height:52px!important}
+html body #settingsPage .pp1721 select,html body #settingsPage .pp1721 input[type=text]{min-height:50px!important;font-size:16px!important}
+/* two columns on the wide tablet */
+@media (min-width:1000px){
+ html body #settingsPage .pp1721>[data-pp1721=kook]{display:grid!important;grid-template-columns:1fr 1fr;column-gap:34px}
+ html body #settingsPage .pp1721>[data-pp1721=kook]>.pp163-pref-title{grid-column:1/-1}
+}
+html body #settingsPage .pp1721>[data-pp1721].pp1721-off{display:none!important}
+@media (max-width:600px){#pp1721-tabs{top:64px;gap:6px;padding:6px}#pp1721-tabs button{min-width:0;min-height:48px;font-size:14px;flex-direction:column;gap:3px}}
+html body #settingsPage .pp1721>[data-pp1721=heli] label>input[type=checkbox]{width:26px!important;height:26px!important;flex:none!important}
+html body #settingsPage .pp1721>[data-pp1721=heli] label:has(>input[type=checkbox]){min-height:48px!important;display:flex!important;align-items:center!important;gap:12px!important;font-size:15px!important}

@@ -70,7 +70,8 @@ function renderStation(){if(!stationOpen)return;const done=$('doneOrders');if(!d
   const at=Number(card.dataset.readyAt),age=at>0?Math.max(0,Math.floor((Date.now()-at)/60000)):null;
   const native=card.querySelector('.pp154-handover');const canGive=pickupConnected&&!native?.disabled&&!!native;
   const late=age!==null&&age>=15;
-  return '<article class="pp155-station-order'+(late?' late':'')+'"><div><strong>'+esc(number)+'</strong><small>'+esc(customer)+'</small></div><span class="pp155-age">'+(age===null?'Valmis':'Ootab '+age+' min')+'</span><button type="button" data-pp155-pickup="'+esc(id)+'" '+(canGive?'':'disabled')+'>✓ Üle antud</button>'+(live()?'<button type="button" class="pp155-station-link" data-pp155-station-share="'+esc(id)+'">🔗</button>':'')+'</article>';
+  const phone=card.dataset.phone||'',boxes=card.dataset.boxes||'';
+  return '<article class="pp155-station-order'+(late?' late':'')+'"><div class="pp178-who"><strong>'+esc(number)+'</strong><b class="pp178-name">'+esc(customer)+'</b>'+(phone?'<a class="pp178-phone" href="tel:'+esc(phone.replace(/ /g,''))+'">📞 '+esc(phone)+'</a>':'')+(boxes?'<span class="pp178-boxes">'+(boxes==='KOHAPEAL'?'🍽 KOHAPEAL':'📦 '+esc(boxes))+'</span>':'')+'</div><span class="pp155-age">'+(age===null?'Valmis':'Ootab '+age+' min')+'</span><button type="button" data-pp155-pickup="'+esc(id)+'" '+(canGive?'':'disabled')+'>✓ Üle antud</button>'+(live()?'<button type="button" class="pp155-station-link" data-pp155-station-share="'+esc(id)+'">🔗</button>':'')+'</article>';
  }).filter(Boolean);
  $('pp155-station-waiting').textContent=waiting+' ootab klienti';$('pp155-station-sync').textContent=pickupConnected?'● Serveriga ühendatud':'⚠ Serveri sünkroon puudub';
  $('pp155-station-list').innerHTML=rows.join('')||'<p class="pp155-empty">Kõik tellimused on üle antud.</p>';

@@ -1,0 +1,16 @@
+/* Peetri Pizza v17.37 — preparation time sheet at "Võta vastu". Calm, no animation. */
+#pp1737-sheet{position:fixed;inset:0;z-index:9000;background:rgba(15,33,23,.35);display:flex;align-items:flex-end;justify-content:center}
+#pp1737-sheet[hidden]{display:none!important}
+#pp1737-sheet .pp1737-box{width:min(640px,100%);background:#fff;border-radius:18px 18px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -6px 24px rgba(16,42,26,.18);font-family:inherit;color:#0f2117}
+#pp1737-sheet .pp1737-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+#pp1737-sheet .pp1737-head small{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;color:#5b6f62}
+#pp1737-sheet .pp1737-head strong{font-size:22px;font-weight:900}
+#pp1737-sheet .pp1737-head strong span{font-size:15px;color:#5b6f62;font-weight:700;margin-left:6px}
+#pp1737-sheet .pp1737-x{width:40px;height:40px;border-radius:12px;border:1px solid #d6e1da;background:#f4f8f5;font-size:18px;color:#1f3a2a}
+#pp1737-sheet .pp1737-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+#pp1737-sheet .pp1737-grid button{min-height:68px;border-radius:14px;border:1.5px solid #cfdcd4;background:#f7faf8;color:#0f2117;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer}
+#pp1737-sheet .pp1737-grid button b{font-size:26px;font-weight:900;line-height:1}
+#pp1737-sheet .pp1737-grid button small{font-size:12px;font-weight:700;color:#5b6f62}
+#pp1737-sheet .pp1737-grid button.on{border-color:#1f6b3a;background:#e8f3ec;box-shadow:inset 0 0 0 1.5px #1f6b3a}
+#pp1737-sheet p{margin:12px 0 0;font-size:14px;color:#5b6f62;text-align:center}
+#pp1737-sheet p b{color:#0f2117}

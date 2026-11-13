@@ -1,0 +1,195 @@
+# Peetri: ищу папку приложения (можно задать вручную: PP_APP=/путь/к/peetripizza)
+PP_APP="${PP_APP:-}"
+if [ -z "$PP_APP" ]; then for d in /www/apache/domains/www.crestudio.ee/htdocs/peetripizza "$HOME/htdocs/peetripizza" "$HOME/peetripizza" "$PWD"; do if [ -f "$d/dashboard.php" ] && [ -f "$d/auth/bootstrap.php" ]; then PP_APP="$d"; break; fi; done; fi
+if [ -z "$PP_APP" ]; then PP_FOUND=$(find "$HOME" /www /var/www /data01 -maxdepth 8 -type f -path '*/peetripizza/auth/bootstrap.php' 2>/dev/null | head -n 5); if [ "$(printf '%s\n' "$PP_FOUND" | grep -c .)" = "1" ]; then PP_APP=$(dirname "$(dirname "$PP_FOUND")"); fi; fi
+rm -f /tmp/pp-patch.php
+[ -n "$PP_APP" ] || echo "ОШИБКА: не нашёл папку приложения (peetripizza). Пришли разработчику вывод: find / -name dashboard.php -path '*peetripizza*' 2>/dev/null"
+[ -n "$PP_APP" ] && echo "Папка приложения: $PP_APP" && cd "$PP_APP" && cat > /tmp/pp-patch.php <<'PEETRI_PATCH_END'
+<?php
+// Peetri Pizza patch 17.50.0 -> 17.51.0. Verifies every file by SHA-256 before writing anything.
+declare(strict_types=1);
+$root=getcwd();$P=json_decode(base64_decode(preg_replace('/\s+/','',file_get_contents(__FILE__,false,null,__COMPILER_HALT_OFFSET__))),true);
+function out($m){fwrite(STDOUT,$m."\n");}
+function fail($m){fwrite(STDERR,"ОШИБКА: $m\n");exit(1);}
+if(!is_array($P))fail('патч повреждён при вставке, скопируй команду целиком ещё раз');
+if(!is_file("$root/dashboard.php"))fail("здесь нет dashboard.php: $root");
+preg_match('/name="peetri-release" content="([^"]+)"/',(string)file_get_contents("$root/dashboard.php"),$m);$cur=$m[1]??'?';
+if(version_compare($cur,$P['to'],'>=')){out("Стоит версия $cur (не ниже {$P['to']}) — пропускаю этот шаг.");exit(0);}
+if($cur!==$P['from'])fail("ожидалась версия {$P['from']}, а стоит $cur — патч не подходит");
+$result=[];
+foreach($P['ops'] as $op){$f=$op['f'];$path="$root/$f";
+ if($op['new']){$t=!empty($op['b64'])?base64_decode($op['c'],true):$op['c'];if($t===false)fail("патч повреждён ($f)");}
+ else{ if(!is_file($path))fail("нет файла $f");$t=file_get_contents($path);
+  if(hash('sha256',$t)!==$op['h0'])fail("файл $f на сервере отличается от $P[from] — патч не применён, ничего не изменено");
+  foreach($op['p'] as [$o,$n]){if(substr_count($t,$o)!==1)fail("не найдено место правки в $f");$t=str_replace($o,$n,$t);} }
+ if(hash('sha256',$t)!==$op['h'])fail("контрольная сумма $f не совпала — ничего не изменено");
+ $result[$f]=$t;}
+// manifest: set expected hashes for touched files
+$mf="$root/tools/release-manifest.php";$man=require $mf;foreach($P['ops'] as $op)$man[$op['f']]=$op['h'];ksort($man,SORT_STRING);
+$code="<?php\n/** Auto-generated {$P['to']} file checksum map; do not include this file itself. */\nreturn [\n";foreach($man as $k=>$v)$code.="    '".$k."' => '".$v."',\n";$code.="];\n";
+$result['tools/release-manifest.php']=$code;
+$bdir=(is_writable(dirname($root,2))?dirname($root,2):dirname($root)).'/peetri-backups/patch-'.$P['from'].'-to-'.$P['to'].'-'.date('Ymd-His');if(file_exists($bdir))$bdir.='-'.bin2hex(random_bytes(2));
+if(!@mkdir($bdir,0700,true))fail("не удалось создать папку бэкапа $bdir");
+foreach(array_keys($result) as $f){if(is_file("$root/$f")){@mkdir(dirname("$bdir/$f"),0700,true);copy("$root/$f","$bdir/$f");}}
+out("Бэкап изменяемых файлов: $bdir");
+$written=[];
+$restore=function()use(&$written,$bdir,$root){foreach($written as $f){if(is_file("$bdir/$f"))copy("$bdir/$f","$root/$f");else @unlink("$root/$f");}};
+foreach($result as $f=>$t){$path="$root/$f";@mkdir(dirname($path),0755,true);$tmp="$path.pp-tmp";
+ if(file_put_contents($tmp,$t)===false||!rename($tmp,$path)){$restore();fail("не удалось записать $f — всё возвращено");}
+ if(str_ends_with($f,'.sh'))@chmod($path,0755);$written[]=$f;out("  ✓ $f");}
+$php=escapeshellarg(PHP_BINARY?:'php');$rc=0;
+passthru("$php ".escapeshellarg("$root/tools/release-check.php")." | grep -v '^  - '",$a);$rc|=$a;
+passthru("$php ".escapeshellarg("$root/tools/v17-smoke-check.php"),$b);$rc|=$b;
+if($rc){$restore();fail("проверка не прошла — прежние файлы восстановлены");}
+out("\nГОТОВО: версия {$P['to']}. Обнови страницу на планшетах без кеша.");
+out("Откат: cp -r $bdir/. $root/");
+__halt_compiler();
+eyJmcm9tIjogIjE3LjUwLjAiLCAidG8iOiAiMTcuNTEuMCIsICJvcHMiOiBbeyJmIjogImRhc2hi
+b2FyZC5waHAiLCAibmV3IjogZmFsc2UsICJwIjogW1siZVwiIGNvbnRlbnQ9XCIxNy41MC4wXCI+
+PHN0eWxlIGlkPVwicCIsICJlXCIgY29udGVudD1cIjE3LjUxLjBcIj48c3R5bGUgaWQ9XCJwIl0s
+IFsiMTc1MC5jc3M/dj0xNy41MC4wXCI+PGxpbmsgcmVsPVwibSIsICIxNzUwLmNzcz92PTE3LjUw
+LjBcIj48bGluayByZWw9XCJzdHlsZXNoZWV0XCIgaHJlZj1cImFzc2V0cy9vcHMtdjE3NTEuY3Nz
+P3Y9MTcuNTEuMFwiPjxsaW5rIHJlbD1cIm0iXSwgWyJzLXYxNzQ1LmpzP3Y9MTcuNDUuMFwiIGRl
+ZmVyPjwvc2NyaSIsICJzLXYxNzQ1LmpzP3Y9MTcuNTEuMFwiIGRlZmVyPjwvc2NyaSJdLCBbImlw
+dCBzcmM9XCJhc3NldHMvYm9vdC12MTcwLmpzP3Y9MSIsICJpcHQgc3JjPVwiYXNzZXRzL29wcy12
+MTc1MS5qcz92PTE3LjUxLjBcIiBkZWZlcj48L3NjcmlwdD48c2NyaXB0IHNyYz1cImFzc2V0cy9i
+b290LXYxNzAuanM/dj0xIl1dLCAiaCI6ICIwZTlmYTJlNDEyNzY2NzEzNzIyNGEzOGNjNmQwOGVh
+ZDBjM2VkODEwZDUxZTk4YjQ5NjU3OWUxNmE0NGNiY2Q1IiwgImgwIjogIjRhMTM4MzM0ODFkZmY3
+MTgyMWViMjViMDM4NmNlN2M4OGIyMDlhY2YyYTQ3ODk2YTI4NjJmY2Y2Nzc5MzU4YzIifSwgeyJm
+IjogImluZGV4LnBocCIsICJuZXciOiBmYWxzZSwgInAiOiBbWyJlcnZpY2UgQXBwIHYxNy41MDwv
+ZGl2PlxuPC9zZWN0aW9uIiwgImVydmljZSBBcHAgdjE3LjUxPC9kaXY+XG48L3NlY3Rpb24iXV0s
+ICJoIjogImRmYTc1NGNkZTMyYzYyNmY2ODhhYzYyOTkwNWU2OTg5NTQ4NTc4ZTFhZWEzNmRlOTdj
+NDk3YjQyMTRmZDQxODIiLCAiaDAiOiAiYzRkOGJmMTk5OGYwNTE1YzFiNWIwYzg5MzUwYzdjNGNk
+OWZhMTc4YTU5NDI2MDBiN2UwMDg1NTgxNWEyNDZjNSJ9LCB7ImYiOiAidG9vbHMvcmVsZWFzZS1j
+aGVjay5waHAiLCAibmV3IjogZmFsc2UsICJwIjogW1siZXJ2aWNlIEFwcCB2MTcuNTAuMCDigJQg
+YXVkaXQgaW5zdGEiLCAiZXJ2aWNlIEFwcCB2MTcuNTEuMCDigJQgYXVkaXQgaW5zdGEiXV0sICJo
+IjogIjVlNjhlZmE4YWU4YTI4ZGEyN2RjMGYyN2I3MzdkMjgwZWZhMDFmMmU4ZjE3NmEyNjRlN2Y0
+NDg2MGY2ODIzMjgiLCAiaDAiOiAiMDViMzczMWYwNWQ1ZjU3ZWUyNjlkZTJmY2IxMjNiNGMwMGI5
+MGI5NGUwN2NkZDdjZmVmOWZmMzdlMmY2ODkyNiJ9LCB7ImYiOiAidG9vbHMvdjE3LXNtb2tlLWNo
+ZWNrLnBocCIsICJuZXciOiBmYWxzZSwgInAiOiBbWyJldHJpIFBpenphIHYxNy41MCBsb2NhbCBz
+bW9rZSBjaGUiLCAiZXRyaSBQaXp6YSB2MTcuNTEgbG9jYWwgc21va2UgY2hlIl1dLCAiaCI6ICJl
+ZDdlMzcxNmVkNmQ2OWUyOWI5ZDQ2NWQ2MjA3MDY0MjFmZDk3NmU5MzljMTYxMTQ4YTQ2ZDU2ZTE3
+N2NiNTU4IiwgImgwIjogIjY4ZWNjYzVlNjFjM2ZkYTZkYTM1YjRjYWY5MDcxYmM3Yzc3NGRkMzAx
+OTIxYWVlODg4ZTUyZjU3MDFhYTU1ZjEifSwgeyJmIjogImFwaS9raXRjaGVuLWFuYWx5dGljcy5w
+aHAiLCAibmV3IjogZmFsc2UsICJwIjogW1siaW50KSgkeFsnbSddPz8wKV07fVxuYXJzb3J0KCRU
+eik7XG4kciIsICJpbnQpKCR4WydtJ10/PzApLCdwJz0+KGludCkoJHhbJ3AnXT8/MCldO30gLy8g
+djE3LjUxOiBwaXp6YXMgcGVyIGRheSBmb3IgdGhlIENTVlxuYXJzb3J0KCRUeik7XG4kciJdXSwg
+ImgiOiAiYzFjODA3OGRmMWVlZTkwZGM1MGNmNmMwOGZhM2IzNmIzMmY0NDkxZTliZTMwNjNlNjcw
+ZjQ5NzRmMTc4NTE1YyIsICJoMCI6ICJhNTBhYzUzYjE1ODI0MjZhNTM5ZWI5NTViNTFhZmQzNDBi
+ODhlN2MwZTk2M2I4MGUxNmE4NGFiMDIyZDNkMDI4In0sIHsiZiI6ICJhc3NldHMvb3BzLXYxNzQ1
+LmpzIiwgIm5ldyI6IGZhbHNlLCAicCI6IFtbIiBjbGFzcz1cInBwMTc0NS1mY1wiPjwvc3Bhbj48
+aSBhcmlhLWhpZGRlbj1cInRydWVcIj7ilr48L2k+JztjYXJkLnByZXBlbmQobGluZSk7fVxuICAg
+Y29uc3QgbmFtZT0oIiwgIiBjbGFzcz1cInBwMTc0NS1mc1wiPjwvc3Bhbj48c3BhbiBjbGFzcz1c
+InBwMTc0NS1mY1wiPjwvc3Bhbj48aSBhcmlhLWhpZGRlbj1cInRydWVcIj7ilr48L2k+JztjYXJk
+LnByZXBlbmQobGluZSk7fVxuICAgLy8gdjE3LjUxIChvd25lcik6IHdoZW4gdG8gc3RhcnQgPSBk
+ZWFkbGluZSBtaW51cyB0aGUga2l0Y2hlbidzIHByZXAgdGltZVxuICAgaWYoIWxpbmUucXVlcnlT
+ZWxlY3RvcignLnBwMTc0NS1mcycpKXtjb25zdCBmcz1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdz
+cGFuJyk7ZnMuY2xhc3NOYW1lPSdwcDE3NDUtZnMnO2xpbmUucXVlcnlTZWxlY3RvcignLnBwMTc0
+NS1mdCcpPy5hZnRlcihmcyk7fVxuICAgbGV0IHByZXA9MDt0cnl7aWYodHlwZW9mIG1pbnV0ZXMh
+PT0ndW5kZWZpbmVkJylwcmVwPU51bWJlcihtaW51dGVzKTt9Y2F0Y2goXyl7fSAvLyBTZWFkZWQg
+4oaSIFZhbG1pc3RhbWlzYWVnXG4gICBpZighKHByZXA+MCkpcHJlcD1OdW1iZXIoby5taW51dGVz
+KTtcbiAgIGlmKCEocHJlcD4wKSlwcmVwPTIwO1xuICAgY29uc3Qgc3Q9bmV3IERhdGUoZGVhZGxp
+bmUobyktcHJlcCo2MDAwMCksaG09U3RyaW5nKHN0LmdldEhvdXJzKCkpLnBhZFN0YXJ0KDIsJzAn
+KSsnOicrU3RyaW5nKHN0LmdldE1pbnV0ZXMoKSkucGFkU3RhcnQoMiwnMCcpO1xuICAgY29uc3Qg
+bmFtZT0oIl0sIFsidCgnLnBwMTc0NS1mdCcsdCk7c2V0KCcucHAxNzQ1LWYiLCAidCgnLnBwMTc0
+NS1mdCcsdCk7c2V0KCcucHAxNzQ1LWZzJywnQWx1c3RhICcraG0pO3NldCgnLnBwMTc0NS1mIl1d
+LCAiaCI6ICJkYTU5OWUxZjA0NDQyM2JiOWYyMGRlZTgxMDgzMGEzZDljMmQ2MjBkN2UyNjc0MmY5
+MWQ2ODdhMWEwOTNjMjA1IiwgImgwIjogIjAwMTljYTUxMDEwZTdmOGYwOWEyYzI4YzUwNzgxMGRl
+NDVkMTIwNTk4OWI5MGE5M2UwNmNhZjdlNjgyNTk5ZDUifSwgeyJmIjogImFzc2V0cy9vcHMtdjE3
+NTEuanMiLCAibmV3IjogdHJ1ZSwgImMiOiAiLyogUGVldHJpIFBpenphIHYxNy41MSDigJQgU3Rh
+dGlzdGlrYSBcIuKshyBDU1ZcIjogb3JkZXJzLCBwaXp6YXMgYW5kIHRha2luZ3MgcGVyIGRheSAo
+b3duZXIgcGlja2VkIDUpLlxuICogRGF0YSBmcm9tIGFwaS9raXRjaGVuLWFuYWx5dGljcy5waHAg
+KG91ciBzZXJ2ZXIsIExJVkUgZGF5cyBvbmx5KS4gTm8gY3VzdG9tZXIgZGF0YS4gUGVyaW9kID0g
+dGhlIHNlbGVjdGVkIHRhYjtcbiAqIFwiVMOkbmFcIi9cIkVpbGVcIiBleHBvcnQgdGhpcyBtb250
+aC4gRXhjZWwtZnJpZW5kbHk6IFVURi04IEJPTSwgXCI7XCIgYW5kIGRlY2ltYWwgY29tbWEuICov
+XG4oZnVuY3Rpb24oKXtcbiAndXNlIHN0cmljdCc7XG4gaWYod2luZG93LlBQMTc1MSlyZXR1cm47
+XG4gY29uc3Qgc2F5PW09Pnt0cnl7KHdpbmRvdy50b2FzdHx8Y29uc29sZS5sb2cpKG0pfWNhdGNo
+KF8pe319O1xuIGZ1bmN0aW9uIHBlcmlvZCgpe2NvbnN0IGI9ZG9jdW1lbnQucXVlcnlTZWxlY3Rv
+cignI3BwMTcxOS1zdGF0cyAucHAxNzE5LXRhYnMgYnV0dG9uW2FyaWEtcHJlc3NlZD1cInRydWVc
+Il0nKTtjb25zdCBwPWI/LmRhdGFzZXQucHAxNzE5fHwnbW9udGgnO3JldHVybiBbJ21vbnRoJywn
+bGFzdG1vbnRoJywnYWxsJ10uaW5jbHVkZXMocCk/cDonbW9udGgnO31cbiBjb25zdCBsYWJlbD17
+bW9udGg6J3NlZSBrdXUnLGxhc3Rtb250aDonZWVsbWluZSBrdXUnLGFsbDona29ndSBhZWcnfTtc
+biBmdW5jdGlvbiBidXR0b24oKXtcbiAgY29uc3QgaGVhZD1kb2N1bWVudC5xdWVyeVNlbGVjdG9y
+KCcjcHAxNzE5LXJlcG9ydCAucHAxNzE5LXJlcG9ydC1oZWFkJyk7aWYoIWhlYWQpcmV0dXJuO1xu
+ICBsZXQgYj1oZWFkLnF1ZXJ5U2VsZWN0b3IoJyNwcDE3NTEtY3N2Jyk7XG4gIGlmKCFiKXtiPWRv
+Y3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2J1dHRvbicpO2IudHlwZT0nYnV0dG9uJztiLmlkPSdwcDE3
+NTEtY3N2JztiLmNsYXNzTmFtZT0nc2Vjb25kYXJ5Jztjb25zdCBwcj1oZWFkLnF1ZXJ5U2VsZWN0
+b3IoJyNwcDE3MTktcHJpbnQnKTtwcj9wci5iZWZvcmUoYik6aGVhZC5hcHBlbmQoYik7fVxuICBj
+b25zdCB0PSfirIcgQ1NWIMK3ICcrbGFiZWxbcGVyaW9kKCldO2lmKGIudGV4dENvbnRlbnQhPT10
+KWIudGV4dENvbnRlbnQ9dDtcbiB9XG4gYXN5bmMgZnVuY3Rpb24gZG93bmxvYWQoKXtcbiAgY29u
+c3QgcD1wZXJpb2QoKTtcbiAgbGV0IGo7dHJ5e2NvbnN0IHI9YXdhaXQgZmV0Y2goJ2FwaS9raXRj
+aGVuLWFuYWx5dGljcy5waHA/cGVyaW9kPScrcCx7Y3JlZGVudGlhbHM6J3NhbWUtb3JpZ2luJyxj
+YWNoZTonbm8tc3RvcmUnfSk7aj1hd2FpdCByLmpzb24oKTtpZighci5va3x8IWoub2spdGhyb3cg
+MDt9Y2F0Y2goXyl7c2F5KCdDU1Y6IHNlcnZlcmlnYSDDvGhlbmR1cyBwdXVkdWInKTtyZXR1cm47
+fVxuICBjb25zdCBkYXlzPWoucmVwb3J0JiZqLnJlcG9ydC5kYXlzP2oucmVwb3J0LmRheXM6e307
+Y29uc3Qga2V5cz1PYmplY3Qua2V5cyhkYXlzKS5zb3J0KCk7XG4gIGlmKCFrZXlzLmxlbmd0aCl7
+c2F5KCdDU1Y6IHNlbGxlIHBlcmlvb2RpIGtvaHRhIGFuZG1laWQgcG9sZSAoYW5kbWVkIGtvZ3V0
+YWtzZSBMSVZFIHJlxb5paW1pcyknKTtyZXR1cm47fVxuICBjb25zdCBldXI9Yz0+KE1hdGgucm91
+bmQoTnVtYmVyKGMpfHwwKS8xMDApLnRvRml4ZWQoMikucmVwbGFjZSgnLicsJywnKTtcbiAgY29u
+c3Qgcm93cz1bWydLdXVww6RldicsJ1RlbGxpbXVzaScsJ1BpdHNhc2lkJywnS8OkaXZlICjigqwp
+J11dO2xldCBuPTAscHo9MCxtPTA7XG4gIGZvcihjb25zdCBkIG9mIGtleXMpe2NvbnN0IHg9ZGF5
+c1tkXXx8e307bis9eC5ufHwwO3B6Kz14LnB8fDA7bSs9eC5tfHwwO2NvbnN0IFtZLE0sRF09ZC5z
+cGxpdCgnLScpO3Jvd3MucHVzaChbRCsnLicrTSsnLicrWSx4Lm58fDAseC5wfHwwLGV1cih4Lm0p
+XSk7fVxuICByb3dzLnB1c2goWydLb2trdScsbixweixldXIobSldKTtcbiAgY29uc3QgY3N2PSfv
+u78nK3Jvd3MubWFwKHI9PnIuam9pbignOycpKS5qb2luKCdcXHJcXG4nKSsnXFxyXFxuJztcbiAg
+Y29uc3QgbG9jPShkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCcucHAxMTQtbG9jYXRpb24nKT8udGV4
+dENvbnRlbnR8fCdwaXp6ZXJpYScpLnRyaW0oKS50b0xvd2VyQ2FzZSgpLnJlcGxhY2UoL1teYS16
+MC05w7XDpMO2w7xdKy9nLCctJyk7XG4gIGNvbnN0IGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgn
+YScpO2EuaHJlZj1VUkwuY3JlYXRlT2JqZWN0VVJMKG5ldyBCbG9iKFtjc3ZdLHt0eXBlOid0ZXh0
+L2NzdjtjaGFyc2V0PXV0Zi04J30pKTtcbiAgYS5kb3dubG9hZD0ncGVldHJpLScrbG9jKyctJyso
+ai5mcm9tfHwnJykrJy0nKyhqLnRvfHwnJykrJy5jc3YnO2RvY3VtZW50LmJvZHkuYXBwZW5kKGEp
+O2EuY2xpY2soKTtcbiAgc2V0VGltZW91dCgoKT0+e1VSTC5yZXZva2VPYmplY3RVUkwoYS5ocmVm
+KTthLnJlbW92ZSgpO30sMjAwMCk7XG4gfVxuIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdjbGlj
+aycsZT0+e2NvbnN0IGI9ZS50YXJnZXQgaW5zdGFuY2VvZiBFbGVtZW50JiZlLnRhcmdldC5jbG9z
+ZXN0KCcjcHAxNzUxLWNzdicpO2lmKCFiKXJldHVybjtlLnByZXZlbnREZWZhdWx0KCk7ZS5zdG9w
+UHJvcGFnYXRpb24oKTtkb3dubG9hZCgpO30sdHJ1ZSk7XG4gbGV0IHE9ZmFsc2U7Y29uc3QgbGF0
+ZXI9KCk9PntpZihxKXJldHVybjtxPXRydWU7cmVxdWVzdEFuaW1hdGlvbkZyYW1lKCgpPT57cT1m
+YWxzZTt0cnl7YnV0dG9uKCl9Y2F0Y2goXyl7fX0pO307XG4gdHJ5e2NvbnN0IHM9ZG9jdW1lbnQu
+Z2V0RWxlbWVudEJ5SWQoJ3N0YXRpc3RpY3NQYWdlJyk7aWYocyluZXcgTXV0YXRpb25PYnNlcnZl
+cihsYXRlcikub2JzZXJ2ZShzLHtjaGlsZExpc3Q6dHJ1ZSxzdWJ0cmVlOnRydWUsYXR0cmlidXRl
+czp0cnVlLGF0dHJpYnV0ZUZpbHRlcjpbJ2FyaWEtcHJlc3NlZCddfSk7fWNhdGNoKF8pe31cbiBz
+ZXRJbnRlcnZhbChsYXRlciw0MDAwKTtzZXRUaW1lb3V0KGxhdGVyLDgwMCk7XG4gLy8gcGhvbmU6
+IHJlYWwgaGVhZGVyIGhlaWdodCBmb3IgdGhlIHN0aWNreSBiYXJzIGJlbG93IGl0IChvcHMtdjE3
+NTEuY3NzKVxuIGNvbnN0IGhoPSgpPT57Y29uc3QgaD1kb2N1bWVudC5xdWVyeVNlbGVjdG9yKCdo
+ZWFkZXIudG9wYmFyJyk7aWYoaClkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQuc3R5bGUuc2V0UHJv
+cGVydHkoJy0tcHAxNzUxLWhoJyxoLm9mZnNldEhlaWdodCsncHgnKTt9O1xuIHRyeXtjb25zdCBo
+PWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJ2hlYWRlci50b3BiYXInKTtpZihoJiZ3aW5kb3cuUmVz
+aXplT2JzZXJ2ZXIpbmV3IFJlc2l6ZU9ic2VydmVyKGhoKS5vYnNlcnZlKGgpO31jYXRjaChfKXt9
+XG4gd2luZG93LmFkZEV2ZW50TGlzdGVuZXIoJ3Jlc2l6ZScsaGgpO3NldFRpbWVvdXQoaGgsNTAw
+KTtcbiB3aW5kb3cuUFAxNzUxPXtkb3dubG9hZH07XG59KSgpO1xuIiwgImgiOiAiYjIyYWNjMWU2
+NWZiMjNhNzdmNjEwNmI0OTQ2N2FjOGM4NGFjZWU4YTE1OGIzNWI2NGYyNmI0MWJlNzdkNTgyMCJ9
+LCB7ImYiOiAiYXNzZXRzL29wcy12MTc1MS5jc3MiLCAibmV3IjogdHJ1ZSwgImMiOiAiLyogUGVl
+dHJpIFBpenphIHYxNy41MSDigJQgQ1NWIGJ1dHRvbjsgVsOkbGphc3R1czogYSByZWFkeSBvcmRl
+ciB3YWl0aW5nIDE1KyBtaW4gZ2V0cyBhbiBvcmFuZ2UgdGltZSBib3ggKGNhbG0sIG5vIGJsaW5r
+aW5nKS4gKi9cbmh0bWwgYm9keSAjcHAxNzE5LXJlcG9ydCAucHAxNzE5LXJlcG9ydC1oZWFke2Rp
+c3BsYXk6ZmxleCFpbXBvcnRhbnQ7YWxpZ24taXRlbXM6Y2VudGVyIWltcG9ydGFudDtnYXA6MTBw
+eCFpbXBvcnRhbnR9XG5odG1sIGJvZHkgI3BwMTcxOS1yZXBvcnQgI3BwMTc1MS1jc3Z7bWFyZ2lu
+LWxlZnQ6YXV0byFpbXBvcnRhbnR9XG5odG1sIGJvZHkgI3BwMTcxOS1yZXBvcnQgI3BwMTc1MS1j
+c3YrI3BwMTcxOS1wcmludHttYXJnaW4tbGVmdDowIWltcG9ydGFudH1cbmh0bWwgYm9keSAjb3Jk
+ZXJzUGFnZSNvcmRlcnNQYWdlICNwcDE3MTEtcGlja3VwIC5wcDE3MTEtY29weS5wcDE3MTEtY29w
+eS5wcDE3MTEtY29weSAucHAxMTItY29tcGxldGVkOmhhcygucHAxNzMwLXdhaXQubG9uZyl7YmFj
+a2dyb3VuZDojZmNlZmQ2IWltcG9ydGFudH1cbmh0bWwgYm9keSAjb3JkZXJzUGFnZSNvcmRlcnNQ
+YWdlICNwcDE3MTEtcGlja3VwIC5wcDE3MTEtY29weS5wcDE3MTEtY29weS5wcDE3MTEtY29weSAu
+cHAxMTItY29tcGxldGVkOmhhcygucHAxNzMwLXdhaXQubG9uZyk+Kntjb2xvcjojOGE1MjA4IWlt
+cG9ydGFudH1cbmh0bWwgYm9keSAjb3JkZXJzUGFnZSNvcmRlcnNQYWdlICNwcDE3MTEtcGlja3Vw
+IC5wcDE3MTEtY29weS5wcDE3MTEtY29weS5wcDE3MTEtY29weSAucHAxMTItY29tcGxldGVkPmVt
+LnBwMTczMC13YWl0Lmxvbmd7Zm9udC13ZWlnaHQ6ODAwIWltcG9ydGFudDtmb250LXNpemU6MTdw
+eCFpbXBvcnRhbnR9XG5odG1sIGJvZHkgI29yZGVyc1BhZ2Ujb3JkZXJzUGFnZSAucHAxNzQ1LWZv
+bGRsaW5lIC5wcDE3NDUtZnN7ZmxleDowIDAgYXV0byFpbXBvcnRhbnQ7d2hpdGUtc3BhY2U6bm93
+cmFwIWltcG9ydGFudDtwYWRkaW5nOjRweCAxMHB4IWltcG9ydGFudDtib3JkZXItcmFkaXVzOjhw
+eCFpbXBvcnRhbnQ7YmFja2dyb3VuZDojZmRmMGRjIWltcG9ydGFudDtjb2xvcjojOGE1MjA4IWlt
+cG9ydGFudDtmb250LXNpemU6MTZweCFpbXBvcnRhbnQ7Zm9udC13ZWlnaHQ6ODAwIWltcG9ydGFu
+dH1cbi8qIFBob25lIChuYXJyb3cpOiB0aGUgaGVhZGVyIHdyYXBzIGludG8gdHdvIHJvd3MuIFRo
+ZSBzY3JvbGxlZCBoZWFkZXIga2VwdCA1NCBweCAob3BzLXYxNzI2KSwgc28gdGhlIHNlY29uZCBy
+b3dcbiAgIChPb3RlYWVnLCBERU1PLCBjbG9jaykgaHVuZyBvdmVyIHRoZSBwYWdlLiBMZXQgaXQg
+Z3Jvdzsgc3RpY2t5IGJhcnMgc2l0IHVuZGVyIGl0cyByZWFsIGhlaWdodCAoLS1wcDE3NTEtaGgs
+IEpTKS4gKi9cbkBtZWRpYSAobWF4LXdpZHRoOjc2MHB4KXtcbiBodG1sLnBwMTcyNi1zY3JvbGxl
+ZCBib2R5IC5zaGVsbD5oZWFkZXIudG9wYmFyLnRvcGJhci50b3BiYXIsaHRtbCBib2R5IC5zaGVs
+bD5oZWFkZXIudG9wYmFyLnRvcGJhci50b3BiYXJ7aGVpZ2h0OmF1dG8haW1wb3J0YW50O21pbi1o
+ZWlnaHQ6NTRweCFpbXBvcnRhbnQ7YmFja2dyb3VuZDojZmZmIWltcG9ydGFudH1cbiBodG1sIGJv
+ZHkgI3BwMTcyMS10YWJzLGh0bWwgYm9keSAucHAxNDAtdG9vbGJhcixodG1sIGJvZHkgI2tpdGNo
+ZW5Ub29sc3t0b3A6Y2FsYyh2YXIoLS1wcDE3NTEtaGgsNThweCkgKyA2cHgpIWltcG9ydGFudH1c
+bn1cbiIsICJoIjogIjU2Y2RkNzUzMjY2MTUyMDcwZjE5MGFhZjMxMDdmODUxNTA4NTAxZGNjN2Jl
+ZDE4OTYxNmRlZWY3MTNjMzM1OGUifV19
+PEETRI_PATCH_END
+[ -f /tmp/pp-patch.php ] && php /tmp/pp-patch.php; rm -f /tmp/pp-patch.php

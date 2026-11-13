@@ -1,0 +1,7 @@
+# Peetri Pizza v17.14: compress CSS/JS for slow kitchen tablets (about 660 KB -> 190 KB).
+# Only standard Apache modules, each wrapped in IfModule, so a server without them just skips it.
+<IfModule mod_deflate.c>
+<IfModule mod_filter.c>
+AddOutputFilterByType DEFLATE text/css application/javascript text/javascript application/x-javascript image/svg+xml
+</IfModule>
+</IfModule>

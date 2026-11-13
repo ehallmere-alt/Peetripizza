@@ -1,0 +1,13 @@
+/* Peetri Pizza v17.53 — owner picked 1: on a phone the header is one row (menu, small logo, Ooteaeg, DEMO/LIVE);
+   clock and full screen hidden there (hidden, not removed). Owner: search is not needed anywhere → Tooted search box hidden. Tablet unchanged. */
+@media (max-width:760px){
+ html body .shell>header.topbar.topbar.topbar,html.pp1726-scrolled body .shell>header.topbar.topbar.topbar{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:8px!important;height:58px!important;min-height:58px!important;padding:0 10px!important}
+ html body .shell>header.topbar .brandgroup{width:auto!important;min-width:0!important;flex:0 1 auto!important;display:flex!important;align-items:center!important;gap:8px!important}
+ html body .shell>header.topbar .brandgroup .pp116-logo{width:76px!important;height:auto!important;max-height:22px!important;object-fit:contain!important;position:static!important;transform:none!important;margin:0!important}
+ html body .shell>header.topbar .brandgroup .pp114-location,html body .shell>header.topbar .brandgroup .pp160-brand-sub{display:none!important}
+ html body .shell>header.topbar .top-right{width:auto!important;margin:0 0 0 auto!important;flex:0 0 auto!important;display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:6px!important;position:static!important}
+ html body .shell>header.topbar #pp1722-clock,html body .shell>header.topbar #pp173-fullscreen{display:none!important}
+}
+html body .pp140-filters .pp140-search,html body #pp146-product-search-focus{display:none!important}
+/* All other search boxes hidden too (owner, 12.11.2026): orders filter, Valmis history, Väljastus station. Sort stays. */
+html body .order-search,html body .pp112-history-search,html body .pp156-pickup-tools label:has(#pp156-pickup-search),html body label:has(>#orderSearch),html body label:has(>#historySearch){display:none!important}

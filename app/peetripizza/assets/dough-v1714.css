@@ -1,0 +1,18 @@
+/* Peetri Pizza v17.14 — Taigna tellimine 4.0: edit window, unsaved changes, history summary. */
+.pp1714-unsaved{margin:8px 0 0;font-weight:800;color:#b45309}
+.pp1714-unsaved[hidden]{display:none}
+.pp1714-editbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px;padding:10px 12px;border-radius:12px;background:#fff7ed;border:1px solid #f3c46b;font-weight:700}
+.pp1714-editbar[hidden]{display:none}
+.pp1714-editbar button{min-height:44px;padding:0 14px;border-radius:10px}
+.pp1714-lock{display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef1ee;color:#55625a;font-size:13px;font-weight:700}
+.pp1714-lock.open{background:#eaf7ef;color:#18834a}
+.pp1714-dough-sum{margin:0 0 12px;padding:10px 12px;border-radius:12px;background:#f5f7f5;border:1px solid #e3e8e4}
+.pp1714-dough-sum strong{display:block;font-size:15px}
+.pp1714-dough-sum span{display:block;font-size:13px;color:#55625a;margin-top:2px}
+.pp1714-leave{border:0;border-radius:18px;padding:20px;max-width:420px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.pp1714-leave::backdrop{background:rgba(10,20,14,.45)}
+.pp1714-leave h3{margin:0 0 8px;font-size:20px}
+.pp1714-leave p{margin:0 0 16px;font-size:16px}
+.pp1714-leave div{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.pp1714-leave button{min-height:48px;padding:0 18px;border-radius:12px;font-weight:800}
+.pp1714-leave button.danger{background:#b42318;color:#fff;border:0}

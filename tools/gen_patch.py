@@ -5,10 +5,18 @@ Modified files -> unique (old,new) replacement pairs; new files -> full content.
 Every result is verified by sha256 before anything is written; backup + checks + auto-restore."""
 import sys,os,hashlib,base64,difflib,json
 base,new,fv,tv,out=sys.argv[1:6];files=sys.argv[6:]
-def rd(p):return open(p,'rb').read().decode('utf-8') if os.path.exists(p) else None
+BIN=('.png','.ico','.jpg','.jpeg','.webp')
+def rd(p):
+    if not os.path.exists(p):return None
+    raw=open(p,'rb').read()
+    return None if p.lower().endswith(BIN) else raw.decode('utf-8')
 ops=[]
 for f in files:
     a,b=rd(os.path.join(base,f)),rd(os.path.join(new,f))
+    if f.lower().endswith(BIN):  # binary (icons): always written whole, base64 inside the patch
+        raw=open(os.path.join(new,f),'rb').read()
+        if a is not None and open(os.path.join(base,f),'rb').read()==raw:continue
+        ops.append({'f':f,'new':True,'b64':True,'c':base64.b64encode(raw).decode(),'h':hashlib.sha256(raw).hexdigest()});continue
     if a==b:continue
     if a is None:
         ops.append({'f':f,'new':True,'c':b,'h':hashlib.sha256(b.encode()).hexdigest()});continue
@@ -50,7 +58,7 @@ if(version_compare($cur,$P['to'],'>=')){out("Стоит версия $cur (не 
 if($cur!==$P['from'])fail("ожидалась версия {$P['from']}, а стоит $cur — патч не подходит");
 $result=[];
 foreach($P['ops'] as $op){$f=$op['f'];$path="$root/$f";
- if($op['new']){$t=$op['c'];}
+ if($op['new']){$t=!empty($op['b64'])?base64_decode($op['c'],true):$op['c'];if($t===false)fail("патч повреждён ($f)");}
  else{ if(!is_file($path))fail("нет файла $f");$t=file_get_contents($path);
   if(hash('sha256',$t)!==$op['h0'])fail("файл $f на сервере отличается от $P[from] — патч не применён, ничего не изменено");
   foreach($op['p'] as [$o,$n]){if(substr_count($t,$o)!==1)fail("не найдено место правки в $f");$t=str_replace($o,$n,$t);} }

@@ -6,7 +6,8 @@ const {chromium}=require('playwright');
 const BASE=(process.argv[2]||'http://127.0.0.1:8099/peetripizza/').replace(/\/?$/,'/');
 const RELEASE=process.argv[3]||'';
 const results=[];
-async function test(name,fn){const t0=Date.now();try{await fn();results.push({name,ok:true,ms:Date.now()-t0});console.log('PASS',name)}catch(e){results.push({name,ok:false,err:e.message});console.log('FAIL',name,'—',e.message)}}
+const ONLY=process.env.ONLY?new RegExp(process.env.ONLY):null;
+async function test(name,fn){if(ONLY&&!ONLY.test(name))return;const t0=Date.now();try{await fn();results.push({name,ok:true,ms:Date.now()-t0});console.log('PASS',name)}catch(e){results.push({name,ok:false,err:e.message});console.log('FAIL',name,'—',e.message)}}
 function assert(c,m){if(!c)throw new Error(m)}
 async function page(browser,opts={}){
  const ctx=await browser.newContext({viewport:opts.viewport||{width:1180,height:820}});
@@ -89,7 +90,7 @@ await test('Demo orders: add, accept moves to Valmistamisel, timers tick',async(
  const before=await p.evaluate(()=>({n:document.querySelectorAll('#newOrders .ordercard').length,a:document.querySelectorAll('#activeOrders .ordercard').length}));
  assert(before.n>0,'no new demo orders');
  const t1=await p.evaluate(()=>document.querySelector('#ordersPage [data-timer]')?.textContent);
- await p.click('#newOrders .ordercard button:has-text("Võta vastu")');await p.waitForTimeout(400);
+ await p.click('#newOrders .ordercard button[data-action="accept"]');await p.click('#pp1737-sheet [data-min].on');await p.waitForTimeout(400);
  const after=await p.evaluate(()=>({n:document.querySelectorAll('#newOrders .ordercard').length,a:document.querySelectorAll('#activeOrders .ordercard').length}));
  assert(after.n===before.n-1&&after.a===before.a+1,`accept did not move order ${JSON.stringify(before)} -> ${JSON.stringify(after)}`);
  await p.waitForTimeout(2200);
@@ -129,22 +130,14 @@ await test('LIVE (mocked, read-only): sync, then outage keeps last orders + warn
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
-await test('Header shortcuts: Statistika and Valmis (N) use the existing navigation',async()=>{
+await test('Header shortcuts: Statistika uses the existing navigation (Valmis button removed in 17.55)',async()=>{
  const p=await page(browser);await p.goto(url);await p.waitForTimeout(1500);
  assert(await visible(p,'#pp171-stats'),'Statistika header button missing');
- assert(await visible(p,'#pp171-ready'),'Valmis header button missing');
- const counts=await p.evaluate(()=>[document.getElementById('pp171-ready-count').textContent,document.getElementById('doneCount').textContent.trim()]);
- assert(counts[0]===counts[1],'Valmis count '+counts[0]+' != done '+counts[1]);
+ assert(!(await visible(p,'#pp171-ready')),'Valmis header button is back (owner removed it in 17.55)');
  await p.click('#pp171-stats');await p.waitForTimeout(300);
  assert(await visible(p,'#statisticsPage'),'Statistika did not open');
  assert(!(await visible(p,'#ordersPage')),'queue visible on Statistika');
  assert(await p.getAttribute('#pp171-stats','aria-pressed')==='true','Statistika not marked active');
- await p.click('#pp171-ready');await p.waitForTimeout(500);
- assert(await visible(p,'#ordersPage'),'Valmis did not return to Tellimused');
- assert(await p.getAttribute('#toggleHistory','aria-expanded')==='true','ready history not opened');
- assert(await p.getAttribute('#pp171-ready','aria-pressed')==='true','Valmis not marked active');
- await p.click('#pp171-ready');await p.waitForTimeout(300);
- assert(await p.getAttribute('#toggleHistory','aria-expanded')==='false','ready history did not close');
  for(const vp of [{width:768,height:1024},{width:1024,height:768},{width:1366,height:1024}]){
   await p.setViewportSize(vp);await p.waitForTimeout(250);
   const r=await p.evaluate(()=>{const t=document.querySelector('.topbar').getBoundingClientRect();const kids=[...document.querySelectorAll('.topbar .top-right > *')].filter(e=>e.getClientRects().length).map(e=>e.getBoundingClientRect());return {h:t.height,overflow:kids.some(k=>k.right>innerWidth+1||k.top>t.top+t.height)}});
@@ -223,7 +216,7 @@ await test('v17.4: identical LIVE polls keep the same cards, changed data re-ren
  assert(t1&&t2&&t1!==t2,'timers stopped ticking ('+t1+' / '+t2+')');
  extra=true;await p.waitForTimeout(11000);
  const after=await p.evaluate(()=>({n:document.querySelectorAll('#ordersPage .ordercard').length,marked:document.querySelectorAll('#ordersPage .ordercard[data-pp174-mark]').length}));
- assert(after.n===3,'new LIVE order not shown, cards='+after.n);assert(after.marked===0,'cards not re-rendered after data change');
+ assert(after.n===3,'new LIVE order not shown, cards='+after.n);assert(after.marked===2,'v17.16: unchanged cards must stay, only the new one is built (marked='+after.marked+')');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
 });
 
@@ -264,7 +257,7 @@ await test('v17.4: fresh LIVE tap still saves kitchen status (no false notice)',
  p.on('request',rq=>{if(rq.url().includes('kitchen-status.php')&&rq.method()==='POST')posts.push(1)});
  await p.goto(url);await p.waitForTimeout(1200);
  await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2500);
- await p.click('#ordersPage .ordercard button[data-kitchen-action]');await p.waitForTimeout(1200);
+ await p.click('#ordersPage .ordercard button[data-kitchen-action]');await p.click('#pp1737-sheet [data-min].on');await p.waitForTimeout(1200);
  assert(!(await visible(p,'#pp174-stale')),'false stale notice');
  assert(posts.length===1,'kitchen status not saved, posts='+posts.length);
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
@@ -284,8 +277,8 @@ await test('v17.4: sound banner + wake lock setting',async()=>{
  assert(!(await visible(p,'#pp174-sound')),'sound banner shown in DEMO');
  await p.click('#menuBtn');await p.click('#drawer [data-page="settings"]');await p.waitForTimeout(400);
  assert(await visible(p,'#pp174-wakelock'),'wake lock toggle missing in Seaded');
- const r=await p.evaluate(()=>{const i=document.getElementById('pp174-wakelock');const row=i.closest('.pp163-setting-row').getBoundingClientRect();const ref=document.getElementById('pp163-display-toggle').closest('.pp163-setting-row').getBoundingClientRect();return {checked:i.checked,dx:Math.abs(row.left-ref.left),dw:Math.abs(row.width-ref.width)}});
- assert(r.checked,'wake lock should default on');assert(r.dx<1&&r.dw<1,'wake lock row misaligned '+JSON.stringify(r));
+ const r=await p.evaluate(()=>{const i=document.getElementById('pp174-wakelock');const row=i.closest('.pp163-setting-row').getBoundingClientRect();const card=i.closest('[data-pp1721]');return {checked:i.checked,tab:card?.dataset.pp1721||'',w:row.width,cw:card?card.getBoundingClientRect().width:0}});
+ assert(r.checked,'wake lock should default on');assert(r.tab==='kook'&&r.w>200&&r.w<=r.cw+1,'wake lock row misplaced '+JSON.stringify(r));
  await p.click('#pp174-wakelock');
  assert(await p.evaluate(()=>localStorage.getItem('pp-wakelock-v174'))==='false','wake lock choice not saved');
  assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
@@ -302,6 +295,298 @@ await test('v17.4: JS errors are journaled to api/client-log.php (scrubbed)',asy
  await p.ctx.close();
 });
 
+// ---------------- v17.14 Regression Guard ----------------
+const fakePrint=()=>{window.__printed=[];window.__openBlocked=false;window.open=function(){if(window.__openBlocked)return null;const w={closed:false,_h:'',document:{open(){},write(h){w._h+=h},close(){window.__printed.push(w._h)}},focus(){},print(){},addEventListener(){},close(){w.closed=true}};return w;};};
+const tab=(p,t)=>p.evaluate(t=>{window.PP1721.tab=t},t).then(()=>p.waitForTimeout(200));
+const late=async p=>{await p.waitForFunction(()=>window.PPPrintMonitor&&window.PPHealth&&document.getElementById('pp1714-print-monitor'),null,{timeout:8000});};
+
+await test('v17.14 print: first print, then duplicate asks first and the copy says KOOPIA',async()=>{
+ const p=await page(browser);const ID='demo-9'+Date.now().toString().slice(-7); // fresh id: the print log is kept on the server between runs
+ const D={id:ID,number:'901',items:[['Margherita',1]]};
+ await p.addInitScript(fakePrint);await p.goto(url);await late(p);
+ await p.evaluate(d=>window.dispatchEvent(new CustomEvent('pp168:details-opened',{detail:{...d,status:'new',created:Date.now()}})),D);
+ await p.evaluate(d=>window.PPPrint169.printManual({...d,created:Date.now()}),D);
+ await p.waitForFunction(id=>window.PPPrintMonitor.record(id)?.count===1,ID,{timeout:5000});
+ assert(await p.evaluate(()=>window.__printed.length===1&&!/KOOPIA/.test(window.__printed[0])),'first print wrong');
+ await p.evaluate(d=>window.PPPrint169.printManual({...d,created:Date.now()}),D);
+ await p.waitForSelector('#pp1714-print-dialog[open]',{timeout:3000});
+ assert(await p.evaluate(()=>window.__printed.length===1),'printed before the question');
+ await p.click('#pp1714-pd-yes');await p.waitForTimeout(300);
+ assert(await p.evaluate(()=>window.__printed.length===2&&/KOOPIA/.test(window.__printed[1])),'copy not marked KOOPIA');
+ await p.waitForFunction(id=>window.PPPrintMonitor.record(id)?.count===2,ID,{timeout:5000});
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 print: blocked popup shows a red bar with "Prindi nüüd"',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);await p.goto(url);await late(p);
+ await p.evaluate(()=>{window.__openBlocked=true;window.PPPrint169.printManual({id:'demo-902',number:'902',created:Date.now(),items:[['Vesi',1]]});});
+ await p.waitForSelector('#pp1714-print-bar.bad:not([hidden])',{timeout:3000});
+ await p.evaluate(()=>{window.__openBlocked=false;});await p.click('#pp1714-print-bar [data-pp1714="now"]');await p.waitForTimeout(300);
+ assert(await p.evaluate(()=>window.__printed.length===1),'"Prindi nüüd" did not print');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.19 Seaded: System Health, Köögitoimingute ajalugu, Ühendus ja LIVE, Andmed hidden; health still runs in the page',async()=>{
+ const p=await page(browser);await p.goto(url);await late(p);
+ await p.waitForFunction(()=>!!window.PP1719,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());await p.waitForTimeout(600);
+ for(const sel of ['#settingsPage .pp169-health-settings','#settingsPage .pp168-audit-settings','#pp74-settings-mode','#resetDemo','#checkConnection'])assert(!(await visible(p,sel)),sel+' still visible');
+ await tab(p,'print');assert(await visible(p,'#settingsPage .pp169-print-settings'),'print settings disappeared');
+ await tab(p,'sys');assert(await visible(p,'#pp1716-backup'),'#pp1716-backup disappeared');
+ await tab(p,'kook');assert(await visible(p,'#pp176-lock'),'#pp176-lock disappeared');
+ assert(!(await visible(p,'#pp1710-version')),'Versioon block is back (owner removed it in 17.52)');
+ assert(await p.evaluate(()=>!!document.getElementById('pp1710-version')),'Versioon removed from DOM (must only be hidden)');
+ assert(await p.evaluate(()=>!!document.getElementById('pp1714-health')&&!!document.getElementById('resetDemo')),'blocks removed from DOM (must only be hidden)');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.19 Statistika: report first with Täna/Eile/See kuu/Eelmine kuu/Kogu aeg, then charts; old blocks hidden',async()=>{
+ const p=await page(browser);await p.goto(url);await late(p);
+ await p.waitForFunction(()=>!!window.PP1719,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());
+ await p.waitForSelector('#pp1719-report .pp1719-tile:not(.pp1749-in-hero)',{timeout:5000});
+ const r=await p.evaluate(()=>{const s=document.getElementById('pp1719-stats');const kids=[...document.querySelector('#statisticsPage .panel').children].filter(e=>e.getClientRects().length);
+  return {tabs:[...s.querySelectorAll('[data-pp1719]')].map(b=>b.textContent),first:kids.findIndex(e=>e.id==='pp1719-stats'),title:s.querySelector('h3')?.textContent||'',tiles:[...s.querySelectorAll('.pp1719-tile small')].map(x=>x.textContent),charts:s.querySelectorAll('.pp1719-chart').length,txt:document.getElementById('statisticsPage').innerText}});
+ assert(r.tabs.join('|')==='Täna|Eile|See kuu|Eelmine kuu|Kogu aeg','tabs '+r.tabs);
+ assert(r.first<=1,'report is not on top ('+r.first+')');
+ assert(/Päevaaruanne/.test(r.title),'title '+r.title);
+ for(const t of ['Tellimusi','Käive','Keskmine tšekk','Pitsasid'])assert(r.tiles.includes(t),'tile '+t+' missing');
+ assert(r.charts>=2,'charts '+r.charts);
+ assert(!/Karbid täna|Täna köögis|Köögi analüütika|Lõpeta vahetus|Tellimuste näitajad/.test(r.txt),'old block text visible');
+ for(const sel of ['#pp176-today','#pp1714-analytics','#pp143-report','#pp1711-shift-open','#statsData','#performanceStats'])assert(!(await visible(p,sel)),sel+' visible');
+ await p.click('[data-pp1719="month"]');await p.waitForTimeout(300);
+ assert(/ainult „Täna“/.test(await p.textContent('#pp1719-stats')),'DEMO month should explain LIVE only');
+ await p.click('[data-pp1719="today"]');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.19 Statistika LIVE: month report from the server, print opens an 80 mm report',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:[liveOrder(1,'new')],updated_at:Math.floor(Date.now()/1000)})}));
+ let synced=null;
+ await p.route('**/api/kitchen-analytics.php*',r=>{if(r.request().method()==='POST'){synced=JSON.parse(r.request().postData());return r.fulfill({status:200,contentType:'application/json',body:'{"ok":true}'})}
+  const per=new URL(r.request().url()).searchParams.get('period');
+  return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,period:per,from:'2026-11-01',to:'2026-11-12',orders:0,hours:Array(24).fill(0),late_list:[],report:{orders:120,amount_cents:250000,amount_orders:120,avg_check_cents:2083,pizzas:180,prep_avg:14.5,total_avg:22,late:6,with_deadline:100,service:{k:70,d:40,h:10},hours:Array.from({length:24},(_,h)=>h>=11&&h<=22?10:0),top:{'Margherita':40,'Pepperoni':30},days:{'2026-11-01':{n:10,m:20000},'2026-11-02':{n:12,m:25000}},first_day:'2026-11-01'}})})});
+ await p.goto(url);await late(p);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="statistics"]').click());
+ await p.click('[data-pp1719="month"]');await p.waitForSelector('#pp1719-report h3',{timeout:5000});
+ const r=await p.evaluate(()=>({t:document.querySelector('#pp1719-report h3').textContent,txt:document.getElementById('pp1719-stats').innerText,days:document.querySelectorAll('.pp1719-chart .pp1719-col').length}));
+ assert(/Kuuaruanne/.test(r.t)&&/november 2026/.test(r.t),'title '+r.t);
+ assert(/2500,00 €|2 500,00 €|2\s?500,00 €/.test(r.txt)&&/20,83 €/.test(r.txt)&&/Margherita/.test(r.txt)&&/päeva järgi/.test(r.txt),'numbers '+r.txt.slice(0,300));
+ assert(synced&&synced.orders[0].m===1250&&synced.orders[0].s==='k'&&synced.orders[0].z&&!('customerName' in synced.orders[0])&&!JSON.stringify(synced).includes('Klient'),'sync payload '+JSON.stringify(synced));
+ await p.click('#pp1719-print');await p.waitForFunction(()=>window.__printed.length===1,null,{timeout:4000});
+ assert(await p.evaluate(()=>/Kuuaruanne/.test(window.__printed[0])&&/80mm/.test(window.__printed[0])),'print report');
+ await p.click('[data-pp1719="today"]');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 speed mode: switch adds pp1714-lite and survives reload; off by default',async()=>{
+ const p=await page(browser);await p.goto(url);await late(p);
+ assert(!(await p.evaluate(()=>document.documentElement.classList.contains('pp1714-lite'))),'lite on by default');
+ await p.evaluate(()=>{const i=document.getElementById('pp1714-lite');i.checked=true;i.dispatchEvent(new Event('change'))});
+ await p.reload();await late(p);
+ assert(await p.evaluate(()=>document.documentElement.classList.contains('pp1714-lite')),'lite not kept');
+ await p.evaluate(()=>{const i=document.getElementById('pp1714-lite');i.checked=false;i.dispatchEvent(new Event('change'))});
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 dough: unsaved changes guard, edit window badge, history summary',async()=>{
+ const p=await page(browser);await p.goto(BASE+'dough.php');await p.waitForTimeout(1200);
+ const plus=await p.$('#items .item:not(.disabled) button.plus');assert(plus,'no enabled product');await plus.click();
+ assert(await p.evaluate(()=>!document.getElementById('pp1714-unsaved').hidden),'unsaved marker not shown');
+ await p.click('a.back');await p.waitForSelector('#pp1714-leave[open]',{timeout:3000});
+ await p.click('#pp1714-stay');assert(/dough\.php/.test(p.url()),'left the page');
+ p.once('dialog',d=>d.accept());await p.click('#save');await p.waitForFunction(()=>/salvestatud/.test(document.getElementById('message').textContent),null,{timeout:5000});
+ assert(await p.evaluate(()=>document.getElementById('pp1714-unsaved').hidden),'unsaved marker stays after save');
+ await p.waitForSelector('#history .pp1714-dough-sum',{timeout:4000});
+ assert(await p.evaluate(()=>!!document.querySelector('#history .pp1714-lock.open')),'no "Muudetav kuni" badge');
+ await p.click('#history [data-edit]');await p.waitForSelector('#pp1714-editbar:not([hidden])',{timeout:3000});
+ await p.click('#pp1714-edit-cancel');assert(await p.evaluate(()=>document.getElementById('pp1714-editbar').hidden),'edit bar not closed');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.14 responsive: no sideways scroll on phone, portrait and landscape tablet',async()=>{
+ for(const vp of [{width:360,height:740},{width:800,height:1280},{width:1280,height:800}]){
+  const p=await page(browser,{viewport:vp});await p.goto(url);await late(p);
+  for(const pg of ['orders','statistics','settings']){
+   await p.evaluate(pg=>document.querySelector('#drawer [data-page="'+pg+'"]')?.click(),pg);await p.waitForTimeout(400);
+   const w=await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);assert(w<=2,vp.width+'px '+pg+' scrolls sideways by '+w+'px');
+  }
+  await p.goto(BASE+'dough.php');await p.waitForTimeout(800);
+  const w=await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);assert(w<=2,vp.width+'px dough scrolls sideways by '+w+'px');
+  assert(!p.errors.length,vp.width+': '+p.errors.join(' | '));await p.ctx.close();
+ }
+});
+
+await test('v17.15: Seaded → Versioon shows the permanent update command; slimmed CSS and late modules load',async()=>{
+ const p=await page(browser);await p.goto(url);await p.waitForFunction(()=>window.PPPrint169&&window.PPHealth,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());
+ await p.waitForSelector('#pp1715-update code',{state:'attached',timeout:8000});
+ assert(!(await visible(p,'#pp1715-update')),'update block is back in Seaded (owner hid it in 17.52)');
+ const cmd=await p.textContent('#pp1715-update code');assert(/raw\.githubusercontent\.com\/ehallmere-alt\/Peetripizza\/main\/patches\/update-latest-ssh\.txt/.test(cmd)&&/&& bash /.test(cmd),'command '+cmd);
+ const css=await p.evaluate(()=>[...document.styleSheets].map(s=>s.href||''));assert(!css.some(h=>/kitchen-release-v166/.test(h))&&css.some(h=>/assets\/app-v\d+\.css/.test(h)),'css '+css); // 17.48+: one bundled stylesheet
+ assert(await p.evaluate(()=>typeof window.PPPrint169.printManual==='function'&&!!document.getElementById('pp169-health-check')),'late modules missing');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 LIVE: only the changed card is rebuilt, the rest stay the same node',async()=>{
+ const p=await page(browser);let st1='new',extra=false;
+ await p.route('**/api/live.php*',r=>{const orders=[liveOrder(1,st1),liveOrder(3,'active')];if(extra)orders.push(liveOrder(4,'new'));return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders,updated_at:Math.floor(Date.now()/1000)})})});
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2500);
+ await p.evaluate(()=>document.querySelectorAll('#ordersPage .ordercard').forEach(c=>c.dataset.m=c.dataset.orderId));
+ const built0=await p.evaluate(()=>window.pp1716BuiltCards());
+ extra=true;st1='active';await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(2500);
+ const r=await p.evaluate(()=>({nw:[...document.querySelectorAll('#newOrders .ordercard')].map(c=>[c.dataset.orderId.slice(-1),c.dataset.m||'']),act:[...document.querySelectorAll('#activeOrders .ordercard')].map(c=>[c.dataset.orderId.slice(-1),c.dataset.m||'']),built:window.pp1716BuiltCards()}));
+ const a3=r.act.find(x=>x[0]==='3'),a1=r.act.find(x=>x[0]==='1'),n4=r.nw.find(x=>x[0]==='4');
+ assert(a3&&a3[1],'unchanged order 3 was rebuilt '+JSON.stringify(r));
+ assert(a1&&!a1[1],'order 1 moved to active but card not rebuilt '+JSON.stringify(r));
+ assert(n4&&!n4[1],'new order 4 missing '+JSON.stringify(r));
+ assert(r.built-built0===2,'expected 2 built cards, got '+(r.built-built0));
+ const t1=await p.textContent('#activeOrders [data-timer]');await p.waitForTimeout(2100);assert(t1!==await p.textContent('#activeOrders [data-timer]'),'timer stopped on kept card');
+ assert(!(await visible(p,'button[aria-label="Laadi päris tellimused ainult lugemiseks"]')),'v17.16: old "Reaalsed tellimused" button still visible');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+const empty=(r,list)=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:list||[],updated_at:Math.floor(Date.now()/1000)})});
+await test('v17.16 self-update: new server version reloads only when no orders, LIVE comes back on',async()=>{
+ const p=await page(browser);let list=[liveOrder(1,'new')],ver='17.99.0';
+ await p.route('**/api/live.php*',r=>empty(r,list));
+ await p.route('**/api/release.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,version:ver})}));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ await p.evaluate(()=>{window.__same=1});
+ await p.evaluate(()=>window.PP1716.checkVersion());await p.waitForTimeout(800);
+ assert(await p.evaluate(()=>window.__same===1),'reloaded while an order was in work');
+ assert(await visible(p,'#pp1716-update'),'update bar not shown');
+ list=[];await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ ver=await p.evaluate(()=>document.querySelector('meta[name="peetri-release"]').content);
+ await p.evaluate(()=>window.PP1716._test.setServer('17.99.0'));
+ await Promise.all([p.waitForNavigation({timeout:8000}),p.evaluate(()=>window.PP1716.tryUpdate())]);
+ await p.waitForTimeout(4500);
+ assert(await p.evaluate(()=>window.__same===undefined),'page not reloaded');
+ assert(await p.evaluate(()=>document.body.classList.contains('live-active')),'LIVE not switched back on after reload');
+ assert(!(await visible(p,'#pp1716-update')),'update bar still shown on the new version');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 night reload: only 05:00–05:30 Tallinn, after 6 h open, once a day, no orders',async()=>{
+ const p=await page(browser);
+ await p.route('**/api/live.php*',r=>empty(r,[]));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ const r=await p.evaluate(()=>{const at=h=>new Date(Date.UTC(2026,10,12,h-2,10));const N=window.PP1716.nightTick;
+  return {day:N(at(14),8*3600000),young:N(at(5),3600000),orders:window.PP1716.busyReason()}});
+ assert(r.day===false&&r.young===false,'reload at a wrong time '+JSON.stringify(r));
+ assert(r.orders==='','busy with no orders: '+r.orders);
+ await p.evaluate(()=>{window.__same=1;try{localStorage.removeItem('pp1716-night')}catch(_){}});
+ await Promise.all([p.waitForNavigation({timeout:8000}),p.evaluate(()=>window.PP1716.nightTick(new Date(Date.UTC(2026,10,12,3,10)),7*3600000))]);
+ await p.waitForTimeout(4500);
+ assert(await p.evaluate(()=>window.__same===undefined&&document.body.classList.contains('live-active')),'night reload or LIVE resume failed');
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ assert(await p.evaluate(()=>window.PP1716.nightTick(new Date(Date.UTC(2026,10,12,3,15)),7*3600000))===false,'second night reload on the same day');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 LIVE silent 3 min: red bar + sound, gone after a good sync',async()=>{
+ const p=await page(browser);
+ await p.route('**/api/live.php*',r=>empty(r,[liveOrder(1,'new')]));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ assert(!(await visible(p,'#pp1716-silent')),'silent bar without reason');
+ const r=await p.evaluate(()=>{let beeps=0;const old=window.PPSound.play;window.PPSound.play=k=>{if(k==='offline')beeps++;return true};
+  window.PP1716._test.setLastOk(Date.now()-200000);const a=window.PP1716.silentTick();const b=window.PP1716.silentTick();window.PPSound.play=old;return {a,b,beeps}});
+ assert(r.a&&r.beeps===1,'bar/sound not triggered once '+JSON.stringify(r));
+ assert(await visible(p,'#pp1716-silent'),'silent bar not visible');
+ assert(/3/.test(await p.textContent('#pp1716-silent-min')),'minutes not shown');
+ await p.click('#pp1716-silent-retry');await p.waitForTimeout(1500);
+ assert(!(await visible(p,'#pp1716-silent')),'bar stays after LIVE answered again');
+ await p.click('#pp172-mode [data-mode="demo"]');await p.waitForTimeout(500);
+ await p.evaluate(()=>window.PP1716._test.setLastOk(Date.now()-900000));
+ assert(await p.evaluate(()=>window.PP1716.silentTick())===false,'alarm in DEMO');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.16 Seaded: daily data copy card, restore asks first',async()=>{
+ const p=await page(browser);
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.waitForFunction(()=>!!window.PP1716,null,{timeout:8000});
+ await p.evaluate(()=>document.querySelector('#drawer [data-page="settings"]').click());
+ await p.evaluate(()=>window.PP1716.loadBackups());
+ await p.waitForFunction(()=>/Viimane koopia/.test(document.getElementById('pp1716-last')?.textContent||''),null,{timeout:8000});
+ await tab(p,'sys');assert(await visible(p,'#pp1716-backup'),'card not visible in Seaded');
+ let asked='';p.once('dialog',d=>{asked=d.message();d.dismiss()});
+ await p.click('#pp1716-restore');await p.waitForTimeout(500);
+ if(!asked)asked=await p.evaluate(()=>document.querySelector('.pp1724-sheet-wrap p')?.textContent||'');
+ assert(/Taastada/.test(asked),'restore did not ask first');
+ if(await visible(p,'.pp1724-sheet-wrap'))await p.click('.pp1724-sheet-wrap .pp1724-no');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.17 allergy: "allergia", "ilma …" and gluteenivaba marked red on the card and on the 80 mm ticket',async()=>{
+ const p=await page(browser);await p.addInitScript(fakePrint);
+ const o1={...liveOrder(1,'new'),note:'Lapsel on pähkliallergia! Palun ilma sibulata.',items:[['Pepperoni — Põhi: gluteenivaba',1],['Vesi',2]]};
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:[o1,liveOrder(3,'active')],updated_at:Math.floor(Date.now()/1000)})}));
+ await p.goto(url);await late(p);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2500);
+ const r=await p.evaluate(()=>{const c=document.querySelector('#ordersPage .ordercard[data-order-id$="1"]'),c3=document.querySelector('#ordersPage .ordercard[data-order-id$="3"]');
+  return {marks:[...c.querySelectorAll('mark.pp1717')].map(m=>m.textContent),badge:c.querySelector('.pp1717-badge')?.textContent||'',alert:c.classList.contains('pp1717-alert'),clean:!c3.querySelector('mark.pp1717,.pp1717-badge'),bg:getComputedStyle(c.querySelector('.customer-note mark.pp1717')).backgroundColor}});
+ assert(r.marks.some(x=>/pähkliallergia/i.test(x))&&r.marks.some(x=>/ilma sibulata/i.test(x))&&r.marks.some(x=>/gluteenivaba/i.test(x)),'marks '+JSON.stringify(r));
+ assert(r.badge&&r.alert,'badge/frame missing '+JSON.stringify(r));
+ assert(r.clean,'order without allergy got marks');
+ assert(/198, 40, 40|rgb\(198/.test(r.bg),'mark not red: '+r.bg);
+ await p.evaluate(o=>window.PPPrint169.printManual({id:o.id,number:o.number,created:Date.now(),note:o.note,items:o.items}),o1);
+ await p.waitForFunction(()=>window.__printed.length===1,null,{timeout:5000});
+ const html=await p.evaluate(()=>window.__printed[0]);
+ assert(/class="allergy"[^>]*>⚠[^<]*PÄHKLIALLERGIA|class="allergy"[^>]*>⚠[^<]*pähkliallergia/i.test(html)&&/ilma sibulata/i.test(html),'ticket has no allergy line');
+ // a kept card (unchanged data) keeps its marks after the next poll
+ await p.waitForTimeout(11000);
+ assert(await p.evaluate(()=>document.querySelectorAll('#ordersPage mark.pp1717').length>=3),'marks lost after poll');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.18 night screen: after closing with no orders goes dark, new order wakes it, tap hides',async()=>{
+ const p=await page(browser);let list=[];
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:list,updated_at:Math.floor(Date.now()/1000)})}));
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1718,null,{timeout:8000});
+ const c=await p.evaluate(()=>{const C=window.PP1718.isClosed,h={from:660,to:1320};return {day:C(14*60,h),before:C(10*60+40,h),justAfter:C(22*60+10,h),night:C(23*60+30,h),late:C(3*60,{from:660,to:120}),lateOpen:C(1*60,{from:660,to:120}),closedDay:C(14*60,'closed'),unknown:C(3*60,null)}});
+ assert(!c.day&&!c.before&&!c.justAfter&&c.night&&c.late&&!c.lateOpen&&c.closedDay&&!c.unknown,'hours logic '+JSON.stringify(c));
+ await p.evaluate(()=>{window.PP1718._test.setHours('closed');window.PP1718.tick()});
+ assert(await visible(p,'#pp1718-night'),'night screen not shown when closed and empty');
+ assert(/\d\d:\d\d/.test(await p.textContent('#pp1718-night-clock')),'clock missing');
+ list=[liveOrder(1,'new')];await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ assert(!(await visible(p,'#pp1718-night')),'new order did not wake the screen');
+ list=[];await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ await p.evaluate(()=>window.PP1718.tick());assert(await visible(p,'#pp1718-night'),'did not go dark again');
+ await p.click('#pp1718-night');assert(!(await visible(p,'#pp1718-night')),'tap did not hide');
+ assert(await p.evaluate(()=>window.PP1718.tick()===false),'came back right after tap');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
+
+await test('v17.18 Ooteaeg hint: 6+ orders in work → orange + "Tõsta 30 min?", tap saves via the normal Ooteaeg',async()=>{
+ const p=await page(browser);let list=[1,2,3,4,5].map(i=>liveOrder(i,'new'));let posted=null;
+ await p.route('**/api/live.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,orders:list,updated_at:Math.floor(Date.now()/1000)})}));
+ await p.route('**/api/wait-time.php*',r=>{if(r.request().method()==='POST'){posted=JSON.parse(r.request().postData()||'{}');return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,minutes:Number(posted.minutes)})})}return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,minutes:posted?Number(posted.minutes):20})})});
+ await p.goto(url);await p.waitForTimeout(1200);
+ await p.click('#pp172-mode [data-mode="live"]');await p.waitForTimeout(2000);
+ await p.waitForFunction(()=>!!window.PP1718,null,{timeout:8000});
+ assert(await p.evaluate(()=>window.PP1718.waitTick())===0&&!(await visible(p,'#pp1718-wait-hint')),'hint with 5 orders');
+ list.push(liveOrder(6,'active'));await p.evaluate(()=>document.dispatchEvent(new Event('pp:refresh-live')));await p.waitForTimeout(1500);
+ assert(await visible(p,'#pp1718-wait-hint'),'no hint with 6 orders');
+ assert(/Tõsta 30 min/.test(await p.textContent('#pp1718-wait-yes')),'wrong suggestion');
+ assert(await p.evaluate(()=>document.querySelector('.pp1718-wait-hot')!==null),'Ooteaeg box not orange');
+ await p.click('#pp1718-wait-yes');await p.waitForTimeout(1200);
+ assert(posted&&String(posted.minutes)==='30','Ooteaeg not saved through wait-time.php: '+JSON.stringify(posted));
+ assert(!(await visible(p,'#pp1718-wait-hint')),'hint stays after raising');
+ assert(await p.evaluate(()=>window.PP1718.suggestion(10,30)===45&&window.PP1718.suggestion(12,45)===0&&window.PP1718.suggestion(6,30)===0),'suggestion rules');
+ assert(!p.errors.length,p.errors.join(' | '));await p.ctx.close();
+});
 await browser.close();
 const failed=results.filter(r=>!r.ok);
 console.log(`\n${results.length-failed.length}/${results.length} passed`);

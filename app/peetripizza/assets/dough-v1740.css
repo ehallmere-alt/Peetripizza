@@ -1,0 +1,23 @@
+/* Peetri Pizza v17.40 — #3 Taigna tellimine like the kitchen app: white header bar (back, logo + location, clock),
+ * same green, same buttons, history as cards. Layout only; the dough flow is untouched. */
+body{background:#f3f6f4!important}
+header.top.pp1740-top{position:sticky;top:0;z-index:20;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px;background:#fff;margin:0 calc(50% - 50vw) 18px!important;padding:8px max(16px,calc(50vw - 50% + 0px))!important;border-bottom:1px solid #e3ebe5;box-shadow:0 1px 8px rgba(16,42,26,.05)}
+.pp1740-back{display:inline-flex!important;align-items:center;gap:10px;min-height:44px;padding:0 14px 0 6px;border-radius:12px;background:#eef5f0;color:#14532d!important;font-weight:800;text-decoration:none!important}
+.pp1740-back .pp1740-hamb{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:#fff;font-size:18px}
+.pp1740-brandcol{display:flex;flex-direction:column;align-items:center;gap:2px}
+.pp1740-brandcol .brand img{height:36px!important}
+.pp1740-brandcol .branch{font-size:13px!important;padding:1px 8px!important}
+.pp1740-clock{font-size:30px;font-weight:900;color:#0f2117;letter-spacing:-.02em;line-height:1;text-align:right;min-width:120px}
+.pp1740-clock small{display:block;font-size:12px;font-weight:700;color:#5b6f62;letter-spacing:0;margin-top:2px}
+.intro .timebox{display:none!important}
+.controls button{background:#f1f6f2!important;color:#1d4a30!important;border:1px solid #dfe8e2!important;font-weight:800!important}
+.controls button.plus{background:#1f6b3a!important;color:#fff!important;border-color:#1f6b3a!important}
+.controls .qty{font-size:22px!important;font-weight:900!important;color:#0f2117!important;min-width:42px;text-align:center}
+.save{background:#1f6b3a!important;border-radius:12px!important;min-height:52px!important;font-size:17px!important}
+.panel{border-radius:16px!important;border:1px solid #e3ebe5!important;box-shadow:0 2px 10px rgba(16,42,26,.05)!important}
+#history .historyorder{background:#fff;border:1px solid #dfe8e2!important;border-left:6px solid #1f6b3a!important;border-radius:14px;padding:14px 16px!important;margin:0 0 12px;box-shadow:0 2px 8px rgba(16,42,26,.05)}
+#history .historyorder ul{padding-left:18px}
+#history .history-actions button,.pp144-history-actions button,#pp169-filter-clear{min-height:44px;border-radius:12px!important;border:1px solid #cfdcd4!important;background:#f4f8f5!important;color:#1d4a30!important;font-weight:800!important}
+#history .pp169-state{background:#eef5f0;color:#14532d;border-radius:8px;padding:3px 9px;font-weight:800}
+.pp169-history-filters select,.pp169-history-filters input{min-height:44px;border:1px solid #cfdcd4!important;border-radius:12px!important;background:#fff!important;font-weight:700}
+@media(max-width:600px){.pp1740-clock{font-size:22px;min-width:0}.pp1740-back span:last-child{display:none}}

@@ -1,0 +1,9 @@
+/* Peetri Pizza v17.61 — owner picked 2 and 6. */
+/* 2: menu tighter, no "Juhtpaneel" title (logo and ✕ stay) */
+html body #drawer .drawer-header>strong{display:none!important}
+html body #drawer .drawer-header{justify-content:space-between!important}
+html body #drawer nav{align-content:start!important;grid-auto-rows:min-content!important;gap:4px!important;height:auto!important;flex:0 0 auto!important}
+html body #drawer nav .navitem{min-height:52px!important;height:52px!important;padding-top:10px!important;padding-bottom:10px!important;margin-bottom:0!important}
+html body #drawer .logout-form{margin-top:auto!important}
+/* 17.62 owner: no "Heli" and no "Valmis" in the menu (hidden, not removed: sound stays in Seaded → Heli, the Valmis list still works for scripts) */
+html body #drawer nav :is(#pp1735-sound-nav,#pp1755-ready-nav){display:none!important}

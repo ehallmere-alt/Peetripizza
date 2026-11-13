@@ -26,7 +26,7 @@ def check(name,cond,info=''):
 def mode(m):open(A+'/mode.txt','w').write(m)
 mode('ok')
 # --- unauthenticated
-for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php']:
+for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php','print-log.php','kitchen-analytics.php','backup.php','release.php']:
   c,j,_=req('api/'+ep);check('no login -> 401: '+ep,c==401 and j and j.get('error')=='authentication_required',(c,j))
 c,j,_=req('api/customer-links.php','POST',{});check('no login -> 401: customer-links.php',c==401,(c,j))
 c,j,_=req('api/track-status.php?t=bad');check('track-status bad token -> 404 (public endpoint)',c==404,(c,j))
@@ -109,6 +109,90 @@ if c==200:
 c,j,_=req('api/site-status.php','POST',{},headers=CS);check('site-status POST -> 405',c==405,(c,j))
 mode('down');c,j,_=req('api/site-status.php');check('site-status upstream down -> cached (stale ok)',c==200 and j.get('ok'),(c,j))
 mode('ok');os.remove(A+'/pid.txt')
+# --- v17.10 version check (no github=1 here: that would reach the real internet)
+c,j,_=req('api/version.php');check('version.php: release + files ok',c==200 and j.get('ok') and re.match(r'^\d+\.\d+\.\d+$',j.get('version','')) and j['files']['checked'] and j['files']['total']>100 and j['files']['missingCount']==0 and j.get('github') is None,(c,str(j)[:300]))
+check('version.php: no secrets / order data',not re.search(r'session|websocket|password|customer|phone',json.dumps(j),re.I),str(j)[:300])
+c,j,_=req('api/version.php','POST',{},headers=CS);check('version.php POST -> 405',c==405,(c,j))
+# --- v17.14 Regression Guard: Smart Print Monitor
+c,j,_=req('api/print-log.php');check('v17.14 print-log GET',c==200 and j['ok'] and isinstance(j['orders'],list),(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel aaaa'});check('v17.14 print-log POST without CSRF refused',c==403,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: first tablet claims auto print',c==200 and j['claimed'] is True and j['record']['count']==1,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel bbbb'},headers=CS);check('v17.14 print: second tablet does NOT auto-print the same order',c==200 and j['claimed'] is False and j['record']['count']==1,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'outcome','order':LIVEID,'outcome':'blocked','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: blocked print is not counted',c==200 and j['record']['count']==0,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'auto','device':'Tahvel bbbb'},headers=CS);check('v17.14 print: after a blocked print another tablet may print',c==200 and j['claimed'] is True,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'A101','kind':'copy','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: manual copy is logged (count 2)',c==200 and j['record']['count']==2 and j['record']['last_kind']=='copy',(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':'../x','number':'1','kind':'manual','device':'Tahvel aaaa'},headers=CS);check('v17.14 print: bad order id -> 422',c==422,(c,j))
+c,j,_=req('api/print-log.php','POST',{'action':'claim','order':LIVEID,'number':'1','kind':'manual','device':'<script>'},headers=CS);check('v17.14 print: bad device label -> 422',c==422,(c,j))
+c,j,_=req('api/print-log.php');check('v17.14 print-log lists the order',c==200 and any(x['order']==LIVEID and x['count']==2 for x in j['orders']),(c,str(j)[:300]))
+raw=open(PD+'/print-log-65.json').read();check('v17.14 print-log on disk has no customer data',not re.search(r'Mari|Maasikas|5555|@',raw),raw[:200])
+# --- v17.14 Kitchen Analytics
+nowms=int(time.time()*1000)
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-5000,'deadline':nowms-120000}]});check('v17.14 analytics sync without CSRF refused',c==403,(c,j))
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':LIVEID,'number':'A101','created':nowms-5000,'deadline':nowms-120000},{'id':'bad','number':'x'}]},headers=CS);check('v17.14 analytics sync stored',c==200 and j['ok'],(c,j))
+c,j,_=req('api/kitchen-analytics.php?period=today');check('v17.14 analytics today: order, prep time, late',c==200 and j['orders']>=1 and j['prep_count']>=1 and j['late']>=1 and len(j['hours'])==24,(c,str(j)[:300]))
+check('v17.14 analytics: no staff names or ratings',c==200 and not re.search(r'actor|staff|rating|K..k',json.dumps(j)),str(j)[:200])
+c,j,_=req('api/kitchen-analytics.php?period=year');check('v17.14 analytics bad period -> 422',c==422,(c,j))
+for per in ('yesterday','7d'):
+  c,j,_=req('api/kitchen-analytics.php?period='+per);check('v17.14 analytics period '+per,c==200 and j['ok'],(c,j))
+raw=open(PD+'/analytics-65.json').read();check('v17.14 analytics on disk: ids, numbers, times only',not re.search(r'Mari|5555|@|Margherita',raw) and set(json.loads(raw)['orders'][LIVEID])<={'n','c','d','a','f'},raw[:200])
+# --- v17.19 reports: amount, service, products; daily totals kept after the 35-day order list
+L2='live-'+'b'*24;L3='live-'+'c'*24
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':L2,'number':'A201','created':nowms-60000,'m':2350,'s':'d','p':2,'z':{'Margherita':1,'Pepperoni':1,'<b>x</b>':1}},{'id':L3,'number':'A202','created':nowms-30000,'m':1000,'s':'h','p':1,'z':{'Margherita':1},'evil':'Mari'}]},headers=CS)
+check('v17.19 sync with amount/service/products stored',c==200 and j['ok'],(c,j))
+c,j,_=req('api/kitchen-analytics.php?period=today');r=(j or {}).get('report') or {}
+check('v17.19 today report: orders, käive, avg check, pizzas, service, top',c==200 and r.get('orders',0)>=3 and r.get('amount_cents')==3350 and r.get('avg_check_cents')==1675 and r.get('pizzas')==3 and r['service']['d']==1 and r['service']['h']==1 and list(r['top'].items())[0]==('Margherita',2),(c,str(r)[:400]))
+check('v17.19 product names cleaned (no tags)',not any('<' in k for k in r.get('top',{})),r.get('top'))
+for per in ('month','lastmonth','all'):
+  c,j,_=req('api/kitchen-analytics.php?period='+per);check('v17.19 period '+per,c==200 and j['ok'] and 'report' in j,(c,str(j)[:200]))
+c,j,_=req('api/kitchen-analytics.php?period=all');check('v17.19 all-time includes today',c==200 and j['report']['orders']>=3 and j['report']['first_day'],(c,str(j)[:200]))
+DF2=PD+'/analytics-days-65.json';dd=json.load(open(DF2))['days']
+check('v17.19 day totals on disk: no customer data',not re.search(r'Mari|5555|@|A20[12]|live-',json.dumps(dd)),json.dumps(dd)[:200])
+# a day that has left the 35-day order list stays in the totals
+dd['2025-01-15']={'n':7,'m':12345,'mn':7,'p':9,'late':1,'dl':5,'ps':80,'pn':5,'ts':100,'tn':5,'h':[0]*24,'s':{'k':7,'d':0,'h':0},'z':{'Hawaii':4}}
+json.dump({'days':dd},open(DF2,'w'))
+c,j,_=req('api/kitchen-analytics.php?period=all');r=j['report']
+check('v17.19 old days kept forever and counted in Kogu aeg',r['first_day']=='2025-01-15' and r['orders']>=10 and r['amount_cents']>=12345+3350 and r['top'].get('Hawaii')==4,(str(r)[:300]))
+c,j,_=req('api/kitchen-analytics.php?period=month');check('v17.19 month does not include an old day',j['report']['top'].get('Hawaii') is None,str(j['report'])[:200])
+# --- v17.14 Taigna tellimine 4.0: edit window
+c,j,_=req('api/dough.php');fro=[k for k,v in j['catalog'].items() if v.get('frozen')]
+import datetime;d=(datetime.date.today()+datetime.timedelta(days=2)).isoformat()
+c,j,_=req('api/dough.php','POST',{'action':'create','items':{fro[0]:2},'delivery_date':d},headers=CS);oid=j['order']['id'] if c==201 else ''
+c,j,_=req('api/dough.php');row=[x for x in j['orders'] if x['id']==oid]
+check('v17.14 dough: editable + editable_until in list',row and row[0]['editable'] is True and row[0]['editable_until'],row)
+c,j,_=req('api/dough.php','POST',{'action':'edit','id':oid,'expected_revision':0,'items':{fro[0]:5},'delivery_date':d},headers=CS)
+check('v17.14 dough: edit inside window saved with change details',c==200 and j['order']['history'][-1].get('changes')==[{'key':fro[0],'name':j['order']['items'][0]['name'],'from':2,'to':5}],(c,j))
+rows=json.load(open(PD+'/dough-65.json'))
+for r in rows:
+  if r['id']==oid:r['created_at']=(datetime.datetime.now(datetime.timezone.utc)-datetime.timedelta(days=2)).isoformat()
+open(PD+'/dough-65.json','w').write(json.dumps(rows))
+c,j,_=req('api/dough.php','POST',{'action':'edit','id':oid,'expected_revision':1,'items':{fro[0]:6},'delivery_date':d},headers=CS)
+check('v17.14 dough: edit after cut-off refused (edit_window_closed)',c==409 and j['error']=='edit_window_closed',(c,j))
+c,j,_=req('api/dough.php','POST',{'action':'status','id':oid,'expected_revision':1,'status':'Tühistatud'},headers=CS);check('v17.14 dough: cancel still possible after cut-off',c==200,(c,j))
+# --- v17.14 System Health 2.0
+c,j,_=req('api/system-health.php');check('v17.14 system-health: storage size, disk, server time',c==200 and isinstance(j.get('storage'),dict) and j['storage']['files']>=1 and abs(j['server_time']-int(time.time()*1000))<60000 and any(x['key']=='storage_size' for x in j['checks']),(c,str(j)[:300]))
+check('v17.14 system-health: no file names or secrets',not re.search(r'internal-status|dough-|password|session',json.dumps(j.get('storage'))),j.get('storage'))
+# --- v17.16 release + daily data copy
+import hashlib
+c,j,_=req('api/release.php');check('v17.16 release.php: server version only',c==200 and j=={'ok':True,'version':re.search(r'peetri-release" content="([0-9.]+)',open(WEB+'/dashboard.php').read()).group(1)},(c,j))
+c,j,_=req('api/backup.php');check('v17.16 backup GET makes today\'s copy',c==200 and j['ok'] and j['made'] and len(j['backups'])==1 and j['backups'][0]['files']>=3,(c,j))
+TODAY=j['today'] if j else ''
+c,j,_=req('api/backup.php');check('v17.16 backup GET again: no second copy the same day',c==200 and j['made'] is False and len(j['backups'])==1,(c,j))
+BK=PD+'/backups/65/'+TODAY
+check('v17.16 backup holds only this pizzeria, no locks',os.path.isdir(BK) and all(re.match(r'^(internal-status|pickup|dough|wait|print-log|analytics|analytics-days)\.json$|^meta\.json$',f) for f in os.listdir(BK)),os.listdir(BK) if os.path.isdir(BK) else 'no dir')
+DF=PD+'/dough-65.json';orig=hashlib.sha256(open(DF,'rb').read()).hexdigest()
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY});check('v17.16 restore without CSRF refused',c==403,(c,j))
+for bad in ['../65','2026-1-1','x','2026-11-11/../..']:
+  c,j,_=req('api/backup.php','POST',{'action':'restore','date':bad},headers=CS);check('v17.16 restore bad date refused: '+bad,c==400,(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':'2001-01-01'},headers=CS);check('v17.16 restore unknown day -> 404',c==404,(c,j))
+open(DF,'w').write('{"orders":[]}')
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY},headers=CS)
+check('v17.16 restore brings the day copy back',c==200 and j['restored']>=3 and hashlib.sha256(open(DF,'rb').read()).hexdigest()==orig,(c,j))
+check('v17.16 restore first saved the state before it (-enne)',c==200 and any(b['date']==TODAY+'-enne' for b in j['backups']),(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY+'-enne'},headers=CS)
+check('v17.16 restore can be undone (-enne copy)',c==200 and open(DF).read()=='{"orders":[]}',(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY},headers=CS)
+check('v17.16 restore again -> original data',c==200 and hashlib.sha256(open(DF,'rb').read()).hexdigest()==orig,(c,j))
+c,j,_=req('api/dough.php');check('v17.16 dough API still reads restored file',c==200 and j and j.get('ok'),(c,str(j)[:200]))
 # --- upstream failures
 mode('expired');c,j,_=req('api/live.php');check('upstream session expired -> 401 (so the login banner shows)',c==401,(c,j))
 mode('down');c,j,_=req('api/live.php');check('upstream down -> 502',c==502,(c,j))

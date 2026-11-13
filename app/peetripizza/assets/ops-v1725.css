@@ -1,0 +1,87 @@
+/* Peetri Pizza v17.25 — design pack 4 (1, 2, 4, 5, 6). Only overrides. */
+
+/* 1: Uued counter pulses orange while a new order waits */
+#pp1722-counts.pp1722-has-new .pp1722-c-new{background:#f0882a!important;color:#fff!important;animation:pp1725-call 1.6s ease-in-out infinite}
+@keyframes pp1725-call{0%,100%{box-shadow:0 0 0 0 rgba(240,136,42,.55)}50%{box-shadow:0 0 0 8px rgba(240,136,42,0)}}
+html.pp1714-lite #pp1722-counts.pp1722-has-new .pp1722-c-new{animation:none}
+@media (prefers-reduced-motion:reduce){#pp1722-counts.pp1722-has-new .pp1722-c-new{animation:none}}
+
+/* 2: new card slides in and glows for 10 s */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1725-fresh{animation:pp1725-in .45s cubic-bezier(.2,.8,.2,1),pp1725-glow 1.2s ease-in-out .45s 8!important;border-color:#f0882a!important}
+@keyframes pp1725-in{from{transform:translateY(-24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes pp1725-glow{0%,100%{box-shadow:0 0 0 2px #f0882a,0 6px 20px rgba(240,136,42,.25)}50%{box-shadow:0 0 0 5px rgba(240,136,42,.5),0 8px 26px rgba(240,136,42,.35)}}
+html.pp1714-lite body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1725-fresh{animation:none!important;box-shadow:0 0 0 3px #f0882a!important}
+@media (prefers-reduced-motion:reduce){html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1725-fresh{animation:none!important;box-shadow:0 0 0 3px #f0882a!important}}
+
+/* 4: details sheet like a card */
+#orderDialog.pp1725-has-card .modalbody{display:flex;flex-direction:column;padding-bottom:0!important}
+#orderDialog.pp1725-has-card #detailTitle,#orderDialog.pp1725-has-card .section-tag{display:none!important}
+#orderDialog.pp1725-has-card #detailBody{display:flex;flex-direction:column}
+#orderDialog.pp1725-has-card #detailBody>*{order:2}
+#orderDialog.pp1725-has-card #detailBody>.pp1725-dhead{order:0}
+#orderDialog.pp1725-has-card #detailBody>.customer-note{order:1}
+#orderDialog.pp1725-has-card #detailBody>.detail-list{font-size:13px;opacity:.85}
+#orderDialog.pp1725-has-card #detailBody>.detail-list>div{padding:6px 0!important;min-height:0!important}
+#orderDialog.pp1725-has-card #detailBody>h3{font-size:13px!important;text-transform:uppercase;letter-spacing:.06em;color:#6b766f;margin:16px 0 4px!important}
+#orderDialog.pp1725-has-card .modalbody>div:has(#pp168-print-order){display:none!important}
+.pp1725-dhead{padding:4px 0 10px;border-bottom:1px solid #e3e8e4;margin-bottom:10px}
+.pp1725-dhead .pp117-ticket-identity strong{display:block;font-size:28px;line-height:1.15;font-weight:900;color:#13221a;margin-right:48px}
+.pp1725-dhead .pp117-identity-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.pp1725-dhead .order-number{background:#13432a;color:#fff;font-weight:900;font-size:15px;padding:4px 10px;border-radius:8px}
+.pp1725-dhead .pp118-serving{font-size:14px;font-weight:900;padding:4px 10px;border-radius:8px;background:#16a34a;color:#fff}
+.pp1725-dhead .pp118-delivery{background:#7c3aed}
+.pp1725-dhead .pp177-boxes,.pp1725-dhead .pp177-dinein{margin-top:10px;font-size:14px}
+.pp1725-ditems{margin-top:8px}
+.pp1725-ditems .product-line{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px dashed #e3e8e4}
+.pp1725-ditems .product-line:last-child{border-bottom:0}
+.pp1725-ditems .product-qty{flex:0 0 auto;min-width:44px;text-align:center;font-size:22px;font-weight:900;background:#eef2ef;border-radius:10px;padding:6px 4px}
+.pp1725-ditems .pp177-multi .product-qty{background:#f6a400;color:#13221a}
+.pp1725-ditems .product-name{font-size:22px;font-weight:800;line-height:1.3;color:#13221a}
+.pp1725-dfoot{position:sticky;bottom:0;display:flex;gap:12px;margin:14px -4px 0;padding:12px 4px 16px;background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 14px)}
+.pp1725-dfoot button{flex:1;min-height:60px;border-radius:14px;border:0;font:900 20px/1 inherit;cursor:pointer}
+.pp1725-dprint{background:#eef2ef;color:#13221a}
+.pp1725-dact.done{background:#177245;color:#fff;flex:1.5}
+.pp1725-dact.accept{background:#f0882a;color:#fff;flex:1.5}
+
+/* 5: Tooted — tabs and search stay under the header, big counters + duplicate chips hidden */
+html body #productsPage .pp140-kpis,
+html body #productsPage .pp140-toolbar-top,
+html body #productsPage .pp146-product-quick{display:none!important}
+html body #productsPage .pp140-toolbar{position:sticky!important;top:8px;z-index:30;padding:12px 14px!important;box-shadow:0 6px 18px rgba(16,42,26,.08)}
+html body #productsPage .pp140-categories{margin-bottom:10px!important}
+html body #productsPage .pp140-categories button{min-height:56px!important;font-size:17px!important}
+html body #productsPage .pp140-results-meta{margin-top:6px!important}
+#pp140-status-tabs .pp1725-n[hidden]{display:none}
+#pp140-status-tabs .pp1725-n{margin-left:6px;min-width:22px;padding:1px 7px;border-radius:999px;background:#dc2626;color:#fff;font-size:12px}
+
+/* 6: icons */
+.pp1725-ic{display:inline-flex;vertical-align:-.18em;margin-right:.3em}
+.pp1725-i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.pp1723-empty>span .pp1725-ic{margin:0}
+.pp1723-empty>span .pp1725-i{width:34px;height:34px;color:#f0882a}
+.pp179-dough-ico .pp1725-i{width:34px;height:34px;color:#b7791f}
+.pp179-dough-ico .pp1725-ic{margin:0}
+#soundBtn{font-size:0!important;display:inline-grid!important;place-items:center}
+#soundBtn::before{content:"";width:22px;height:22px;background:currentColor;-webkit-mask:var(--pp1725-snd) center/contain no-repeat;mask:var(--pp1725-snd) center/contain no-repeat;--pp1725-snd:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9h4l5-4v14l-5-4H4z'/%3E%3Cpath d='M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11'/%3E%3C/svg%3E")}
+#soundBtn[aria-pressed="false"]::before{--pp1725-snd:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9h4l5-4v14l-5-4H4z'/%3E%3Cpath d='m16 9 5 6m0-6-5 6'/%3E%3C/svg%3E")}
+#soundBtn[aria-pressed="false"]{color:#c81e1e!important}
+
+/* 4: details — card pieces in the sheet */
+.pp1725-dhead .pp117-identity-line .pp118-order-time,.pp1725-dhead .pp177-count,.pp1725-dhead .customer-note{display:none!important}
+.pp1725-dhead .pp1717-badge{display:inline-flex;align-items:center;gap:4px;background:#dc2626;color:#fff;font-size:14px;font-weight:900;padding:4px 10px;border-radius:8px}
+.pp1725-dhead .pp177-boxes{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#f7f4ee;border-radius:10px;padding:8px 10px}
+.pp1725-dhead .pp177-boxes b{font-size:12px;letter-spacing:.06em;color:#6b5a3a}
+.pp1725-dhead .pp177-boxes em{font-style:normal;font-weight:800;font-size:15px;border:1px solid #e2d8c6;background:#fff;border-radius:8px;padding:3px 9px}
+.pp1725-dhead .pp177-dinein{display:flex;gap:8px;align-items:center;background:#eaf1fe;color:#1d4fa8;border-radius:10px;padding:8px 10px;font-weight:700}
+.pp1725-ditems .product-name{display:flex;flex-direction:column;gap:6px}
+.pp1725-ditems .pp94-pizza{display:flex;align-items:center;gap:8px;font-weight:800}
+.pp1725-ditems .pp177-code{display:inline-flex;align-items:center;background:#177245;color:#fff;border-radius:8px;padding:2px 9px;font-size:17px}
+.pp1725-ditems .pp177-code small{display:none}
+.pp1725-ditems .pp177-code[data-size="V"]{background:#e8f0fe;color:#1d4fa8;border:1.5px solid #9db8ef}
+.pp1725-ditems .pp177-code[data-size="P"],.pp1725-ditems .pp177-code[data-size="Pere"]{background:#7c3aed}
+.pp1725-ditems .pp177-mods{display:flex;flex-wrap:wrap;gap:6px}
+.pp1725-ditems .pp177-mod{font-style:normal;font-size:15px;font-weight:800;background:#f1f4f2;border:1px solid #dfe6e1;border-radius:7px;padding:3px 9px}
+.pp1725-ditems .pp177-mod:is([class*="neg"],[class*="ilma"]),.pp1725-ditems mark.pp1717{background:#dc2626!important;color:#fff!important;border-color:#dc2626}
+.pp1725-ditems mark{background:#dc2626;color:#fff;padding:0 4px;border-radius:4px}
+/* bigger text on sheet buttons (17.24 font shorthand was ignored by the browser) */
+.pp1725-dfoot button,.pp1724-sheet-btns button{font-family:inherit!important;font-size:20px!important;font-weight:900!important;line-height:1.1!important}

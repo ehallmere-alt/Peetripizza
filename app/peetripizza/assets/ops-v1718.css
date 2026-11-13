@@ -1,0 +1,18 @@
+/* Peetri Pizza v17.18 — night screen + Ooteaeg hint. */
+#pp1718-night{position:fixed;inset:0;z-index:200;background:#050806;color:#5f7a68;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#pp1718-night[hidden]{display:none!important}
+.pp1718-night-box{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:16px}
+#pp1718-night-clock{font-size:clamp(72px,16vw,180px);font-weight:800;line-height:1;color:#8fae98;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+#pp1718-night-date{font-size:22px;font-weight:600;text-transform:capitalize}
+#pp1718-night-text{font-style:normal;font-size:18px;font-weight:700;color:#7d9886;margin-top:6px}
+.pp1718-night-box small{font-size:13px;color:#3f5547;margin-top:18px}
+html.pp1718-night-on body{overflow:hidden}
+.pp1718-wait-hot{background:#fff1e0!important;border-color:#ef8a17!important;box-shadow:0 0 0 3px rgba(239,138,23,.35)!important;transition:box-shadow .3s}
+#pp1718-wait-hint{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);z-index:95;display:flex;align-items:center;gap:8px;white-space:nowrap;padding:8px 8px 8px 12px;border-radius:12px;background:#ef8a17;color:#fff;font:700 13px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+#pp1718-wait-hint[hidden]{display:none!important}
+#pp1718-wait-hint::before{content:"";position:absolute;top:-6px;left:50%;margin-left:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#ef8a17}
+#pp1718-wait-yes{min-height:36px;padding:0 12px;border:0;border-radius:9px;background:#fff;color:#a54f00;font:800 14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
+#pp1718-wait-no{min-width:36px;min-height:36px;border:0;border-radius:9px;background:rgba(255,255,255,.2);color:#fff;font:800 15px system-ui;cursor:pointer}
+/* 17.18: owner wants the day report and "Lõpeta vahetus" back in Statistika (hidden in 17.16). */
+html body #statisticsPage #pp143-report{display:block!important}
+html body #statisticsPage #pp1711-shift-open{display:inline-flex!important}

@@ -1,0 +1,13 @@
+/* Peetri Pizza v17.67 — tech fixes only (no design change).
+   - the dark backdrop of the menu is above the sticky header (both were z-index 60);
+   - the "Valmis ›" edge button stays under the backdrop when the menu is open. */
+html body #backdrop{z-index:70!important}
+#pp1763-edge{z-index:55!important}
+/* "6+ orders → Tõsta 30 min?" hint: since 17.54 it sat inside the old (collapsed) Ooteaeg box and could not be seen or tapped.
+   Now it hangs under the header, centred; the Ooteaeg box in the header turns orange while it is shown. */
+html body #pp1718-wait-hint{position:fixed!important;top:76px!important;left:50%!important;transform:translateX(-50%)!important;z-index:65!important}
+html body #pp1718-wait-hint::before{display:none!important}
+html body header.topbar:has(.pp1718-wait-hot) #pp1722-wait{background:#fcefd6!important}
+html.pp1722 body .topbar .top-right>.pp158-wait.pp1718-wait-hot{opacity:1!important;clip:auto!important;overflow:visible!important}
+html.pp1722 body .topbar .top-right>.pp158-wait.pp1718-wait-hot>:not(#pp1718-wait-hint){visibility:hidden!important}
+html body #pp1718-wait-hint{pointer-events:auto!important}

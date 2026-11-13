@@ -1,0 +1,19 @@
+/* Peetri Pizza v17.20 — login page on phones: no keyboard jumping up on load, one column of pizzerias without
+   an inner scroll box, names not cut in the middle of a word, compact header, iPhone safe areas. */
+@media (max-width:600px){
+ html,body.pl-body{min-height:100%;-webkit-text-size-adjust:100%}
+ .pl-shell{min-height:100dvh}
+ .pl-brand{padding:calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left));gap:10px}
+ .pl-logo{padding:8px 12px!important;border-radius:12px!important}
+ .pl-logo img{height:26px!important}
+ .pl-clock{font-size:26px!important;line-height:1}
+ .pl-date{font-size:12px!important;margin-top:2px}
+ .pl-panel{padding:14px 12px calc(20px + env(safe-area-inset-bottom))!important}
+ .pl-card{padding:20px 16px 16px!important;border-radius:16px!important}
+ .pl-card h1{font-size:24px!important;margin-bottom:4px}
+ .pl-places,.pl-places-many{grid-template-columns:1fr!important;max-height:none!important;overflow:visible!important;gap:8px!important}
+ .pl-place,.pl-place *{word-break:normal!important;overflow-wrap:break-word;hyphens:manual}
+ .pl-place{min-height:56px}
+ #pl-search,#password,.pl-card input,.pl-card select{font-size:16px!important}
+ #pl-submit{min-height:56px;font-size:18px!important}
+}

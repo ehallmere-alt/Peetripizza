@@ -1,0 +1,3 @@
+/* Peetri Pizza v17.12 — Tarnekuupäev row hidden at the owner's request. The input stays (hidden) and keeps
+   its automatic value "tomorrow" from dough-v169.js, so saving and editing work exactly as before. */
+.pp169-compact-date{display:none!important}

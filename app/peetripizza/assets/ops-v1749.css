@@ -1,0 +1,24 @@
+/* Peetri Pizza v17.49 — Seaded "Veel seadeid", calmer Statistika (see ops-v1749.js). */
+/* 2: Seaded */
+html body #settingsPage #pp1749-more{grid-column:1/-1;margin:14px 0 0;border:1px solid #e3e9e4;border-radius:16px;background:#f8faf8}
+html body #settingsPage #pp1749-more>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:16px 20px;font-size:18px;font-weight:700;color:#123e28}
+html body #settingsPage #pp1749-more>summary::-webkit-details-marker{display:none}
+html body #settingsPage #pp1749-more>summary::after{content:'▾';margin-left:auto;color:#5d6a61}
+html body #settingsPage #pp1749-more[open]>summary::after{content:'▴'}
+html body #settingsPage #pp1749-more>summary small{font-size:14px;font-weight:500;color:#5d6a61}
+html body #settingsPage #pp1749-more .pp1749-more-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:0 28px;padding:0 20px 10px}
+html body #settingsPage .settingsrow strong{font-size:18px!important}
+/* 3: Statistika */
+html body #pp1719-stats .pp1749-hero{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:baseline;margin:6px 0 16px;padding:18px 22px;border-radius:16px;background:#e2f0e5;color:#123e28}
+html body #pp1719-stats .pp1749-hero span{font-size:20px;font-weight:600}
+html body #pp1719-stats .pp1749-hero b{font-size:40px;font-weight:800;line-height:1;margin-right:4px}
+html body #pp1719-stats .pp1719-tile.pp1749-in-hero{display:none!important}
+html body #pp1719-stats .pp1719-tiles{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))!important}
+html body #pp1719-stats .pp1719-tile.pp1719-tile{border:1px solid #e3e9e4!important;border-left:1px solid #e3e9e4!important;background:#fff!important;box-shadow:none!important;border-radius:14px!important}
+html body #pp1719-stats .pp1719-tile.pp1719-tile::before,html body #pp1719-stats .pp1719-tile.pp1719-tile::after{display:none!important}
+html body #statisticsPage #pp1719-stats .pp1719-report .pp1719-service.pp1719-service>span{border:1px solid #e3e9e4!important;border-left:1px solid #e3e9e4!important;background:#f8faf8!important;box-shadow:none!important}
+html body #statisticsPage #pp1719-stats .pp1719-report .pp1719-service.pp1719-service>span::before{display:none!important}
+html body #pp1719-stats .pp1719-col i{background:#9fd0b2!important}
+html body #pp1719-stats .pp1719-col.peak i{background:#1b7a4b!important}
+html body #pp1719-stats .pp1719-top li i{background:#9fd0b2!important}
+html body #pp1719-stats .pp1719-top li:first-child i{background:#1b7a4b!important}

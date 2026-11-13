@@ -1,0 +1,40 @@
+/* Peetri Pizza v17.30 — ready cards, card switches, time line. Only overrides. */
+
+/* 3: card switches */
+html.pp1730-no-price body #ordersPage .ordercard .pp117-ticket-footer .price{display:none!important}
+html.pp1730-no-pay body #ordersPage .ordercard .pp1728-pay,html.pp1730-no-pay body #pp1711-pickup .pp1728-pay{display:none!important}
+html.pp1730-no-print body #ordersPage .ordercard .pp1729-print{display:none!important}
+html.pp1730-no-sum body #ordersPage .ordercard .pp1728-sum{display:none!important}
+html.pp1730-no-time body #ordersPage .ordercard .pp118-order-time{display:none!important}
+.pp1730-set{margin-top:18px;padding-top:16px;border-top:1px solid #e3e8e4}
+.pp1730-set h3{margin:0 0 4px;font-size:18px;color:#13221a}
+.pp1730-set p{margin:0 0 10px;font-size:13px;color:#6b766f}
+.pp1730-set label{display:flex;align-items:center;gap:12px;min-height:52px;font-size:16px;font-weight:700;color:#13221a;border-bottom:1px solid #eef2ef;cursor:pointer}
+.pp1730-set input{position:absolute;opacity:0;pointer-events:none}
+.pp1730-set label>span{flex:0 0 52px;height:30px;border-radius:999px;background:#cfd8d2;position:relative;transition:background .15s}
+.pp1730-set label>span::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
+.pp1730-set input:checked+span{background:#177245}
+.pp1730-set input:checked+span::after{left:25px}
+
+/* 1: ready cards */
+html body #pp1711-pickup .pp1711-copy[data-pp1730]{position:relative!important;overflow:hidden!important;border:1px solid #dfe8e2!important;border-radius:16px!important;box-shadow:0 2px 10px rgba(16,42,26,.07)!important;padding-left:8px!important}
+html body #pp1711-pickup .pp1711-copy[data-pp1730]::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:#16a34a}
+html body #pp1711-pickup .pp1711-copy.pp1730-t-kuller::before{background:#7c3aed}
+html body #pp1711-pickup .pp1711-copy.pp1730-t-kohapeal::before{background:#2563eb}
+html body #pp1711-pickup .pp1711-copy .pp112-check{display:none!important}
+html body #pp1711-pickup .pp1711-copy .pp112-number{display:inline-block!important;width:fit-content!important;background:#13432a!important;color:#fff!important;font-weight:900!important;font-size:14px!important;padding:3px 9px!important;border-radius:8px!important;letter-spacing:0!important}
+.pp1730-chips{display:inline-flex;flex-wrap:wrap;gap:6px;margin-left:6px;vertical-align:middle}
+.pp1730-type{font-size:12.5px;font-weight:900;padding:3px 9px;border-radius:7px;background:#e7f6ec;color:#15803d;white-space:nowrap}
+.pp1730-t-kuller .pp1730-type{background:#f1eafe;color:#6d28d9}
+.pp1730-t-kohapeal .pp1730-type{background:#e8effd;color:#1d4ed8}
+.pp1730-wait{display:block;font-style:normal;font-size:13px;font-weight:800;color:#4b5a51;white-space:nowrap}
+.pp1730-wait.long{color:#c81e1e}
+html body #pp1711-pickup .pp1711-copy button{min-height:52px!important;font-size:17px!important;padding:0 20px!important;border-radius:12px!important}
+
+/* 6: time line */
+.pp1730-line{display:flex;align-items:center;flex-wrap:wrap;gap:6px 0;margin:6px 0 12px;order:0}
+#orderDialog.pp1725-has-card #detailBody>.pp1730-line{order:0}
+.pp1730-line span{display:flex;flex-direction:column;align-items:center;font-size:12px;font-weight:700;color:#4b5a51;min-width:74px}
+.pp1730-line span b{font-size:18px;font-weight:900;color:#13221a}
+.pp1730-line span i{font-style:normal;font-size:11px;color:#8a948e}
+.pp1730-line u{flex:1 1 20px;height:2px;background:#d4ddd7;min-width:14px;text-decoration:none}

@@ -1,0 +1,13 @@
+/* Peetri Pizza v17.50 — night screen in the new look (calm, dark, no animation). */
+html body #pp1718-night{background:radial-gradient(ellipse at 50% 35%,#0f2a1c 0%,#06120b 70%)!important;color:#9fbfaa!important}
+html body #pp1718-night .pp1718-night-box{gap:12px!important}
+html body #pp1718-night .pp1750-logo{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:18px;opacity:.9}
+html body #pp1718-night .pp1750-logo b{font-size:26px;font-weight:800;font-style:italic;color:#e07a6a;letter-spacing:.01em}
+html body #pp1718-night .pp1750-logo span{font-size:15px;font-weight:800;letter-spacing:.2em;color:#6f9c80}
+html body #pp1718-night .pp1750-logo span:empty{display:none}
+html body #pp1718-night #pp1718-night-clock{color:#e7f3eb!important;font-size:clamp(96px,18vw,200px)!important;font-weight:800!important}
+html body #pp1718-night #pp1718-night-date{color:#9fbfaa!important;font-size:24px!important}
+html body #pp1718-night #pp1718-night-text{display:inline-block;margin-top:14px!important;padding:10px 22px;border-radius:999px;background:rgba(159,208,178,.12);color:#cfe6d7!important;font-size:20px!important;font-weight:700!important}
+html body #pp1718-night .pp1750-day{font-size:18px;font-weight:600;color:#8fb59c}
+html body #pp1718-night .pp1750-day[hidden]{display:none}
+html body #pp1718-night .pp1718-night-box small{color:#557a62!important;font-size:14px!important;margin-top:28px!important}

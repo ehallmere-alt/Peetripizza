@@ -53,13 +53,14 @@ if(!$error&&isset($_GET['aegus']))$notice='Sessioon aegus. Logi uuesti sisse, et
 $many=count($configured)>6;
 ?><!doctype html>
 <html lang="et"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0f3b24">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#00824a">
 <title>Peetri Pizza — Köögi sisselogimine</title>
-<link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><script src="assets/login-v175.js?v=17.5.0" defer></script>
+<link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><link rel="stylesheet" href="assets/login-v1720.css?v=17.20.0">
+<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><script src="assets/login-v175.js?v=17.20.0" defer></script>
 </head><body class="pl-body">
 <main class="pl-shell">
 <section class="pl-brand" aria-hidden="false">
- <div class="pl-brand-top"><span class="pl-logo"><img src="assets/peetri-pizza-logo.png" alt="Peetri Pizza" width="208" height="49"></span></div>
+ <div class="pl-brand-top"><span class="pl-logo"><img src="assets/pp-logo-square.png" alt="Peetri Pizza" width="120" height="120"></span></div>
  <div class="pl-brand-mid">
   <div class="pl-clock" id="pl-clock" aria-hidden="true">--:--</div>
   <div class="pl-date" id="pl-date"></div>
@@ -70,7 +71,7 @@ $many=count($configured)>6;
   <li><span class="pl-dot"></span>Taimerid, heli ja 80 mm print</li>
   <li><span class="pl-dot"></span>Taigna tellimine ühest kohast</li>
  </ul>
- <div class="pl-ver">Service App v17.7</div>
+ <div class="pl-ver">Service App v17.67</div>
 </section>
 <section class="pl-panel">
  <form method="post" action="/peetripizza/" autocomplete="on" id="pl-form" class="pl-card" novalidate>

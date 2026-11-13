@@ -1,0 +1,25 @@
+/* Peetri Pizza v17.29 — order card, pack 2. Only overrides. */
+
+/* 2: print mark */
+.pp1729-print{font-size:12px;font-weight:800;color:#8a948e;white-space:nowrap;margin-left:6px}
+.pp1729-print.is-done{color:#15803d}
+
+/* 3: folded card: header + buttons only */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1729-folded>:not(.cardtop):not(.cardfoot):not(.pp1729-pre){display:none!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket.pp1729-folded .pp117-ticket-footer{border-top:1px solid #e3e8e4!important}
+html body #ordersPage#ordersPage .ordercard .pp92-customer{cursor:pointer}
+html body #ordersPage#ordersPage .ordercard.pp1729-folded .pp92-customer::after{content:" ▸";color:#8a948e;font-size:.8em}
+
+/* 4: pre-order line */
+.pp1729-pre{background:#13221a;color:#fff;font-weight:900;font-size:15px;letter-spacing:.06em;padding:6px 14px 6px 18px}
+
+/* 5: simpler bottom */
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:nowrap!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .price{font-size:12px!important;font-weight:700!important;color:#6b766f!important;white-space:nowrap}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer .details{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;padding:0!important;flex:0 0 40px!important}
+html body #ordersPage#ordersPage .ordercard.pp117-ticket .pp117-ticket-footer button:is(.accept,.done,[data-action="accept"],[data-action="done"],[data-kitchen-action]){flex:1 1 auto!important;width:auto!important;min-width:0!important;margin-left:auto}
+
+/* 6: Ära unusta */
+.pp1729-forget{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:-6px 0 18px;padding:10px 12px;border-radius:12px;background:#fff8e6;border:1px solid #f3d19c}
+.pp1729-forget b{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a5b00;width:100%}
+.pp1729-forget span{font-size:17px;font-weight:800;background:#fff;border:1px solid #f0e0c0;border-radius:8px;padding:4px 10px;color:#13221a}

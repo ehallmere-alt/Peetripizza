@@ -1,5 +1,5 @@
 <?php
-/** Peetri Pizza v16.9: internal-only dough ordering, delivery dates, safe status history. */
+/** Peetri Pizza v16.9 (+v17.14 edit window, change details): internal-only dough ordering, delivery dates, safe status history. */
 declare(strict_types=1);
 require_once dirname(__DIR__).'/auth/bootstrap.php';
 pp_require_login();
@@ -24,6 +24,22 @@ $catalog=[
  'go'=>['name'=>'GO pitsapõhjad','pack'=>6,'frozen'=>false],
  'glutenfree'=>['name'=>'Gluteenivabast jahust põhi','pack'=>30,'frozen'=>false],
 ];
+// v17.14: an order can be edited until the supplier cut-off (first 15:05 after it was created).
+const PP_DOUGH_EDIT_CUTOFF='15:05';
+function pp_dough_edit_until(array $row): ?string {
+ $tz=new DateTimeZone('Europe/Tallinn');
+ try{$created=new DateTimeImmutable((string)($row['created_at']??''));}catch(Throwable $e){return null;}
+ $created=$created->setTimezone($tz);
+ [$h,$m]=array_map('intval',explode(':',PP_DOUGH_EDIT_CUTOFF));
+ $cut=$created->setTime($h,$m);
+ if($created>=$cut)$cut=$cut->modify('+1 day');
+ return $cut->format(DATE_ATOM);
+}
+function pp_dough_editable(array $row,DateTimeImmutable $now): bool {
+ if(!in_array((string)($row['status']??''),['Tellitud','Salvestatud'],true))return false;
+ $until=pp_dough_edit_until($row);
+ return $until!==null&&$now<new DateTimeImmutable($until);
+}
 $method=$_SERVER['REQUEST_METHOD']??'GET';
 if(!in_array($method,['GET','POST'],true))pp_dough_reply(405,['ok'=>false,'error'=>'method_not_allowed']);
 if($method==='POST'){
@@ -44,7 +60,13 @@ if(is_file($file)){
  if(!is_array($decoded)||!array_is_list($decoded))pp_dough_reply(503,['ok'=>false,'error'=>'storage_invalid']);
  $rows=$decoded;
 }
-if($method==='GET')pp_dough_reply(200,['ok'=>true,'orders'=>array_slice(array_reverse($rows),0,100),'catalog'=>$catalog,'status_flow'=>['Tellitud','Kinnitatud','Tarnitud'],'scope'=>'internal_only']);
+if($method==='GET'){
+ $nowG=new DateTimeImmutable('now',new DateTimeZone('Europe/Tallinn'));
+ $list=array_slice(array_reverse($rows),0,100);
+ foreach($list as &$row){if(is_array($row)){$row['editable_until']=pp_dough_edit_until($row);$row['editable']=pp_dough_editable($row,$nowG);}}
+ unset($row);
+ pp_dough_reply(200,['ok'=>true,'orders'=>$list,'edit_cutoff'=>PP_DOUGH_EDIT_CUTOFF,'server_time'=>$nowG->format(DATE_ATOM),'catalog'=>$catalog,'status_flow'=>['Tellitud','Kinnitatud','Tarnitud'],'scope'=>'internal_only']);
+}
 $input=json_decode((string)file_get_contents('php://input'),true);
 if(!is_array($input))pp_dough_reply(422,['ok'=>false,'error'=>'invalid_request']);
 $action=$input['action']??'create';
@@ -94,11 +116,15 @@ if($action==='status'){
   $rows[]=$record;if(count($rows)>500)$rows=array_slice($rows,-500);
  }else{
   if(!in_array((string)($rows[$idx]['status']??''),['Tellitud','Salvestatud'],true))pp_dough_reply(409,['ok'=>false,'error'=>'already_confirmed']);
+  if(!pp_dough_editable($rows[$idx],$now))pp_dough_reply(409,['ok'=>false,'error'=>'edit_window_closed','editable_until'=>pp_dough_edit_until($rows[$idx])]);
+  $before=[];foreach((array)($rows[$idx]['items']??[]) as $it){if(is_array($it)&&is_string($it['key']??null))$before[$it['key']]=(int)($it['packages']??0);}
+  $after=[];foreach($items as $it)$after[$it['key']]=$it['packages'];
   $oldDate=(string)($rows[$idx]['delivery_date']??'');
   $rows[$idx]['items']=$items;$rows[$idx]['total_packages']=$total;$rows[$idx]['delivery_date']=$date;
   $rows[$idx]['updated_at']=$now->format(DATE_ATOM);$rows[$idx]['revision']=$expected+1;
   $events=is_array($rows[$idx]['history']??null)?$rows[$idx]['history']:[];
-  $events[]=['at'=>$now->format(DATE_ATOM),'action'=>'edit','delivery_date_before'=>$oldDate,'delivery_date_after'=>$date];
+  $changes=[];foreach(array_unique(array_merge(array_keys($before),array_keys($after))) as $k){$b=$before[$k]??0;$a=$after[$k]??0;if($a!==$b)$changes[]=['key'=>$k,'name'=>$catalog[$k]['name']??$k,'from'=>$b,'to'=>$a];}
+  $events[]=['at'=>$now->format(DATE_ATOM),'action'=>'edit','delivery_date_before'=>$oldDate,'delivery_date_after'=>$date,'changes'=>array_slice($changes,0,20)];
   $rows[$idx]['history']=array_slice($events,-30);$record=$rows[$idx];
  }
 }

@@ -1,0 +1,9 @@
+/* Peetri Pizza v17.38 — KOLDE centred under the logo, no Uued/Töös counters in the header, screen scale slider. */
+html body .topbar .brandgroup.brandgroup.brandgroup.brandgroup>.pp114-location{justify-self:center!important}
+html body .topbar #pp1722-counts{display:none!important}
+#pp1738-row .pp1738-ctl{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end;flex:0 0 auto}
+#pp1738-row .pp1738-ctl button{min-width:44px;height:40px;border-radius:10px;border:1px solid #cfdcd4;background:#f4f8f5;color:#1f3a2a;font-weight:800;font-size:15px;cursor:pointer}
+#pp1738-row input[type=range]{width:110px;accent-color:#1f6b3a}
+#pp1738-row .pp1738-ctl #pp1738-val{min-width:58px;font-size:15px;color:#0f2117;background:#fff}
+#settingsPage .pp163-pref-group:has(#pp1738-row){grid-auto-flow:row dense!important}
+#settingsPage .pp163-pref-group:has(#pp1738-row)>.pp164-flow-option{align-self:start!important}
