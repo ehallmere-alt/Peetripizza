@@ -1,5 +1,56 @@
 # Changelog
 
+## 17.23.0 — 2026-11-12
+- Header: the separate LIVE plate from 17.22 is hidden (owner: "зачем вторая плашка live?"). The dot inside the DEMO|LIVE switch is now green / yellow / red; the LIVE button turns red after 3 min without data or without internet.
+- Design pack 2, owner picked 1, 2, 5 (`assets/ops-v1723.js/css`):
+  1. Card contents: bigger quantity chip and product name, size code coloured (Väike blue, Suur green, Pere purple), modifiers and extras on their own line.
+  2. Order columns: orange (Uued) / green (Valmistamisel) strip on top and coloured counter; an empty column shows "Uusi tellimusi pole" / "Midagi ei valmistata".
+  3. Tooted: big banner hidden, products as a tile grid; the whole tile is the button. First tap turns it orange ("Puuduta uuesti"), second tap within 4 s switches Otsas/Saadaval. Replaces the browser confirm() window that froze timers and LIVE. Out-of-stock tiles red and first. Still a local note only.
+  Tests not run (owner's choice); checked in Chromium at 1280 px.
+
+## 17.22.0 — 2026-11-12
+- **Header** (owner: "Давай" = all six), `assets/ops-v1722.js/css`, loaded from `dashboard.php` (not late) so the header does not jump:
+  1. LIVE status: green / orange / red dot with "uuendatud N s tagasi" (from `pp150:live-synced`); red and blinking after 3 min without data or with no internet. Hidden in DEMO (the DEMO|LIVE switch already says it).
+  2. Counters Uued (blue, solid when there are new orders) and Töös (orange); Valmis button in green.
+  3. Bigger clock (Tallinn time) with weekday and date.
+  4. Ooteaeg as one big button; tap opens big tiles 15/20/30/45/60. It sets the same select and fires the same `change` event as before; the 17.18 hint makes the button orange.
+  5. "TEENINDUS · KÖÖGI TÖÖLAUD" hidden; fullscreen button moved to the side menu ("Täisekraan").
+  6. Phone: header in two rows, nothing falls out.
+  Old header elements are only hidden. 17.21 tab font fixed (was a broken `font:` shorthand). Tests not run (owner's choice); checked in Chromium at 1280, 1024, 390 px.
+
+## 17.21.0 — 2026-11-12
+- **Seaded redesign** (owner picked design #6): four big tabs Köök · Heli · Printer · Süsteem instead of one 3700 px long column; the chosen tab is remembered on the tablet. Full width, equal white cards, Köök settings in two columns on the wide tablet, switches 30 % bigger, stepper/buttons/selects at least 50 px high, bigger checkboxes in Heli. Duplicate inner "Töölaua seaded / Seaded" heading hidden. No block removed: everything is only sorted and restyled (`assets/ops-v1721.js/css`, loaded by `late-v1714.js`). Tests not run (owner's choice); checked in Chromium at 1280×800 and 390×844.
+
+## 17.20.0 — 2026-11-12
+- **Login page on phones** (owner): no auto-focus on touch screens (the keyboard jumped up on load and covered the page); choosing a pizzeria scrolls to the password instead. Up to 600 px: pizzerias in one column without the inner scroll box (names were cut mid-word, "Mustamä e"), compact header, 16 px inputs (no iPhone zoom), safe-area padding, bigger submit button. New file `assets/login-v1720.css`. Tests not run (owner's choice); checked in Chromium as iPhone 13 / Pixel 5 / 360 px with 1 and 10 pizzerias.
+
+## 17.19.0 — 2026-11-12
+- **New Statistika** (owner: "first the day report, then month, choose all time, then charts and statistics"): on top a report with Täna · Eile · See kuu · Eelmine kuu · Kogu aeg — Tellimusi, Käive, Keskmine tšekk, Pitsasid, Keskmine valmimisaeg, Hilinenud, Kaasa/Kulleriga/Kohapeal, 🖨 Prindi (80 mm). Below: orders by hour, by day (by month for long periods), most popular products. DEMO shows only Täna (from the screen).
+- `api/kitchen-analytics.php`: sync also takes amount (cents), service (k/d/h), pizza count and product counts (names only); daily totals in `private_data/analytics-days-<id>.json` are kept forever (the 35-day order list is unchanged), new periods month / lastmonth / all with a `report` object. Included in the daily backup.
+- Old Statistika blocks (totals, Tellimuste näitajad, Tellimused ja pitsad, Päevaaruanne, Lõpeta vahetus, Köögi analüütika, Täna köögis) hidden; Lõpeta vahetus stays in the side menu.
+- **Seaded** (owner): System Health, Köögitoimingute ajalugu, Ühendus ja LIVE, Andmed hidden (DOM kept, health checks still run).
+- Owner asked to skip tests for now (12.11.2026); this release was still run: browser 35/35, API 129/129 (one test regex updated for the new backup file).
+
+## 17.18.0 — 2026-11-12
+- **Night screen** (owner picked #4): after closing time (today's hours from `api/site-status.php`, +30 min) and with no order in work, a dark full screen with a big clock and "Suletud · avame kell 11:00". A new order wakes it at once, a tap hides it for 15 min. Unknown hours = never dims. A web page cannot change the backlight, so the picture is only made dark.
+- **Ooteaeg hint** (owner picked #6): 6+ orders in work → the Ooteaeg box turns orange with "Tõsta 30 min?" (10+ → 45). One tap saves through the normal Ooteaeg; ✕ hides it for 20 min. Never changes anything by itself.
+- Statistika: "Päevaaruanne" and "Lõpeta vahetus" are visible again (owner asked).
+- Files: `assets/ops-v1718.js/.css` (late loaded). Tests: browser 34/34.
+
+## 17.17.0 — 2026-11-11
+- **Allergies and "ilma …" in red** (owner picked #5 of the orders pack): words like allergia/pähkliallergia, gluteenivaba, laktoosivaba, piimavaba, vegan, vegetaar, "ilma <sõna>", "without <word>", "без <слово>", аллергия are marked red in the customer note and in product lines; the card gets a red frame and a badge "⚠ PÄHKLIALLERGIA · ILMA SIBULATA" next to the number. The 80 mm ticket gets a black box with the same words under KARBID. `window.PPAlert {find, mark}` in app-core, styles appended to card-v177.css (no extra request). Marks are applied when a card is built, so kept cards (17.16) keep them.
+- Tests: browser 32/32 (+1), API 119/119.
+
+## 17.16.0 — 2026-11-11
+- **LIVE without needless redraws**: `renderOrders()` keeps the DOM node of every card whose order data did not change (`pp1716Patch` in app-core); only new or changed orders get a new card, removed ones go away, order is kept. Timers still tick via `refreshTimers()`. The "UUS" mark is taken off after 45 s (cards now live longer). `html.pp1716-full-render` switches back to the old full innerHTML way.
+- **Tablet picks up a new version by itself**: `api/release.php` (login, returns only the version) is asked every 5 min; when the server is newer a yellow bar shows and the page reloads as soon as no order is in Uued/Valmistamisel, no dialog/typing, Tellimused view. LIVE is switched back on after the reload (sessionStorage `pp1716-resume`). Sound needs one tap after any reload (Chrome rule; the existing sound bar asks for it).
+- **Night reload**: once a day 05:00–05:30 Tallinn, only if the page was open 6 h+ and the same "nothing in work" rule holds.
+- **Daily data copy**: `api/backup.php` copies this pizzeria's internal-status, pickup, dough, wait, print-log, analytics files to `private_data/backups/<id>/<date>/` once a day (on the first tablet call), keeps 14 days. Seaded → "Andmete varukoopia": pick a copy → "Taasta valitud" (asks first; the current state is saved as `<date>-enne` so a restore can be undone). Per-file locks are respected.
+- **LIVE silent 3 min**: red blinking bar on top + "offline" sound once a minute ("🔇 10 min" mutes the sound, the bar stays; "↻ Proovi uuesti"). Only in LIVE and while the screen is on.
+- The old "↻ Reaalsed tellimused" button is hidden (still in the page: the DEMO|LIVE switch clicks it). "Lukusta menüü" is already in Seaded since 17.6.
+- **Statistika** (owner's request): "Täna köögis" with "Karbid täna", "Köögi analüütika", "Päevaaruanne" and the "Lõpeta vahetus" button are hidden (CSS only, the blocks stay in the DOM; Lõpeta vahetus remains in the side menu). Remaining: totals, Tellimuste näitajad, Tellimused ja pitsad.
+- Tests: API 119/119 (+17 backup/release checks), browser 31/31 (+5; the 17.4 "changed data" test now expects unchanged cards to stay).
+
 ## 17.15.0 — 2026-11-11
 - **Faster load**: the page now uses `kitchen-release-v1715.css` (322 → 302 KB, gzip 59 → 51 KB): overridden duplicate declarations and never-matching selectors removed by `tools/css-prune.py`. Computed styles of every element compared with the original on 8 screens × 3 sizes (1280, 800, 390 px): identical. The original v166 file stays on the server.
 - Settings-only modules (print-v169, operations-v168, health-v169, ops-v1710) load after first paint via `late-v1714.js`.

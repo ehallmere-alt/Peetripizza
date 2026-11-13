@@ -187,12 +187,52 @@ function pp145Notify(){
 // v17.4: remember exactly which data the cards on screen were rendered from.
 let pp174LastFp='';
 const pp174Fp=()=>{try{return (document.body.classList.contains('live-active')?'L':'D')+(window.PPKitchenStatus?.ready()?'R':'N')+JSON.stringify(shownOrders())}catch(_){return String(Math.random())}};
+// v17.16: keep the card of an order whose data did not change (same DOM node: no flicker, a tap is never lost).
+// Only a card with changed data is rebuilt; timers keep ticking via refreshTimers(). Set html.pp1716-full-render to go back to the old way.
+// v17.17: allergy / "without" words in the customer note and in product lines are marked red (card, print).
+// Only shows what the order already says; nothing is guessed or sent anywhere.
+const PP1717_RE=/(allerg\w*|gluteen\w*|gluten\w*|laktoos\w*|lactose\w*|piimavaba\w*|munavaba\w*|pähkl\w*|maapähkl\w*|vegan\w*|vegetaar\w*|ilma\s+[\p{L}-]{2,}|without\s+[\p{L}-]{2,}|аллерг\p{L}*|глютен\p{L}*|лактоз\p{L}*|без\s+[\p{L}-]{2,}|орех\p{L}*)/giu;
+function pp1717Find(text){const out=[];const seen=new Set();for(const m of String(text||'').matchAll(PP1717_RE)){const k=m[0].toLocaleLowerCase('et-EE');if(!seen.has(k)){seen.add(k);out.push(m[0])}}return out}
+function pp1717Mark(root){
+ if(!root||!root.querySelectorAll)return;
+ root.querySelectorAll('.ordercard').forEach(card=>{
+  if(card.dataset.pp1717)return;card.dataset.pp1717='1';
+  const found=[];
+  card.querySelectorAll('.customer-note p,.product-name').forEach(el=>{
+   const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+   for(const t of nodes){
+    if(t.parentElement?.closest('.pp119-code,mark.pp1717'))continue;
+    const txt=t.nodeValue;PP1717_RE.lastIndex=0;if(!PP1717_RE.test(txt))continue;PP1717_RE.lastIndex=0;
+    const frag=document.createDocumentFragment();let last=0;
+    for(const m of txt.matchAll(PP1717_RE)){frag.append(txt.slice(last,m.index));const mk=document.createElement('mark');mk.className='pp1717';mk.textContent=m[0];frag.append(mk);found.push(m[0]);last=m.index+m[0].length}
+    frag.append(txt.slice(last));t.replaceWith(frag);
+   }
+  });
+  if(!found.length)return;
+  card.classList.add('pp1717-alert');
+  const line=card.querySelector('.pp117-identity-line');
+  if(line&&!line.querySelector('.pp1717-badge')){const b=document.createElement('span');b.className='pp1717-badge';b.textContent='⚠ '+([...new Set(found.map(x=>x.toLocaleUpperCase('et-EE')))].slice(0,3).join(' · '));b.title='Allergia või "ilma" tellimuses — kontrolli';line.prepend(b)}
+ });
+}
+window.PPAlert={find:pp1717Find,mark:pp1717Mark};
+let pp1716Built=0;window.pp1716BuiltCards=()=>pp1716Built;
+function pp1716Patch(box,list,emptyTitle){
+ if(!box)return;
+ if(!list.length||document.documentElement.classList.contains('pp1716-full-render')){box.innerHTML=list.length?list.map(card).join(''):empty(emptyTitle,'Selle filtri jaoks tellimusi ei ole.');pp1717Mark(box);return;}
+ const ctx=(isPreview()?'P':'D')+(document.body.classList.contains('live-active')?'L':'-')+(window.PPKitchenStatus?.ready()?'R':'N')+(compact?'C':'-');
+ const old=new Map();for(const el of box.children)if(el.__pp1716&&el.dataset.orderId)old.set(el.dataset.orderId,el);
+ const tpl=document.createElement('template');
+ const nodes=list.map(o=>{const sig=ctx+JSON.stringify(o),prev=old.get(String(o.id));if(prev&&prev.__pp1716===sig){old.delete(String(o.id));return prev}
+  tpl.innerHTML=card(o).trim();pp1717Mark(tpl.content);const el=tpl.content.firstElementChild;el.__pp1716=sig;pp1716Built++;return el});
+ const keep=new Set(nodes);for(const el of [...box.children])if(!keep.has(el))el.remove();
+ nodes.forEach((el,i)=>{const at=box.children[i];if(at!==el)box.insertBefore(el,at||null)});
+}
 function renderOrders(){
  pp174LastFp=pp174Fp();
  pp145Notify();
  updateSourceUI(); countMetrics();const p=sortedOrders(filtered(pending())),a=sortedOrders(filtered(active()));updateLateNotice();
- $('newOrders').innerHTML=p.length?p.map(card).join(''):empty('Uusi tellimusi pole','Selle filtri jaoks tellimusi ei ole.');
- $('activeOrders').innerHTML=a.length?a.map(card).join(''):empty('Kõik on valmis','Selle filtri jaoks tellimusi ei ole.');
+ pp1716Patch($('newOrders'),p,'Uusi tellimusi pole');
+ pp1716Patch($('activeOrders'),a,'Kõik on valmis');
  const done=shownOrders().filter(o=>o.status==='done'&&(!historyQuery||String(o.number).toLocaleLowerCase('et-EE').includes(historyQuery)||o.items.some(i=>String(i[0]).toLocaleLowerCase('et-EE').includes(historyQuery)))).sort((x,y)=>historySort==='oldest'?(x.completed||0)-(y.completed||0):historySort==='amount'?y.amount-x.amount:(y.completed||0)-(x.completed||0));
  $('doneCount').textContent=shownOrders().filter(o=>o.status==='done').length;
  $('historyShown').textContent=done.length+' tellimust';
@@ -499,6 +539,8 @@ const liveRecent=new Map();
 function decorateNewLiveOrders(){
  const now=Date.now();
  for(const [key,until] of liveRecent)if(until<=now)liveRecent.delete(key);
+ // v17.16: cards are kept between polls now, so take the UUS mark off once its 45 s are over.
+ document.querySelectorAll('#ordersPage .ordercard.live-just-arrived').forEach(c=>{if(!liveRecent.has(String(c.dataset.orderId||''))){c.classList.remove('live-just-arrived');c.querySelector('.live-new-badge')?.remove();}});
  for(const order of shownOrders()){
   if(!liveRecent.has(liveOrderKey(order)))continue;
   for(const card of document.querySelectorAll('.ordercard.card-v15')){

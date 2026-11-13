@@ -1,0 +1,34 @@
+/* Peetri Pizza v17.23 — owner picked 1, 2, 5 from design pack 2. */
+/* 1: card contents read faster */
+html body #ordersPage#ordersPage .ordercard.ordercard .product-line .product-qty{min-width:42px!important;height:38px!important;font-size:20px!important;font-weight:900!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;flex:none!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .product-line .pp177-name{font-size:19px!important;font-weight:800!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code{font-weight:900!important;border-width:2px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code[data-size=V]{background:#e6efff!important;color:#1d4fa8!important;border-color:#9dbcf2!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code[data-size=K]{background:#fff0dc!important;color:#9a4d00!important;border-color:#f0bf7a!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code[data-size=S]{background:#1f6b3a!important;color:#fff!important;border-color:#1f6b3a!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-code[data-size=P]{background:#6d3fc4!important;color:#fff!important;border-color:#6d3fc4!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mods,html body #ordersPage#ordersPage .ordercard.ordercard .pp177-extras{display:flex!important;flex-wrap:wrap!important;gap:5px!important;margin-top:5px!important;width:100%!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .pp177-mod,html body #ordersPage#ordersPage .ordercard.ordercard .pp177-extras em{font-size:13px!important;font-weight:800!important;padding:3px 8px!important}
+html body #ordersPage#ordersPage .ordercard.ordercard .product-name{display:flex!important;flex-direction:column!important;align-items:flex-start!important;min-width:0!important}
+/* 2: columns */
+html body #ordersPage .ordercol.pp1723-col{border-top:6px solid #f08a24!important;border-top-left-radius:18px!important;border-top-right-radius:18px!important}
+html body #ordersPage .ordercol.pp1723-col-work{border-top-color:#1f7a3d!important}
+html body #ordersPage .pp1723-col-new .section-head .count{background:#f08a24!important;color:#fff!important}
+html body #ordersPage .pp1723-col-work .section-head .count{background:#1f7a3d!important;color:#fff!important}
+.pp1723-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;min-height:180px;margin:10px;border:2px dashed #dbe5de;border-radius:18px;color:#6a7a71;padding:20px}
+.pp1723-empty[hidden]{display:none}
+.pp1723-empty span{font-size:34px;opacity:.55}
+.pp1723-empty strong{font-size:19px;color:#3d5446}
+.pp1723-empty small{font-size:13px}
+/* 5: Tooted tiles */
+html body #productsPage .pp140-intro{display:none!important}
+html body #productsPage #productList.pp140-products{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important;gap:12px!important}
+html body #productsPage #productList .pp140-card{position:relative!important;cursor:pointer!important;min-height:132px!important;padding:16px!important;border-width:2px!important;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .08s}
+html body #productsPage #productList .pp140-card:active{transform:scale(.98)}
+html body #productsPage #productList .pp140-card h4{font-size:19px!important}
+html body #productsPage #productList .pp140-card .pp140-product-action{pointer-events:none!important}
+html body #productsPage #productList .pp140-card:not(.is-available){background:#fdecec!important;border-color:#e05252!important;order:-1}
+html body #productsPage #productList .pp140-card:not(.is-available) h4{color:#a51d1d!important}
+html body #productsPage #productList .pp140-card.pp1723-armed{background:#fff3e2!important;border-color:#f08a24!important;box-shadow:0 0 0 4px rgba(240,138,36,.25)!important}
+.pp1723-hint{position:absolute;inset:auto 8px 8px 8px;background:#f08a24;color:#fff;font-weight:900;font-size:14px;text-align:center;border-radius:10px;padding:9px 6px}
+@media (max-width:600px){html body #productsPage #productList.pp140-products{grid-template-columns:1fr 1fr!important;gap:8px!important}}

@@ -1,0 +1,49 @@
+/* Peetri Pizza v17.19 — new Statistika (report first, then charts) + slimmer Seaded. Old blocks are only hidden. */
+html.pp1719-on body #statisticsPage #statsData,
+html.pp1719-on body #statisticsPage #performanceStats,
+html.pp1719-on body #statisticsPage .pp145-insights,
+html.pp1719-on body #statisticsPage #pp143-report,
+html.pp1719-on body #statisticsPage #pp1711-shift-open,
+html.pp1719-on body #statisticsPage #pp1714-analytics,
+html.pp1719-on body #statisticsPage #pp176-today,
+html.pp1719-on body #statisticsPage .panel>p.help{display:none!important}
+/* Seaded: System Health, Köögitoimingute ajalugu, Ühendus ja LIVE, Andmed hidden (owner, 12.11.2026). */
+#settingsPage .pp169-health-settings,#settingsPage .pp168-audit-settings,#settingsPage .pp1719-hide,
+#settingsPage section.pp163-pref-group:has(#pp74-settings-mode),#settingsPage section.pp163-pref-group:has(#resetDemo){display:none!important}
+
+#pp1719-stats{display:block;margin:6px 0 10px}
+.pp1719-head{display:flex;justify-content:flex-start;margin:0 0 12px}
+.pp1719-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.pp1719-tabs button{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #d5dcd7;background:#fff;color:#16251d;font:700 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
+.pp1719-tabs button[aria-pressed="true"]{background:#16251d;color:#fff;border-color:#16251d}
+.pp1719-report{padding:16px;border:1px solid #d9e6dc;border-radius:16px;background:#fbfdfb}
+.pp1719-report-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.pp1719-report-head small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;color:#196a3b}
+.pp1719-report-head h3{margin:2px 0 0;font-size:22px;color:#13221a}
+#pp1719-print{min-height:44px;padding:0 16px;border-radius:10px;font-weight:800}
+.pp1719-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.pp1719-tile{background:#fff;border:1px solid #e3e8e4;border-radius:12px;padding:10px 12px;min-height:76px}
+.pp1719-tile small{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#6b766f}
+.pp1719-tile strong{display:block;font-size:26px;line-height:1.2;color:#13221a;font-variant-numeric:tabular-nums}
+.pp1719-tile span{display:block;font-size:12px;color:#6b766f}
+.pp1719-tile.bad{border-color:#f2a7a7;background:#fff5f5}.pp1719-tile.bad strong{color:#b42318}
+.pp1719-service{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:15px;color:#3b4a40}
+.pp1719-service b{font-size:17px;color:#13221a}
+.pp1719-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:14px}
+.pp1719-chart{padding:14px;border:1px solid #e3e8e4;border-radius:14px;background:#fff;min-width:0}
+.pp1719-chart h4{margin:0 0 10px;font-size:15px;color:#13221a}
+.pp1719-bars{display:flex;align-items:flex-end;gap:3px;height:150px;padding-bottom:20px;position:relative;border-bottom:1px solid #d5dcd7}
+.pp1719-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.pp1719-col i{display:block;width:100%;max-width:26px;background:#18834a;border-radius:4px 4px 0 0}
+.pp1719-col.peak i{background:#e9853f}
+.pp1719-col b{font-size:11px;line-height:1.4;color:#16251d}
+.pp1719-col span{position:absolute;bottom:-19px;font-size:10px;color:#6b766f;white-space:nowrap}
+.pp1719-bars.dense .pp1719-col span{font-size:9px}
+.pp1719-top{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.pp1719-top li{display:grid;grid-template-columns:minmax(90px,40%) 1fr auto;align-items:center;gap:8px;font-size:14px}
+.pp1719-top li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.pp1719-top li i{display:block;height:12px;border-radius:6px;background:#18834a}
+.pp1719-top li:first-child i{background:#e9853f}
+.pp1719-top li b{font-variant-numeric:tabular-nums}
+.pp1719-note{font-size:12px;color:#6b766f;margin:10px 0 0}
+@media (max-width:520px){.pp1719-charts{grid-template-columns:1fr}.pp1719-tile strong{font-size:22px}}

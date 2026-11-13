@@ -20,8 +20,10 @@
  const checked=radios.find(r=>r.checked);
  if(checked)checked.closest('.pl-place')?.scrollIntoView({block:'nearest'});
  // Focus where the cook has to act
- setTimeout(()=>{if(checked||!radios.length)pass?.focus();},60);
- radios.forEach(r=>r.addEventListener('change',()=>{pass?.focus();}));
+ // v17.20: on a phone/touch screen do not focus on load (the keyboard jumped up and covered the page).
+ const touch=matchMedia('(pointer:coarse)').matches||matchMedia('(max-width:600px)').matches;
+ if(!touch)setTimeout(()=>{if(checked||!radios.length)pass?.focus();},60);
+ radios.forEach(r=>r.addEventListener('change',()=>{if(!touch)pass?.focus();else pass?.scrollIntoView({block:'center',behavior:'smooth'});}));
  // Search (only rendered when there are many places)
  const search=$('pl-search');
  if(search){search.hidden=false;search.addEventListener('input',()=>{const q=search.value.trim().toLocaleLowerCase('et-EE');let n=0;

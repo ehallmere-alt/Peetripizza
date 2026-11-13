@@ -26,7 +26,7 @@ def check(name,cond,info=''):
 def mode(m):open(A+'/mode.txt','w').write(m)
 mode('ok')
 # --- unauthenticated
-for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php','print-log.php','kitchen-analytics.php']:
+for ep in ['live.php','kitchen-status.php','dough.php','pickup.php','wait-time.php','status.php','system-health.php','kitchen-history.php','live-health.php','order-shape.php','customer-bridge.php','client-log.php','site-status.php','version.php','print-log.php','kitchen-analytics.php','backup.php','release.php']:
   c,j,_=req('api/'+ep);check('no login -> 401: '+ep,c==401 and j and j.get('error')=='authentication_required',(c,j))
 c,j,_=req('api/customer-links.php','POST',{});check('no login -> 401: customer-links.php',c==401,(c,j))
 c,j,_=req('api/track-status.php?t=bad');check('track-status bad token -> 404 (public endpoint)',c==404,(c,j))
@@ -135,6 +135,24 @@ c,j,_=req('api/kitchen-analytics.php?period=year');check('v17.14 analytics bad p
 for per in ('yesterday','7d'):
   c,j,_=req('api/kitchen-analytics.php?period='+per);check('v17.14 analytics period '+per,c==200 and j['ok'],(c,j))
 raw=open(PD+'/analytics-65.json').read();check('v17.14 analytics on disk: ids, numbers, times only',not re.search(r'Mari|5555|@|Margherita',raw) and set(json.loads(raw)['orders'][LIVEID])<={'n','c','d','a','f'},raw[:200])
+# --- v17.19 reports: amount, service, products; daily totals kept after the 35-day order list
+L2='live-'+'b'*24;L3='live-'+'c'*24
+c,j,_=req('api/kitchen-analytics.php','POST',{'action':'sync','orders':[{'id':L2,'number':'A201','created':nowms-60000,'m':2350,'s':'d','p':2,'z':{'Margherita':1,'Pepperoni':1,'<b>x</b>':1}},{'id':L3,'number':'A202','created':nowms-30000,'m':1000,'s':'h','p':1,'z':{'Margherita':1},'evil':'Mari'}]},headers=CS)
+check('v17.19 sync with amount/service/products stored',c==200 and j['ok'],(c,j))
+c,j,_=req('api/kitchen-analytics.php?period=today');r=(j or {}).get('report') or {}
+check('v17.19 today report: orders, käive, avg check, pizzas, service, top',c==200 and r.get('orders',0)>=3 and r.get('amount_cents')==3350 and r.get('avg_check_cents')==1675 and r.get('pizzas')==3 and r['service']['d']==1 and r['service']['h']==1 and list(r['top'].items())[0]==('Margherita',2),(c,str(r)[:400]))
+check('v17.19 product names cleaned (no tags)',not any('<' in k for k in r.get('top',{})),r.get('top'))
+for per in ('month','lastmonth','all'):
+  c,j,_=req('api/kitchen-analytics.php?period='+per);check('v17.19 period '+per,c==200 and j['ok'] and 'report' in j,(c,str(j)[:200]))
+c,j,_=req('api/kitchen-analytics.php?period=all');check('v17.19 all-time includes today',c==200 and j['report']['orders']>=3 and j['report']['first_day'],(c,str(j)[:200]))
+DF2=PD+'/analytics-days-65.json';dd=json.load(open(DF2))['days']
+check('v17.19 day totals on disk: no customer data',not re.search(r'Mari|5555|@|A20[12]|live-',json.dumps(dd)),json.dumps(dd)[:200])
+# a day that has left the 35-day order list stays in the totals
+dd['2025-01-15']={'n':7,'m':12345,'mn':7,'p':9,'late':1,'dl':5,'ps':80,'pn':5,'ts':100,'tn':5,'h':[0]*24,'s':{'k':7,'d':0,'h':0},'z':{'Hawaii':4}}
+json.dump({'days':dd},open(DF2,'w'))
+c,j,_=req('api/kitchen-analytics.php?period=all');r=j['report']
+check('v17.19 old days kept forever and counted in Kogu aeg',r['first_day']=='2025-01-15' and r['orders']>=10 and r['amount_cents']>=12345+3350 and r['top'].get('Hawaii')==4,(str(r)[:300]))
+c,j,_=req('api/kitchen-analytics.php?period=month');check('v17.19 month does not include an old day',j['report']['top'].get('Hawaii') is None,str(j['report'])[:200])
 # --- v17.14 Taigna tellimine 4.0: edit window
 c,j,_=req('api/dough.php');fro=[k for k,v in j['catalog'].items() if v.get('frozen')]
 import datetime;d=(datetime.date.today()+datetime.timedelta(days=2)).isoformat()
@@ -153,6 +171,28 @@ c,j,_=req('api/dough.php','POST',{'action':'status','id':oid,'expected_revision'
 # --- v17.14 System Health 2.0
 c,j,_=req('api/system-health.php');check('v17.14 system-health: storage size, disk, server time',c==200 and isinstance(j.get('storage'),dict) and j['storage']['files']>=1 and abs(j['server_time']-int(time.time()*1000))<60000 and any(x['key']=='storage_size' for x in j['checks']),(c,str(j)[:300]))
 check('v17.14 system-health: no file names or secrets',not re.search(r'internal-status|dough-|password|session',json.dumps(j.get('storage'))),j.get('storage'))
+# --- v17.16 release + daily data copy
+import hashlib
+c,j,_=req('api/release.php');check('v17.16 release.php: server version only',c==200 and j=={'ok':True,'version':re.search(r'peetri-release" content="([0-9.]+)',open(WEB+'/dashboard.php').read()).group(1)},(c,j))
+c,j,_=req('api/backup.php');check('v17.16 backup GET makes today\'s copy',c==200 and j['ok'] and j['made'] and len(j['backups'])==1 and j['backups'][0]['files']>=3,(c,j))
+TODAY=j['today'] if j else ''
+c,j,_=req('api/backup.php');check('v17.16 backup GET again: no second copy the same day',c==200 and j['made'] is False and len(j['backups'])==1,(c,j))
+BK=PD+'/backups/65/'+TODAY
+check('v17.16 backup holds only this pizzeria, no locks',os.path.isdir(BK) and all(re.match(r'^(internal-status|pickup|dough|wait|print-log|analytics|analytics-days)\.json$|^meta\.json$',f) for f in os.listdir(BK)),os.listdir(BK) if os.path.isdir(BK) else 'no dir')
+DF=PD+'/dough-65.json';orig=hashlib.sha256(open(DF,'rb').read()).hexdigest()
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY});check('v17.16 restore without CSRF refused',c==403,(c,j))
+for bad in ['../65','2026-1-1','x','2026-11-11/../..']:
+  c,j,_=req('api/backup.php','POST',{'action':'restore','date':bad},headers=CS);check('v17.16 restore bad date refused: '+bad,c==400,(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':'2001-01-01'},headers=CS);check('v17.16 restore unknown day -> 404',c==404,(c,j))
+open(DF,'w').write('{"orders":[]}')
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY},headers=CS)
+check('v17.16 restore brings the day copy back',c==200 and j['restored']>=3 and hashlib.sha256(open(DF,'rb').read()).hexdigest()==orig,(c,j))
+check('v17.16 restore first saved the state before it (-enne)',c==200 and any(b['date']==TODAY+'-enne' for b in j['backups']),(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY+'-enne'},headers=CS)
+check('v17.16 restore can be undone (-enne copy)',c==200 and open(DF).read()=='{"orders":[]}',(c,j))
+c,j,_=req('api/backup.php','POST',{'action':'restore','date':TODAY},headers=CS)
+check('v17.16 restore again -> original data',c==200 and hashlib.sha256(open(DF,'rb').read()).hexdigest()==orig,(c,j))
+c,j,_=req('api/dough.php');check('v17.16 dough API still reads restored file',c==200 and j and j.get('ok'),(c,str(j)[:200]))
 # --- upstream failures
 mode('expired');c,j,_=req('api/live.php');check('upstream session expired -> 401 (so the login banner shows)',c==401,(c,j))
 mode('down');c,j,_=req('api/live.php');check('upstream down -> 502',c==502,(c,j))

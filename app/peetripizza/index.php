@@ -55,7 +55,7 @@ $many=count($configured)>6;
 <html lang="et"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0f3b24">
 <title>Peetri Pizza — Köögi sisselogimine</title>
-<link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><script src="assets/login-v175.js?v=17.5.0" defer></script>
+<link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><link rel="stylesheet" href="assets/login-v1720.css?v=17.20.0"><script src="assets/login-v175.js?v=17.20.0" defer></script>
 </head><body class="pl-body">
 <main class="pl-shell">
 <section class="pl-brand" aria-hidden="false">
@@ -70,7 +70,7 @@ $many=count($configured)>6;
   <li><span class="pl-dot"></span>Taimerid, heli ja 80 mm print</li>
   <li><span class="pl-dot"></span>Taigna tellimine ühest kohast</li>
  </ul>
- <div class="pl-ver">Service App v17.15</div>
+ <div class="pl-ver">Service App v17.23</div>
 </section>
 <section class="pl-panel">
  <form method="post" action="/peetripizza/" autocomplete="on" id="pl-form" class="pl-card" novalidate>
