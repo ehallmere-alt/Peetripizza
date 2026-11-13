@@ -1,5 +1,14 @@
 # Changelog
 
+## 17.67.0 — 2026-11-13
+- Owner picked the whole tech pack ("Давай все"). No design change.
+- One shared clock (`assets/timer-v1767.js`, first script in `<head>`): every setInterval ≥ 500 ms (62 of them) runs from one 500 ms tick; while the screen is hidden short timers run at most every 10 s, everything runs once when it comes back. LIVE polling (own setTimeout chain) untouched. `window.PPTimer.stats()`.
+- One stylesheet + four scripts: `assets/app-v1767.css` (= app-v1748.css + every later layer, `tools/css-bundle.py`), `assets/app-a-v1767.js` (plain scripts + defer files before app-core), `assets/app-core-v141.js` (own file: strict, shared globals), `assets/app-b-v1767.js` (every defer file after it); built by `tools/js-bundle.js`, each file wrapped in its own function + try/catch, run order unchanged. Originals listed in HTML comments; sources stay and are the files to edit (then rebuild).
+- Offline: `sw.js` stores every file the page names right after a good load and drops older `?v=` copies (cache no longer grows per release).
+- `tools/diag.php` (SSH only): kitchen JS errors grouped + the real structure of a LIVE order (field names, true/false flags, product/topping words; no names, phones, addresses, notes, prices, ids).
+- Bugs: Taigna on phones scrolled sideways 128 px (`assets/dough-v1767.css`); the "6+ orders → Tõsta 30 min?" hint was invisible since 17.54 (inside the hidden old Ooteaeg box) — now under the header (`assets/ops-v1767.css`); menu backdrop above the sticky header.
+- Tests: browser suite updated to owner decisions since 17.21 (Seaded tabs, no Valmis header button, "Alusta valmistamist" + time sheet, hidden Versioon, bottom sheets); `ONLY=regex` runs a subset.
+
 ## 17.66.0 — 2026-11-12
 - Owner picked 1, 5, 6 (`assets/ops-v1766.css/.js`): Valmis/Väljastus cards like main cards (grey type chip, red −/green + toppings, no Brändikarp line, box icon instead of KARBID); dark "N PITSAT" chip on every card (main: app-core count shown again; Valmis cards: counted from lines with a size code); Valmis column head is "Valmis N".
 

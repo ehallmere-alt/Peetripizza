@@ -1,0 +1,8 @@
+/* Peetri Pizza v17.67 — phone (≤520px): -5 -1 N +1 +5 under the product name, no sideways scroll. */
+@media (max-width:520px){
+ #items .item{flex-wrap:wrap!important;gap:10px!important}
+ #items .item .itemname{flex:1 1 100%!important}
+ #items .item .controls{flex:1 1 100%!important;justify-content:space-between!important;min-width:0!important}
+ #items .item .controls button{flex:1 1 0!important;min-width:0!important}
+ #items .item .controls .qty{flex:0 0 52px!important}
+}
