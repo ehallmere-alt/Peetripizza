@@ -34,3 +34,18 @@
 - [ ] Ask owner approval before merging, tagging, releasing, or deploying.
 
 Ref: issue #11 / draft PR #12.
+
+## Verification evidence, 2026-11-16
+
+- Isolated staging clone built: **308 candidates** (85 new, 6 modified, 217 unchanged); **7 excluded/flagged**.
+- Syntax screening of 91 new/modified files: **67 checks, 0 failed, 0 skipped**. The remaining non-code files were not syntax checked.
+- Additional staging privacy check on **91 changed/new candidates**: 23 CSS, 1 .htaccess, 26 JS, 41 PHP.
+- **0 blocked indicator patterns**, but **2 manual-review matches**: Estonian-phone-like literal in `tests-v150.php`, email-like literal in `tools/test-realtime-v1768.php`. Do not upload these two files before confirming they contain synthetic fixtures.
+- The scanner did not establish that the remaining files contain no secrets or real customer data. **No source code uploaded yet**, no merge/deploy.
+
+### Next gates
+
+- [ ] Review both test-file matches privately; exclude them from public commit until confirmed synthetic.
+- [ ] Create a local-only staged diff for the 89 other changes; review filenames, additions and compiled-bundle integrity.
+- [ ] Audit remaining candidates for secrets, personal data and server-only configuration before any public push.
+- [ ] Commit/push only validated source to this draft branch, then run regression tests before requesting review.
