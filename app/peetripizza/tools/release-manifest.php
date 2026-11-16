@@ -2,7 +2,7 @@
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '9698b17fa77f504d76742029462e77561caf8aeca068c6c0dea71432bf12f2f1',
+    'CHANGELOG.md' => 'dc0a33f88b98f5021a7e671e007b61762127b973dc2186877a62a107557a84b4',
     'CLAUDE-HANDOFF.md' => '4d671452b73e44dd9af979d1d2af88421334c593add82155ca7f8033990125c4',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'dbef6c207f83dab2f9c5eb8639773e6625714778a76b3acdf6b58302936ab3df',
