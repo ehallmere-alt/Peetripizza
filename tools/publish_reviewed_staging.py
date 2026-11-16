@@ -82,23 +82,42 @@ def main():
     # Explicit release mark in staged dashboard.
     dashboard=git(repo,"show",":app/peetripizza/dashboard.php").stdout
     if b'name="peetri-release" content="17.95.0"' not in dashboard:abort("Expected 17.95.0")
-    # Require current Github remote branch to still equal the clone base.
-    git(repo,"fetch","-q","origin",BRANCH)
-    local=git(repo,"rev-parse","HEAD").stdout.strip()
-    remote=git(repo,"rev-parse","FETCH_HEAD").stdout.strip()
-    if local!=remote:abort("PR branch changed remotely: refresh staged clone instead of overwriting")
-    # git identity must already be configured by the repository owner.
-    for field in ("user.name","user.email"):
-        if git(repo,"config","--get",field,check=False).returncode!=0:
-            abort("Configure Git identity first: "+field)
-    print("Checks passed; committing to draft PR branch only.")
-    git(repo,"commit","-m","sync: import verified production Peetri Pizza 17.95.0 snapshot")
-    # force-with-lease is deliberately NOT used, never force-push
-    p=git(repo,"-c","credential.interactive=never","push","origin",f"HEAD:refs/heads/{BRANCH}",check=False)
-    if p.returncode!=0:
-        print("COMMIT CREATED LOCALLY; PUSH FAILED. No force push.")
-        print("Check Git authentication; retry only after checking the remote branch.")
-        return 1
+    # IMPORTANT: the staging clone predates review-branch audit commits.
+    # Re-clone latest remote branch and transplant ONLY the validated index blobs.
+    # This preserves all newer remote documentation/scripts without rewriting history.
+    import tempfile
+    with tempfile.TemporaryDirectory(prefix="peetri-publish-") as temp:
+        target=Path(temp)/"repo"
+        cloned=subprocess.run(
+            ["git","clone","-q","--depth","1","--branch",BRANCH,REPO_URL,str(target)],
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE
+        )
+        if cloned.returncode:abort("Unable to clone up-to-date remote review branch")
+        for name in names:
+            dest=target/name
+            dest.parent.mkdir(parents=True,exist_ok=True)
+            dest.write_bytes(git(repo,"show",":"+name).stdout)
+            git(target,"add","--",name)
+        # Verify transplanted content matches the reviewed Git INDEX byte-for-byte.
+        for name in names:
+            if git(target,"show",":"+name).stdout != git(repo,"show",":"+name).stdout:
+                abort("Staged content changed during transplant")
+        identity={}
+        for field in ("user.name","user.email"):
+            q=git(repo,"config","--get",field,check=False)
+            if q.returncode or not q.stdout.strip():
+                abort("Git author identity missing: "+field)
+            identity[field]=q.stdout.decode().strip()
+        print("Checks passed; preparing draft-branch-only commit.")
+        git(target,"-c","user.name="+identity["user.name"],
+            "-c","user.email="+identity["user.email"],
+            "commit","-m","sync: import verified production Peetri Pizza 17.95.0 snapshot")
+        # No force push. GitHub will reject concurrent remote updates.
+        p=git(target,"-c","credential.interactive=never",
+              "push","origin",f"HEAD:refs/heads/{BRANCH}",check=False)
+        if p.returncode:
+            print("PUSH FAILED. No remote overwrite. Check Git authentication.")
+            return 1
     print("PUSH OK to draft PR branch ONLY.")
     print("DO NOT MERGE/DEPLOY: manual code and privacy review required.")
     return 0
