@@ -1,0 +1,22 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const vm=require('node:vm');
+const dir=process.argv[2]||path.resolve(__dirname,'../app/peetripizza');
+const read=p=>fs.readFileSync(path.join(dir,p),'utf8');
+const dashboard=read('dashboard.php'),login=read('index.php'),core=read('assets/app-core-v141.js'),dedup=read('assets/order-dedup-v1801.js'),theme=read('assets/kitchen-design-switch-v1799.js'),reference=read('assets/official-reference-v1801.js');
+let passed=0;
+function test(name,fn){try{fn();passed++;console.log('PASS',name)}catch(e){console.error('FAIL',name,e.message);process.exitCode=1}}
+for(const p of ['assets/app-core-v141.js','assets/order-dedup-v1801.js','assets/official-reference-v1801.js','assets/kitchen-design-switch-v1799.js'])test('JS syntax '+p,()=>new vm.Script(read(p),{filename:p}));
+test('Menu button and LIVE slot still exist',()=>{assert.match(dashboard,/id="menuBtn"/);assert.match(dashboard,/id="pp111-live-slot"/)});
+test('LIVE connection and original script bundles remain',()=>{for(const p of ['app-a-v1767.js','app-core-v141.js','app-b-v1767.js','live-event-bridge-v1768.js'])assert.ok(dashboard.includes('assets/'+p),p)});
+test('Classic design remains default',()=>{assert.match(theme,/getItem\(KEY\)==='2'\?'2':'1'/);assert.match(theme,/pp-design-two/);assert.match(theme,/Premium Clean/)});
+test('Real pizza names in main Tooted',()=>{for(const name of ['Margherita','Pepperoni','Peetri Pizza','Cananas','Topolino','Vegetariana'])assert.ok(core.includes('["'+name+'"]')||core.includes('"'+name+'"]'),name)});
+test('Login branches still require configured ID and password',()=>{assert.match(login,/pp_locations\(\)/);assert.match(login,/name="pizzeria_id"/);assert.match(login,/name="password"/)});
+test('Dedupe only affects individual product lines',()=>{assert.match(dedup,/root\.querySelectorAll\('\.product-line'\)/);assert.match(dedup,/extras\.classList\.contains\('pp1754-moved'\)/)});
+test('New UI scripts make no network requests',()=>{for(const s of [dedup,reference])assert.doesNotMatch(s,/\bfetch\s*\(|XMLHttpRequest|sendBeacon|\.submit\s*\(/)});
+test('Updated assets use cache-busting URLs',()=>{assert.match(dashboard,/order-dedup-v1801\.js\?v=1801fix2/);assert.match(dashboard,/app-core-v141\.js\?v=18\.02/);assert.match(dashboard,/official-reference-v1801\.js/)});
+test('Public catalog is not represented as LIVE inventory',()=>{assert.match(reference,/public-readonly-snapshot/);assert.match(core,/LOCAL ONLY/)});
+console.log('Total checks passed:',passed);
+if(process.exitCode)process.exit(process.exitCode);
