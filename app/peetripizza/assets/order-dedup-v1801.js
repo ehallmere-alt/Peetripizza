@@ -19,6 +19,17 @@
   function clean(line) {
     const extras = line.querySelector('.pp177-extras');
     if (!extras) return;
+    // ops-v1754 copies ALL '+ LISA' toppings to green modifier chips but
+    // leaves the original summary visible. Hide that copied source block.
+    // The check is restricted to the same product line; no pizza is merged.
+    if (extras.classList.contains('pp1754-moved')) {
+      if (extras.style.getPropertyValue('display') !== 'none' ||
+          extras.style.getPropertyPriority('display') !== 'important') {
+        extras.style.setProperty('display', 'none', 'important');
+      }
+      if (!extras.hidden) extras.hidden = true;
+      return;
+    }
     const pills = Array.from(line.querySelectorAll(
       '.pp177-mods em, .pp94-specs:not(.pp177-extras) em'
     ));
