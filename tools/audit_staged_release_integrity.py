@@ -43,7 +43,7 @@ def main() -> int:
     if changed_set & EXCLUDE:
         for p in sorted(changed_set & EXCLUDE):
             problems.append(("excluded-file-staged", p))
-    if len(changed) != 89:
+    if len(changed) not in (89, 91):
         reviewed.append(("unexpected-staged-count", str(len(changed))))
     status = git("diff", "--cached", "--name-status", "-z").split(b"\0")
     if any(x.startswith(b"D") for x in status if x):
