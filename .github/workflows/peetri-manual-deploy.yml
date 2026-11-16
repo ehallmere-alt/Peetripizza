@@ -1,0 +1,95 @@
+name: Peetri Pizza — manual deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "Check SSH and application path, or deploy the latest verified patch"
+        required: true
+        type: choice
+        options:
+          - check
+          - deploy
+        default: check
+
+permissions:
+  contents: read
+
+concurrency:
+  group: peetri-pizza-production
+  cancel-in-progress: false
+
+jobs:
+  production:
+    name: ${{ inputs.operation == 'deploy' && 'Deploy Peetri Pizza' || 'Check Peetri Pizza connection' }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: peetri-production
+    env:
+      PP_SSH_HOST: ${{ secrets.PP_SSH_HOST }}
+      PP_SSH_USER: ${{ secrets.PP_SSH_USER }}
+      PP_SSH_PORT: ${{ secrets.PP_SSH_PORT }}
+      PP_SSH_PRIVATE_KEY: ${{ secrets.PP_SSH_PRIVATE_KEY }}
+      PP_SSH_KNOWN_HOSTS: ${{ secrets.PP_SSH_KNOWN_HOSTS }}
+      PP_APP_PATH: ${{ secrets.PP_APP_PATH }}
+    steps:
+      - name: Checkout pinned main
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Check configuration and prepare SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          for key in PP_SSH_HOST PP_SSH_USER PP_SSH_PRIVATE_KEY PP_SSH_KNOWN_HOSTS PP_APP_PATH; do
+            if [[ -z "${!key:-}" ]]; then
+              echo "::error::Missing GitHub environment/repository secret: $key"
+              exit 1
+            fi
+          done
+          [[ "$PP_SSH_HOST" =~ ^[A-Za-z0-9][A-Za-z0-9.-]*$ ]] || { echo '::error::Invalid host name'; exit 1; }
+          [[ "$PP_SSH_USER" =~ ^[A-Za-z_][A-Za-z0-9_.-]*$ ]] || { echo '::error::Invalid SSH user'; exit 1; }
+          PORT="${PP_SSH_PORT:-22}"
+          [[ "$PORT" =~ ^[0-9]+$ ]] && (( 10#$PORT > 0 && 10#$PORT <= 65535 )) || { echo '::error::Invalid SSH port'; exit 1; }
+          [[ "$PP_APP_PATH" == /* && "$PP_APP_PATH" == */peetripizza ]] || { echo '::error::PP_APP_PATH must be an absolute path ending in /peetripizza'; exit 1; }
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          umask 077
+          printf '%s\n' "$PP_SSH_PRIVATE_KEY" > "$HOME/.ssh/peetri_deploy_key"
+          printf '%s\n' "$PP_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/peetri_deploy_key" "$HOME/.ssh/known_hosts"
+          ssh-keygen -y -P '' -f "$HOME/.ssh/peetri_deploy_key" >/dev/null || { echo '::error::Invalid or encrypted SSH private key'; exit 1; }
+          [[ -s "$HOME/.ssh/known_hosts" ]] || { echo '::error::Empty known_hosts'; exit 1; }
+          [[ -s patches/update-latest-ssh.txt ]] || { echo '::error::Missing deploy patch'; exit 1; }
+          bash -n .github/scripts/peetri-remote-guard.sh
+          echo "PP_PORT=$PORT" >> "$GITHUB_ENV"
+
+      - name: Check server / deploy approved patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          target=$(printf '%q' "$PP_APP_PATH")
+          opts=(
+            -T
+            -i "$HOME/.ssh/peetri_deploy_key"
+            -p "$PP_PORT"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts"
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=1
+          )
+          if [[ '${{ inputs.operation }}' == 'check' ]]; then
+            ssh "${opts[@]}" "$PP_SSH_USER@$PP_SSH_HOST" "bash -se -- $target" < .github/scripts/peetri-remote-guard.sh
+            echo 'Connection and project-path check passed. No files changed.' >> "$GITHUB_STEP_SUMMARY"
+          elif [[ '${{ inputs.operation }}' == 'deploy' ]]; then
+            cat .github/scripts/peetri-remote-guard.sh patches/update-latest-ssh.txt \
+              | ssh "${opts[@]}" "$PP_SSH_USER@$PP_SSH_HOST" "bash -se -- $target"
+            echo 'Deploy command finished. Review the job log for version and application checks.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo '::error::Unknown operation'
+            exit 1
+          fi
