@@ -1,0 +1,224 @@
+
+/* Peetri Pizza Premium Admin v17.96
+   Presentation-only: no order, sound, print or LIVE changes. */
+
+:root {
+  --pp-bg:#f3f6f4;
+  --pp-white:#ffffff;
+  --pp-ink:#172d23;
+  --pp-muted:#718378;
+  --pp-green:#147a49;
+  --pp-dark:#17382a;
+  --pp-border:#e1e9e3;
+  --pp-shadow:0 14px 40px rgba(19,49,31,.055);
+  font-family:Inter,system-ui,-apple-system,
+    "Segoe UI",Arial,sans-serif;
+  color:var(--pp-ink);
+  background:var(--pp-bg);
+}
+
+body {
+  color:var(--pp-ink);
+  background:
+    radial-gradient(ellipse at 95% 0%,
+      rgba(27,140,78,.065),transparent 36%),
+    var(--pp-bg);
+  -webkit-font-smoothing:antialiased;
+}
+
+header {
+  background:rgba(255,255,255,.97);
+  border-bottom:1px solid var(--pp-border);
+}
+
+main {
+  max-width:1180px;
+  margin-inline:auto;
+}
+
+h1 {
+  font-weight:800;
+  letter-spacing:-1.4px;
+  line-height:1.12;
+}
+
+h2,h3 {
+  letter-spacing:-.35px;
+}
+
+.eyebrow {
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.65px;
+  color:var(--pp-green);
+}
+
+.intro,.sub {
+  line-height:1.6;
+  color:var(--pp-muted);
+}
+
+.cards,.metrics,.checks,.devices {
+  gap:14px;
+}
+
+.card,
+.metrics article,
+.metrics .box,
+.box,
+.panel,
+.check,
+.device {
+  border:1px solid var(--pp-border);
+  background:var(--pp-white);
+  box-shadow:var(--pp-shadow);
+  border-radius:19px;
+}
+
+.card,
+.device,
+.check,
+.metrics article,
+.metrics .box,
+.box {
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease,
+    transform .18s ease;
+}
+
+a.card:hover {
+  border-color:#9dcab0;
+  transform:translateY(-2px);
+  box-shadow:0 18px 38px rgba(19,49,31,.09);
+}
+
+.card .icon {
+  background:linear-gradient(145deg,#e5f4eb,#f1f9f4);
+  border:1px solid #d6eddf;
+  color:var(--pp-green);
+  border-radius:15px;
+}
+
+.card .arrow {
+  font-weight:700;
+  color:var(--pp-green);
+}
+
+.hero,.overview {
+  background:
+    radial-gradient(circle at 90% 10%,
+      rgba(75,190,119,.18),transparent 38%),
+    linear-gradient(125deg,#153527,#214b36);
+  border-radius:22px;
+  box-shadow:0 16px 36px rgba(22,65,37,.12);
+}
+
+.metrics strong,
+.box strong {
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.device h3 {
+  font-size:17px;
+  font-weight:800;
+}
+
+.device p {
+  border-top:1px solid #edf1ee;
+  padding-top:9px;
+  line-height:1.5;
+}
+
+.tag {
+  font-weight:800;
+  letter-spacing:.1px;
+}
+
+button {
+  transition:
+    transform .16s ease,
+    filter .16s ease,
+    box-shadow .16s ease;
+}
+
+button:hover:not(:disabled) {
+  filter:brightness(1.05);
+}
+
+button:active:not(:disabled) {
+  transform:scale(.985);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline:3px solid #63b988;
+  outline-offset:3px;
+}
+
+.periods {
+  padding:5px;
+  background:#eaf0eb;
+  border-radius:15px;
+  width:max-content;
+  max-width:100%;
+}
+
+.periods button {
+  border:0;
+  border-radius:11px;
+  box-shadow:none;
+}
+
+.periods button.selected {
+  background:#177b4c;
+  box-shadow:0 4px 11px rgba(20,122,73,.19);
+}
+
+.chart {
+  border-bottom:1px solid #dce7df;
+}
+
+.bar-inner {
+  background:linear-gradient(180deg,#9edbb6,#71c998);
+  border-radius:6px 6px 0 0;
+  transition:height .25s ease;
+}
+
+.bar-inner.peak {
+  background:linear-gradient(180deg,#209759,#126d40);
+}
+
+#peak {
+  font-weight:800;
+}
+
+@media (min-width:700px) and (max-width:1100px) {
+  main {padding-left:24px;padding-right:24px}
+  .card {min-height:112px}
+  .device {padding:23px}
+  .metrics article {padding:21px}
+}
+
+@media (max-width:699px) {
+  main {padding-left:13px;padding-right:13px}
+  h1 {letter-spacing:-1px}
+  .cards,.checks,.devices {gap:10px}
+  .card,.check,.device,.panel {border-radius:16px}
+  .card {padding:17px}
+  .metrics {gap:9px}
+  .metrics article,.box {padding:15px}
+  .periods {width:100%}
+  .periods button {min-height:42px}
+  button {min-height:42px}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  *,
+  *::before,
+  *::after {
+    animation:none!important;
+    transition:none!important;
+  }
+}

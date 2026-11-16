@@ -1,0 +1,48 @@
+*{box-sizing:border-box}
+:root{font-family:Arial,Helvetica,sans-serif;background:#f4f7f5;color:#1d3026}
+body{margin:0}
+header{background:#fff;border-bottom:1px solid #e0e9e3}
+.top{max-width:1120px;margin:auto;padding:19px;display:flex;justify-content:space-between;align-items:center}
+.top a{text-decoration:none;color:#16824e;font-weight:700;font-size:14px}
+.top strong{font-size:12px;letter-spacing:1px}.top span,h1 span{color:#16824e}
+main{max-width:1120px;margin:auto;padding:28px 19px 45px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#16824e}
+h1{font-size:36px;letter-spacing:-1px;margin:9px 0}
+.intro{color:#78867c;margin:0 0 23px}
+.periods{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.periods button{background:#fff;border:1px solid #dbe7de;padding:11px 17px;border-radius:12px;font-weight:700;cursor:pointer;color:#526b5d}
+.periods button.selected{background:#167c4b;color:#fff;border-color:#167c4b}
+#message{font-size:13px;color:#62756a;min-height:25px;margin-bottom:9px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.metrics article,.panel{background:white;border:1px solid #e0e9e3;border-radius:19px}
+.metrics article{padding:20px;min-width:0}
+.metrics small{display:block;color:#728278;font-size:12px}
+.metrics strong{display:block;font-size:29px;margin:10px 0;overflow-wrap:anywhere}
+.metrics span{font-size:11px;color:#718477;line-height:1.5}
+.panel{padding:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.panel-head small{color:#16824e;font-size:11px;font-weight:800;letter-spacing:1px}
+.panel h2{font-size:19px;margin:8px 0}
+#peak{background:#eaf5ee;color:#197b4b;padding:9px 12px;border-radius:12px;font-size:12px;font-weight:700}
+.chart{height:240px;display:grid;grid-template-columns:repeat(24,minmax(0,1fr));align-items:end;gap:5px;margin-top:25px;border-bottom:1px solid #dce5df}
+.bar{height:100%;display:flex;align-items:flex-end;min-width:0}
+.bar-inner{background:#91d0a9;border-radius:5px 5px 0 0;width:100%;min-height:2px}
+.bar-inner.peak{background:#16824e}
+.axis{display:flex;justify-content:space-between;color:#86948b;font-size:11px;padding-top:11px}
+.note{color:#8a968d;font-size:12px;line-height:1.6;margin-top:20px}
+@media(max-width:850px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){main{padding:20px 12px}.metrics{gap:8px}
+.metrics article{padding:15px}.metrics strong{font-size:25px}
+.panel{padding:15px}.chart{gap:2px;height:190px}
+h1{font-size:30px}.periods button{flex:1;padding:11px 8px;font-size:12px}
+.panel h2{font-size:16px}#peak{font-size:10px}}
+
+
+/* v17.95: tablet improvements */
+@media(min-width:650px) and (max-width:1100px){
+  main{padding:26px 22px 45px}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metrics article{min-height:126px}
+  .chart{height:280px;gap:4px}
+  .periods button{min-width:110px}
+}

@@ -532,7 +532,7 @@ setKitchenFocus(kitchenFocus);
 
 // v3.0 LIVE monitor — upstream READ ONLY, no credentials in browser, no upstream writes.
 let liveMode=false,liveTimer=null,liveBusy=false,liveEpoch=0,liveFailures=0,liveRequestController=null;
-function pp168SchedulePoll(){clearTimeout(liveTimer);liveTimer=null;if(!liveMode||document.hidden)return;const ms=liveFailures?Math.min(30000,2000*Math.pow(2,Math.min(liveFailures-1,4))):10000;liveTimer=setTimeout(()=>refreshLive(),ms);}
+function pp168SchedulePoll(){clearTimeout(liveTimer);liveTimer=null;if(!liveMode||document.hidden)return;const ms=liveFailures?Math.min(30000,2000*Math.pow(2,Math.min(liveFailures-1,4))):7000;liveTimer=setTimeout(()=>refreshLive(),ms);}
 window.pp155LiveFreshAt=0;
 let liveSeen=new Set(),liveInitialized=false,lastLiveSync=0,liveSoundUnlocked=false;
 const liveCacheKey='pp154-live-cache-'+(document.querySelector('meta[name="pp-wait-csrf"]')?.content||'session').slice(0,24);

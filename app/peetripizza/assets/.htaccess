@@ -5,3 +5,9 @@
 AddOutputFilterByType DEFLATE text/css application/javascript text/javascript application/x-javascript image/svg+xml
 </IfModule>
 </IfModule>
+
+
+# Public PWA manifest only; other JSON files remain protected.
+<Files "manifest-v1740.json">
+Require all granted
+</Files>
