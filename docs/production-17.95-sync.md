@@ -49,3 +49,11 @@ Ref: issue #11 / draft PR #12.
 - [ ] Create a local-only staged diff for the 89 other changes; review filenames, additions and compiled-bundle integrity.
 - [ ] Audit remaining candidates for secrets, personal data and server-only configuration before any public push.
 - [ ] Commit/push only validated source to this draft branch, then run regression tests before requesting review.
+
+## Latest integrity result (2026-11-16)
+
+- 2 older staging Markdown documents were replaced locally with server-origin documents verified against the 17.95 manifest (0 heuristic privacy flags).
+- **91 staged files**, **46** direct asset references, **245** manifest SHA-256 hashes checked, **0 missing**, **0 mismatches**, **0 blocking findings**.
+- New offline preflight tool `tools/offline_staging_preflight.py` checks exact Git-index blobs for PHP/JS/JSON syntax, flags network/state-changing/auth code for human review, and never contacts the real kitchen endpoints.
+- Before **any public upload**: inspect all flagged network/auth/write paths and check changed source for customer data, credentials, and correct mocking of external services.
+- No source push, merge, release, or production deployment has happened.
