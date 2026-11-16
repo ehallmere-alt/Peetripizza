@@ -29,7 +29,7 @@ function init(){
   </label>
   <label>
    <input type="radio" name="pp1799-theme" value="2">
-   Kujundus 2 · Premium Green
+   Kujundus 2 · Premium Clean
   </label>`;
 
  const title=page.querySelector('h2');
