@@ -1,0 +1,30 @@
+name: Peetri Pizza UI regression checks
+on:
+  push:
+    branches:
+      - feature/order-dedup-official-catalog-pizzerias-v1801
+  pull_request:
+    paths:
+      - 'app/peetripizza/**'
+      - 'tools/test-ui-regression-v1802.cjs'
+      - '.github/workflows/peetri-ui-regression.yml'
+  workflow_dispatch:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax for login and dashboard
+        run: |
+          php -l app/peetripizza/index.php
+          php -l app/peetripizza/dashboard.php
+      - name: Check JavaScript syntax
+        run: |
+          node --check app/peetripizza/assets/app-core-v141.js
+          node --check app/peetripizza/assets/order-dedup-v1801.js
+          node --check app/peetripizza/assets/official-reference-v1801.js
+          node --check app/peetripizza/assets/kitchen-design-switch-v1799.js
+      - name: Run safe regression checks
+        run: node tools/test-ui-regression-v1802.cjs app/peetripizza
