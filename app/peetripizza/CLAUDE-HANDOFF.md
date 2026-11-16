@@ -1,11 +1,11 @@
-# HANDOFF TO CLAUDE — Peetri Pizza Service App v17.2
+# HANDOFF TO CLAUDE — Peetri Pizza Service App v17.0
 
 You are receiving the existing Peetri Pizza kitchen application. **Preserve behavior and the approved homepage exactly.** The user works in Russian; the UI is in Estonian. Build on the supplied files; do not redesign the kitchen homepage without explicit approval.
 
 ## Stack and deployment
 - PHP + vanilla JavaScript + CSS, hosted at `www.crestudio.ee`, real project dir: `/www/apache/domains/www.crestudio.ee/htdocs/peetripizza/`.
 - User uploads ZIP to `/www/apache/domains/www.crestudio.ee`, then installs using `unzip -o <archive> -d htdocs/peetripizza/`.
-- Release `17.2.0` (see CHANGELOG.md); directory for bundled code includes `dashboard.php`, `index.php`, `auth/`, `api/`, `assets/`, `tools/`, `dough.php`.
+- Release `17.0.0`; directory for bundled code includes `dashboard.php`, `index.php`, `auth/`, `api/`, `assets/`, `tools/`, `dough.php`.
 - Authentication: `auth/bootstrap.php`; actual credentials are external to document root, not included in archive. Never embed passwords or API secrets.
 
 ## Product contract (non-negotiable)
@@ -47,15 +47,3 @@ You are receiving the existing Peetri Pizza kitchen application. **Preserve beha
 - No regression in LIVE read-only, statuses, Tooted, dough, settings or auth.
 - Updater preserves data and offers rollback.
 - Document all changes and supply full deploy ZIP with exact SSH command.
-
-## v17.1 notes
-- Boot guard covers `body>.shell`. Header shortcuts `#pp171-stats` / `#pp171-ready` (approved by user 2026-11-11) live in `assets/header-v171.*` and must keep delegating to the drawer Statistika item and `#toggleHistory`.
-- Several decorators observe `#newOrders/#activeOrders` with `subtree:true`; the 1s countdown mutates them. Any new observer there must ignore countdown-only records and write DOM only on change, or it re-creates the per-second cascade.
-- Deploy with `tools/deploy.sh` (backup + checks + rollback; never restores private_data).
-- A Playwright regression suite exists outside the release (dev harness with a fake CLI-server session); run it before every release.
-
-## v17.2 notes
-- `assets/ui-v172.css` contains a GENERATED block: every `.pp-orders-view` header rule of kitchen-release-v166.css re-applied with `:is(.pp-orders-view,:not(.pp-orders-view))` so the header is identical on all pages. If header CSS changes, regenerate rather than hand-edit.
-- `#pp157-more` (Tööriistad ja ülevaated) is hidden by CSS only, user-approved 2026-11-11. Do not delete its DOM: it hosts pp154-stale, pp155 health, pp156 reconcile, kitchen filters and undoBar used by scripts.
-- `#pp172-mode` DEMO/LIVE switch delegates to the native read-only LIVE button; `#pp160-live-chip` is hidden but still updated.
-- Updates are delivered to the user as one SSH paste (patch script with SHA-256 verification), not ZIPs.

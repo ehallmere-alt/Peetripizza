@@ -1,0 +1,276 @@
+
+/* Peetri Pizza Statistics Pro v18.00
+   Isolated styles; kitchen screen is untouched. */
+
+#pp1800-dashboard {
+  --sp-ink:#18382a;
+  --sp-green:#16804b;
+  --sp-muted:#718378;
+  --sp-line:#dfe9e2;
+  --sp-bg:#f4f8f5;
+  color:var(--sp-ink);
+  margin-bottom:22px;
+  font-family:Inter,system-ui,-apple-system,
+    "Segoe UI",sans-serif;
+}
+
+#pp1800-dashboard * {
+  box-sizing:border-box;
+}
+
+#pp1800-dashboard .sp-hero {
+  background:linear-gradient(125deg,#164b32,#0d7143);
+  border-radius:21px;
+  padding:23px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+#pp1800-dashboard .sp-eyebrow {
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:1.5px;
+  opacity:.8;
+}
+
+#pp1800-dashboard .sp-hero h3 {
+  margin:5px 0;
+  color:#fff;
+  font-size:clamp(23px,3vw,33px);
+  font-weight:900;
+  letter-spacing:-.9px;
+}
+
+#pp1800-dashboard .sp-hero p {
+  margin:0;
+  font-size:12px;
+  color:#d2eddb;
+}
+
+#pp1800-dashboard .sp-periods {
+  display:flex;
+  gap:5px;
+  padding:5px;
+  border-radius:13px;
+  background:rgba(255,255,255,.13);
+  flex-wrap:wrap;
+}
+
+#pp1800-dashboard .sp-periods button {
+  padding:10px 13px;
+  border:0;
+  color:#fff;
+  background:transparent;
+  border-radius:9px;
+  font-weight:800;
+  min-height:40px;
+  cursor:pointer;
+}
+
+#pp1800-dashboard .sp-periods button[aria-pressed="true"] {
+  background:#fff;
+  color:#155b39;
+  box-shadow:0 3px 10px #00281424;
+}
+
+#pp1800-dashboard .sp-kpis {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:12px;
+}
+
+#pp1800-dashboard .sp-kpi,
+#pp1800-dashboard .sp-panel {
+  background:#fff;
+  border:1px solid var(--sp-line);
+  border-radius:17px;
+  box-shadow:0 8px 25px #153b2210;
+}
+
+#pp1800-dashboard .sp-kpi {
+  padding:19px;
+  min-width:0;
+}
+
+#pp1800-dashboard .sp-kpi small {
+  display:block;
+  color:var(--sp-muted);
+  font-weight:750;
+  margin-bottom:9px;
+}
+
+#pp1800-dashboard .sp-kpi strong {
+  display:block;
+  color:var(--sp-ink);
+  font-size:clamp(23px,2.7vw,34px);
+  line-height:1.2;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere;
+}
+
+#pp1800-dashboard .sp-kpi:first-child {
+  border-top:3px solid #e69a3c;
+}
+
+#pp1800-dashboard .sp-kpi:nth-child(2) {
+  border-top:3px solid #228c57;
+}
+
+#pp1800-dashboard .sp-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);
+  gap:12px;
+}
+
+#pp1800-dashboard .sp-panel {
+  padding:20px;
+  min-width:0;
+}
+
+#pp1800-dashboard .sp-panel h4 {
+  font-size:17px;
+  font-weight:900;
+  margin:0 0 17px;
+}
+
+#pp1800-dashboard .sp-bars {
+  height:190px;
+  display:flex;
+  align-items:end;
+  gap:5px;
+  border-bottom:1px solid #e3ece5;
+  padding:8px 0 0;
+}
+
+#pp1800-dashboard .sp-bar {
+  flex:1 1 0;
+  min-width:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:end;
+  flex-direction:column;
+  gap:6px;
+}
+
+#pp1800-dashboard .sp-bar i {
+  width:min(100%,28px);
+  min-height:2px;
+  border-radius:6px 6px 0 0;
+  background:linear-gradient(#66c78e,#16804b);
+  display:block;
+}
+
+#pp1800-dashboard .sp-bar b {
+  color:#738579;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+#pp1800-dashboard .sp-rank {
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+#pp1800-dashboard .sp-rank-item {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:7px 10px;
+  font-size:13px;
+}
+
+#pp1800-dashboard .sp-rank-item span {
+  overflow-wrap:anywhere;
+  font-weight:750;
+}
+
+#pp1800-dashboard .sp-track {
+  grid-column:1/-1;
+  height:7px;
+  background:#e8f1eb;
+  border-radius:6px;
+  overflow:hidden;
+}
+
+#pp1800-dashboard .sp-track i {
+  height:100%;
+  display:block;
+  border-radius:6px;
+  background:#29975b;
+}
+
+#pp1800-dashboard .sp-note {
+  margin:13px 0 0;
+  font-size:12px;
+  line-height:1.55;
+  color:#708076;
+}
+
+#pp1800-dashboard .sp-message {
+  padding:10px 14px;
+  font-size:12px;
+  color:#5a7362;
+}
+
+#pp1800-dashboard button:focus-visible {
+  outline:3px solid #96d4ab;
+  outline-offset:2px;
+}
+
+@media(max-width:900px) {
+  #pp1800-dashboard .sp-kpis {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #pp1800-dashboard .sp-grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+
+@media(max-width:520px) {
+  #pp1800-dashboard .sp-hero {padding:16px}
+  #pp1800-dashboard .sp-periods {width:100%}
+  #pp1800-dashboard .sp-periods button {
+    flex:1;
+    padding:9px 7px;
+    font-size:12px;
+  }
+  #pp1800-dashboard .sp-kpis {gap:8px}
+  #pp1800-dashboard .sp-kpi {padding:14px}
+  #pp1800-dashboard .sp-panel {padding:14px}
+  #pp1800-dashboard .sp-bars {gap:2px}
+  #pp1800-dashboard .sp-bar b {font-size:9px}
+}
+
+
+/* STATISTIKA PRO: HIDE LEGACY UI v18.00.2 */
+
+/*
+ * Hide only the direct legacy children of the statistics panel.
+ * The new dashboard remains visible.
+ * If the new dashboard fails to initialize,
+ * the original statistics interface remains available.
+ */
+#statisticsPage .panel:has(> #pp1800-dashboard)
+  > :not(#pp1800-dashboard) {
+    display:none!important;
+}
+
+#statisticsPage .panel:has(> #pp1800-dashboard) {
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    padding:0!important;
+}
+
+#statisticsPage #pp1800-dashboard {
+    display:block!important;
+}
