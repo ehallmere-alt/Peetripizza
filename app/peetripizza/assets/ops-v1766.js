@@ -15,7 +15,8 @@
   }
  }
  // React to card DOM changes instead of scanning every 1.2 seconds.
- const root=document.getElementById('doneOrders');
+ // Observe the full orders view: ready cards are also cloned in #pp1711-pickup.
+ const root=document.getElementById('ordersPage');
  let scheduled=false;
  function queue(){
   if(scheduled)return;
