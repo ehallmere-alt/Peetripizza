@@ -50,7 +50,7 @@ def _blocks(source):
             header = source[token_start:i].strip()
             # A block may begin inside a declaration; context is derived from
             # enclosing headers, not assumed by regex matching nested braces.
-            ancestors = tuple(entry[0] for entry in stack if entry[0].startswith("@"))
+            ancestors = tuple(entry["header"] for entry in stack if entry["header"].startswith("@"))
             if stack:
                 stack[-1]["nested"] = True
             stack.append({"header": header, "body_start": i + 1,
