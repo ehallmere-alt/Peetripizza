@@ -30,6 +30,16 @@ def main():
     for target in targets:
         count = len(re.findall(re.escape(target) + r"(?![\w-])", data))
         print(f"  {target}: {count}")
+    print("Top source sections by !important occurrence:")
+    counts = []
+    for index, match in enumerate(sections):
+        end = sections[index + 1].start() if index + 1 < len(sections) else len(data)
+        section = data[match.start():end]
+        counts.append((match.group(1), len(section), section.count("!important")))
+    for name, length, n_important in sorted(
+            counts, key=lambda row: row[2], reverse=True)[:10]:
+        print(f"  {name}: {n_important} !important, {length} characters")
+
     markers = Counter(x.group(1) for x in sections)
     for name, occurrences in sorted(markers.items()):
         if occurrences > 1:
