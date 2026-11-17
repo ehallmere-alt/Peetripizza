@@ -40,3 +40,6 @@ The duplicate `.drawer nav .pp-planned small{font-size:11px;margin-left:auto}` a
 Added `tools/css-bundle-drift.py` to compare embedded sections of both CSS bundles with their original files after quote-aware CSS comment removal, and `tools/test-css-bundle-drift.py` for isolated tests. Differences must be reviewed before any cleanup; the tool does not mutate CSS and does not assume a 1:1 builder can safely reproduce the current website.
 
 There is **no approved CSS deletion** and no production change.
+
+## Automated review gate
+A GitHub Actions read-only workflow is now configured on the review base branch. It runs Python and Node static/unit checks for PRs into `maintenance/readonly-source-audit-20261117`, without LIVE API, browser, printer, or production access. Passing this workflow is necessary but insufficient for production deployment; browser testing and server baseline review remain mandatory.
