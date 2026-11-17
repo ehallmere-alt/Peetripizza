@@ -43,6 +43,14 @@ const FIXTURE_URL='http://127.0.0.1:8765/browser-fixture-v1802.html';
   console.log('PASS browser: menu opens and closes');
 
   const live=page.locator('#pp111-live-slot .pp111-live-button');
+  console.log('LIVE DEBUG',JSON.stringify(await page.evaluate(()=>({
+    buttons:[...document.querySelectorAll('button')].filter(b=>/LIVE|Reaalsed tellimused|DEMO/i.test(b.textContent||'')).map(b=>({text:b.textContent.trim().slice(0,70),id:b.id,parent:b.parentElement?.id,visible:!!b.getClientRects().length})).slice(0,15),
+    mode:!!document.getElementById('pp172-mode'),
+    liveSlot:document.getElementById('pp111-live-slot')?.outerHTML.slice(0,550),
+    errorsReady:!!document.getElementById('ordersPage'),
+    bodyClasses:document.body.className
+  }))));
+  console.log('BROWSER ERRORS',JSON.stringify(errors.slice(0,10)));
   assert.equal(await live.count(),1,'LIVE button not mounted in kitchen header');
   assert.equal(await live.isVisible(),true,'LIVE button hidden');
   console.log('PASS browser: LIVE action visible');
