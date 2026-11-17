@@ -14,5 +14,18 @@
    if(chip.textContent!==txt)chip.textContent=txt;
   }
  }
- setInterval(tag,1200);setTimeout(tag,400);
+ // React to card DOM changes instead of scanning every 1.2 seconds.
+ const root=document.getElementById('doneOrders');
+ let scheduled=false;
+ function queue(){
+  if(scheduled)return;
+  scheduled=true;
+  requestAnimationFrame(()=>{scheduled=false;tag();});
+ }
+ if(root){
+  new MutationObserver(queue).observe(root,{childList:true,subtree:true});
+ }
+ window.addEventListener('pp145:orders',queue);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});
+ else queue();
 })();
