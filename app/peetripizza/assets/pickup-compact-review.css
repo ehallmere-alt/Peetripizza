@@ -1,0 +1,24 @@
+/* Peetri Pizza — proposed pickup-station card styling.
+   REVIEW ONLY: not included in dashboard, no production effect.
+   Does not alter LIVE, print, sound, order state or click handlers. */
+.pp155-station .pp155-station-order {
+  border: 2px solid #e9a847;
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin-block: 10px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 12px;
+  align-items: center;
+  background: #fff;
+}
+.pp155-station .pp155-station-order .pp178-who {min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;}
+.pp155-station .pp155-station-order .pp178-name {font-size:clamp(20px,4vw,27px);line-height:1.15;overflow-wrap:anywhere;}
+.pp155-station .pp155-station-order .pp155-age {font-weight:750;white-space:nowrap;}
+.pp155-station .pp155-station-order [data-pp155-pickup] {min-height:48px;border-radius:12px;font-weight:800;}
+/* User requested no share link in the pickup card. The underlying handler remains untouched. */
+.pp155-station .pp155-station-order .pp155-station-link {display:none!important;}
+@media(max-width:480px){
+ .pp155-station .pp155-station-order {grid-template-columns:minmax(0,1fr);padding:12px;gap:8px;}
+ .pp155-station .pp155-station-order [data-pp155-pickup] {width:100%;}
+}
