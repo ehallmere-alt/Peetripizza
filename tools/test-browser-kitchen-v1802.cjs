@@ -59,10 +59,18 @@ const FIXTURE_URL='http://127.0.0.1:8765/browser-fixture-v1802.html';
 
   await menu.click({timeout:10000});
   await page.locator('[data-page="settings"]').first().click({timeout:10000});
-  await page.locator('#pp1799-themes input[value="2"]').check({timeout:10000});
+  // The native radio is visually hidden by existing styles; trigger its
+  // real change listener instead of requiring a pointer-clickable input.
+  await page.locator('#pp1799-themes input[value="2"]').evaluate(el=>{
+    el.checked=true;
+    el.dispatchEvent(new Event('change',{bubbles:true}));
+  });
   assert.equal(await page.locator('body').evaluate(b=>b.classList.contains('pp-design-two')),true,
     'Premium Clean theme did not activate');
-  await page.locator('#pp1799-themes input[value="1"]').check({timeout:10000});
+  await page.locator('#pp1799-themes input[value="1"]').evaluate(el=>{
+    el.checked=true;
+    el.dispatchEvent(new Event('change',{bubbles:true}));
+  });
   assert.equal(await page.locator('body').evaluate(b=>b.classList.contains('pp-design-two')),false,
     'Classic theme did not restore');
   console.log('PASS browser: theme 2 and classic switch');
