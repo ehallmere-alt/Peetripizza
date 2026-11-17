@@ -1,0 +1,37 @@
+/* REVIEW ONLY — not linked to dashboard.php; production unchanged.
+   Compact pickup station cards, keeping original handover event handlers. */
+.pp155-station .pp155-station-list {gap:9px;}
+.pp155-station .pp155-station-order,
+.pp155-station .pp155-station-order.late {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:9px 12px;
+  padding:13px 15px;
+  margin:0;
+  border:2px solid #e9a847;
+  border-radius:17px;
+  background:#fff;
+}
+.pp155-station .pp155-station-order.late {background:#fff9ef;border-color:#e7a23d;}
+.pp155-station .pp155-station-order .pp178-who {
+  min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 9px;
+}
+.pp155-station .pp155-station-order .pp178-name {
+  font-size:clamp(20px,3.4vw,27px);line-height:1.15;overflow-wrap:anywhere;
+}
+.pp155-station .pp155-station-order .pp155-age {
+  grid-column:2;grid-row:1;white-space:nowrap;font-size:13px;font-weight:850;
+}
+.pp155-station .pp155-station-order button[data-pp155-pickup] {
+  grid-column:1/-1;grid-row:auto;justify-self:stretch;
+  display:block;min-height:48px;width:100%;border-radius:12px;
+  font-size:16px;font-weight:900;
+}
+/* Remove only the share-link control, not phone links or handover actions. */
+.pp155-station .pp155-station-order button.pp155-station-link {display:none!important;}
+@media(max-width:480px){
+  .pp155-station .pp155-station-order,
+  .pp155-station .pp155-station-order.late {padding:11px 12px;gap:8px;}
+  .pp155-station .pp155-station-order .pp155-age {font-size:12px;}
+}
