@@ -28,6 +28,7 @@ const fakeDocument={
   getElementById:k=>k==='doneOrders'?fakeRoot:null,
   querySelectorAll:selector=>selector==='.pp112-done-card'?cards:[],
   readyState:'complete',
+  createElement:tag=>({className:'',textContent:''}),
   addEventListener:()=>{},
 };
 const fakeWindow={addEventListener:()=>{}};
@@ -56,17 +57,14 @@ assert.equal(pending.length,1,'multiple changes must be coalesced');
 pending.shift()();
 // Model a ready-card lifecycle: add pizza, update quantity, remove product.
 // Mutations are explicitly delivered to the mock observer, like browser microtasks.
-const badge={
-  className:'',
-  textContent:'',
-};
+let badge=null;
 let badgeInCard=false;
 let products=[];
 const card={
   querySelectorAll:sel=>sel==='.pp112-product'?products:[],
   querySelector:sel=>{
     if(sel==='.pp1766-pz')return badgeInCard?badge:null;
-    if(sel==='.pp112-card-identity>div')return {append:node=>{assert.equal(node.className,'pp1766-pz');badgeInCard=true;badge.textContent=node.textContent;}};
+    if(sel==='.pp112-card-identity>div')return {append:node=>{assert.equal(node.className,'pp1766-pz');badgeInCard=true;badge=node;}};
     return null;
   },
 };
