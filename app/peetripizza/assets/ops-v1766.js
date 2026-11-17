@@ -14,5 +14,32 @@
    if(chip.textContent!==txt)chip.textContent=txt;
   }
  }
- setInterval(tag,1200);setTimeout(tag,400);
+ // React to card DOM changes instead of scanning every 1.2 seconds.
+ // Observe the full orders view: ready cards are also cloned in #pp1711-pickup.
+ const root=document.getElementById('ordersPage');
+ let scheduled=false;
+ function queue(){
+  if(scheduled)return;
+  scheduled=true;
+  requestAnimationFrame(()=>{scheduled=false;tag();});
+ }
+ if(root){
+  new MutationObserver(mutations=>{
+   const relevant=mutations.some(m=>{
+    const target=m.target?.nodeType===1?m.target:m.target?.parentElement;
+    // The badge itself is written by tag(); never schedule from those writes.
+    if(target?.closest?.('.pp1766-pz'))return false;
+    if(target?.closest?.('.pp112-done-card'))return true;
+    for(const node of [...m.addedNodes,...m.removedNodes]){
+     if(node.nodeType!==1)continue;
+     if(node.matches?.('.pp112-done-card')||node.querySelector?.('.pp112-done-card'))return true;
+    }
+    return false;
+   });
+   if(relevant)queue();
+  }).observe(root,{childList:true,subtree:true});
+ }
+ window.addEventListener('pp145:orders',queue);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});
+ else queue();
 })();
