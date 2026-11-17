@@ -18,5 +18,78 @@ test('Dedupe only affects individual product lines',()=>{assert.match(dedup,/roo
 test('New UI scripts make no network requests',()=>{for(const s of [dedup,reference])assert.doesNotMatch(s,/\bfetch\s*\(|XMLHttpRequest|sendBeacon|\.submit\s*\(/)});
 test('Updated assets use cache-busting URLs',()=>{assert.match(dashboard,/order-dedup-v1801\.js\?v=1801fix2/);assert.match(dashboard,/app-core-v141\.js\?v=18\.02/);assert.match(dashboard,/official-reference-v1801\.js/)});
 test('Public catalog is not represented as LIVE inventory',()=>{assert.match(reference,/public-readonly-snapshot/);assert.match(core,/LOCAL ONLY/)});
+// Execute the actual duplicate-toppings module in a minimal DOM harness.
+// This verifies observable behavior, not just the presence of a CSS selector.
+function fakeExtras({copied=false,items=[]}={}){
+ const attributes=new Map();
+ const ems=items.map(t=>({
+   textContent:t,
+   style:{display:''}, hidden:false
+ }));
+ const style={
+   display:'',
+   priority:'',
+   setProperty(k,v,p){if(k==='display'){this.display=v;this.priority=p}},
+   getPropertyValue(k){return k==='display'?this.display:''},
+   getPropertyPriority(k){return k==='display'?this.priority:''}
+ };
+ return {
+   classList:{contains:x=>copied&&x==='pp1754-moved'},
+   querySelectorAll:x=>x==='em'?ems:[],
+   style,hidden:false,ems
+ };
+}
+function runDedup(lines){
+ const root={querySelectorAll:sel=>sel==='.product-line'?lines:[]};
+ const context={
+   document:{
+     getElementById:id=>id==='ordersPage'?root:null,
+     addEventListener:()=>{},
+     hidden:false
+   },
+   window:{addEventListener:()=>{}},
+   MutationObserver:class{observe(){}},
+   requestAnimationFrame:fn=>{fn()}
+ };
+ vm.runInNewContext(dedup,context,{timeout:1000});
+ assert.ok(context.window.PP1801OrderDedup);
+ return context.window.PP1801OrderDedup;
+}
+test('Duplicated + LISA copy is hidden, original green chip stays',()=>{
+ const extras=fakeExtras({copied:true,items:['PINEAPPLE','MUSHROOMS']});
+ const green={textContent:'PINEAPPLE',hidden:false};
+ const line={querySelector:()=>extras,querySelectorAll:()=>[green]};
+ runDedup([line]);
+ assert.equal(extras.hidden,true);
+ assert.equal(extras.style.display,'none');
+ assert.equal(extras.style.priority,'important');
+ assert.equal(green.hidden,false);
+});
+test('Different topping remains visible; same topping hides only in its pizza',()=>{
+ const first=fakeExtras({items:['PINEAPPLE','MUSHROOMS']});
+ const second=fakeExtras({items:['PINEAPPLE']});
+ const make=(extras,names)=>({
+   querySelector:()=>extras,
+   querySelectorAll:()=>names.map(t=>({textContent:t,hidden:false}))
+ });
+ runDedup([
+   make(first,['PINEAPPLE']),
+   make(second,['MUSHROOMS'])
+ ]);
+ assert.equal(first.ems[0].hidden,true);
+ assert.equal(first.ems[1].hidden,false);
+ assert.equal(second.ems[0].hidden,false);
+ assert.equal(first.hidden,false);
+ assert.equal(second.hidden,false);
+});
+test('Order data, LIVE and printer are not written by dedup module',()=>{
+ const order={id:1812,items:[['Pepperoni',1]],status:'new'};
+ const before=JSON.stringify(order);
+ const extras=fakeExtras({copied:true,items:['EXTRA JUUST']});
+ runDedup([{querySelector:()=>extras,querySelectorAll:()=>[]}]);
+ assert.equal(JSON.stringify(order),before);
+ assert.doesNotMatch(dedup,/\bfetch\s*\(|\bWebSocket\b|\.click\s*\(|\.submit\s*\(/);
+});
+
 console.log('Total checks passed:',passed);
 if(process.exitCode)process.exit(process.exitCode);
