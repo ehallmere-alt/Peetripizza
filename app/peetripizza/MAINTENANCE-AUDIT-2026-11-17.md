@@ -20,3 +20,21 @@ Basis: GitHub branch `sync/production-17-95-review-20261116`. The production ser
 6. Rebuild bundles deterministically, refresh manifests, and stage-test before deployment.
 
 This branch contains **audit tooling and documentation only**. No production, order, LIVE, print, or sound changes.
+
+## 17 November — additional verification
+- Rechecked the **actual active** `dashboard.php` HTML (not raw grep). It loads 3 CSS files and 16 JS files in the GitHub sync branch; this does not establish what is live on the server after subsequent Termius changes.
+- Compared five representative original scripts against embedded sections of `app-b-v1767.js`: `ops-v1740.js`, `ops-v1766.js`, `ops-v1754.js` and `pickup-v155.js` matched byte-for-byte after trimming generated trailing whitespace; `kitchen-v155.js` differed in `audioStatus()`. Bundled code tests for an unavailable diagnostics object first (`!d`) whereas the standalone source begins with `!d?.supported`; blindly rebuilding would change the displayed sound-readiness message.
+- The deterministic builder scripts **do exist** at repository root: `tools/js-bundle.js`, `tools/css-bundle.py`. They expect the original unbundled HTML template. Do **not** run either against the already-bundled `dashboard.php`: the JS builder sees the existing app-a/core/app-b tags and could rebundle them again instead of reconstructing the original source grouping. Restore an approved unbundled baseline or implement a safe explicit build manifest first.
+- Added `tools/bundle-drift.py` to compare both generated JS bundles against their original source modules. It is read-only and returns a nonzero exit status if source drift or unrecognized bundle format is found. This is a prerequisite for safe future refactoring.
+- Added Python unit tests for asset inventory and bundle-drift checks, but tests **have not yet been executed against a full checkout**. Do not treat draft PR #20 as release-ready.
+
+### Local read-only commands for a checked-out repo
+```bash
+python3 app/peetripizza/tools/test-source-audit.py
+python3 app/peetripizza/tools/test-bundle-drift.py
+cd app/peetripizza
+python3 tools/source-audit.py
+python3 tools/bundle-drift.py
+```
+
+No production or main branch files were modified by this audit.
