@@ -1,0 +1,49 @@
+name: Peetri review-only tests
+
+on:
+  pull_request:
+    branches:
+      - maintenance/readonly-source-audit-20261117
+    paths:
+      - 'app/peetripizza/assets/**'
+      - 'app/peetripizza/tools/**'
+      - '.github/workflows/peetri-review-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check static tool syntax
+        working-directory: app/peetripizza
+        run: |
+          python3 -m py_compile tools/source-audit.py tools/bundle-drift.py tools/css-cascade-inventory.py tools/css-nesting-audit.py tools/css-duplicate-candidates.py tools/css-bundle-drift.py
+          node --check tools/test-ready-card-events.js
+          node --check tools/test-ready-card-decoration.js
+          node --check assets/ops-v1740.js
+          node --check assets/ops-v1766.js
+      - name: Run isolated unit tests
+        working-directory: app/peetripizza
+        run: |
+          python3 tools/test-source-audit.py
+          python3 tools/test-bundle-drift.py
+          python3 tools/test-css-nesting-audit.py
+          python3 tools/test-css-duplicate-candidates.py
+          python3 tools/test-css-bundle-drift.py
+          node tools/test-ready-card-events.js
+          node tools/test-ready-card-decoration.js
+      - name: Smoke check without LIVE/API calls
+        working-directory: app/peetripizza
+        run: |
+          python3 tools/source-audit.py
+          python3 tools/css-cascade-inventory.py
+          python3 tools/css-nesting-audit.py
+          python3 tools/css-duplicate-candidates.py
