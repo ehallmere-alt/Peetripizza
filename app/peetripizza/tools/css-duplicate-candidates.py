@@ -13,7 +13,7 @@ CSS = Path(__file__).resolve().parent.parent / "assets/app-v1767.css"
 
 def _blocks(source):
     """Emit (selector, body, enclosing_at_rules, offset) for simple rule blocks."""
-    stack = []  # (header, declarations_start, offset, context_before)
+    stack = []  # mutable block descriptors; nested blocks are not emitted
     token_start = 0
     i = 0
     quote = None
@@ -51,14 +51,19 @@ def _blocks(source):
             # A block may begin inside a declaration; context is derived from
             # enclosing headers, not assumed by regex matching nested braces.
             ancestors = tuple(entry[0] for entry in stack if entry[0].startswith("@"))
-            stack.append((header, i + 1, token_start, ancestors))
+            if stack:
+                stack[-1]["nested"] = True
+            stack.append({"header": header, "body_start": i + 1,
+                          "offset": token_start, "ancestors": ancestors,
+                          "nested": False})
             token_start = i + 1
         elif ch == "}":
             if stack:
-                header, body_start, offset, ancestors = stack.pop()
-                body = source[body_start:i].strip()
-                if header and not header.startswith("@") and "{" not in body and "}" not in body:
-                    yield header, body, ancestors, offset
+                entry = stack.pop()
+                header = entry["header"]
+                body = source[entry["body_start"]:i].strip()
+                if header and not header.startswith("@") and not entry["nested"]:
+                    yield header, body, entry["ancestors"], entry["offset"]
             token_start = i + 1
         elif ch == ";" and not stack:
             token_start = i + 1
