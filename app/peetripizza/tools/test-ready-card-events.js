@@ -54,4 +54,42 @@ callback();
 callback();
 assert.equal(pending.length,1,'multiple changes must be coalesced');
 pending.shift()();
+// Model a ready-card lifecycle: add pizza, update quantity, remove product.
+// Mutations are explicitly delivered to the mock observer, like browser microtasks.
+const badge={
+  className:'',
+  textContent:'',
+};
+let badgeInCard=false;
+let products=[];
+const card={
+  querySelectorAll:sel=>sel==='.pp112-product'?products:[],
+  querySelector:sel=>{
+    if(sel==='.pp1766-pz')return badgeInCard?badge:null;
+    if(sel==='.pp112-card-identity>div')return {append:node=>{assert.equal(node.className,'pp1766-pz');badgeInCard=true;badge.textContent=node.textContent;}};
+    return null;
+  },
+};
+const makeProduct=(quantity,hasPizzaCode)=>({
+  querySelector:sel=>{
+    if(sel==='.pp177-code')return hasPizzaCode?{}:null;
+    if(sel==='.pp112-qty')return {textContent:String(quantity)};
+    return null;
+  },
+});
+cards.push(card);
+products=[makeProduct(2,true),makeProduct(1,false)];
+callback();pending.shift()();
+assert.equal(badge.textContent,'2 pitsat','counts only pizzas, not drinks');
+products=[makeProduct(3,true)];
+callback();pending.shift()();
+assert.equal(badge.textContent,'3 pitsat','quantity changes refresh badge');
+products=[makeProduct(1,true)];
+callback();pending.shift()();
+assert.equal(badge.textContent,'1 pitsa','singular label');
+products=[];
+badge.remove=()=>{badgeInCard=false;};
+callback();pending.shift()();
+assert.equal(badgeInCard,false,'badge disappears when no pizza remains');
+
 console.log('PASS: pizza count module source/bundle parity, event observer and coalescing');
