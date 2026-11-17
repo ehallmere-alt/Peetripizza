@@ -25,7 +25,7 @@ const fakeRoot={};
 let callback=null;
 let pending=[];
 const fakeDocument={
-  getElementById:k=>k==='doneOrders'?fakeRoot:null,
+  getElementById:k=>k==='ordersPage'?fakeRoot:null,
   querySelectorAll:selector=>selector==='.pp112-done-card'?cards:[],
   readyState:'complete',
   createElement:tag=>({className:'',textContent:''}),
@@ -89,5 +89,21 @@ products=[];
 badge.remove=()=>{badgeInCard=false;};
 callback();pending.shift()();
 assert.equal(badgeInCard,false,'badge disappears when no pizza remains');
+
+// pp1711-pickup contains copies of ready cards outside #doneOrders.
+// A second card is mounted elsewhere in the orders page, in pp1711-pickup.
+const pickupProduct=makeProduct(2,true);
+let pickupChip=null;
+const pickupCopy={
+  querySelectorAll:sel=>sel==='.pp112-product'?[pickupProduct]:[],
+  querySelector:sel=>{
+    if(sel==='.pp1766-pz')return pickupChip;
+    if(sel==='.pp112-card-identity>div')return {append:node=>{pickupChip=node;}};
+    return null;
+  },
+};
+cards.push(pickupCopy);
+callback();pending.shift()();
+assert.equal(pickupChip?.textContent,'2 pitsat','pickup clone must receive a badge');
 
 console.log('PASS: pizza count module source/bundle parity, event observer and coalescing');
