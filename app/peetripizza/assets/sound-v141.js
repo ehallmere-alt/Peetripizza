@@ -21,7 +21,7 @@
    let message,kind;
    if(!AudioCtor){message='See brauser ei toeta Web Audio heli';kind='error';}
    else if(!enabled()){message='Heliteavitused on välja lülitatud';kind='off';}
-   else if(ctx?.state==='running'){
+   else if(ctx?.state==='running' || reliableCtx?.state==='running'){
      message=state.volume===0?'Heli aktiveeritud · helitugevus 0%':'Heli aktiveeritud · valmis uueks tellimuseks';kind='ok';
    }else if(failed){message='Heli ei käivitu · puuduta „Aktiveeri heli”';kind='warn';}
    else {message='Heli vajab üht puudutust · vali „Aktiveeri heli”';kind='warn';}
@@ -94,15 +94,144 @@
  }
  // Play works after a user interaction has unlocked the persistent context.
  // Don't silently spawn a new context from polling: browsers routinely block that.
+
+ // PP1787_RELIABLE_AUDIO
+ // Uses the same simple oscillator technique as
+ // the already-working "Kuula hoiatust" preview.
+ let reliableCtx = null;
+ let reliableError = '';
+
+ function activateReliable(){
+   if(!AudioCtor)
+     return Promise.resolve(false);
+
+   try {
+     if(!reliableCtx)
+       reliableCtx = new AudioCtor();
+
+     const c = reliableCtx;
+
+     if(c.state === 'running')
+       return Promise.resolve(true);
+
+     return c.resume().then(() => {
+       reliableError = '';
+       update();
+       return c.state === 'running';
+     }).catch(() => {
+       reliableError = 'resume_failed';
+       update();
+       return false;
+     });
+
+   } catch (_) {
+     reliableError = 'context_failed';
+     update();
+     return Promise.resolve(false);
+   }
+ }
+
+ function reliablePlay(kind){
+   const c = reliableCtx;
+
+   if(!c || c.state !== 'running' ||
+      document.hidden || !enabled() ||
+      state.volume <= 0)
+     return false;
+
+   try {
+     const start = c.currentTime + .025;
+     const volume = Math.max(
+       .0001,
+       Math.min(.25, state.volume / 100 * .18)
+     );
+
+     const notes = kind === 'offline'
+       ? [[0,880,.22],[.28,587,.35]]
+       : kind === 'urgent'
+         ? [[0,1200,.16],[.22,1500,.16],
+            [.44,1200,.16],[.66,1500,.16]]
+         : [[0,750,.16],[.22,950,.16],
+            [.44,750,.22]];
+
+     notes.forEach(([delay,hz,duration]) => {
+       const o = c.createOscillator();
+       const g = c.createGain();
+       const t = start + delay;
+
+       o.type = 'sine';
+       o.frequency.value = hz;
+
+       g.gain.setValueAtTime(.0001,t);
+       g.gain.exponentialRampToValueAtTime(
+         volume,t+.015
+       );
+       g.gain.exponentialRampToValueAtTime(
+         .0001,t+duration
+       );
+
+       o.connect(g);
+       g.connect(c.destination);
+
+       o.start(t);
+       o.stop(t+duration+.02);
+
+       o.onended = () => {
+         o.disconnect();
+         g.disconnect();
+       };
+     });
+
+     return true;
+
+   } catch (_) {
+     reliableError = 'play_failed';
+     return false;
+   }
+ }
+
  function play(kind){
-   if(!enabled()||!AudioCtor||document.hidden)return false;
-   if(!ctx||ctx.state!=='running'){needsGesture=true;update();return false}
-   return kind==='offline'?offlinePattern():kind==='urgent'?urgentPattern():soundPattern();
+   if(!enabled() || document.hidden || state.volume<=0)
+     return false;
+
+   if(reliablePlay(kind)) return true;
+
+   if(ctx?.state==='running')
+     return kind==='offline'
+       ? offlinePattern()
+       : kind==='urgent'
+         ? urgentPattern()
+         : soundPattern();
+
+   needsGesture=true;
+   update();
+   return false;
  }
  // Explicit user action: creation/resume occurs synchronously before async callbacks.
  function preview(kind){
-   const task=unlock();
-   task.then(ok=>{if(ok)(kind==='urgent'?urgentPattern():kind==='offline'?offlinePattern():soundPattern())});
+   if(!enabled()){
+     update();
+     return;
+   }
+
+   // This call is made directly inside a user click.
+   // Create/resume the reliable audio context here.
+   const task=activateReliable();
+
+   task.then(ok=>{
+     if(ok) reliablePlay(kind);
+     else {
+       const old=unlock();
+       old.then(success=>{
+         if(success)
+           kind==='urgent'
+             ?urgentPattern()
+             :kind==='offline'
+               ?offlinePattern()
+               :soundPattern();
+       });
+     }
+   });
  }
  document.addEventListener('pointerdown',e=>{
    if(!enabled()||!AudioCtor||(!needsGesture&&ctx?.state==='running'))return;
@@ -113,14 +242,38 @@
    if(!enabled()||!AudioCtor||e.repeat||(!needsGesture&&ctx?.state==='running'))return;
    unlock();
  },{capture:true});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden&&enabled())update()});
+ // PP1786_AUDIO_UNLOCK
+ document.addEventListener('visibilitychange',()=>{
+   if(document.hidden)return;
+   if(enabled()){
+     needsGesture=!ctx||ctx.state!=='running';
+     update();
+   }
+ });
+ // Safari/iPadOS may suspend audio after navigation.
+ // Unlock only during a genuine interaction.
+ document.addEventListener('touchstart',()=>{
+   if(enabled() && needsGesture && AudioCtor) unlock();
+ },{capture:true,passive:true});
+ document.addEventListener('click',()=>{
+   if(enabled() && needsGesture && AudioCtor) unlock();
+ },{capture:true});
  id('pp141-sound-tone')?.addEventListener('change',e=>{if(!allowedTones.has(e.target.value))return;state.tone=e.target.value;save(TONE_KEY,state.tone);update();preview()});
  id('pp141-sound-volume')?.addEventListener('input',e=>{state.volume=Math.max(0,Math.min(100,Number(e.target.value)||0));save('pp-sound-volume-v141',state.volume);update()});
  id('pp141-activate-sound')?.addEventListener('click',()=>{unlock()});
+ id('pp141-activate-sound')?.addEventListener(
+   'click',()=>{activateReliable();}
+ );
+
+ // A new browser session requires user activation.
+ document.addEventListener('pointerdown',()=>{
+   if(enabled() && !reliableCtx)
+     activateReliable();
+ },{capture:true,passive:true});
  id('pp141-test-sound')?.addEventListener('click',()=>preview());
  window.addEventListener('storage',e=>{if(['pp-sound-v1',TONE_KEY,'pp-sound-volume-v141'].includes(e.key)){
    state.tone=read(TONE_KEY,'bell');if(!allowedTones.has(state.tone))state.tone='bell';state.volume=Math.max(0,Math.min(100,Number(read('pp-sound-volume-v141',80))||0));update();
  }});
- window.PPSound={play,unlock,preview,sync:update,diagnostics:()=>({supported:!!AudioCtor,enabled:enabled(),state:ctx?.state||'not-initialized',tone:state.tone,volume:state.volume})};
+ window.PPSound={play,unlock,preview,sync:update,diagnostics:()=>({supported:!!AudioCtor,enabled:enabled(),state:reliableCtx?.state==='running'?'running':ctx?.state||reliableCtx?.state||'not-initialized',tone:state.tone,volume:state.volume,audioError:reliableError})};
  update();
 })();
