@@ -68,6 +68,20 @@ def audit():
             if count > 1:
                 errors.append(f"Duplicate runtime {kind}: {p} ({count} times)")
 
+    embedded_js = set()
+    for bundle in ("assets/app-a-v1767.js", "assets/app-b-v1767.js"):
+        path = ROOT / bundle
+        if path.is_file():
+            source = path.read_text(encoding="utf-8", errors="replace")
+            embedded_js.update(re.findall(
+                r"/\*\s*==\s*assets/([^=]+?)\s*==\s*\*/", source
+            ))
+    for uri in parser.js:
+        path = asset_path(uri)
+        if path and Path(path).name in embedded_js and not path.endswith(
+                ("app-a-v1767.js", "app-b-v1767.js")):
+            errors.append(f"Source script also embedded in a loaded bundle: {path}")
+
     for bundle in ("assets/app-v1767.css", "assets/app-a-v1767.js",
                    "assets/app-b-v1767.js"):
         path = ROOT / bundle
@@ -83,10 +97,11 @@ def audit():
         if bundle.endswith(".css"):
             print(f"  !important occurrences: {source.count('!important'):,}")
         else:
-            print(f"  MutationObserver tokens: "
-                  f"{len(re.findall(r'\bnew\s+MutationObserver\b', source))}")
-            print(f"  setInterval calls: "
-                  f"{len(re.findall(r'\bsetInterval\s*\(', source))}")
+            # Calculate regex values outside f-strings for older server Python versions.
+            observer_count = len(re.findall(r"\bnew\s+MutationObserver\b", source))
+            interval_count = len(re.findall(r"\bsetInterval\s*\(", source))
+            print(f"  MutationObserver constructs: {observer_count}")
+            print(f"  setInterval calls: {interval_count}")
 
     manifest = ROOT / "tools/release-manifest.php"
     if manifest.exists():
