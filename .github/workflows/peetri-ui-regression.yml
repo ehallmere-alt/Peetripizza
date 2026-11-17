@@ -70,3 +70,26 @@ jobs:
           name: peetri-v1802-isolated-review
           path: dist/peetri-v1802-review.zip
           retention-days: 14
+
+  production-package:
+    needs: [checks, browser]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact-production-file ZIP
+        run: node tools/build-production-release-v1802.cjs
+      - name: Validate archive, installer, backup and rollback
+        run: |
+          unzip -t dist/peetri-v1802-production.zip
+          bash -n dist/peetri-v1802-production/install.sh
+          bash -n dist/peetri-v1802-production/restore.sh
+          test "$(wc -l < dist/peetri-v1802-production/manifest.txt)" -eq 8
+          grep -q 'dashboard.php' dist/peetri-v1802-production/manifest.txt
+          grep -q 'index.php' dist/peetri-v1802-production/manifest.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: peetri-v1802-production-release
+          path: dist/peetri-v1802-production.zip
+          retention-days: 14
