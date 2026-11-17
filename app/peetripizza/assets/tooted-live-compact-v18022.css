@@ -1,0 +1,5 @@
+/* v18.02.2 — Tooted LIVE compact UI only */
+#pp1769 .pp18022-summary{font-size:15px;font-weight:700;color:#214e34;margin:12px 0 8px}
+#pp1769 .pp18022-toggle{background:#eaf3ed;border:1px solid #cbdcd1;color:#194f32;border-radius:10px;padding:10px 14px;font:600 14px system-ui;cursor:pointer}
+#pp1769 #pp1769-products[hidden]{display:none!important}
+#pp1769 #pp1769-products{max-height:340px;overflow-y:auto}
