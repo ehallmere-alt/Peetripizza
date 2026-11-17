@@ -1,32 +1,82 @@
 #!/usr/bin/env python3
-"""Read-only, conservative duplicate-CSS inventory.
+"""Read-only CSS repeat candidates, separated by @media/@supports context.
 
-Detect repeated identical simple selector/declaration signatures. Never
-auto-delete them: intervening rules and @media contexts can make repeats
-necessary. Reports locations as review candidates, not safe deletions.
+A small source scanner, not a CSS cascade or specificity validator. A repeat
+is only a candidate for manual review. This script never changes CSS.
 """
 from collections import defaultdict
 from pathlib import Path
-import re
 import sys
 
 CSS = Path(__file__).resolve().parent.parent / "assets/app-v1767.css"
 
 
-def inventory(source):
-    # Heuristic: ignore CSS comments. Do not parse braces in strings, :is(),
-    # @supports, @media, nested selectors or keyframes as safe equivalences.
-    cleaned = re.sub(r"/\*[\s\S]*?\*/", lambda m: " " * len(m.group()), source)
-    signatures = defaultdict(list)
-    for m in re.finditer(r"([^{}]+)\{([^{}]+)\}", cleaned):
-        selector = " ".join(m.group(1).split())
-        body = " ".join(m.group(2).split())
-        if not selector or not body or selector.startswith("@"):
+def _blocks(source):
+    """Emit (selector, body, enclosing_at_rules, offset) for simple rule blocks."""
+    stack = []  # (header, declarations_start, offset, context_before)
+    token_start = 0
+    i = 0
+    quote = None
+    comment = False
+    escaped = False
+    while i < len(source):
+        ch = source[i]
+        nxt = source[i + 1] if i + 1 < len(source) else ""
+        if comment:
+            if ch == "*" and nxt == "/":
+                comment = False
+                i += 2
+            else:
+                i += 1
             continue
-        signatures[(selector, body)].append(m.start())
+        if quote:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = None
+            i += 1
+            continue
+        if ch == "/" and nxt == "*":
+            comment = True
+            i += 2
+            continue
+        if ch in ("'", '"'):
+            quote = ch
+            i += 1
+            continue
+        if ch == "{":
+            header = source[token_start:i].strip()
+            # A block may begin inside a declaration; context is derived from
+            # enclosing headers, not assumed by regex matching nested braces.
+            ancestors = tuple(entry[0] for entry in stack if entry[0].startswith("@"))
+            stack.append((header, i + 1, token_start, ancestors))
+            token_start = i + 1
+        elif ch == "}":
+            if stack:
+                header, body_start, offset, ancestors = stack.pop()
+                body = source[body_start:i].strip()
+                if header and not header.startswith("@") and "{" not in body and "}" not in body:
+                    yield header, body, ancestors, offset
+            token_start = i + 1
+        elif ch == ";" and not stack:
+            token_start = i + 1
+        i += 1
+
+
+def inventory(source):
+    signatures = defaultdict(list)
+    for selector, body, context, offset in _blocks(source):
+        # Preserve strings, case and declaration order. Normalize only
+        # inter-token whitespace for locating candidates.
+        s = " ".join(selector.split())
+        b = " ".join(body.split())
+        if s and b:
+            signatures[(context, s, b)].append(offset)
     return [
-        (selector, body, offsets)
-        for (selector, body), offsets in signatures.items()
+        (selector, body, offsets, context)
+        for (context, selector, body), offsets in signatures.items()
         if len(offsets) > 1
     ]
 
@@ -36,14 +86,14 @@ def main():
         print("ERROR: CSS bundle missing")
         return 2
     source = CSS.read_text(encoding="utf-8", errors="replace")
-    repeats = sorted(inventory(source), key=lambda row: (-len(row[2]), row[0]))
-    print("Repeated selector+declaration signatures:", len(repeats))
-    for selector, body, locations in repeats[:40]:
-        lines = [source.count("\n", 0, p) + 1 for p in locations]
-        print(f"{len(locations)}x line(s) {lines}: {selector[:130]}")
-        print("   body:", body[:90])
-    print("These are review candidates, NOT proven redundant CSS.")
-    print("Do not delete without checking at-rule context and computed styles.")
+    hits = sorted(inventory(source), key=lambda item: (-len(item[2]), item[0]))
+    print("Exact repeat candidates in SAME @-rule context:", len(hits))
+    for selector, body, positions, context in hits[:40]:
+        linenos = [source.count("\n", 0, pos) + 1 for pos in positions]
+        print(f"{len(positions)}x lines {linenos}: {selector[:140]}")
+        print("  context:", " / ".join(context) if context else "top-level")
+        print("  body:", body[:100])
+    print("No style was modified. Repeats are not proof of redundancy.")
     return 0
 
 
