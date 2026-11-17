@@ -6,7 +6,7 @@ on:
   pull_request:
     paths:
       - 'app/peetripizza/**'
-      - 'tools/test-ui-regression-v1802.cjs'
+      - 'tools/test-*.cjs'
       - '.github/workflows/peetri-ui-regression.yml'
   workflow_dispatch:
 jobs:
@@ -26,6 +26,25 @@ jobs:
           node --check app/peetripizza/assets/order-dedup-v1801.js
           node --check app/peetripizza/assets/official-reference-v1801.js
           node --check app/peetripizza/assets/kitchen-design-switch-v1799.js
-      - name: Run safe regression checks
-        run: node tools/test-ui-regression-v1802.cjs app/peetripizza
+      - name: Run static and behavioral checks
+        run: |
+          node tools/test-ui-regression-v1802.cjs app/peetripizza
           node tools/test-kitchen-controls-v1802.cjs app/peetripizza
+  browser:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Generate isolated static kitchen fixture
+        run: node tools/generate-browser-fixture-v1802.cjs
+      - name: Start isolated fixture server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory app/peetripizza > /tmp/peetri-fixture.log 2>&1 &
+          echo $! > /tmp/peetri-fixture.pid
+      - name: Run real browser smoke tests (all API requests mocked)
+        run: node tools/test-browser-kitchen-v1802.cjs
