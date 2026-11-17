@@ -3164,8 +3164,18 @@ try{(function(){
    }
   }
  }
- setInterval(decorate,1500);setTimeout(decorate,300);
- window.addEventListener('pp145:orders',()=>setTimeout(decorate,30));
+ // Watch newly rendered ready cards instead of scanning every 1.5 seconds.
+ const root=document.getElementById('doneOrders');
+ let scheduled=false;
+ function queue(){
+  if(scheduled)return;
+  scheduled=true;
+  requestAnimationFrame(()=>{scheduled=false;decorate();});
+ }
+ if(root)new MutationObserver(queue).observe(root,{childList:true,subtree:true});
+ window.addEventListener('pp145:orders',queue);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});
+ else queue();
  window.PP1740={decorate};
 })();
 }).call(window);}catch(e){setTimeout(function(){throw e},0);}
