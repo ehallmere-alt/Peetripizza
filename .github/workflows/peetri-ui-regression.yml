@@ -1,0 +1,95 @@
+name: Peetri Pizza UI regression checks
+on:
+  push:
+    branches:
+      - feature/order-dedup-official-catalog-pizzerias-v1801
+  pull_request:
+    paths:
+      - 'app/peetripizza/**'
+      - 'tools/test-*.cjs'
+      - '.github/workflows/peetri-ui-regression.yml'
+  workflow_dispatch:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax for login and dashboard
+        run: |
+          php -l app/peetripizza/index.php
+          php -l app/peetripizza/dashboard.php
+      - name: Check JavaScript syntax
+        run: |
+          node --check app/peetripizza/assets/app-core-v141.js
+          node --check app/peetripizza/assets/order-dedup-v1801.js
+          node --check app/peetripizza/assets/official-reference-v1801.js
+          node --check app/peetripizza/assets/kitchen-design-switch-v1799.js
+      - name: Run static and behavioral checks
+        run: |
+          node tools/test-ui-regression-v1802.cjs app/peetripizza
+          node tools/test-kitchen-controls-v1802.cjs app/peetripizza
+  browser:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Generate isolated static kitchen fixture
+        run: node tools/generate-browser-fixture-v1802.cjs
+      - name: Start isolated fixture server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory app/peetripizza > /tmp/peetri-fixture.log 2>&1 &
+          echo $! > /tmp/peetri-fixture.pid
+      - name: Run real browser smoke tests (all API requests mocked)
+        run: node tools/test-browser-kitchen-v1802.cjs
+
+  review-package:
+    needs: [checks, browser]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate static browser fixture
+        run: node tools/generate-browser-fixture-v1802.cjs
+      - name: Build isolated review ZIP
+        run: node tools/build-isolated-review-v1802.cjs
+      - name: Verify archive contains no PHP or production secrets
+        run: |
+          unzip -l dist/peetri-v1802-review.zip > /tmp/review-list.txt
+          ! grep -Ei '\.(php|sql|env|sqlite|db)([[:space:]]|$)' /tmp/review-list.txt
+          unzip -p dist/peetri-v1802-review.zip peetri-v1802-review/index.html | grep -q "connect-src 'none'"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: peetri-v1802-isolated-review
+          path: dist/peetri-v1802-review.zip
+          retention-days: 14
+
+  production-package:
+    needs: [checks, browser]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact-production-file ZIP
+        run: node tools/build-production-release-v1802.cjs
+      - name: Validate archive, installer, backup and rollback
+        run: |
+          unzip -t dist/peetri-v1802-production.zip
+          bash -n dist/peetri-v1802-production/install.sh
+          bash -n dist/peetri-v1802-production/restore.sh
+          test "$(wc -l < dist/peetri-v1802-production/manifest.txt)" -eq 8
+          grep -q 'dashboard.php' dist/peetri-v1802-production/manifest.txt
+          grep -q 'index.php' dist/peetri-v1802-production/manifest.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: peetri-v1802-production-release
+          path: dist/peetri-v1802-production.zip
+          retention-days: 14
