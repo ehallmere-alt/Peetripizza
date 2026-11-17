@@ -31,3 +31,12 @@ The original simple regex identified **nine** selector+declaration repeats but i
 This remains only a **candidate**, not a proven safe deletion. The rules may be separated by intentional overrides, and the scanner is not a complete CSS parser (CSS nesting, layer behavior and runtime selector specificity have not been verified). No CSS rules were removed.
 
 Added unit cases for repeats in different `@media` blocks, quoted braces, comments, and exact top-level matches. Before any deletion, compare computed styles and screenshots on approved themes at mobile/tablet/desktop widths.
+
+## Additional safety discovery: generated CSS diverges from its source
+The duplicate `.drawer nav .pp-planned small{font-size:11px;margin-left:auto}` appears once inside the original `kitchen-release-v1715.css` and twice inside the generated `app-v1748.css` / `app-v1767.css`. The extra instance occurs between the kitchen-release section and the `settings-v169.css` section. It is **not** present in the original `settings-v169.css`. Thus the generated CSS contains a rule absent from the corresponding standalone source section.
+
+**Do not delete the earlier declaration or rebuild CSS on the basis of apparent duplication**; doing so could drop the only surviving declaration after a clean rebuild. The generated file may also include other intentional post-processing, so this issue is not confined to a single duplicate.
+
+Added `tools/css-bundle-drift.py` to compare embedded sections of both CSS bundles with their original files after quote-aware CSS comment removal, and `tools/test-css-bundle-drift.py` for isolated tests. Differences must be reviewed before any cleanup; the tool does not mutate CSS and does not assume a 1:1 builder can safely reproduce the current website.
+
+There is **no approved CSS deletion** and no production change.
