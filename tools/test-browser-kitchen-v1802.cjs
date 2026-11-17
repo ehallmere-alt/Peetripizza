@@ -3,7 +3,7 @@
    All /api endpoints are mocked and external network blocked; no production writes. */
 const { chromium }=require('playwright');
 const assert=require('node:assert/strict');
-const URL='http://127.0.0.1:8765/browser-fixture-v1802.html';
+const FIXTURE_URL='http://127.0.0.1:8765/browser-fixture-v1802.html';
 (async()=>{
  let browser;
  try{
@@ -22,7 +22,7 @@ const URL='http://127.0.0.1:8765/browser-fixture-v1802.html';
   const page=await context.newPage();
   const errors=[];
   page.on('pageerror',e=>errors.push(String(e)));
-  await page.goto(URL,{waitUntil:'domcontentloaded'});
+  await page.goto(FIXTURE_URL,{waitUntil:'domcontentloaded'});
   await page.waitForTimeout(2500);
   const menu=page.locator('#menuBtn');
   const drawer=page.locator('#drawer');
