@@ -42,18 +42,13 @@ const FIXTURE_URL='http://127.0.0.1:8765/browser-fixture-v1802.html';
   assert.equal(await drawer.getAttribute('aria-hidden'),'true','Menu did not close');
   console.log('PASS browser: menu opens and closes');
 
-  const live=page.locator('#pp111-live-slot .pp111-live-button');
-  console.log('LIVE DEBUG',JSON.stringify(await page.evaluate(()=>({
-    buttons:[...document.querySelectorAll('button')].filter(b=>/LIVE|Reaalsed tellimused|DEMO/i.test(b.textContent||'')).map(b=>({text:b.textContent.trim().slice(0,70),id:b.id,parent:b.parentElement?.id,visible:!!b.getClientRects().length})).slice(0,15),
-    mode:!!document.getElementById('pp172-mode'),
-    liveSlot:document.getElementById('pp111-live-slot')?.outerHTML.slice(0,550),
-    errorsReady:!!document.getElementById('ordersPage'),
-    bodyClasses:document.body.className
-  }))));
-  console.log('BROWSER ERRORS',JSON.stringify(errors.slice(0,10)));
-  assert.equal(await live.count(),1,'LIVE button not mounted in kitchen header');
-  assert.equal(await live.isVisible(),true,'LIVE button hidden');
-  console.log('PASS browser: LIVE action visible');
+  // v17.2+ presents the actual LIVE control in the DEMO/LIVE header switch.
+  // The original read-only button remains present but is intentionally hidden.
+  const live=page.locator('#pp172-mode button[data-mode="live"]');
+  assert.equal(await live.count(),1,'LIVE mode control missing in kitchen header');
+  assert.equal(await live.isVisible(),true,'LIVE mode control is hidden');
+  assert.equal(await page.locator('button[aria-label="Laadi päris tellimused ainult lugemiseks"]').count(),1,'Original read-only LIVE handler removed');
+  console.log('PASS browser: LIVE mode visible with underlying read-only handler');
 
   await menu.click({timeout:10000});
   await page.locator('[data-page="products"]').first().click({timeout:10000});
