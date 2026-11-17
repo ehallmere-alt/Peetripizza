@@ -24,6 +24,7 @@ const doc={
   documentElement:{},
   getElementById:id=>id==='doneOrders'?rootNode:null,
   querySelectorAll:()=>[],
+  createElement:()=>({className:'',innerHTML:''}),
   addEventListener:()=>{},
 };
 const win={
@@ -43,6 +44,7 @@ vm.runInNewContext(source,{
   MutationObserver:Observer,
   requestAnimationFrame:callback=>frames.push(callback),
   setTimeout:()=>{throw Error('Unexpected timer in event-driven decoration');},
+  shownOrders:()=>[{id:'D1',serving:'delivery'},{id:'T2',serving:'pickup'}],
 });
 assert.equal(frames.length,1,'initial scan should be scheduled');
 frames.shift()();
@@ -51,4 +53,42 @@ assert.equal(typeof orderListener,'function','orders event not installed');
 observerCallback();observerCallback();orderListener();
 assert.equal(frames.length,1,'render scheduling was not coalesced');
 frames.shift()();
+// Simulate two newly rendered ready orders (delivery and pickup).
+let addedNodes=[];
+let delivery={
+  dataset:{orderId:'D1'},
+  tags:[],
+  inserted:null,
+  classList:{add(...args){delivery.tags.push(...args);}},
+  querySelector(sel){
+    if(sel==='.pp112-number')return {after(node){delivery.inserted=node;}};
+    if(sel==='.pp1730-chips')return delivery.inserted;
+    return null;
+  },
+};
+let takeaway={
+  dataset:{orderId:'T2'},
+  tags:[],
+  inserted:null,
+  classList:{add(...args){takeaway.tags.push(...args);}},
+  querySelector(sel){
+    if(sel==='.pp112-number')return {after(node){takeaway.inserted=node;}};
+    if(sel==='.pp1730-chips')return takeaway.inserted;
+    return null;
+  },
+};
+addedNodes=[delivery,takeaway];
+doc.querySelectorAll=sel=>{
+  assert.equal(sel,'#doneOrders .pp112-done-card[data-order-id]:not([data-pp1740])');
+  return addedNodes.filter(c=>!c.dataset.pp1740);
+};
+observerCallback();
+frames.shift()();
+assert(delivery.tags.includes('pp1730-t-kuller'),'delivery badge must be applied');
+assert(takeaway.tags.includes('pp1730-t-kaasa'),'takeaway badge must be applied');
+assert(delivery.inserted.innerHTML.includes('KULLERIGA'),'delivery label');
+assert(takeaway.inserted.innerHTML.includes('KAASA'),'takeaway label');
+observerCallback();
+frames.shift()();
+assert(delivery.dataset.pp1740==='1','card must not be decorated twice');
 console.log('PASS: decoration source/bundle parity, observer and event coalescing');
