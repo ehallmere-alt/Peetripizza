@@ -38,3 +38,16 @@ python3 tools/bundle-drift.py
 ```
 
 No production or main branch files were modified by this audit.
+
+## Full JS bundle-source comparison — completed, 17 November 2026
+Using the source contents on `sync/production-17-95-review-20261116`, inspected **all 70** bundled scripts: 6 in `app-a-v1767.js`, 64 in `app-b-v1767.js`. **65 identical**, **5 drifted** after removing generated trailing whitespace.
+- `assets/sound-v141.js` (app-a): major source/bundle difference (about 3.4 KB), including audio readiness/reliable context handling. **High risk**; do not rebuild sound.
+- `assets/kitchen-v155.js` (app-b): different wording/guard for missing sound diagnostics (25 characters delta).
+- `assets/kitchen-v156.js` (app-b): different missing-diagnostics sound status guard (25 characters delta).
+- `assets/ops-v1735.js` (app-b): different sound state label logic (317 characters delta).
+- `assets/ops-v1749.js` (app-b): **heartbeat semantics differ**. Embedded build updates `liveAt` from `pp150:live-synced` and resets on `pp150:live-stopped`; standalone source updates `liveAt` on `pp145:orders`. Rebundling from source would change the semantics and could impact `live_at:0`. Do not infer a production failure from static analysis alone.
+
+### Deployment gate
+Before any production refactor: compare real production JS/CSS hashes to the GitHub baseline, identify the active heartbeat script, and record the approved desired behavior. Preserve the bundled behavior until a regression-tested replacement is approved. Run `python3 tools/bundle-drift.py` to stop unsafe bundling.
+
+This remains a read-only review; none of the five differences has been automatically overwritten or "fixed".
