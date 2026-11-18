@@ -24,7 +24,7 @@ window.addEventListener('pp150:live-stopped',()=>{lastGood=0;latency=0;failures=
 const audio=document.createElement('div');audio.className='pp155-audio';audio.innerHTML='<strong>🔔 Köögi heli</strong><span id="pp155-audio-status">Kontrollimata</span><button id="pp155-audio-enable" type="button">▶ Aktiveeri heli</button><button id="pp155-audio-test" type="button">♫ Testi</button>';
 page.querySelector('.pp154-sync')?.appendChild(audio);
 function audioStatus(){const d=window.PPSound?.diagnostics?.();const enabled=!!d?.enabled;const playing=enabled&&d?.supported&&d?.state==='running'&&d?.volume>0;
- $('pp155-audio-status').textContent=!d?.supported?'Heli puudub':!enabled?'Heli on välja lülitatud':playing?'● Heli valmis':d.volume===0?'⚠ Helitugevus 0%':'⚠ Aktiveeri heli iPadis';
+ $('pp155-audio-status').textContent=!d?'Heli olek laadimisel':!d.supported?'Heli puudub':!enabled?'Heli on välja lülitatud':playing?'● Heli valmis':d.volume===0?'⚠ Helitugevus 0%':'⚠ Aktiveeri heli iPadis';
  $('pp155-audio-status').dataset.state=playing?'ok':'warn';$('pp155-audio-enable').textContent=playing?'✓ Heli aktiivne':'▶ Aktiveeri heli';
 }
 $('pp155-audio-enable').addEventListener('click',async()=>{const d=window.PPSound?.diagnostics?.();if(!d?.enabled){$('soundBtn')?.click()}const done=window.PPSound?.unlock?.();if(done)await done;audioStatus()});

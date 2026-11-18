@@ -34,7 +34,7 @@ window.addEventListener('pp150:live-synced',e=>{
 /* 4. Audible alarm previews and clearly stated browser limitations. */
 const audio=document.createElement('section');audio.className='pp156-sound-panel';audio.innerHTML='<div><strong>🔔 Signaalide kontroll</strong><span id="pp156-sound-state">Heli olek kontrollimata</span></div><div class="pp156-sound-tests"><button type="button" data-pp156-tone="normal">♫ Uus tellimus</button><button type="button" data-pp156-tone="urgent">♫ Kiire tellimus</button><button type="button" data-pp156-tone="offline">♫ Ühenduse viga</button></div><small>Heli vajab iPadis puudutusega aktiveerimist. Brauseri taustavaates pole märguanne garanteeritud.</small>';
 ordersPage.querySelector('.pp155-audio')?.after(audio);
-function soundStatus(){const d=window.PPSound?.diagnostics?.();let state=!d?.supported?'Heli pole toetatud':!d.enabled?'Heli väljas':d.state!=='running'?'Vajuta „Aktiveeri heli”':d.volume<=0?'Helitugevus 0%':'● Heli valmis';$('pp156-sound-state').textContent=state;}
+function soundStatus(){const d=window.PPSound?.diagnostics?.();let state=!d?'Heli olek laadimisel':!d.supported?'Heli pole toetatud':!d.enabled?'Heli väljas':d.state!=='running'?'Vajuta „Aktiveeri heli”':d.volume<=0?'Helitugevus 0%':'● Heli valmis';$('pp156-sound-state').textContent=state;}
 audio.addEventListener('click',e=>{const b=e.target.closest('[data-pp156-tone]');if(!b)return;window.PPSound?.preview?.(b.dataset.pp156Tone==='normal'?undefined:b.dataset.pp156Tone);setTimeout(soundStatus,300)});
 setInterval(soundStatus,5000);soundStatus();
 /* 6. Search and sort in the existing v15.5 touch-friendly pickup station. */
