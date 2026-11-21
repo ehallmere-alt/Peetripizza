@@ -4,7 +4,21 @@
  'use strict';
  if(window.PP1735)return;
  const $id=id=>document.getElementById(id);
- function soundLabel(){const s=$id('soundBtn');const off=!s||s.getAttribute('aria-pressed')==='false';return off?'Heli: väljas':'Heli: sees';}
+ function soundLabel(){
+  const d=window.PPSound?.diagnostics?.();
+  let enabled=false;
+  try {
+    enabled=typeof d?.enabled==='boolean'
+      ? d.enabled
+      : JSON.parse(localStorage.getItem('pp-sound-v1'))===true;
+  } catch (_) {
+    enabled=$id('soundBtn')?.getAttribute('aria-pressed')==='true';
+  }
+  if(!enabled)return 'Heli: väljas';
+  if(d?.state==='running' && Number(d.volume)>0)
+    return 'Heli: aktiivne';
+  return 'Heli: sees · aktiveeri';
+}
  function place(){
   const s=$id('soundBtn'),fs=$id('pp173-fullscreen');
   if(s&&fs&&s.previousElementSibling!==fs)s.before(fs);
