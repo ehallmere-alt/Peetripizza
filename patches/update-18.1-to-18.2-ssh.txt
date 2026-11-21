@@ -1,0 +1,95 @@
+# Peetri: ищу папку приложения (можно задать вручную: PP_APP=/путь/к/peetripizza)
+PP_APP="${PP_APP:-}"
+if [ -z "$PP_APP" ]; then for d in /www/apache/domains/www.crestudio.ee/htdocs/peetripizza "$HOME/htdocs/peetripizza" "$HOME/peetripizza" "$PWD"; do if [ -f "$d/dashboard.php" ] && [ -f "$d/auth/bootstrap.php" ]; then PP_APP="$d"; break; fi; done; fi
+if [ -z "$PP_APP" ]; then PP_FOUND=$(find "$HOME" /www /var/www /data01 -maxdepth 8 -type f -path '*/peetripizza/auth/bootstrap.php' 2>/dev/null | head -n 5); if [ "$(printf '%s\n' "$PP_FOUND" | grep -c .)" = "1" ]; then PP_APP=$(dirname "$(dirname "$PP_FOUND")"); fi; fi
+rm -f /tmp/pp-patch.php
+[ -n "$PP_APP" ] || echo "ОШИБКА: не нашёл папку приложения (peetripizza). Пришли разработчику вывод: find / -name dashboard.php -path '*peetripizza*' 2>/dev/null"
+[ -n "$PP_APP" ] && echo "Папка приложения: $PP_APP" && cd "$PP_APP" && cat > /tmp/pp-patch.php <<'PEETRI_PATCH_END'
+<?php
+// Peetri Pizza patch 18.1.0 -> 18.2.0. Verifies every file by SHA-256 before writing anything.
+declare(strict_types=1);
+$root=getcwd();$P=json_decode(base64_decode(preg_replace('/\s+/','',file_get_contents(__FILE__,false,null,__COMPILER_HALT_OFFSET__))),true);
+function out($m){fwrite(STDOUT,$m."\n");}
+function fail($m){fwrite(STDERR,"ОШИБКА: $m\n");exit(1);}
+if(!is_array($P))fail('патч повреждён при вставке, скопируй команду целиком ещё раз');
+if(!is_file("$root/dashboard.php"))fail("здесь нет dashboard.php: $root");
+preg_match('/name="peetri-release" content="([^"]+)"/',(string)file_get_contents("$root/dashboard.php"),$m);$cur=$m[1]??'?';
+if(version_compare($cur,$P['to'],'>=')){out("Стоит версия $cur (не ниже {$P['to']}) — пропускаю этот шаг.");exit(0);}
+if($cur!==$P['from'])fail("ожидалась версия {$P['from']}, а стоит $cur — патч не подходит");
+$result=[];
+foreach($P['ops'] as $op){$f=$op['f'];$path="$root/$f";
+ if($op['new']){$t=!empty($op['b64'])?base64_decode($op['c'],true):$op['c'];if($t===false)fail("патч повреждён ($f)");}
+ else{ if(!is_file($path))fail("нет файла $f");$t=file_get_contents($path);
+  if(hash('sha256',$t)!==$op['h0'])fail("файл $f на сервере отличается от $P[from] — патч не применён, ничего не изменено");
+  foreach($op['p'] as [$o,$n]){if(substr_count($t,$o)!==1)fail("не найдено место правки в $f");$t=str_replace($o,$n,$t);} }
+ if(hash('sha256',$t)!==$op['h'])fail("контрольная сумма $f не совпала — ничего не изменено");
+ $result[$f]=$t;}
+// manifest: set expected hashes for touched files
+$mf="$root/tools/release-manifest.php";$man=require $mf;foreach($P['ops'] as $op)$man[$op['f']]=$op['h'];ksort($man,SORT_STRING);
+$code="<?php\n/** Auto-generated {$P['to']} file checksum map; do not include this file itself. */\nreturn [\n";foreach($man as $k=>$v)$code.="    '".$k."' => '".$v."',\n";$code.="];\n";
+$result['tools/release-manifest.php']=$code;
+$bdir=(is_writable(dirname($root,2))?dirname($root,2):dirname($root)).'/peetri-backups/patch-'.$P['from'].'-to-'.$P['to'].'-'.date('Ymd-His');if(file_exists($bdir))$bdir.='-'.bin2hex(random_bytes(2));
+if(!@mkdir($bdir,0700,true))fail("не удалось создать папку бэкапа $bdir");
+foreach(array_keys($result) as $f){if(is_file("$root/$f")){@mkdir(dirname("$bdir/$f"),0700,true);copy("$root/$f","$bdir/$f");}}
+out("Бэкап изменяемых файлов: $bdir");
+$written=[];
+$restore=function()use(&$written,$bdir,$root){foreach($written as $f){if(is_file("$bdir/$f"))copy("$bdir/$f","$root/$f");else @unlink("$root/$f");}};
+foreach($result as $f=>$t){$path="$root/$f";@mkdir(dirname($path),0755,true);$tmp="$path.pp-tmp";
+ if(file_put_contents($tmp,$t)===false||!rename($tmp,$path)){$restore();fail("не удалось записать $f — всё возвращено");}
+ if(str_ends_with($f,'.sh'))@chmod($path,0755);$written[]=$f;out("  ✓ $f");}
+$php=escapeshellarg(PHP_BINARY?:'php');$rc=0;
+passthru("$php ".escapeshellarg("$root/tools/release-check.php")." | grep -v '^  - '",$a);$rc|=$a;
+passthru("$php ".escapeshellarg("$root/tools/v17-smoke-check.php"),$b);$rc|=$b;
+if($rc){$restore();fail("проверка не прошла — прежние файлы восстановлены");}
+out("\nГОТОВО: версия {$P['to']}. Обнови страницу на планшетах без кеша.");
+out("Откат: cp -r $bdir/. $root/");
+__halt_compiler();
+eyJmcm9tIjogIjE4LjEuMCIsICJ0byI6ICIxOC4yLjAiLCAib3BzIjogW3siZiI6ICJhc3NldHMv
+YXBwLWNvcmUtdjE0MS5qcyIsICJuZXciOiBmYWxzZSwgInAiOiBbWyJhYmxlOnRydWV9O1xufSk7
+XG5sZXQgcHJvZHVjdENhdGVnb3J5PSdLw7Vpayc7XG5sZXQgcHJvZHVjdFF1ZSIsICJhYmxlOnRy
+dWV9O1xufSk7XG4vLyB2MTguMjogVG9vdGVkIG9wZW5zIG9uIHRoZSBsYXN0IGNob3NlbiBjYXRl
+Z29yeSAoZmlyc3QgdGltZTogUGl0c2FkKSwgc28gdGhlIGxpc3QgaXMgbm90IDcxIHRpbGVzIGxv
+bmcuXG5sZXQgcHJvZHVjdENhdGVnb3J5PSgoKT0+e2NvbnN0IHY9c2FmZUxvYWQoJ3BwLXByb2R1
+Y3RzLWNhdC12MTgyJywnUGl0c2FkJyk7cmV0dXJuIFsnS8O1aWsnLCdQaXRzYWQnLCdMaXNhbmRp
+ZCcsJ0pvb2dpZCddLmluY2x1ZGVzKHYpP3Y6J1BpdHNhZCd9KSgpO1xubGV0IHByb2R1Y3RRdWUi
+XSwgWyJhdGFzZXQuY2F0ZWdvcnk7ZG9jdW1lbnQucXVlcnlTZSIsICJhdGFzZXQuY2F0ZWdvcnk7
+dHJ5e2xvY2FsU3RvcmFnZS5zZXRJdGVtKCdwcC1wcm9kdWN0cy1jYXQtdjE4MicsSlNPTi5zdHJp
+bmdpZnkocHJvZHVjdENhdGVnb3J5KSl9Y2F0Y2goXyl7fWRvY3VtZW50LnF1ZXJ5U2UiXSwgWyJG
+YWlsdXJlcy0xLDQpKSk6NzAwMDtsaXZlVGltZXI9c2UiLCAiRmFpbHVyZXMtMSw0KSkpOjEwMDAw
+O2xpdmVUaW1lcj1zZSJdXSwgImgiOiAiYTBhYzQzMDljMWZmMzMzNzQ1NWM5NTk0YzRlZGQ4OTc0
+OGQzN2MzYjY0YjNkNThlODY4NTM4NGYwM2I0NTM3OSIsICJoMCI6ICIxNGYzNjViNzI1ODJiZmFl
+OGQ3MmRkMGNhYmU5NWFkNDViMjI3OGMzNzUzN2M5YmU1OWUwYWJmNTlhNGUyYWQ0In0sIHsiZiI6
+ICJhc3NldHMva2l0Y2hlbi1kZXNpZ24tc3dpdGNoLXYxNzk5LmpzIiwgIm5ldyI6IGZhbHNlLCAi
+cCI6IFtbIlxuICA8L2xhYmVsPmA7XG5cbiBjb25zdCB0aXRsZT1wYWdlLnF1ZXJ5U2VsZWN0b3Io
+J2gyJyk7XG4gaWYodGl0bGUpdGl0bGUuaW5zZXJ0QWRqYWNlbnRFbGVtZW50KCdhZnRlcmVuZCcs
+c2VjdGlvbik7XG4gZWxzZSBwYWdlLnByZXBlbmQoc2VjdGlvbik7XG5cbiIsICJcbiAgPC9sYWJl
+bD5gO1xuXG4gLy8gdjE4LjI6IGxhc3QgY2FyZCBvZiBTZWFkZWQg4oaSIFPDvHN0ZWVtICh0aGUg
+dGFiIHNjcmlwdCBzb3J0cyBpdCB0aGVyZSksIG5vdCBhYm92ZSB0aGUgdGFicywgc28gdGhlIHRh
+YnMgZG8gbm90IGp1bXAuXG4gY29uc3QgcGFuZWw9cGFnZS5xdWVyeVNlbGVjdG9yKCc6c2NvcGU+
+LnBhbmVsJyk7XG4gaWYocGFuZWwpcGFuZWwuYXBwZW5kKHNlY3Rpb24pO1xuIGVsc2UgcGFnZS5h
+cHBlbmQoc2VjdGlvbik7XG5cbiJdXSwgImgiOiAiMDFkNTMwNWRiYmRmNDljOTYxMjQzOTk4MWZi
+MDM1M2QxMzMxYmMwMmMyNDViOGFlODJjYzFiYzQzYWFjNGU3YyIsICJoMCI6ICJhZWJjY2Y5Njk1
+ZGRkZjA0MzRlMGE5OWEzZjNkZWFiYzNmODRhNjM3NjliNTljMGFhM2Y4ODczMTRmNjQ0NDIwIn0s
+IHsiZiI6ICJhc3NldHMvc3RhdGlzdGljcy1wcm8tdjE4MDAuanMiLCAibmV3IjogZmFsc2UsICJw
+IjogW1siIG9sbGEgcHV1ZHVsaWt1ZC4gQWxscG9vbCBvbiBvbGVtYXNvbGV2IGtvaGFsaWsgc3Rh
+dGlzdGlrYS48L3A+XG4gYDtcblxuIHBhbmUiLCAiIG9sbGEgcHV1ZHVsaWt1ZC48L3A+XG4gYDtc
+blxuIHBhbmUiXV0sICJoIjogIjBmYWIxNWMyMTk2OGY3ODU2NDliODVmMGUwNGYwYjdlNTgzN2Q0
+N2UyNTNjYmU1NjZjZTI1NmJmNmE5MDEyNjciLCAiaDAiOiAiNTFlMDQyZDYxODdmMzU4OGNhNzZi
+YjQ1ZTliNGFjMzU2MWJjN2NmYjY1ZGJhNDJjOTcwNGRiNDU3MDQ2MTE3MSJ9LCB7ImYiOiAiZGFz
+aGJvYXJkLnBocCIsICJuZXciOiBmYWxzZSwgInAiOiBbWyJzZVwiIGNvbnRlbnQ9XCIxOC4xLjBc
+Ij48c3R5bGUgaWQ9XCJwIiwgInNlXCIgY29udGVudD1cIjE4LjIuMFwiPjxzdHlsZSBpZD1cInAi
+XSwgWyJyZS12MTQxLmpzP3Y9MTguMS4wXCIgZGVmZXI+PC9zY3JpIiwgInJlLXYxNDEuanM/dj0x
+OC4yLjBcIiBkZWZlcj48L3NjcmkiXSwgWyJpcHQgc3JjPVwiYXNzZXRzL29mZmljaWFsLXN0YXR1
+cy1vYnNlcnZlci12MTc2OC5qcz92PTE3LjY4LjIwMjYxMTEzMjAyOTQxXCIgZGVmZXI+PC9zY3Jp
+cHQ+PHNjcmlwdCBzcmM9XCJhc3NldHMvb2ZmaWNpYWwtcmVhZG9ubHktcHJvYmUtdjE3NjguanM/
+dj0xNy42OC41XCIgZGVmZXI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9XCJhc3NldHMvbW9kdWxlcy12
+MTc2OS5qcyIsICJpcHQgc3JjPVwiYXNzZXRzL21vZHVsZXMtdjE3NjkuanMiXSwgWyJvLXYxODAw
+LmpzP3Y9MTguMDAuMVwiIGRlZmVyPjwvc2NyaXB0PjxzY3JpcHQgc3JjPVwiYXNzZXRzL2tpdGNo
+ZW4tZGVzaWduLXN3aXRjaC12MTc5OS5qcz92PTE3OTlmaXgxXCIgZGVmZXI+PC9zY3JpcHQiLCAi
+by12MTgwMC5qcz92PTE4LjIuMFwiIGRlZmVyPjwvc2NyaXB0PjxzY3JpcHQgc3JjPVwiYXNzZXRz
+L2tpdGNoZW4tZGVzaWduLXN3aXRjaC12MTc5OS5qcz92PTE4LjIuMFwiIGRlZmVyPjwvc2NyaXB0
+Il1dLCAiaCI6ICIyYmZmNjA4OTQzOTk2NTU2NDJhY2U3OTE1Y2IyOWE4OTliYTBmZjZjYTFhM2Fl
+NTdjZDc2YjAyOTgzYzlmN2VmIiwgImgwIjogIjk0MTdhZjcyODZiMTdkY2Q0ZGZhYWVhZWQ0YjI0
+YmExNjIyYmFjMDUxZDA0OWNlNGVhODlmMTc5Y2Y1MDhlNGUifV19
+PEETRI_PATCH_END
+[ -f /tmp/pp-patch.php ] && php /tmp/pp-patch.php; rm -f /tmp/pp-patch.php
