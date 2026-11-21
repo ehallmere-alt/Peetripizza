@@ -14,3 +14,21 @@ tests/**/*.png
 node_modules/
 *.log
 .DS_Store
+
+# Production sync protection (do not stage runtime credentials or backups)
+**/.env
+**/.env.*
+!**/.env.example
+**/*.pem
+**/*.p12
+**/*.pfx
+**/*.key
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+**/*.bak
+**/*.orig
+**/config.local.php
+**/*-backup-*.tar.gz
+**/runtime/
+**/sessions/

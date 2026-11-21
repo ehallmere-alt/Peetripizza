@@ -1,0 +1,138 @@
+
+/* Peetri Pizza · Premium Green · Design 2
+   Only active in kitchen when explicitly selected. */
+
+body.pp-design-two.pp-orders-view:has(#ordersPage.active) {
+  background:#eff5f1!important;
+}
+
+body.pp-design-two.pp-orders-view:has(#ordersPage.active)
+.shell>header.topbar {
+  background:linear-gradient(110deg,#07452d,#08693f)!important;
+  border-bottom:2px solid #27a968!important;
+  box-shadow:0 5px 20px #103b2826!important;
+}
+
+body.pp-design-two.pp-orders-view:has(#ordersPage.active)
+.topbar :is(.pp114-location,#clock,.pp1722-clock,.pp1722-date) {
+  color:#fff!important;
+}
+
+body.pp-design-two.pp-orders-view:has(#ordersPage.active)
+.topbar .hamb i {
+  background:#fff!important;
+}
+
+body.pp-design-two.pp-orders-view:has(#ordersPage.active)
+.topbar .pp116-logo {
+  background:#fff!important;
+  border-radius:10px!important;
+  padding:4px!important;
+}
+
+body.pp-design-two.pp-orders-view:has(#ordersPage.active)
+.topbar #menuBtn {
+  color:#fff!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol {
+  background:#f9fffb!important;
+  border:1px solid #d5e7da!important;
+  border-top:5px solid #71877a!important;
+  border-radius:18px!important;
+  box-shadow:0 10px 25px #163c2820!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol:first-child {
+  border-top-color:#eb841f!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol:nth-child(2) {
+  border-top-color:#159b56!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol .section-head {
+  background:#fff!important;
+  border:1px solid #e1ece4!important;
+  border-radius:12px!important;
+  padding:10px 12px!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol .section-head h2 {
+  color:#163729!important;
+  font-weight:900!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol .section-head .count {
+  background:#145e39!important;
+  color:#fff!important;
+  border-radius:9px!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercol:first-child .section-head .count {
+  background:#dd7b16!important;
+}
+
+html body.pp-design-two #ordersPage#ordersPage
+.ordercard.pp117-ticket {
+  background:#fff!important;
+  border:1px solid #d9e8dd!important;
+  border-radius:15px!important;
+  box-shadow:0 5px 16px #173c2819!important;
+}
+
+#pp1799-themes {
+  margin:16px 0;
+  padding:18px;
+  background:#f5faf6;
+  border:1px solid #d5e7dc;
+  border-radius:15px;
+}
+
+#pp1799-themes h3 {
+  margin:0 0 7px;
+  color:#174d32;
+}
+
+#pp1799-themes p {
+  color:#5a7562;
+  font-size:13px;
+}
+
+#pp1799-themes label {
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  margin:5px;
+  padding:12px 15px;
+  background:#fff;
+  border:1px solid #cbded0;
+  border-radius:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#pp1799-themes label:has(input:checked) {
+  background:#e5f5e9;
+  border-color:#18854b;
+}
+
+#pp1799-themes input {
+  width:19px;
+  height:19px;
+  accent-color:#17834c;
+}
+
+@media(max-width:760px) {
+  html body.pp-design-two #ordersPage#ordersPage
+  .ordercol {
+    border-radius:12px!important;
+  }
+}

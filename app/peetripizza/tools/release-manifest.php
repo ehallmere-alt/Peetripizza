@@ -1,11 +1,36 @@
 <?php
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
+ 'assets/kitchen-design-switch-v1799.js' => 'c4b0a24d24bafd886be6210e36aca48d9310fc881353bd06af28cc25aa10c6ce',
+ 'assets/kitchen-design-two-v1799.css' => '71d45ba14bdb788780209cb2fc1bdaf23f46c89fbc1b92a2640ac68cc5559a83',
+    'assets/statistics-pro-v1800.js' => '51e042d6187f3588ca76bb45e9b4ac3561bc7cfb65dba42c9704db4570461171',
+    'assets/statistics-pro-v1800.css' => '884ed1de1da85c1f81dbb1756a69b50206490efe7c71823f5ef2548a9cc2bea1',
+    'assets/premium-admin-v1796.css' => 'd92829ebe7ba6103b394c0e44d6a94f4308e7ae7fed74c4976d13897c2706ddc',
+    'assets/analytics-pro-v1795.js' => 'e301063dce17840b2b978c94696c42b3b5ff6f1f207d48ecdb474ecaaf02b6c4',
+
+    'assets/analytics-pro-v1795.css' => '02250a3c8e98331413b87f512e79c4f05431913023d82f6710a50de0c6b81b3a',
+
+    'analytics-pro-v1795.php' => '28927cf372aa03750547be596bb2006b39f59b9b372ed98a1a046c55f1ae6a64',
+
+    'assets/settings-pro-v1795.css' => '711f7592aa6acee7699e55b5599db6eea01fde04dc7337cf1bc60e612ec1c145',
+
+    'settings-pro-v1795.php' => '5c22d9df2593a22f33d757a4f903b7de9f752d2716addd481d100db4d2530fcb',
+
+    'assets/health-v1795.js' => '571076e245037d9b937d0423373d2685ab6174761bd1c7e5643f9abc00d8c2c9',
+
+    'assets/health-v1795.css' => 'aa300c6e1031dc9d2ea05e03bc14fe31fe9651b6648c6e5f2daca010cbd807f1',
+
+    'health-v1795.php' => 'e21db0f0484bc3d756dc8a88e859de76bb21079d4f79b3ecd66186267a6d80d7',
+
+    'assets/devices-v1795.js' => '7f38cc3861f5481bc3667ad650a60db9b118d4a948e1f819495a3b56f21ee38c',
+
+    'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
+
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => 'dc0a33f88b98f5021a7e671e007b61762127b973dc2186877a62a107557a84b4',
-    'CLAUDE-HANDOFF.md' => '4d671452b73e44dd9af979d1d2af88421334c593add82155ca7f8033990125c4',
+    'CHANGELOG.md' => '917a430e0df9face1b7ed70aa2cef5e206d3c08e0f7811948889d56b35dd1c65',
+    'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
-    'README-RU.md' => 'dbef6c207f83dab2f9c5eb8639773e6625714778a76b3acdf6b58302936ab3df',
+    'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',
     'README.md' => '0d035c09283b3e3246f2faa0916ea65c6587e848b25507fb98b44bd8e51a589f',
     'api/.htaccess' => '996baa365d9af702465fd32e70b6c26a7cb0d3eac17c09488f768c1e787f0034',
     'api/backup.php' => 'f63703d7107c602c9db688264c0012e5283488c79818c20b8651f932acfb1684',
@@ -37,10 +62,10 @@ return [
     'api/tracking-store.php' => 'f3bfe4de322603ed68667988cdf90d39595d5ae0e7219c1709cf224f92d7d5fd',
     'api/version.php' => '825aea48da65762e85860fee80ad7e52d8fa1b9101afb38fc3e32fb18879ea72',
     'api/wait-time.php' => '563cc05ded6bc99ae8d683d7aae53b8bfcd836351d15eb58a5574be64f650b64',
-    'assets/.htaccess' => '4b165311bdb3bcda9dcf6871d0e7c270edeb2d183a5329cb87e26e8d3283bb84',
-    'assets/app-a-v1767.js' => 'a8548255f55311daeb57c1c0e8158545a4a91f6632ffd2a5005f4990661b2b9a',
-    'assets/app-b-v1767.js' => 'ab9b717e1033ffa94b1dd8dd76e68f459770f7cfd32e783938da1526694dc2f1',
-    'assets/app-core-v141.js' => 'e955c913695f7df16185742c19b7b87db546bdad8f57e5fdbb748a85764f306a',
+    'assets/.htaccess' => '6560f42da16e81d94024a61f59e92fb2c8055e4c7efeafcfb6c0c0c73c4eaf55',
+    'assets/app-a-v1767.js' => '61ed7b86129e251a2e7316244ad0d71b0cec72df9edc633b0d69766e6207c0d0',
+    'assets/app-b-v1767.js' => 'cf095fb097a562fd2ddf0b5dbdff09283e30c148a47ff13644bab69b8fc1d3f0',
+    'assets/app-core-v141.js' => 'c1c85f7f9f5ada0796e6079f2e587727b02a1a3bfd8976f6b5b3be4ff5f5b7cf',
     'assets/app-v1748.css' => '94b47e78750f9e8b68ea4631b1031d70067a744fd8d45c3a02f341c93b232465',
     'assets/app-v1767.css' => '60f6fe21bb10257608129da9b6e0235685cc699fc919cf40456f7c8095fdc684',
     'assets/apple-touch-icon.png' => '6f0746de2064c0e0c6cdd4b085be4b292d839462f0f2d90e0aca37ca56b24d0a',
@@ -217,7 +242,8 @@ return [
     'auth/public-catalog.php' => '80ccdf011ec8816d1e020a5c0afc05cdd52c15f755b26410ca9470157482329d',
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
-    'dashboard.php' => '8730a3a61b5d8f2e8278ce8c281dd980c0945dbf0764abb3d60cbd27caa40241',
+    'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
+    'dashboard.php' => '8bbfaf7f4063e71e3f71055b23de7b2013f4e8efa9703e316d548d59d93c5d1c',
     'dough.php' => '85a401bd7a747ee94229de6246ed75af65a81b6542ee4d7f4f2090d41d38817b',
     'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
@@ -225,7 +251,6 @@ return [
     'setup_staff.php' => 'a41b7364014dc1f6b0303f428e5f1730d23ef24cf82dacbd602b85c8781ad2cf',
     'sw.js' => 'ba49289835cc3c2a8640b4ed42fc91c735a3160b2362709b082bbe24c1ba941a',
     'tools/.htaccess' => 'fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934',
-    'tools/deploy.sh' => '617f61846beff2346ea481b4212ce3b9d3ed5926dbbc4bfe4a40307da707ef95',
     'tools/diag.php' => '28b23f48ecc0fd312af2683620fac920d895f9a6c7c615a6f1c35d7aeb83fb67',
     'tools/locations.php' => '766ea444b9c53530fc34e120dae329055e77c2ba0f2a87c80948c1a157283f1e',
     'tools/register-kolde.php' => '2f966fea4be8dd1c2cf11821519230c02a5248fa4047782dd9fec200140b66c2',

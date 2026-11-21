@@ -1,5 +1,10 @@
 # Changelog
 
+## 17.95.0 — 2026-11-21 (imported from the production server)
+- 17.68–17.95 were made with ChatGPT/Codex directly on the server (13–14.11); this is that server snapshot (draft PR #12), no extra changes. LIVE, cards, timer, print, Väljastus and Taigna server code unchanged from 17.67.
+- New: Boonused QR page, Statistika Pro, optional design switch, system health / devices / settings pages, read-only integration probes. Võta vastu / Valmis go through `api/official-status-gateway-v1768.php` as a DRY RUN only (`PP1768_OFFICIAL_WRITES=false`, nothing is written to peetripizza.ee). LIVE poll 7 s.
+- Bundles `app-a/app-b-v1767.js` were edited by hand (sound PP1787, heartbeat on `pp150:live-synced`); sources `sound-v141.js`, `kitchen-v155/156.js`, `ops-v1735.js`, `ops-v1749.js` now match them (PRs #21, #22), so a rebuild keeps the behaviour. Audit tools from PR #20.
+
 ## 17.67.0 — 2026-11-13
 - Owner picked the whole tech pack ("Давай все"). No design change.
 - One shared clock (`assets/timer-v1767.js`, first script in `<head>`): every setInterval ≥ 500 ms (62 of them) runs from one 500 ms tick; while the screen is hidden short timers run at most every 10 s, everything runs once when it comes back. LIVE polling (own setTimeout chain) untouched. `window.PPTimer.stats()`.
