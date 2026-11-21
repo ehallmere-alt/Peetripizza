@@ -1,5 +1,14 @@
 # Changelog
 
+## 18.3.0 — 2026-11-22
+- Owner: "Го" to the design pack (checked with the design-critique plugin + contrast/touch-size measurements); 6 (one design only) not taken — both Kujundus stay. New layer `assets/ui-v1830.css`, card bottom untouched.
+- 1: the green UUS TELLIMUS strip and the orange "Tõsta 30 min?" hint get their own rows — column heads (Uued / Valmistamisel) and phone tabs are no longer covered; messages (toast) moved to the bottom of the screen.
+- 2: "N tellimust töös" readable (dark, 13 px; was 2.4:1 at 9–11 px).
+- 3: touch targets for gloves: menu, Statistika, Ooteaeg −/+ (phone was 32 px), DEMO/LIVE, hint buttons, phone icon, Väljastus buttons ≥ 44–48 px.
+- 4: size chips (VP, SÕ, Pere P, Väike täistera) one width, pizza names line up.
+- 5: Statistika without the big green banner; one title, period buttons in the strict style.
+- 7 (owner 01:42 "раздели заказы, дизайн подороже"), Klassikaline only: columns are no longer a white panel with white cards inside — cards float on a calm sage-grey page with a hairline border and a soft two-layer shadow, 26 px between orders (20 on phones), 24 px between columns, finer green ring on new orders, calmer lines, tabular numbers.
+
 ## 18.2.0 — 2026-11-22
 - Owner: "Го" to the simplification pack.
 - 1: Võta vastu / Valmis no longer call the dry-run "official status" gateway (2 extra peetripizza.ee requests per click + an empty lock file each time): `official-status-observer-v1768.js` and `official-readonly-probe-v1768.js` are not loaded any more (files stay). LIVE poll back to 10 s.

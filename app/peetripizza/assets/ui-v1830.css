@@ -1,0 +1,71 @@
+/* Peetri Pizza v18.3 — design pack picked by the owner ("Го" to 1–5; 6 = keep both designs).
+ * Layout/colour only, loaded last in <head>. Card bottom (sum / payment / main button) is NOT touched.
+ * 1 new-order strip, wait hint and toast no longer cover the column heads or each other
+ * 2 readable wait hint text   3 touch targets >= 48 px for gloves
+ * 4 pizza size chips one width   5 Statistika head flat like the other pages */
+
+/* 1 — while the green "UUS TELLIMUS" strip is shown, the orders page starts below it */
+html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #ordersPage{padding-top:60px!important}
+/* the orange "Tõsta 30 min?" hint also gets its own row (alone: under the header; with the strip: under the strip) */
+html body:has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:60px!important}
+html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)):has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:118px!important}
+html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #pp1718-wait-hint{top:132px!important}
+/* messages at the bottom of the screen, away from the header, strip and hint */
+html body #toast.pp1724-toast{top:auto!important;bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;transform:translate(-50%,14px)!important}
+html body #toast.pp1724-toast.show{transform:translate(-50%,0)!important}
+
+/* 2 — "N tellimust töös" in the wait hint: dark and readable (was 2.4:1 at 9–11 px) */
+html body #pp1718-wait-hint #pp1718-wait-text{color:#1d2b22!important;font-size:13px!important;font-weight:700!important;opacity:1!important}
+
+/* 3 — touch targets for gloves */
+html body .topbar #menuBtn,
+html body .topbar #pp171-stats{min-width:48px!important;min-height:48px!important}
+html body .topbar .pp1754-wstep{min-width:48px!important;min-height:44px!important}
+html body #pp172-mode button{min-height:44px!important}
+html body #pp1718-wait-hint button{min-height:44px!important}
+html body #pp1718-wait-no{min-width:44px!important}
+html body #ordersPage .pp1736-call{min-width:48px!important;min-height:48px!important}
+html body #ordersPage .pp158-pickup-actions button{min-height:48px!important}
+
+/* 4 — size chips (VP, SÕ, Pere P, Väike täistera) one box, so pizza names line up */
+html body #ordersPage .pp119-code.pp177-code{box-sizing:border-box!important;width:84px!important;min-width:84px!important;min-height:30px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+html body #ordersPage .pp119-code.pp177-code.pp1755-fit{padding:2px 4px!important;line-height:1.05!important}
+
+/* 5 — Statistika: plain page head instead of the big green banner */
+html body #pp1800-dashboard .sp-hero{background:none!important;color:#17432d!important;padding:4px 0 10px!important;border-radius:0!important;box-shadow:none!important}
+html body #pp1800-dashboard .sp-hero .sp-eyebrow{display:none!important}
+/* the page already says "Statistika": no second title, period buttons on the left */
+html body #pp1800-dashboard .sp-hero h3,html body #pp1800-dashboard .sp-hero p{display:none!important}
+html body #pp1800-dashboard .sp-hero{justify-content:flex-start!important}
+html body #pp1800-dashboard .sp-periods{background:#eef3ef!important}
+html body #pp1800-dashboard .sp-periods button{color:#29523a!important;min-height:44px!important}
+html body #pp1800-dashboard .sp-periods button[aria-pressed="true"]{background:#1b6b45!important;color:#fff!important;box-shadow:none!important}
+
+@media (max-width:700px){
+ html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #ordersPage{padding-top:52px!important}
+ html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #pp1718-wait-hint{top:114px!important}
+ html body:has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:62px!important}
+ html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)):has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:112px!important}
+ html body #ordersPage .pp119-code.pp177-code{width:76px!important;min-width:76px!important}
+}
+
+/* 7 — owner 22.11 01:42: "раздели заказы, дизайн подороже". Klassikaline only (Premium Clean has its own look).
+ * Columns are no longer a white panel with white cards inside: cards float on a calm sage-grey page,
+ * each with a hairline border and a soft two-layer shadow, more air between orders and between columns.
+ * Card bottom (sum / payment / main button) keeps its layout. */
+html body:not(.pp-design-two){background:#edf1ed!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .columns{gap:24px!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercol{background:transparent!important;box-shadow:none!important;padding:0!important;border:0!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .section-head{background:rgba(237,241,237,.94)!important;padding:4px 4px 10px!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercol h2{font-size:18px!important;font-weight:800!important;letter-spacing:-.01em!important;color:#13281c!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage #newOrders,html body:not(.pp-design-two) #ordersPage#ordersPage #activeOrders,html body:not(.pp-design-two) #ordersPage#ordersPage .cards{gap:26px!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercard{background:#fff!important;border:1px solid #dbe3dd!important;border-radius:20px!important;box-shadow:0 1px 2px rgba(19,40,28,.05),0 14px 32px -16px rgba(19,40,28,.22)!important}
+/* new orders keep their green ring, finer and with the same depth */
+html body:not(.pp-design-two) #ordersPage#ordersPage #newOrders .ordercard{border-color:transparent!important;box-shadow:0 0 0 2px #2e9d62,0 1px 2px rgba(19,40,28,.05),0 14px 32px -16px rgba(19,40,28,.26)!important}
+/* calmer lines inside the card, numbers that do not jump */
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercard .product-line{border-color:#edf1ee!important}
+html body:not(.pp-design-two) #ordersPage .ordercard{font-variant-numeric:tabular-nums}
+@media (max-width:700px){
+ html body:not(.pp-design-two) #ordersPage#ordersPage #newOrders,html body:not(.pp-design-two) #ordersPage#ordersPage #activeOrders,html body:not(.pp-design-two) #ordersPage#ordersPage .cards{gap:20px!important}
+ html body:not(.pp-design-two) #ordersPage#ordersPage .ordercard{border-radius:18px!important}
+}
