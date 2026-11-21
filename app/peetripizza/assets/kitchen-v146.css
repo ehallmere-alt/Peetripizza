@@ -1,0 +1,30 @@
+/* v14.6: six-upgrade package, local UI only */
+.pp146-kitchen-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;margin-bottom:12px;border-radius:16px;background:#fff;border:1px solid #e1e9e2;box-shadow:0 3px 15px #142f1c09}
+.pp146-kitchen-title{display:flex;align-items:center;gap:10px}
+.pp146-kitchen-title strong{display:block;font-size:12px;letter-spacing:.09em;color:#203e2b}
+.pp146-kitchen-title small{display:block;color:#6b786e;margin-top:3px;font-size:12px}
+.pp146-dot{width:9px;height:9px;background:#3ba765;border-radius:50%;box-shadow:0 0 0 4px #3ba76519}
+.pp146-soft-button,.pp146-notification-actions button,.pp146-product-quick button,.pp146-screen-actions button{background:#eff6f0;border:1px solid #d4e6d8;color:#245c36;border-radius:10px;min-height:40px;padding:8px 13px;font-weight:800;cursor:pointer}
+.pp146-notifications{background:#fff;border:1px solid #e0e8e1;border-radius:17px;padding:14px;margin:16px 0}
+.pp146-notification-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pp146-notification-head h3{font-size:17px;margin:4px 0 0}
+.pp146-notification-head h3 b{font-size:12px;border-radius:100px;padding:3px 7px;background:#eaf4ed;color:#28643e}
+.pp146-eyebrow,.pp146-product-quick>span{font-size:10px;font-weight:900;letter-spacing:.12em;color:#6c8571}
+.pp146-notification-actions,.pp146-product-quick,.pp146-screen-actions{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.pp146-notification-body[hidden],#pp146-notification-body[hidden]{display:none!important}
+.pp146-notification-list{padding-top:12px}
+.pp146-event{display:flex;gap:10px;padding:10px 0;border-top:1px solid #edf1ed}
+.pp146-event>span{color:#31975b}
+.pp146-event strong,.pp146-event small{display:block}
+.pp146-event strong{font-size:13px}.pp146-event small{font-size:11px;color:#758277;margin-top:3px}
+.pp146-footnote{font-size:11px;color:#7d887f;margin-bottom:0}
+.pp146-product-quick{margin-top:10px;padding:9px 0}
+.pp146-product-quick>span{margin-right:7px}
+.pp146-peak{background:#f1f7f2;border-radius:10px;padding:10px 12px;color:#2b6541;font-weight:800;font-size:13px}
+.pp146-screen-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:13px;border:1px solid #e3ece4;border-radius:12px}
+.pp146-screen-tools strong,.pp146-screen-tools small{display:block}
+.pp146-screen-tools small{color:#738076;font-size:12px;margin-top:3px}
+.pp146-comfort button{min-height:48px}
+.pp146-comfort .pp146-notification-actions button,.pp146-comfort .pp146-product-quick button{min-height:50px}
+@media(min-width:700px) and (max-width:1180px){.pp146-kitchen-strip{padding:10px 14px}.pp146-soft-button{min-height:46px}.pp146-notifications{padding:12px}.pp146-product-quick button{min-height:46px}}
+@media(max-width:600px){.pp146-notification-head,.pp146-screen-tools{align-items:flex-start;flex-direction:column}.pp146-notification-actions button{min-height:40px}.pp146-kitchen-strip{margin-bottom:8px;padding:10px}.pp146-product-quick button{font-size:12px;padding:7px 10px}}

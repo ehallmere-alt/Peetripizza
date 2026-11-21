@@ -1,0 +1,51 @@
+*{box-sizing:border-box}
+:root{font-family:Arial,Helvetica,sans-serif;background:#f5f7f6;color:#1c3026}
+body{margin:0}
+header{background:#fff;border-bottom:1px solid #e3eae5}
+.top{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:20px}
+a{text-decoration:none;color:inherit}
+.back{font-size:14px;color:#197e4e;font-weight:700}
+.brand{font-size:12px;font-weight:900;letter-spacing:1px}
+.brand b{color:#168451}
+main{max-width:1050px;margin:auto;padding:34px 20px 60px}
+.eyebrow{color:#168451;letter-spacing:2px;font-size:11px;font-weight:800}
+h1{font-size:39px;letter-spacing:-1.5px;margin:12px 0 7px}
+h1 span{color:#168451}
+.intro{color:#75847a;font-size:15px;margin-bottom:26px}
+.overview{background:#173b2c;color:#fff;border-radius:22px;padding:24px;display:flex;gap:18px;align-items:center;margin-bottom:36px}
+.overview-icon{display:grid;place-items:center;width:55px;height:55px;border-radius:16px;background:#2f6349;font-size:30px;flex:none}
+.overview strong{font-size:18px}
+.overview p{margin:6px 0 0;color:#c5d8cc;font-size:13px}
+.pill{font-size:10px;font-weight:800;letter-spacing:.5px;padding:8px 10px;border-radius:20px;background:#2f6349;margin-left:auto;white-space:nowrap}
+h2{font-size:16px;margin:28px 0 14px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{min-height:108px;background:white;border:1px solid #e2eae4;border-radius:18px;padding:22px;display:flex;align-items:center;gap:17px}
+a.card:hover{border-color:#70b18c;box-shadow:0 8px 24px #193d2b0b}
+.icon{width:49px;height:49px;flex:none;background:#e8f5ed;color:#18794b;border-radius:14px;display:grid;place-items:center;font-size:24px}
+.body{flex:1;min-width:0}
+.body strong{display:block;font-size:15px;margin-bottom:6px}
+.body small{color:#7b897f;font-size:12px;line-height:1.5;display:block}
+.arrow{color:#168451;font-size:23px}
+.disabled{opacity:.72}
+.muted{background:#edf1ee;color:#728078;margin-left:0}
+.note{font-size:12px;color:#859187;margin-top:35px;line-height:1.7}
+@media(max-width:700px){
+ main{padding:25px 14px 40px}
+ h1{font-size:33px}
+ .cards{grid-template-columns:1fr;gap:10px}
+ .card{min-height:90px;padding:16px}
+ .overview{padding:18px;gap:12px}
+ .overview-icon{width:43px;height:43px;font-size:24px}
+ .overview strong{font-size:15px}
+ .pill{font-size:9px}
+ .top{padding:17px 15px}
+}
+
+
+/* v17.95: tablet improvements */
+@media(min-width:650px) and (max-width:1100px){
+  main{padding:28px 24px 48px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{min-height:120px;padding:18px;gap:12px}
+  .body small{line-height:1.6}
+}

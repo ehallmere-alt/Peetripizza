@@ -1,0 +1,83 @@
+# Review only. Does not deploy, create releases, or contact LIVE kitchen APIs.
+name: PR source safety
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/peetripizza/**'
+      - '.github/workflows/pr-source-safety.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check changed PHP/JS syntax and common secret patterns
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib, re, subprocess, sys
+
+          def git(*args):
+              return subprocess.check_output(["git", *args])
+          # Explicit base branch, not user-supplied path strings.
+          try:
+              names = git("diff", "-z", "--name-only", "--diff-filter=ACMRT",
+                          "origin/main...HEAD", "--", "app/peetripizza/")
+          except subprocess.CalledProcessError:
+              sys.exit("Cannot compare PR against origin/main")
+
+          forbidden_names = re.compile(
+              r"(?i)(?:^|/)(?:private_data|backups|sessions|logs|runtime|cache)/"
+              r"|(?:^|[/._-])(?:secret|password|credentials?|token|cookie|dump)(?:$|[/._-])"
+          )
+          patterns = {
+              "private key": rb"-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----",
+              "GitHub token": rb"\b(?:ghp_|gho_|ghu_|ghs_|ghr_|github_pat_)[A-Za-z0-9_]{20,}\b",
+              "AWS key": rb"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b",
+              "Stripe live secret": rb"\bsk_live_[A-Za-z0-9]{16,}\b",
+              "Google API key": rb"\bAIza[0-9A-Za-z_-]{30,}\b",
+              "Slack token": rb"\bxox[baprs]-[A-Za-z0-9-]{20,}\b",
+          }
+          failures = []
+          checked = 0
+          for raw in names.split(b"\0"):
+              if not raw: continue
+              path = pathlib.Path(raw.decode("utf-8"))
+              if not path.is_file(): continue
+              if path.is_symlink():
+                  failures.append((str(path), "symlink not allowed"))
+                  continue
+              if forbidden_names.search(str(path)):
+                  failures.append((str(path), "sensitive path"))
+              data = path.read_bytes()
+              if len(data) > 5_000_000:
+                  failures.append((str(path), "oversized file; requires separate review"))
+                  continue
+              if path.suffix.lower() in (".php", ".js", ".css", ".json", ".html", ".htm"):
+                  for label, pattern in patterns.items():
+                      if re.search(pattern, data):
+                          failures.append((str(path), "potential " + label))
+              if path.suffix.lower() in (".php", ".js"):
+                  cmd = ["php", "-l", str(path)] if path.suffix.lower()==".php" else ["node", "--check", str(path)]
+                  result = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                  checked += 1
+                  if result.returncode:
+                      failures.append((str(path), "syntax check failed"))
+          print(f"Changed files screened: {len([x for x in names.split(bytes([0])) if x])}")
+          print(f"Syntax checks run: {checked}")
+          print(f"Blocking findings: {len(failures)}")
+          for path, label in failures:
+              print("BLOCK:", label, path)
+          print("Safety checks are incomplete. Manual privacy review required before public push.")
+          if failures:
+              sys.exit(1)
+          PY

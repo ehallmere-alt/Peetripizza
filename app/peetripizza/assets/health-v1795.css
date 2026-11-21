@@ -1,0 +1,34 @@
+*{box-sizing:border-box}
+:root{font-family:Arial,Helvetica,sans-serif;background:#f4f6f5;color:#1b3026}
+body{margin:0}header{background:#fff;border-bottom:1px solid #e0e9e3;padding:19px 24px}
+a{color:#16834e;text-decoration:none;font-weight:600}
+main{max-width:1040px;margin:auto;padding:27px 18px 50px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#16834e}
+h1{font-size:30px;margin:9px 0}.sub{color:#708077;margin:0 0 22px}
+.hero{padding:24px;background:#173c2c;color:#fff;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.hero small{color:#a8c7b4;font-weight:700}.hero h2{margin:10px 0;font-size:25px}
+.hero p{color:#cadbd0;margin:0;font-size:13px}
+button{background:#30aa6b;color:#fff;border:0;border-radius:11px;padding:13px 17px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.65;cursor:wait}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 26px}
+.metrics article,.check{background:#fff;border:1px solid #e1e9e4;border-radius:16px;padding:19px}
+.metrics small{display:block;color:#77867d}.metrics strong{display:block;font-size:30px;margin-top:8px}
+.section-title{font-size:19px}.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.check{display:flex;gap:12px;align-items:flex-start}
+.dot{width:11px;height:11px;border-radius:50%;background:#9da8a1;flex:none;margin-top:5px}
+.dot.ok{background:#21a365}.dot.warn{background:#e7a629}.dot.error{background:#d44d47}
+.check h3{font-size:15px;margin:0 0 6px;overflow-wrap:anywhere}
+.check p{font-size:13px;line-height:1.5;color:#66766c;margin:0;overflow-wrap:anywhere}
+#problem{color:#bd3939}.footnote{font-size:12px;color:#84928a;margin-top:25px;line-height:1.6}
+@media(max-width:650px){main{padding:19px 12px}.hero{padding:19px;flex-direction:column;align-items:stretch}
+.hero h2{font-size:22px}.checks{grid-template-columns:1fr}.metrics{gap:7px}
+.metrics article{padding:13px}.metrics strong{font-size:25px}}
+
+
+/* v17.95: tablet improvements */
+@media(min-width:650px) and (max-width:1100px){
+  main{padding:26px 22px 45px}
+  .checks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .check{min-height:105px}
+  .hero{padding:25px}
+}

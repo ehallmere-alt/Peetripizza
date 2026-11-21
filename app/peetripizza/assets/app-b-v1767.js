@@ -685,7 +685,7 @@ window.addEventListener('pp150:live-stopped',()=>{lastGood=0;latency=0;failures=
 const audio=document.createElement('div');audio.className='pp155-audio';audio.innerHTML='<strong>🔔 Köögi heli</strong><span id="pp155-audio-status">Kontrollimata</span><button id="pp155-audio-enable" type="button">▶ Aktiveeri heli</button><button id="pp155-audio-test" type="button">♫ Testi</button>';
 page.querySelector('.pp154-sync')?.appendChild(audio);
 function audioStatus(){const d=window.PPSound?.diagnostics?.();const enabled=!!d?.enabled;const playing=enabled&&d?.supported&&d?.state==='running'&&d?.volume>0;
- $('pp155-audio-status').textContent=!d?.supported?'Heli puudub':!enabled?'Heli on välja lülitatud':playing?'● Heli valmis':d.volume===0?'⚠ Helitugevus 0%':'⚠ Aktiveeri heli iPadis';
+ $('pp155-audio-status').textContent=!d?'Heli olek laadimisel':!d.supported?'Heli puudub':!enabled?'Heli on välja lülitatud':playing?'● Heli valmis':d.volume===0?'⚠ Helitugevus 0%':'⚠ Aktiveeri heli iPadis';
  $('pp155-audio-status').dataset.state=playing?'ok':'warn';$('pp155-audio-enable').textContent=playing?'✓ Heli aktiivne':'▶ Aktiveeri heli';
 }
 $('pp155-audio-enable').addEventListener('click',async()=>{const d=window.PPSound?.diagnostics?.();if(!d?.enabled){$('soundBtn')?.click()}const done=window.PPSound?.unlock?.();if(done)await done;audioStatus()});
@@ -786,7 +786,7 @@ window.addEventListener('pp150:live-synced',e=>{
 /* 4. Audible alarm previews and clearly stated browser limitations. */
 const audio=document.createElement('section');audio.className='pp156-sound-panel';audio.innerHTML='<div><strong>🔔 Signaalide kontroll</strong><span id="pp156-sound-state">Heli olek kontrollimata</span></div><div class="pp156-sound-tests"><button type="button" data-pp156-tone="normal">♫ Uus tellimus</button><button type="button" data-pp156-tone="urgent">♫ Kiire tellimus</button><button type="button" data-pp156-tone="offline">♫ Ühenduse viga</button></div><small>Heli vajab iPadis puudutusega aktiveerimist. Brauseri taustavaates pole märguanne garanteeritud.</small>';
 ordersPage.querySelector('.pp155-audio')?.after(audio);
-function soundStatus(){const d=window.PPSound?.diagnostics?.();let state=!d?.supported?'Heli pole toetatud':!d.enabled?'Heli väljas':d.state!=='running'?'Vajuta „Aktiveeri heli”':d.volume<=0?'Helitugevus 0%':'● Heli valmis';$('pp156-sound-state').textContent=state;}
+function soundStatus(){const d=window.PPSound?.diagnostics?.();let state=!d?'Heli olek laadimisel':!d.supported?'Heli pole toetatud':!d.enabled?'Heli väljas':d.state!=='running'?'Vajuta „Aktiveeri heli”':d.volume<=0?'Helitugevus 0%':'● Heli valmis';$('pp156-sound-state').textContent=state;}
 audio.addEventListener('click',e=>{const b=e.target.closest('[data-pp156-tone]');if(!b)return;window.PPSound?.preview?.(b.dataset.pp156Tone==='normal'?undefined:b.dataset.pp156Tone);setTimeout(soundStatus,300)});
 setInterval(soundStatus,5000);soundStatus();
 /* 6. Search and sort in the existing v15.5 touch-friendly pickup station. */
@@ -2952,7 +2952,21 @@ try{(function(){
  'use strict';
  if(window.PP1735)return;
  const $id=id=>document.getElementById(id);
- function soundLabel(){const s=$id('soundBtn');const off=!s||s.getAttribute('aria-pressed')==='false';return off?'Heli: väljas':'Heli: sees';}
+ function soundLabel(){
+  const d=window.PPSound?.diagnostics?.();
+  let enabled=false;
+  try {
+    enabled=typeof d?.enabled==='boolean'
+      ? d.enabled
+      : JSON.parse(localStorage.getItem('pp-sound-v1'))===true;
+  } catch (_) {
+    enabled=$id('soundBtn')?.getAttribute('aria-pressed')==='true';
+  }
+  if(!enabled)return 'Heli: väljas';
+  if(d?.state==='running' && Number(d.volume)>0)
+    return 'Heli: aktiivne';
+  return 'Heli: sees · aktiveeri';
+}
  function place(){
   const s=$id('soundBtn'),fs=$id('pp173-fullscreen');
   if(s&&fs&&s.previousElementSibling!==fs)s.before(fs);
@@ -3606,7 +3620,10 @@ try{(function(){
  let dev='';try{dev=localStorage.getItem('pp1749-device')||'';if(!/^[a-f0-9]{16}$/.test(dev)){const a=new Uint8Array(8);crypto.getRandomValues(a);dev=[...a].map(x=>x.toString(16).padStart(2,'0')).join('');localStorage.setItem('pp1749-device',dev);}}catch(_){dev=''}
  let liveAt=0;
  const mode=()=>(document.getElementById('pp172-mode')?.dataset.state||'demo')==='live'?'live':'demo';
- window.addEventListener('pp145:orders',()=>{if(mode()==='live')liveAt=Date.now();});
+ window.addEventListener('pp150:live-synced',e=>{
+  liveAt=Number(e.detail?.lastSuccess)||Date.now();
+ });
+ window.addEventListener('pp150:live-stopped',()=>{liveAt=0;});
  async function beat(){
   if(!dev)return;
   try{

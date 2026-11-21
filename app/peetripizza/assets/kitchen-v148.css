@@ -1,0 +1,16 @@
+/* v14.8 selected 1,2,3,4,6 */
+.pp148-urgency-panel{background:#fff;border:1px solid #e2e8e3;border-radius:13px;padding:11px 14px;margin-bottom:12px}
+.pp148-urgency-head{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.pp148-urgency-head strong{font-size:13px}.pp148-urgency-head span{font-size:12px;color:#ae3329;font-weight:800}
+.pp148-urgency-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pp148-urgency-list span{padding:6px 9px;border-radius:8px;font-size:12px;font-weight:800}
+.pp148-ok{background:#e8f5ed;color:#286744}.pp148-soon{background:#fff0d9;color:#a75c11}.pp148-overdue{background:#ffe2e0;color:#a82720}
+.pp148-details-button,.pp148-lock,.pp148-sound-controls button{border:1px solid #cde3d4;border-radius:9px;background:#eaf5ed;color:#1e6339;padding:8px 11px;font-weight:800;min-height:42px}
+.pp148-sound-studio{padding:13px;margin-top:12px;border:1px solid #dae6dc;border-radius:12px;background:#f8fbf8}
+.pp148-sound-studio strong,.pp148-sound-studio small{display:block}.pp148-sound-studio small{font-size:12px;color:#65786a;margin-top:5px}
+.pp148-sound-controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}.pp148-sound-controls label{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;font-weight:700}
+.pp148-details{border:0;border-radius:17px;max-width:min(480px,94vw);width:100%;padding:20px;box-shadow:0 20px 80px #0004}
+.pp148-details::backdrop{background:#0a1710a8}.pp148-dialog-head{display:flex;align-items:center;justify-content:space-between}.pp148-dialog-head h3{margin:0}.pp148-dialog-head button,.pp148-order-row,#pp148-back{background:#eef5ef;border:1px solid #d6e5d8;padding:10px;border-radius:9px;cursor:pointer}
+.pp148-order-row{display:block;width:100%;text-align:left;margin:7px 0}.pp148-details ul{padding-left:20px}
+.pp148-locked #menuBtn,.pp148-locked #pp146-open-settings{opacity:.4}
+@media(max-width:700px){.pp148-urgency-head{align-items:flex-start}.pp148-urgency-panel{padding:10px}.pp148-sound-controls{flex-direction:column;align-items:stretch}}
