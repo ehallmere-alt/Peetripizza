@@ -1,5 +1,8 @@
 # Changelog
 
+## 17.96.0 — 2026-11-21
+- No runtime change. Sources `sound-v141.js`, `kitchen-v155.js`, `kitchen-v156.js`, `ops-v1735.js`, `ops-v1749.js` now match what the bundles `app-a/app-b-v1767.js` already run (PRs #21, #22), so rebuilding the bundles keeps sound and heartbeat as they are. Read-only audit tools `tools/bundle-drift.py`, `tools/source-audit.py` and their checks (PR #20). The version bump keeps the server files equal to git for the next patches.
+
 ## 17.95.0 — 2026-11-21 (imported from the production server)
 - 17.68–17.95 were made with ChatGPT/Codex directly on the server (13–14.11); this is that server snapshot (draft PR #12), no extra changes. LIVE, cards, timer, print, Väljastus and Taigna server code unchanged from 17.67.
 - New: Boonused QR page, Statistika Pro, optional design switch, system health / devices / settings pages, read-only integration probes. Võta vastu / Valmis go through `api/official-status-gateway-v1768.php` as a DRY RUN only (`PP1768_OFFICIAL_WRITES=false`, nothing is written to peetripizza.ee). LIVE poll 7 s.
