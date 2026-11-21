@@ -1,5 +1,13 @@
 # Changelog
 
+## 18.2.0 — 2026-11-22
+- Owner: "Го" to the simplification pack.
+- 1: Võta vastu / Valmis no longer call the dry-run "official status" gateway (2 extra peetripizza.ee requests per click + an empty lock file each time): `official-status-observer-v1768.js` and `official-readonly-probe-v1768.js` are not loaded any more (files stay). LIVE poll back to 10 s.
+- 2: unused Codex code removed from the repo: socket.io + `socket-*-v1768.js` (never loaded) and the CLI test scripts `tools/*-v1768.*`, `tools/test-gateway-stage37.js`. Server copies are left alone by the patch (it never deletes); they are not loaded.
+- 3: Seaded → Kujundus is the last card of Süsteem instead of sitting above the tabs (tabs no longer jump).
+- 4: Statistika keeps the Codex "Statistika ülevaade" (our old blocks were already hidden); the note no longer points to "local statistics below" that is not shown.
+- 5: Tooted opens on the last chosen category, first time Pitsad (30 tiles instead of 71). Otsas items were already first.
+
 ## 18.1.0 — 2026-11-21 (Codex "18.01", finished)
 - Cards: a topping that is already shown as a −/+ chip is no longer repeated in the "+ LISA" line of the same pizza (`assets/order-dedup-v1801.js`, display only; order data, LIVE, print untouched).
 - Tooted: product list = names of the public Peetri Pizza menu (one menu for all pizzerias, Kolde Selver included). Fixed: "Pepperoni" is both a pizza and a topping — toggles now match category + name (before, toggling the topping showed "Salvestamine ebaõnnestus"); old names (Hawaii, Seened, Jalapeño, Coca-Cola 0,5 l, …) keep their Otsas state.

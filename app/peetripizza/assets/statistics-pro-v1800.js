@@ -42,7 +42,7 @@ function init(){
    </section>
   </div>
   <p id="sp-state" class="sp-message" role="status" aria-live="polite"></p>
-  <p class="sp-note">* Käive ja keskmine ost põhinevad ainult tellimustel, mille summad on salvestatud. Varasemad andmed võivad olla puudulikud. Allpool on olemasolev kohalik statistika.</p>
+  <p class="sp-note">* Käive ja keskmine ost põhinevad ainult tellimustel, mille summad on salvestatud. Varasemad andmed võivad olla puudulikud.</p>
  `;
 
  panel.prepend(root);
