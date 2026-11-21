@@ -244,7 +244,7 @@ return [
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
     'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
-    'dashboard.php' => '1c02dbb99a8849391fc7fabd47eadb80c8f0781214b8e581775747972c99d82a',
+    'dashboard.php' => '9417af7286b17dcd4dfaaeaed4b24ba1622bac051d049ce4ea89f179cf508e4e',
     'dough.php' => '85a401bd7a747ee94229de6246ed75af65a81b6542ee4d7f4f2090d41d38817b',
     'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
