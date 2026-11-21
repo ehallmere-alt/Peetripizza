@@ -56,7 +56,7 @@ $many=count($configured)>6;
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#00824a">
 <title>Peetri Pizza — Köögi sisselogimine</title>
 <link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><link rel="stylesheet" href="assets/login-v1720.css?v=17.20.0">
-<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="stylesheet" href="assets/official-reference-v1801.css?v=1801"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><script src="assets/login-v175.js?v=17.20.0" defer></script>
+<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><script src="assets/login-v175.js?v=17.20.0" defer></script>
 </head><body class="pl-body">
 <main class="pl-shell">
 <section class="pl-brand" aria-hidden="false">
@@ -105,4 +105,4 @@ $many=count($configured)>6;
  </form>
 </section>
 </main>
-<script src="assets/official-reference-v1801.js?v=1801" defer></script></body></html>
+</body></html>

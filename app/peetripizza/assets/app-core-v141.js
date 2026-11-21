@@ -27,9 +27,8 @@ let minutes=Math.max(5,Math.min(120,Number(safeLoad('pp-minutes-v1',20))||20));
 let sound=!!safeLoad('pp-sound-v1',false);
 let couriers=safeLoad('pp-couriers-v1',['Kuller 1','Kuller 2']);
 // Toodete saadavus is local demo state; none of these entries update the upstream menu.
-/* Verified public product names from the official Peetri Pizza Haapsalu Kaubamaja menu.
-   Toppings are ingredients named in that menu, NOT a verified live add-on SKU feed.
-   All availability toggles below remain LOCAL ONLY. */
+/* v18.1: product names of the public Peetri Pizza menu (the site uses one menu for every pizzeria, Kolde Selver included;
+   names checked 17.11.2026). Toppings are menu ingredients, not a live add-on feed. All toggles stay LOCAL ONLY. */
 const PRODUCT_CATALOG=[
  ['Pitsad',"Margherita"],
  ['Pitsad',"Pepperoni"],
@@ -105,8 +104,11 @@ const PRODUCT_CATALOG=[
 ];
 const oldProductState=safeLoad('pp-products-v1',[]);
 const savedProducts=Array.isArray(oldProductState)?oldProductState:[];
+// v18.1: same name can be a pizza and a topping (Pepperoni) — match category + name; names used before 18.1 keep their state.
+const PRODUCT_OLD_NAMES={'Hawaij Pizza':'Hawaii','Šampinjonid':'Seened','Jalapeno':'Jalapeño','Coca Cola':'Coca-Cola 0,5 l','Coca-Cola Zero':'Coca-Cola Zero 0,5 l','Fanta':'Fanta 0,5 l','Sprite':'Sprite 0,5 l','Vesi':'Vesi 0,5 l'};
 let products=PRODUCT_CATALOG.map(([category,name])=>{
- const old=savedProducts.find(p=>p&&typeof p.name==='string'&&p.name===name);
+ const was=category==='Lisandid'&&name==='Pepperoni'?'Pepperoni lisand':(PRODUCT_OLD_NAMES[name]||name);
+ const old=savedProducts.find(p=>p&&p.category===category&&p.name===name)||savedProducts.find(p=>p&&typeof p.name==='string'&&p.name===was&&(p.category===undefined||p.category===category));
  return {category,name,available:old?!!old.available:true};
 });
 let productCategory='Kõik';
@@ -443,7 +445,7 @@ function toggleProductV140(index){
  try{
    saveProducts();
    const check=JSON.parse(localStorage.getItem('pp-products-v1')||'null');
-   if(!Array.isArray(check)||check.find(x=>x&&x.name===p.name)?.available!==p.available)throw Error('storage_mismatch');
+   if(!Array.isArray(check)||check.find(x=>x&&x.category===p.category&&x.name===p.name)?.available!==p.available)throw Error('storage_mismatch');
  }catch{
    p.available=previous;
    try{saveProducts()}catch(_){/* The previous durable value is unchanged on storage failure. */}

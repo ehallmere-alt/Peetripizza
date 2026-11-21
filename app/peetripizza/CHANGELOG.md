@@ -1,5 +1,11 @@
 # Changelog
 
+## 18.1.0 — 2026-11-21 (Codex "18.01", finished)
+- Cards: a topping that is already shown as a −/+ chip is no longer repeated in the "+ LISA" line of the same pizza (`assets/order-dedup-v1801.js`, display only; order data, LIVE, print untouched).
+- Tooted: product list = names of the public Peetri Pizza menu (one menu for all pizzerias, Kolde Selver included). Fixed: "Pepperoni" is both a pizza and a topping — toggles now match category + name (before, toggling the topping showed "Salvestamine ebaõnnestus"); old names (Hawaii, Seened, Jalapeño, Coca-Cola 0,5 l, …) keep their Otsas state.
+- Optional Kujundus 2 · Premium Clean (Seaded, per tablet; default stays Klassikaline).
+- Dropped from Codex 18.01/18.02: search boxes, the public pizzeria list on the login page (`official-reference-v1801`), ZIP builders/installers and the ZIP workflow. Delivery stays the one SSH command.
+
 ## 17.96.0 — 2026-11-21
 - No runtime change. Sources `sound-v141.js`, `kitchen-v155.js`, `kitchen-v156.js`, `ops-v1735.js`, `ops-v1749.js` now match what the bundles `app-a/app-b-v1767.js` already run (PRs #21, #22), so rebuilding the bundles keeps sound and heartbeat as they are. Read-only audit tools `tools/bundle-drift.py`, `tools/source-audit.py` and their checks (PR #20). The version bump keeps the server files equal to git for the next patches.
 
