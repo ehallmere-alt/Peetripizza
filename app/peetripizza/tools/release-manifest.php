@@ -2,7 +2,8 @@
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
- 'assets/ui-v1830.css' => '3c8572830e66c1b5b7fb62c03a5c41aae035404df1eaca2351ffa6257c4b1d96',
+  'assets/ui-v1830.js' => '371435176d1e10a5bdbd95ba186d73b4b2279f52b120ee3f68a9a76d405d36c3',
+  'assets/ui-v1830.css' => '144ea55f02b6b929c21c8b3671a9776099ee78b43bef561f132a76ef1e43bfcd',
  'assets/kitchen-design-switch-v1799.js' => '01d5305dbbdf49c9612439981fb0353d1331bc02c245b8ae82cc1bc43aac4e7c',
  'assets/kitchen-design-two-v1799.css' => '272d45a083076cb9ae349aaa2fefe16eab613de87ee3a99393df95dca622859f',
     'assets/statistics-pro-v1800.js' => '0fab15c21968f785649b85f0e04f0b7e5837d47e253cbe566ce256bf6a901267',
@@ -29,7 +30,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => 'c5b0d89819d62549ed2dcdc8afc37e8757e3bb7ad79651f074452ade1920fa02',
+    'CHANGELOG.md' => '69b1b2f2802c8e1e836b8cb091f53296cf3ed47741deada905e7bc8d51e9c453',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',
@@ -245,7 +246,7 @@ return [
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
     'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
-    'dashboard.php' => 'fdf2dcad2d3e6f25a8c89496226785696662f86fcb6fc6412905f2dc14826c3a',
+    'dashboard.php' => 'f2f5c840850cf6b0584835faf4fe4473c7f9d7d6316ed5f470f52520362a96c9',
     'dough.php' => '85a401bd7a747ee94229de6246ed75af65a81b6542ee4d7f4f2090d41d38817b',
     'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',

@@ -9,6 +9,9 @@
 - 5: Statistika without the big green banner; one title, period buttons in the strict style.
 - 7 (owner 01:42 "раздели заказы, дизайн подороже"), Klassikaline only: columns are no longer a white panel with white cards inside — cards float on a calm sage-grey page with a hairline border and a soft two-layer shadow, 26 px between orders (20 on phones), 24 px between columns, finer green ring on new orders, calmer lines, tabular numbers.
 - 8 (owner 01:47 "лого и обозначение пиццерии"), both designs: header brand lockup — bigger logo (36 px high on the tablet, 22 px on phones instead of 18), pizzeria name KOLDE beside it after a hairline with a green location dot (on phones under the logo, no longer hidden); the name no longer slides under the logo. Text unchanged (scripts read it).
+- 9 (owner 01:49 "напитки и соусы выделить, коробки отдельно"), both designs: drinks are a blue chip, sauces an amber chip, other extras neutral; boxes (KARBID) are a cardboard-coloured strip with their own label, no longer green like the pizza size chips.
+- 10 (owner 01:50 "номер заказа не бросался в глаза, выделить сколько позиций"): order number small and grey at the side; with drinks/sauces the dark chip shows the total ("4 TOODET") and "3 pitsat" beside it; pizzas only keeps "N PITSAT".
+- 11 (owner 01:52 "карточку дорого и богато", ready cards in Klienti ootavad): same premium white card with hairline and soft shadow, small grey number, drinks blue / sauces amber (new `assets/ui-v1830.js` only tags those lines with data-pp1830), boxes as the cardboard strip. Footer (sum + Üle antud) unchanged.
 
 ## 18.2.0 — 2026-11-22
 - Owner: "Го" to the simplification pack.
