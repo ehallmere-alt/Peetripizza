@@ -32,9 +32,10 @@ function init(){
    Kujundus 2 · Premium Clean
   </label>`;
 
- const title=page.querySelector('h2');
- if(title)title.insertAdjacentElement('afterend',section);
- else page.prepend(section);
+ // v18.2: last card of Seaded → Süsteem (the tab script sorts it there), not above the tabs, so the tabs do not jump.
+ const panel=page.querySelector(':scope>.panel');
+ if(panel)panel.append(section);
+ else page.append(section);
 
  const input=section.querySelector(
   'input[value="'+selected()+'"]'

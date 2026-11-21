@@ -2,9 +2,9 @@
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
- 'assets/kitchen-design-switch-v1799.js' => 'aebccf9695dddf0434e0a99a3f3deabc3f84a63769b59c0aa3f887314f644420',
+ 'assets/kitchen-design-switch-v1799.js' => '01d5305dbbdf49c9612439981fb0353d1331bc02c245b8ae82cc1bc43aac4e7c',
  'assets/kitchen-design-two-v1799.css' => '272d45a083076cb9ae349aaa2fefe16eab613de87ee3a99393df95dca622859f',
-    'assets/statistics-pro-v1800.js' => '51e042d6187f3588ca76bb45e9b4ac3561bc7cfb65dba42c9704db4570461171',
+    'assets/statistics-pro-v1800.js' => '0fab15c21968f785649b85f0e04f0b7e5837d47e253cbe566ce256bf6a901267',
     'assets/statistics-pro-v1800.css' => '884ed1de1da85c1f81dbb1756a69b50206490efe7c71823f5ef2548a9cc2bea1',
     'assets/premium-admin-v1796.css' => 'd92829ebe7ba6103b394c0e44d6a94f4308e7ae7fed74c4976d13897c2706ddc',
     'assets/analytics-pro-v1795.js' => 'e301063dce17840b2b978c94696c42b3b5ff6f1f207d48ecdb474ecaaf02b6c4',
@@ -28,7 +28,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '385a5a8cb660b31f4876e47a74e5058bc8351d499105f0821fde09bce5ba16a2',
+    'CHANGELOG.md' => '683bd9258a21c93ea32bccbeeafd5832371c03c08567ea51d442187415d62eca',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',
@@ -66,7 +66,7 @@ return [
     'assets/.htaccess' => '6560f42da16e81d94024a61f59e92fb2c8055e4c7efeafcfb6c0c0c73c4eaf55',
     'assets/app-a-v1767.js' => '61ed7b86129e251a2e7316244ad0d71b0cec72df9edc633b0d69766e6207c0d0',
     'assets/app-b-v1767.js' => 'cf095fb097a562fd2ddf0b5dbdff09283e30c148a47ff13644bab69b8fc1d3f0',
-    'assets/app-core-v141.js' => '14f365b72582bfae8d72dd0cabe95ad45b2278c37537c9be59e0abf59a4e2ad4',
+    'assets/app-core-v141.js' => 'a0ac4309c1ff3337455c9594c4edd89748d37c3b64b3d58e8685384f03b45379',
     'assets/app-v1748.css' => '94b47e78750f9e8b68ea4631b1031d70067a744fd8d45c3a02f341c93b232465',
     'assets/app-v1767.css' => '60f6fe21bb10257608129da9b6e0235685cc699fc919cf40456f7c8095fdc684',
     'assets/apple-touch-icon.png' => '6f0746de2064c0e0c6cdd4b085be4b292d839462f0f2d90e0aca37ca56b24d0a',
@@ -244,7 +244,7 @@ return [
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
     'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
-    'dashboard.php' => '9417af7286b17dcd4dfaaeaed4b24ba1622bac051d049ce4ea89f179cf508e4e',
+    'dashboard.php' => '2bff60894399655642ace7915cb29a899ba0ff6ca1a3ae57cd76b02983c9f7ef',
     'dough.php' => '85a401bd7a747ee94229de6246ed75af65a81b6542ee4d7f4f2090d41d38817b',
     'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
