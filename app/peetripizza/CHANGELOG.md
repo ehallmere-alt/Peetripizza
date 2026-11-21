@@ -8,6 +8,7 @@
 - 4: size chips (VP, SÕ, Pere P, Väike täistera) one width, pizza names line up.
 - 5: Statistika without the big green banner; one title, period buttons in the strict style.
 - 7 (owner 01:42 "раздели заказы, дизайн подороже"), Klassikaline only: columns are no longer a white panel with white cards inside — cards float on a calm sage-grey page with a hairline border and a soft two-layer shadow, 26 px between orders (20 on phones), 24 px between columns, finer green ring on new orders, calmer lines, tabular numbers.
+- 8 (owner 01:47 "лого и обозначение пиццерии"), both designs: header brand lockup — bigger logo (36 px high on the tablet, 22 px on phones instead of 18), pizzeria name KOLDE beside it after a hairline with a green location dot (on phones under the logo, no longer hidden); the name no longer slides under the logo. Text unchanged (scripts read it).
 
 ## 18.2.0 — 2026-11-22
 - Owner: "Го" to the simplification pack.
