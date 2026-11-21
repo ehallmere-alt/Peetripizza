@@ -15,7 +15,10 @@
  let dev='';try{dev=localStorage.getItem('pp1749-device')||'';if(!/^[a-f0-9]{16}$/.test(dev)){const a=new Uint8Array(8);crypto.getRandomValues(a);dev=[...a].map(x=>x.toString(16).padStart(2,'0')).join('');localStorage.setItem('pp1749-device',dev);}}catch(_){dev=''}
  let liveAt=0;
  const mode=()=>(document.getElementById('pp172-mode')?.dataset.state||'demo')==='live'?'live':'demo';
- window.addEventListener('pp145:orders',()=>{if(mode()==='live')liveAt=Date.now();});
+ window.addEventListener('pp150:live-synced',e=>{
+  liveAt=Number(e.detail?.lastSuccess)||Date.now();
+ });
+ window.addEventListener('pp150:live-stopped',()=>{liveAt=0;});
  async function beat(){
   if(!dev)return;
   try{
