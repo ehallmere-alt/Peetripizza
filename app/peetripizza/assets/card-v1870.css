@@ -77,6 +77,55 @@ html body header.topbar.topbar #pp172-mode button{min-height:0!important;height:
 html body #ordersPage#ordersPage#ordersPage#ordersPage #pp158-view-ready{display:none!important}
 /* toppings under the size chip and name, from the left edge of the chip: more room, fewer lines */
 
+/* 7 — owner 23:15 "Время ожидания сделай по центру": Ooteaeg (− 20 min +) sits in the middle of the header on tablets and laptops */
+@media (min-width:1000px){
+ html body header.topbar.topbar.topbar.topbar #pp1754-wminus{position:absolute!important;top:12px!important;left:calc(50% - 114px)!important;margin:0!important}
+ html body header.topbar.topbar.topbar.topbar #pp1722-wait{position:absolute!important;top:12px!important;left:calc(50% - 57px)!important;width:114px!important;margin:0!important}
+ html body header.topbar.topbar.topbar.topbar #pp1754-wplus{position:absolute!important;top:12px!important;left:calc(50% + 66px)!important;margin:0!important}
+ html body header.topbar.topbar.topbar.topbar .top-right{margin-left:auto!important}
+}
+
+/* 8 — owner 23:16 "Шрифты сделай супер читаемые": no kitchen text under 14 px, small grey text darker */
+html body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+html body header.topbar.topbar.topbar.topbar #pp1722-wait small{font-size:11.5px!important;letter-spacing:.06em!important;color:rgba(255,255,255,.85)!important}
+html body header.topbar.topbar.topbar.topbar #pp1722-wait b,html body header.topbar.topbar.topbar.topbar #pp1722-wait-v{font-size:21px!important}
+html body header.topbar.topbar.topbar.topbar #pp1722-date{font-size:12.5px!important;color:rgba(255,255,255,.82)!important}
+html body header.topbar.topbar.topbar.topbar .pp171-label{font-size:13px!important}
+html body header.topbar.topbar.topbar.topbar #pp172-mode button{font-size:12.5px!important}
+html body header.topbar.topbar.topbar.topbar #pp172-mode button:not([aria-pressed="true"]):not(.active):not(.on){color:rgba(255,255,255,.85)!important}
+html body header.topbar.topbar.topbar.topbar .pp114-location{font-size:14px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .order-number,
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-number{font-size:15px!important;font-weight:700!important;color:#3a463f!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod{font-size:15px!important;min-height:28px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese small{font-size:12px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1830-sizes{font-size:15.5px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1830-sizes b{font-size:17px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1830-headsizes{font-size:15.5px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1830-headsizes b{font-size:17px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1830-headsizes em{font-size:13.5px!important;color:#3a463f!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-completed :is(span,em){font-size:15px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp154-pickup-tag{font-size:16px!important;font-weight:800!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp1728-due :is(i,small){font-size:16px!important;color:#2f3a33!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage #pp158-open-station{font-size:14.5px!important}
+
+/* 9 — Seaded: "Valmis tellimused" row no longer stretched to the height of the right column */
+html body #settingsPage .pp163-pref-group{align-items:start!important;align-content:start!important}
+html body #settingsPage #pp1763-row{align-self:start!important;min-height:0!important;height:auto!important}
+
+/* 10 — menu: the new square logo (was the old wide one, tiny), Halduskeskus icon in the same box as the others */
+html body #drawer img[src*="peetri-pizza-logo"]{content:url("peetri-logo-square-v185.png");width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;object-fit:cover!important;border-radius:12px!important;padding:0!important;background:#00824a!important}
+html body #drawer a.navitem[href*="settings-pro"]>span:first-child{display:inline-grid!important;place-items:center!important;width:32px!important;height:32px!important;border-radius:9px!important;background:#eef3ef!important;color:#2d5a3f!important;font-size:15px!important;margin-right:4px!important;flex:none!important}
+
+/* 11 — Boonused QR page: one title, real buttons instead of bare browser buttons and a blue link */
+html body #pp1775-bonus-page .ppmod>h3{display:none!important}
+html body #pp1775-bonus-page .ppmod{font-size:16px!important;line-height:1.5!important;color:#1d2b22!important}
+html body #pp1775-bonus-page .ppmod-status{display:inline-flex!important;margin:10px 0 4px!important;padding:6px 12px!important;border-radius:9px!important;background:#f1f4f2!important;color:#3a463f!important;font-weight:700!important;font-size:15px!important}
+html body #pp1775-bonus-page .ppmod-actions{display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin:12px 0!important}
+html body #pp1775-bonus-page .ppmod-actions>:is(button,a){display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:48px!important;padding:0 20px!important;border-radius:12px!important;border:1px solid #cfe0d5!important;background:#eef6f0!important;color:#174d31!important;font-family:inherit!important;font-size:16px!important;font-weight:800!important;line-height:1!important;text-decoration:none!important;cursor:pointer!important;box-shadow:none!important}
+html body #pp1775-bonus-page .ppmod-actions>.ppmod-primary{background:#1b6b45!important;border-color:#1b6b45!important;color:#fff!important}
+html body #pp1775-bonus-page .ppmod-actions>[hidden]{display:none!important}
+html body #pp1775-bonus-page #pp1776-qr-info{font-size:14px!important;color:#4a574f!important}
+
 @media (max-width:700px){
  html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line{grid-template-columns:34px 68px minmax(0,1fr)!important;column-gap:10px!important}
  html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code{width:68px!important;min-width:68px!important;min-height:36px!important}
