@@ -114,7 +114,7 @@ html body #settingsPage #pp1763-row{align-self:start!important;min-height:0!impo
 
 /* 10 — menu: the new square logo (was the old wide one, tiny), Halduskeskus icon in the same box as the others */
 html body #drawer img[src*="peetri-pizza-logo"]{content:url("peetri-logo-square-v185.png");width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;object-fit:cover!important;border-radius:12px!important;padding:0!important;background:#00824a!important}
-html body #drawer a.navitem[href*="settings-pro"]>span:first-child{display:inline-grid!important;place-items:center!important;width:32px!important;height:32px!important;border-radius:9px!important;background:#eef3ef!important;color:#2d5a3f!important;font-size:15px!important;margin-right:4px!important;flex:none!important}
+html body #drawer a.navitem[href*="settings-pro"]>span:first-child:not(.pp162-nav-icon){display:inline-grid!important;place-items:center!important;width:32px!important;height:32px!important;border-radius:9px!important;background:#eef3ef!important;color:#2d5a3f!important;font-size:15px!important;margin-right:4px!important;flex:none!important}
 
 /* 11 — Boonused QR page: one title, real buttons instead of bare browser buttons and a blue link */
 html body #pp1775-bonus-page .ppmod>h3{display:none!important}
@@ -209,3 +209,11 @@ html body #ordersPage#ordersPage#ordersPage#ordersPage .pp112-done-card.pp1900-o
 html body #ordersPage#ordersPage#ordersPage#ordersPage #pp158-pickup-count{display:inline-flex!important;align-items:center;justify-content:center;min-width:28px;height:26px;padding:0 8px;border-radius:8px;background:#16231c!important;color:#fff!important;font-weight:900!important}
 /* 5 — date in Estonian: "E, 23. nov" (no capital N) */
 html body header.topbar.topbar.topbar.topbar #pp1722-date{text-transform:none!important}
+
+/* 18.10 pack 2 (owner 00:12 "го дальше") */
+/* 1 — dark size chip: no "+1 lisa" (drinks are listed right below; "lisa" read like an extra topping) */
+html body #ordersPage .pp1830-sizes .pp1830-extra,html body #ordersPage .pp1830-sizes i:has(+.pp1830-extra){display:none!important}
+/* 2 — Tooted: the same pizza icon on all 30 tiles was noise; names only */
+html body .pp140-product-icon{display:none!important}
+/* 3 — Seaded tabs: no mixed glyphs (▣ ♫ ⎙ ⚙), plain words */
+html body [role=tab][data-tab]>span[aria-hidden=true]{display:none!important}

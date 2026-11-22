@@ -98,7 +98,13 @@
    c.classList.toggle('pp1900-one',c.querySelectorAll('.pp112-product[data-pp1830=pizza]').length===1);
   }
  }
- const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}try{ready()}catch(_){}});};
+ // 18.10 pack 2: 4 — Halduskeskus in the menu gets a line icon like the other items (was the ▦ glyph, off-line)
+ function navIcon(){
+  const a=document.querySelector('#drawer a.navitem[href*="settings-pro"]>span:first-child:not(.pp162-nav-icon)');if(!a)return;
+  a.className='pp162-nav-icon';a.setAttribute('aria-hidden','true');
+  a.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
+ }
+ const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}try{ready()}catch(_){}try{navIcon()}catch(_){}});};
  const start=()=>{const page=document.getElementById('ordersPage');if(page)new MutationObserver(later).observe(page,{childList:true,subtree:true});later();};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
