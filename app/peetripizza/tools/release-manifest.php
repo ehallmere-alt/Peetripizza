@@ -3,9 +3,9 @@
 return [
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
   'assets/ui-v1830.js' => 'be27ab762f6e7c72fd78f61a916c5f2bd3c67a6f1a2b1ed5d26639c074581c90',
-  'assets/card-v1870.js' => 'eb08d03cf825ac8d49579b114b9dc720911a63bdec09a3d4c9efaaf099c9af32',
+  'assets/card-v1870.js' => '28a2f31f86c7b0e8fb125528cdb400899c92cf135a9d98729bcada90752b96f6',
   'assets/dough-v1870.css' => '0ccf3c3a45071d19e9b4835f8c3c8ef37696fafb948b3948a5ec3b52c8b8e1f8',
-  'assets/card-v1870.css' => '4697ae65433ac679dc07c6434a5ed2f0f4382748385907dc5b8a5b0c7aa29148',
+  'assets/card-v1870.css' => '1c36c7096e80732ebb8ecff9fdd7d604e19054185efff9dc266fecdb250e1d30',
   'assets/ui-v1830.css' => '64fc5ead57eced13c7a6559e35326c8f375b9e2692c8cadb825e0f60c2307abc',
  'assets/kitchen-design-switch-v1799.js' => '01d5305dbbdf49c9612439981fb0353d1331bc02c245b8ae82cc1bc43aac4e7c',
  'assets/kitchen-design-two-v1799.css' => '7ce6fb29bacecbeb444f4bf34141fe99029d6958e08ef872bedd42aece707dc9',
@@ -33,7 +33,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => 'fb8e5eb7ab2983858e387556ccd5543257d206bc0e208470d6a432ef396df678',
+    'CHANGELOG.md' => 'eff49675cca849c2c1ee6c4b447c8ea49e1294dc57b37346f44d4ab543c1ddf8',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',

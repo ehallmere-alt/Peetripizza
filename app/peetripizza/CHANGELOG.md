@@ -3,6 +3,7 @@
 ## 18.10.0 — 2026-11-23
 - Owner 00:03 (photo): "CHEESE" was still visible on a ready card. Cause: 18.9 set display:none inline, but the .pp1870-cheese CSS rule (display:inline-flex !important) won. Now a bare cheese chip gets only the hiding class pp1900-gone. A real swap still shows its yellow line.
 - Owner: "что за точки под именем". The dotted underline is gone; a small grey 📞 after the name shows that tapping it reveals the phone.
+- Owner 00:07 "улучшай пока не скажу стоп", pack of six (ready cards and header): (1) ready card waiting over 2 h is dimmed and says "Ootab üle 2 h"; (2) wait text short: "Ootab 45 min" / "Ootab 1 h 5 min"; (3) MAKSTUD hidden on ready cards (unpaid stays red MAKSA KOHAL); (4) one pizza line: the repeated dark size chip is hidden; (5) Valmis count is the same dark chip as the other columns; (6) header date "E, 23. nov" without a capital N.
 
 ## 18.9.0 — 2026-11-22
 - Owner 23:41: "телефон только если нажал на имя; не понятно что за Vaata tellimust". Phone on ready cards is hidden until you tap the customer name (name has a dotted underline when a phone exists; tap again hides it). A bare "Cheese" with no cheese type is no longer shown at all (it told the cook nothing); a real swap ("Juust: mozzarella") keeps its yellow line.

@@ -88,7 +88,17 @@
   a.hidden=!a.hidden;e.preventDefault();e.stopPropagation();
  },true);
  let q=false;
- const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}});};
+ // 18.10 owner 00:07 "улучшай": ready cards — stale ones dimmed, short wait text, no repeated size chip
+ function ready(){
+  for(const c of document.querySelectorAll('#ordersPage .pp112-done-card')){
+   const w=c.querySelector('.pp1730-wait');const n=w?parseInt((w.textContent.match(/(\d+)\s*min/)||[])[1]||'0',10):0;
+   c.classList.toggle('pp1900-old',n>=120);
+   const tag=c.querySelector('.pp154-pickup-tag');
+   if(tag&&n){const txt=n>=120?'⏱ Ootab üle 2 h':(n>=60?'⏱ Ootab '+Math.floor(n/60)+' h '+(n%60)+' min':'⏱ Ootab '+n+' min');if(tag.textContent!==txt)tag.textContent=txt;}
+   c.classList.toggle('pp1900-one',c.querySelectorAll('.pp112-product[data-pp1830=pizza]').length===1);
+  }
+ }
+ const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}try{ready()}catch(_){}});};
  const start=()=>{const page=document.getElementById('ordersPage');if(page)new MutationObserver(later).observe(page,{childList:true,subtree:true});later();};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
