@@ -14,6 +14,7 @@
 - 11 (owner 01:52 "карточку дорого и богато", ready cards in Klienti ootavad): same premium white card with hairline and soft shadow, small grey number, drinks blue / sauces amber (new `assets/ui-v1830.js` only tags those lines with data-pp1830), boxes as the cardboard strip. Footer (sum + Üle antud) unchanged.
 - 12 (owner 02:03 "сколько маленьких, сколько больших — чтобы официант быстро сказал"): every order and ready card shows a dark size chip "2 väike · 1 suur" (from the size chips on the card, by `ui-v1830.js`); it replaces "N pitsat".
 - 13 (owner 02:03 "верхнее меню более дизайнерское, лого новое"), Klassikaline: deep forest-green header, the chain logo on its own white badge (the mark itself unchanged), all buttons as translucent pills, active DEMO/LIVE a white pill, white tabular clock. Premium Clean keeps its white header.
+- 14 (owner 02:11 "Давай" to six simplifications): (1) column heads say "Ootel / Ahju 2 väike · 1 suur" like the cards (the code list stays hidden in the page); (2) number small under the name, extras folded into the size chip as "+N lisa", the separate "N toodet" chip hidden; (3) KARBID row hidden when it repeats the size chip (shown for branded boxes, different counts, KOHAPEAL); (4) ready cards as tall as their content, "Klienti ootavad" on the grey page (Klassikaline); (5) order number #5f6b64 (4.9:1), whole-grain size chip text 12.5 px; (6) "Alusta valmistamist" fits next to MAKSTUD (smaller text only in that case).
 
 ## 18.2.0 — 2026-11-22
 - Owner: "Го" to the simplification pack.

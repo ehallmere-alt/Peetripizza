@@ -177,3 +177,33 @@ html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-
 @media (max-width:760px){
  html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo{height:30px!important;max-height:30px!important;max-width:100px!important;padding:4px 8px!important;border-radius:9px!important}
 }
+
+/* 14 — owner 22.11 02:11 "Давай" to the six simplifications. */
+/* 1 column heads in words ("Ahju 2 väike · 1 suur"), the code list is hidden (stays in the page for other scripts) */
+html body #ordersPage#ordersPage#ordersPage .section-head.pp1830-head-has>.pp1746-oven{display:none!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes{display:inline-flex;align-items:center;gap:7px;margin-left:auto;padding:0 12px;min-height:32px;border-radius:9px;background:#fff;border:1px solid #dbe3dd;color:#1d2b22;font-size:14px;font-weight:700;white-space:nowrap}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes b{font-size:16px;font-weight:900}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes i{font-style:normal;opacity:.45}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes em{font-style:normal;font-size:12px;font-weight:800;color:#5f6b64;margin-right:2px}
+html body #ordersPage#ordersPage#ordersPage .section-head.pp1830-head-has{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:8px!important}
+/* 2 top of the card in one row: number small under the name, then type · sizes (+ extras) */
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-has-sizes .pp117-identity-line .order-number{order:-1!important;flex:0 0 100%!important;margin:0 0 2px!important;text-align:left!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-has-sizes .pp117-identity-line .pp177-count{display:none!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes{font-size:14px!important;gap:6px!important;padding:0 11px!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes b{font-size:16px!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes .pp1830-extra{color:#bfe3cc;font-weight:800}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp118-serving{padding-left:10px!important;padding-right:10px!important}
+/* 3 boxes row hidden when it repeats the size chip */
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-box-same .pp177-boxes,
+html body #ordersPage#ordersPage#ordersPage .pp112-done-card.pp1830-box-same .pp1748-boxes,
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup#pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp1830-box-same .pp1748-boxes{display:none!important}
+/* 4 ready orders: cards as tall as their content, the block on the same grey page as the columns (Klassikaline) */
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup{align-items:start!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card{align-self:start!important;height:auto!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage#ordersPage #pp158-pickup-quick{background:transparent!important;border:0!important;box-shadow:none!important;padding-left:0!important;padding-right:0!important}
+/* 5 readable small text: order number 4.9:1, whole-grain size chip text larger */
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .order-number,
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card .pp112-number{color:#5f6b64!important}
+html body #ordersPage#ordersPage#ordersPage .pp119-code.pp177-code.pp1755-fit b{font-size:12.5px!important;line-height:1.05!important;letter-spacing:0!important}
+/* 6 "Alusta valmistamist" no longer cut off next to the wider MAKSTUD chip (same layout, a bit smaller text only then) */
+html body #ordersPage#ordersPage#ordersPage .ordercard .cardfoot:has(.pp1728-pay-paid) .accept{font-size:18.5px!important;letter-spacing:-.01em!important;padding-left:12px!important;padding-right:12px!important}
