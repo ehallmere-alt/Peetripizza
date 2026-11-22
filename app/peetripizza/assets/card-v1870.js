@@ -19,9 +19,15 @@
    const val=x?x[1].trim():'';
    m.classList.remove('pp177-mod-warn','pp177-mod-info','pp1728-plus');
    m.classList.add('pp1870-cheese');
-   m.innerHTML='<small>JUUST</small>'+(val&&!/^(juust|cheese)$/i.test(val)?' '+esc(val):'');
-   m.title='Juust: '+(val||'valitud');
-   const box=m.parentElement;if(box&&box.firstElementChild!==m)box.prepend(m);
+   // owner 23:29 "juust не понятно что это, замену надо выделить, отделить": its own line above the toppings, "⇄ Juust → mozzarella"
+   const known=val&&!/^(juust|cheese)$/i.test(val);
+   m.innerHTML='<i aria-hidden="true">⇄</i><small>JUUSTU VAHETUS</small>'+(known?'<b>'+esc(val)+'</b>':'<b>vaata tellimust</b>');
+   m.title='Juust vahetatud'+(known?': '+val:'');
+   const box=m.parentElement;if(!box)continue;
+   let row=box.parentElement.querySelector(':scope>.pp1870-swap');
+   if(!row){row=document.createElement('div');row.className='pp1870-swap';box.before(row);}
+   row.append(m);
+   if(!box.children.length)box.hidden=true;
   }
  }
  let q=false;

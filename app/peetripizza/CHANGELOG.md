@@ -1,5 +1,8 @@
 # Changelog
 
+## 18.8.0 — 2026-11-22
+- Owner 23:29 (photo after 18.7 was installed): "juust не понятно что это, замену надо выделить, отделить". The cheese swap is now its own line between the pizza and the toppings: a yellow chip with a thick border "⇄ JUUSTU VAHETUS MOZZARELLA". When the order only says "Cheese" with no type, the chip says "vaata tellimust" (check the order). `assets/card-v1870.js/.css`.
+
 ## 18.7.0 — 2026-11-22
 - Owner 22:58 (3 photos of the kitchen screen): "выровняй чтоб все ровненько было, очень громоздко; цена куда-то уехала; замена сыра как-то не так; в чёрном столбце сколько пицц в общем SÕ VÕ".
 - Dark size chip on every card and the column heads now count by pizza code: "5 SÕ · 1 VÕ", "2 SP", "1 Pere Õ", "1 V täistera" (+N lisa stays). Was "1 väike · 5 suur". `assets/ui-v1830.js`; the box check still compares by size.

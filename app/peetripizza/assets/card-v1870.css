@@ -162,3 +162,14 @@ html body #productsPage .pp140-cat-icon{display:none!important}
  html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-name{font-size:18px!important}
  html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp92-customer .pp1733-name{font-size:24px!important}
 }
+
+/* 13 — cheese swap on its own line above the toppings (owner 23:29) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp1870-swap{grid-column:2/-1!important;grid-row:2!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code):has(.pp1870-swap) .pp177-mods{grid-row:3!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp1870-swap{grid-column:1/-1!important;grid-row:2!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp112-product-text:has(.pp1870-swap) .pp177-mods{grid-row:3!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap{display:flex!important;margin:2px 0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp177-mod.pp1870-cheese{display:inline-flex!important;align-items:center!important;gap:8px!important;min-height:30px!important;padding:2px 12px 2px 8px!important;border-radius:8px!important;background:#fff1cc!important;border:2px solid #e0a800!important;color:#4a3200!important;font-size:15px!important;font-weight:800!important;text-transform:none!important;letter-spacing:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-cheese i{font-style:normal;font-size:17px;font-weight:900;color:#b07800}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-cheese small{font-size:12px!important;font-weight:900!important;letter-spacing:.05em!important;color:#8a6200!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-cheese b{font-size:16px;font-weight:900;text-transform:uppercase}
