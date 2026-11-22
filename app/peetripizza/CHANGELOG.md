@@ -1,5 +1,21 @@
 # Changelog
 
+## 18.3.0 — 2026-11-22
+- Owner: "Го" to the design pack (checked with the design-critique plugin + contrast/touch-size measurements); 6 (one design only) not taken — both Kujundus stay. New layer `assets/ui-v1830.css`, card bottom untouched.
+- 1: the green UUS TELLIMUS strip and the orange "Tõsta 30 min?" hint get their own rows — column heads (Uued / Valmistamisel) and phone tabs are no longer covered; messages (toast) moved to the bottom of the screen.
+- 2: "N tellimust töös" readable (dark, 13 px; was 2.4:1 at 9–11 px).
+- 3: touch targets for gloves: menu, Statistika, Ooteaeg −/+ (phone was 32 px), DEMO/LIVE, hint buttons, phone icon, Väljastus buttons ≥ 44–48 px.
+- 4: size chips (VP, SÕ, Pere P, Väike täistera) one width, pizza names line up.
+- 5: Statistika without the big green banner; one title, period buttons in the strict style.
+- 7 (owner 01:42 "раздели заказы, дизайн подороже"), Klassikaline only: columns are no longer a white panel with white cards inside — cards float on a calm sage-grey page with a hairline border and a soft two-layer shadow, 26 px between orders (20 on phones), 24 px between columns, finer green ring on new orders, calmer lines, tabular numbers.
+- 8 (owner 01:47 "лого и обозначение пиццерии"), both designs: header brand lockup — bigger logo (36 px high on the tablet, 22 px on phones instead of 18), pizzeria name KOLDE beside it after a hairline with a green location dot (on phones under the logo, no longer hidden); the name no longer slides under the logo. Text unchanged (scripts read it).
+- 9 (owner 01:49 "напитки и соусы выделить, коробки отдельно"), both designs: drinks are a blue chip, sauces an amber chip, other extras neutral; boxes (KARBID) are a cardboard-coloured strip with their own label, no longer green like the pizza size chips.
+- 10 (owner 01:50 "номер заказа не бросался в глаза, выделить сколько позиций"): order number small and grey at the side; with drinks/sauces the dark chip shows the total ("4 TOODET") and "3 pitsat" beside it; pizzas only keeps "N PITSAT".
+- 11 (owner 01:52 "карточку дорого и богато", ready cards in Klienti ootavad): same premium white card with hairline and soft shadow, small grey number, drinks blue / sauces amber (new `assets/ui-v1830.js` only tags those lines with data-pp1830), boxes as the cardboard strip. Footer (sum + Üle antud) unchanged.
+- 12 (owner 02:03 "сколько маленьких, сколько больших — чтобы официант быстро сказал"): every order and ready card shows a dark size chip "2 väike · 1 suur" (from the size chips on the card, by `ui-v1830.js`); it replaces "N pitsat".
+- 13 (owner 02:03 "верхнее меню более дизайнерское, лого новое"), Klassikaline: deep forest-green header, the chain logo on its own white badge (the mark itself unchanged), all buttons as translucent pills, active DEMO/LIVE a white pill, white tabular clock. Premium Clean keeps its white header.
+- 14 (owner 02:11 "Давай" to six simplifications): (1) column heads say "Ootel / Ahju 2 väike · 1 suur" like the cards (the code list stays hidden in the page); (2) number small under the name, extras folded into the size chip as "+N lisa", the separate "N toodet" chip hidden; (3) KARBID row hidden when it repeats the size chip (shown for branded boxes, different counts, KOHAPEAL); (4) ready cards as tall as their content, "Klienti ootavad" on the grey page (Klassikaline); (5) order number #5f6b64 (4.9:1), whole-grain size chip text 12.5 px; (6) "Alusta valmistamist" fits next to MAKSTUD (smaller text only in that case).
+
 ## 18.2.0 — 2026-11-22
 - Owner: "Го" to the simplification pack.
 - 1: Võta vastu / Valmis no longer call the dry-run "official status" gateway (2 extra peetripizza.ee requests per click + an empty lock file each time): `official-status-observer-v1768.js` and `official-readonly-probe-v1768.js` are not loaded any more (files stay). LIVE poll back to 10 s.

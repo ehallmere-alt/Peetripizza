@@ -1,0 +1,209 @@
+/* Peetri Pizza v18.3 — design pack picked by the owner ("Го" to 1–5; 6 = keep both designs).
+ * Layout/colour only, loaded last in <head>. Card bottom (sum / payment / main button) is NOT touched.
+ * 1 new-order strip, wait hint and toast no longer cover the column heads or each other
+ * 2 readable wait hint text   3 touch targets >= 48 px for gloves
+ * 4 pizza size chips one width   5 Statistika head flat like the other pages */
+
+/* 1 — while the green "UUS TELLIMUS" strip is shown, the orders page starts below it */
+html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #ordersPage{padding-top:60px!important}
+/* the orange "Tõsta 30 min?" hint also gets its own row (alone: under the header; with the strip: under the strip) */
+html body:has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:60px!important}
+html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)):has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:118px!important}
+html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #pp1718-wait-hint{top:132px!important}
+/* messages at the bottom of the screen, away from the header, strip and hint */
+html body #toast.pp1724-toast{top:auto!important;bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;transform:translate(-50%,14px)!important}
+html body #toast.pp1724-toast.show{transform:translate(-50%,0)!important}
+
+/* 2 — "N tellimust töös" in the wait hint: dark and readable (was 2.4:1 at 9–11 px) */
+html body #pp1718-wait-hint #pp1718-wait-text{color:#1d2b22!important;font-size:13px!important;font-weight:700!important;opacity:1!important}
+
+/* 3 — touch targets for gloves */
+html body .topbar #menuBtn,
+html body .topbar #pp171-stats{min-width:48px!important;min-height:48px!important}
+html body .topbar .pp1754-wstep{min-width:48px!important;min-height:44px!important}
+html body #pp172-mode button{min-height:44px!important}
+html body #pp1718-wait-hint button{min-height:44px!important}
+html body #pp1718-wait-no{min-width:44px!important}
+html body #ordersPage .pp1736-call{min-width:48px!important;min-height:48px!important}
+html body #ordersPage .pp158-pickup-actions button{min-height:48px!important}
+
+/* 4 — size chips (VP, SÕ, Pere P, Väike täistera) one box, so pizza names line up */
+html body #ordersPage .pp119-code.pp177-code{box-sizing:border-box!important;width:84px!important;min-width:84px!important;min-height:30px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+html body #ordersPage .pp119-code.pp177-code.pp1755-fit{padding:2px 4px!important;line-height:1.05!important}
+
+/* 5 — Statistika: plain page head instead of the big green banner */
+html body #pp1800-dashboard .sp-hero{background:none!important;color:#17432d!important;padding:4px 0 10px!important;border-radius:0!important;box-shadow:none!important}
+html body #pp1800-dashboard .sp-hero .sp-eyebrow{display:none!important}
+/* the page already says "Statistika": no second title, period buttons on the left */
+html body #pp1800-dashboard .sp-hero h3,html body #pp1800-dashboard .sp-hero p{display:none!important}
+html body #pp1800-dashboard .sp-hero{justify-content:flex-start!important}
+html body #pp1800-dashboard .sp-periods{background:#eef3ef!important}
+html body #pp1800-dashboard .sp-periods button{color:#29523a!important;min-height:44px!important}
+html body #pp1800-dashboard .sp-periods button[aria-pressed="true"]{background:#1b6b45!important;color:#fff!important;box-shadow:none!important}
+
+@media (max-width:700px){
+ html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #ordersPage{padding-top:52px!important}
+ html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)) #pp1718-wait-hint{top:114px!important}
+ html body:has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:62px!important}
+ html body:has(#pp179-new:not([hidden]):not(.pp1758-gone)):has(#pp1718-wait-hint:not([hidden])) #ordersPage{padding-top:112px!important}
+ html body #ordersPage .pp119-code.pp177-code{width:76px!important;min-width:76px!important}
+}
+
+/* 7 — owner 22.11 01:42: "раздели заказы, дизайн подороже". Klassikaline only (Premium Clean has its own look).
+ * Columns are no longer a white panel with white cards inside: cards float on a calm sage-grey page,
+ * each with a hairline border and a soft two-layer shadow, more air between orders and between columns.
+ * Card bottom (sum / payment / main button) keeps its layout. */
+html body:not(.pp-design-two){background:#edf1ed!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .columns{gap:24px!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercol{background:transparent!important;box-shadow:none!important;padding:0!important;border:0!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .section-head{background:rgba(237,241,237,.94)!important;padding:4px 4px 10px!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercol h2{font-size:18px!important;font-weight:800!important;letter-spacing:-.01em!important;color:#13281c!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage #newOrders,html body:not(.pp-design-two) #ordersPage#ordersPage #activeOrders,html body:not(.pp-design-two) #ordersPage#ordersPage .cards{gap:26px!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercard{background:#fff!important;border:1px solid #dbe3dd!important;border-radius:20px!important;box-shadow:0 1px 2px rgba(19,40,28,.05),0 14px 32px -16px rgba(19,40,28,.22)!important}
+/* new orders keep their green ring, finer and with the same depth */
+html body:not(.pp-design-two) #ordersPage#ordersPage #newOrders .ordercard{border-color:transparent!important;box-shadow:0 0 0 2px #2e9d62,0 1px 2px rgba(19,40,28,.05),0 14px 32px -16px rgba(19,40,28,.26)!important}
+/* calmer lines inside the card, numbers that do not jump */
+html body:not(.pp-design-two) #ordersPage#ordersPage .ordercard .product-line{border-color:#edf1ee!important}
+html body:not(.pp-design-two) #ordersPage .ordercard{font-variant-numeric:tabular-nums}
+@media (max-width:700px){
+ html body:not(.pp-design-two) #ordersPage#ordersPage #newOrders,html body:not(.pp-design-two) #ordersPage#ordersPage #activeOrders,html body:not(.pp-design-two) #ordersPage#ordersPage .cards{gap:20px!important}
+ html body:not(.pp-design-two) #ordersPage#ordersPage .ordercard{border-radius:18px!important}
+}
+
+/* 8 — owner 22.11 01:47: "лого и обозначение пиццерии". Brand lockup in the header:
+ * bigger logo, hairline divider, pizzeria name as a quiet label with a green location dot.
+ * The text stays "KOLDE" (scripts read it as the pizzeria name). Both designs. */
+html body .shell>header.topbar .brandgroup.brandgroup{display:flex!important;align-items:center!important;gap:14px!important;min-width:0!important}
+@media (min-width:761px){
+ html body .shell>header.topbar .brandgroup.brandgroup.brandgroup.brandgroup.brandgroup{display:grid!important;grid-template-columns:auto auto auto!important;grid-template-rows:auto!important;column-gap:14px!important;align-items:center!important}
+ html body .shell>header.topbar .brandgroup.brandgroup.brandgroup.brandgroup.brandgroup>*{grid-row:1!important;align-self:center!important;justify-self:start!important}
+ html body .shell>header.topbar .brandgroup.brandgroup.brandgroup.brandgroup.brandgroup>#menuBtn{grid-column:1!important}
+ html body .shell>header.topbar .brandgroup.brandgroup.brandgroup.brandgroup.brandgroup>.pp116-logo{grid-column:2!important}
+ html body .shell>header.topbar .brandgroup.brandgroup.brandgroup.brandgroup.brandgroup>.pp114-location{grid-column:3!important}
+}
+html body .shell>header.topbar .brandgroup img.pp116-logo.pp116-logo{width:auto!important;height:36px!important;max-height:36px!important;max-width:170px!important;object-fit:contain!important;background:transparent!important;border-radius:0!important;box-shadow:none!important;margin:0!important;position:static!important;transform:none!important}
+html body .shell>header.topbar .brandgroup.brandgroup .pp114-location{display:inline-flex!important;align-items:center!important;gap:7px!important;height:36px!important;margin:0!important;padding:0 0 0 14px!important;border:0!important;border-left:1px solid #dfe6e1!important;border-radius:0!important;background:none!important;color:#1d3a2a!important;font-size:13px!important;font-weight:800!important;letter-spacing:.12em!important;line-height:1!important;white-space:nowrap!important;max-width:none!important;overflow:visible!important}
+html body .shell>header.topbar .brandgroup.brandgroup .pp114-location::before{content:"";width:8px;height:8px;border-radius:50%;background:#2e9d62;box-shadow:0 0 0 3px rgba(46,157,98,.16);flex:none}
+@media (max-width:760px){
+ html body .shell>header.topbar .brandgroup.brandgroup{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto!important;column-gap:8px!important;row-gap:2px!important;align-items:center!important}
+ html body .shell>header.topbar .brandgroup.brandgroup>#menuBtn{grid-column:1!important;grid-row:1/3!important}
+ html body .shell>header.topbar .brandgroup img.pp116-logo.pp116-logo{grid-column:2!important;grid-row:1!important;align-self:end!important;height:22px!important;max-height:22px!important;max-width:94px!important}
+ html body .shell>header.topbar .brandgroup.brandgroup .pp114-location{grid-column:2!important;grid-row:2!important;align-self:start!important;justify-self:start!important;height:auto!important;padding:0!important;border-left:0!important;gap:5px!important;font-size:10px!important;letter-spacing:.14em!important;color:#3b5a48!important}
+ html body .shell>header.topbar .brandgroup.brandgroup .pp114-location::before{width:6px;height:6px;box-shadow:0 0 0 2px rgba(46,157,98,.16)}
+}
+
+/* 9 — owner 22.11 01:49: "напитки и соуса выделить, коробки тоже но отдельно чтобы не сливались". Both designs.
+ * Drinks = cool blue chip, sauces = warm amber chip, other extras stay neutral; boxes = a cardboard (kraft) strip,
+ * so none of them looks like the green pizza size chips. */
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks{gap:8px!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks>span{display:inline-flex!important;align-items:center!important;gap:6px!important;min-height:36px!important;padding:3px 12px 3px 8px!important;border-radius:10px!important;border:1px solid #dfe5e1!important;background:#f4f6f5!important;color:#1d2b22!important;font-size:16px!important;font-weight:700!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks>span strong{font-weight:900!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks>span:has(.pp1746-cup){background:#e9f2fc!important;border-color:#b7d0ec!important;color:#0f3459!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks>span:has(.pp1746-cup) .pp1746-ic{color:#2366ad!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks>span:has(.pp1746-dip){background:#fdf0df!important;border-color:#efc58f!important;color:#5c3408!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks>span:has(.pp1746-dip) .pp1746-ic{color:#c06a12!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks .pp1746-ic{width:20px!important;height:20px!important;flex:0 0 20px!important}
+html body #ordersPage#ordersPage#ordersPage .pp1728-lisaks .pp1746-ic svg{width:20px!important;height:20px!important}
+/* boxes: kraft strip with its own label */
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp177-boxes:not(.pp177-dinein){background:#f6efe3!important;border-top:1px dashed #d8c19c!important;border-bottom:1px dashed #d8c19c!important;color:#5a4120!important;gap:6px 8px!important;padding:7px 14px!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp177-boxes:not(.pp177-dinein)>b{display:inline-flex!important;align-items:center!important;gap:6px!important;font-size:12px!important;font-weight:900!important;letter-spacing:.08em!important;color:#7a5a2c!important;margin-right:4px!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp177-boxes:not(.pp177-dinein) em{min-height:28px!important;padding:0 10px!important;border-radius:7px!important;background:#fffaf1!important;border:1px solid #cfb084!important;color:#4a3216!important;font-size:13px!important;font-weight:800!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp177-boxes:not(.pp177-dinein) em strong{font-size:15px!important;color:#3a260e!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp177-boxes em[data-box^="BRÄNDI"]{background:#4a3216!important;border-color:#4a3216!important;color:#fff!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp177-boxes em[data-box^="BRÄNDI"] strong{color:#fff!important}
+
+/* 10 — owner 22.11 01:50: "номер заказа чтоб не бросался в глаза, в сторонке; выделить сколько позиций в общем".
+ * Order number small and grey at the right end of the line. Item count: one dark chip.
+ * Pizzas only -> "N pitsat" (same as the total); pizzas + extras -> "N toodet" dark and "N pitsat" light beside it. */
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:6px 8px!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .order-number{order:9!important;margin-left:auto!important;font-size:13px!important;font-weight:600!important;color:#8a958f!important;letter-spacing:0!important;background:none!important;border:0!important;padding:0!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .pp1741-count{order:1!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard:has(.pp1728-lisaks) .pp117-identity-line .pp177-count{order:0!important;display:inline-flex!important;align-items:center!important;min-height:28px!important;padding:0 11px!important;border-radius:8px!important;background:#16231b!important;color:#fff!important;font-size:13px!important;font-weight:900!important;letter-spacing:.05em!important;text-transform:uppercase!important;border:0!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard:has(.pp1728-lisaks) .pp117-identity-line .pp1741-count{background:none!important;color:#3d4f44!important;box-shadow:none!important;border:0!important;padding:0 2px!important;min-height:0!important}
+
+/* 11 — owner 22.11 01:52: "карточку организуй дорого и богато" (ready / Valmis cards in "Klienti ootavad").
+ * Same premium shell as the order cards, number small and grey, drinks blue / sauces amber (tagged by ui-v1830.js),
+ * boxes as the kraft strip. Footer (sum + Üle antud) keeps its layout. */
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card{background:#fff!important;border:1px solid #dbe3dd!important;border-radius:20px!important;box-shadow:0 1px 2px rgba(19,40,28,.05),0 14px 32px -16px rgba(19,40,28,.22)!important;opacity:1!important;filter:none!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-number{font-size:13px!important;font-weight:600!important;color:#8a958f!important;letter-spacing:0!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=drink],
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=sauce],
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=other]{display:inline-flex!important;align-items:center!important;gap:6px!important;width:fit-content!important;max-width:100%!important;min-height:36px!important;margin:8px 8px 0 0!important;padding:3px 12px!important;border:1px solid #dfe5e1!important;border-radius:10px!important;background:#f4f6f5!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product:is([data-pp1830=drink],[data-pp1830=sauce],[data-pp1830=other]) :is(.pp112-qty,.pp177-name){font-size:16px!important;color:inherit!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=drink]{background:#e9f2fc!important;border-color:#b7d0ec!important;color:#0f3459!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=sauce]{background:#fdf0df!important;border-color:#efc58f!important;color:#5c3408!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=drink]::before{content:"";width:20px;height:20px;flex:none;background:#2366ad;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 7h12l-1.4 13.2a1 1 0 0 1-1 .8H8.4a1 1 0 0 1-1-.8z'/%3E%3Cpath d='M5 7h14'/%3E%3Cpath d='M12 7l2-4h3'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 7h12l-1.4 13.2a1 1 0 0 1-1 .8H8.4a1 1 0 0 1-1-.8z'/%3E%3Cpath d='M5 7h14'/%3E%3Cpath d='M12 7l2-4h3'/%3E%3C/svg%3E") center/contain no-repeat}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=sauce]::before{content:"";width:20px;height:20px;flex:none;background:#c06a12;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11h18a9 9 0 0 1-18 0z'/%3E%3Cpath d='M8 7c0-1.5 1.5-1.5 1.5-3M13 7c0-1.5 1.5-1.5 1.5-3'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11h18a9 9 0 0 1-18 0z'/%3E%3Cpath d='M8 7c0-1.5 1.5-1.5 1.5-3M13 7c0-1.5 1.5-1.5 1.5-3'/%3E%3C/svg%3E") center/contain no-repeat}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes{background:#f6efe3!important;border-top:1px dashed #d8c19c!important;border-bottom:1px dashed #d8c19c!important;margin:10px 0 0!important;padding:7px 12px!important;border-radius:0!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes i{color:#7a5a2c!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes b{font-size:12px!important;font-weight:900!important;letter-spacing:.08em!important;color:#7a5a2c!important;margin-right:4px!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes span{background:#fffaf1!important;border:1px solid #cfb084!important;color:#4a3216!important;border-radius:7px!important;font-size:14px!important}
+
+/* 12 — owner 22.11 02:03: "сколько маленьких сколько больших отдельно, чтоб официант быстро сказал".
+ * Size summary chip from ui-v1830.js replaces "N pitsat" (it says the same, split by size). */
+html body #ordersPage#ordersPage#ordersPage .pp1830-has-sizes .pp1741-count,
+html body #ordersPage#ordersPage#ordersPage .pp1830-has-sizes .pp1766-pz{display:none!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes{order:2;display:inline-flex!important;align-items:center;gap:8px;min-height:30px;padding:0 12px;border-radius:8px;background:#16231b;color:#fff;font-size:15px;font-weight:700;letter-spacing:.01em;white-space:nowrap;width:max-content;max-width:100%}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes b{font-size:18px;font-weight:900;margin-right:1px}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes i{font-style:normal;opacity:.5}
+html body #ordersPage#ordersPage#ordersPage .pp112-done-card .pp1830-sizes{display:flex!important;margin-top:8px}
+/* with drinks/sauces the total chip goes light, sizes stay dark */
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-has-sizes:has(.pp1728-lisaks) .pp117-identity-line .pp177-count{background:#fff!important;color:#16231b!important;box-shadow:inset 0 0 0 1.5px #16231b!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .pp177-count{order:3!important}
+
+/* 13 — owner 22.11 02:03: "верхнее меню более дизайнерское, лого новое". Klassikaline only (Premium Clean keeps its own white header).
+ * Deep forest-green bar; the chain logo sits on its own white badge (logo itself unchanged — it is the brand mark);
+ * all controls become one family of translucent pills, the active DEMO/LIVE is a white pill. No animation. */
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar{background:linear-gradient(180deg,#14452e 0%,#0e3322 100%)!important;border-bottom:0!important;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 8px 22px -12px rgba(8,30,19,.55)!important;color:#fff!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #menuBtn{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:12px!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #menuBtn .hamb i{background:#fff!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo{background:#fff!important;padding:6px 14px!important;height:48px!important;max-height:48px!important;max-width:190px!important;border-radius:14px!important;box-sizing:border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 6px 14px -8px rgba(0,0,0,.5)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup .pp114-location{color:#eaf5ee!important;border-left-color:rgba(255,255,255,.22)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup .pp114-location::before{background:#6fdc9c;box-shadow:0 0 0 3px rgba(111,220,156,.22)}
+/* pills */
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar :is(.pp1754-wstep,#pp1722-wait,#pp171-stats,#pp173-fullscreen){background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.18)!important;color:#fff!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait{background:rgba(255,255,255,.16)!important;border-left:0!important;border-right:0!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait small{color:rgba(255,255,255,.72)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait b,html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait-v{color:#fff!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .pp1754-wstep{font-weight:800!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar :is(#pp171-stats,#pp173-fullscreen) svg{color:#fff!important;stroke:currentColor}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar :is(#pp171-stats,#pp173-fullscreen) svg path{stroke:#fff}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.18)!important;padding:3px!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode button{background:transparent!important;color:rgba(255,255,255,.72)!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode button i{background:rgba(255,255,255,.6)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode button:is([aria-pressed="true"],.active,.on,[aria-checked="true"]){background:#fff!important;color:#0e3322!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-time{color:#fff!important;font-variant-numeric:tabular-nums}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-date{color:rgba(255,255,255,.66)!important}
+@media (max-width:760px){
+ html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo{height:30px!important;max-height:30px!important;max-width:100px!important;padding:4px 8px!important;border-radius:9px!important}
+}
+
+/* 14 — owner 22.11 02:11 "Давай" to the six simplifications. */
+/* 1 column heads in words ("Ahju 2 väike · 1 suur"), the code list is hidden (stays in the page for other scripts) */
+html body #ordersPage#ordersPage#ordersPage .section-head.pp1830-head-has>.pp1746-oven{display:none!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes{display:inline-flex;align-items:center;gap:7px;margin-left:auto;padding:0 12px;min-height:32px;border-radius:9px;background:#fff;border:1px solid #dbe3dd;color:#1d2b22;font-size:14px;font-weight:700;white-space:nowrap}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes b{font-size:16px;font-weight:900}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes i{font-style:normal;opacity:.45}
+html body #ordersPage#ordersPage#ordersPage .pp1830-headsizes em{font-style:normal;font-size:12px;font-weight:800;color:#5f6b64;margin-right:2px}
+html body #ordersPage#ordersPage#ordersPage .section-head.pp1830-head-has{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:8px!important}
+/* 2 top of the card in one row: number small under the name, then type · sizes (+ extras) */
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-has-sizes .pp117-identity-line .order-number{order:-1!important;flex:0 0 100%!important;margin:0 0 2px!important;text-align:left!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-has-sizes .pp117-identity-line .pp177-count{display:none!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes{font-size:14px!important;gap:6px!important;padding:0 11px!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes b{font-size:16px!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes .pp1830-extra{color:#bfe3cc;font-weight:800}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp118-serving{padding-left:10px!important;padding-right:10px!important}
+/* 3 boxes row hidden when it repeats the size chip */
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-box-same .pp177-boxes,
+html body #ordersPage#ordersPage#ordersPage .pp112-done-card.pp1830-box-same .pp1748-boxes,
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup#pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp1830-box-same .pp1748-boxes{display:none!important}
+/* 4 ready orders: cards as tall as their content, the block on the same grey page as the columns (Klassikaline) */
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup{align-items:start!important}
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card{align-self:start!important;height:auto!important}
+html body:not(.pp-design-two) #ordersPage#ordersPage#ordersPage #pp158-pickup-quick{background:transparent!important;border:0!important;box-shadow:none!important;padding-left:0!important;padding-right:0!important}
+/* 5 readable small text: order number 4.9:1, whole-grain size chip text larger */
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .order-number,
+html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card .pp112-number{color:#5f6b64!important}
+html body #ordersPage#ordersPage#ordersPage .pp119-code.pp177-code.pp1755-fit b{font-size:12.5px!important;line-height:1.05!important;letter-spacing:0!important}
+/* 6 "Alusta valmistamist" no longer cut off next to the wider MAKSTUD chip (same layout, a bit smaller text only then) */
+html body #ordersPage#ordersPage#ordersPage .ordercard .cardfoot:has(.pp1728-pay-paid) .accept{font-size:18.5px!important;letter-spacing:-.01em!important;padding-left:12px!important;padding-right:12px!important}
