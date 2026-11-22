@@ -173,3 +173,6 @@ html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp177-mod.p
 html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-cheese i{font-style:normal;font-size:17px;font-weight:900;color:#b07800}
 html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-cheese small{font-size:12px!important;font-weight:900!important;letter-spacing:.05em!important;color:#8a6200!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-cheese b{font-size:16px;font-weight:900;text-transform:uppercase}
+
+/* 14 — phone on ready cards (owner 23:30) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp112-done-card .pp1880-phone{display:inline-flex!important;align-items:center;min-height:30px;padding:0 12px;border-radius:8px;background:#e8f1fb;border:1px solid #b7d0ec;color:#0f3459!important;font-size:16px;font-weight:800;text-decoration:none!important;white-space:nowrap}

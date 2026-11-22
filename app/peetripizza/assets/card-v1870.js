@@ -30,8 +30,19 @@
    if(!box.children.length)box.hidden=true;
   }
  }
+ // owner 23:30 "при выдаче нельзя телефон увидеть": phone on ready cards (from data-phone, already on the card; only the signed-in kitchen sees it)
+ function phones(){
+  for(const c of document.querySelectorAll('#ordersPage .pp112-done-card[data-phone]')){
+   const ph=String(c.dataset.phone||'').replace(/[^0-9+ -]/g,'').trim();
+   const box=c.querySelector('.pp112-card-identity>div');if(!box)continue;
+   let a=box.querySelector(':scope>.pp1880-phone');
+   if(!ph){if(a)a.remove();continue;}
+   if(!a){a=document.createElement('a');a.className='pp1880-phone';box.append(a);}
+   if(a.dataset.ph!==ph){a.dataset.ph=ph;a.href='tel:'+ph.replace(/ /g,'');a.textContent='📞 '+ph;}
+  }
+ }
  let q=false;
- const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}});};
+ const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}});};
  const start=()=>{const page=document.getElementById('ordersPage');if(page)new MutationObserver(later).observe(page,{childList:true,subtree:true});later();};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
