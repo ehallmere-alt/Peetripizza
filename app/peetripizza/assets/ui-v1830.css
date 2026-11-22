@@ -138,3 +138,42 @@ html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp11
 html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes i{color:#7a5a2c!important}
 html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes b{font-size:12px!important;font-weight:900!important;letter-spacing:.08em!important;color:#7a5a2c!important;margin-right:4px!important}
 html body #ordersPage#ordersPage#ordersPage #pp1711-pickup .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1748-boxes span{background:#fffaf1!important;border:1px solid #cfb084!important;color:#4a3216!important;border-radius:7px!important;font-size:14px!important}
+
+/* 12 — owner 22.11 02:03: "сколько маленьких сколько больших отдельно, чтоб официант быстро сказал".
+ * Size summary chip from ui-v1830.js replaces "N pitsat" (it says the same, split by size). */
+html body #ordersPage#ordersPage#ordersPage .pp1830-has-sizes .pp1741-count,
+html body #ordersPage#ordersPage#ordersPage .pp1830-has-sizes .pp1766-pz{display:none!important}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes{order:2;display:inline-flex!important;align-items:center;gap:8px;min-height:30px;padding:0 12px;border-radius:8px;background:#16231b;color:#fff;font-size:15px;font-weight:700;letter-spacing:.01em;white-space:nowrap;width:max-content;max-width:100%}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes b{font-size:18px;font-weight:900;margin-right:1px}
+html body #ordersPage#ordersPage#ordersPage .pp1830-sizes i{font-style:normal;opacity:.5}
+html body #ordersPage#ordersPage#ordersPage .pp112-done-card .pp1830-sizes{display:flex!important;margin-top:8px}
+/* with drinks/sauces the total chip goes light, sizes stay dark */
+html body #ordersPage#ordersPage#ordersPage .ordercard.pp1830-has-sizes:has(.pp1728-lisaks) .pp117-identity-line .pp177-count{background:#fff!important;color:#16231b!important;box-shadow:inset 0 0 0 1.5px #16231b!important}
+html body #ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line .pp177-count{order:3!important}
+
+/* 13 — owner 22.11 02:03: "верхнее меню более дизайнерское, лого новое". Klassikaline only (Premium Clean keeps its own white header).
+ * Deep forest-green bar; the chain logo sits on its own white badge (logo itself unchanged — it is the brand mark);
+ * all controls become one family of translucent pills, the active DEMO/LIVE is a white pill. No animation. */
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar{background:linear-gradient(180deg,#14452e 0%,#0e3322 100%)!important;border-bottom:0!important;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 8px 22px -12px rgba(8,30,19,.55)!important;color:#fff!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #menuBtn{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:12px!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #menuBtn .hamb i{background:#fff!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo{background:#fff!important;padding:6px 14px!important;height:48px!important;max-height:48px!important;max-width:190px!important;border-radius:14px!important;box-sizing:border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 6px 14px -8px rgba(0,0,0,.5)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup .pp114-location{color:#eaf5ee!important;border-left-color:rgba(255,255,255,.22)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup .pp114-location::before{background:#6fdc9c;box-shadow:0 0 0 3px rgba(111,220,156,.22)}
+/* pills */
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar :is(.pp1754-wstep,#pp1722-wait,#pp171-stats,#pp173-fullscreen){background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.18)!important;color:#fff!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait{background:rgba(255,255,255,.16)!important;border-left:0!important;border-right:0!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait small{color:rgba(255,255,255,.72)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait b,html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-wait-v{color:#fff!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .pp1754-wstep{font-weight:800!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar :is(#pp171-stats,#pp173-fullscreen) svg{color:#fff!important;stroke:currentColor}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar :is(#pp171-stats,#pp173-fullscreen) svg path{stroke:#fff}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.18)!important;padding:3px!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode button{background:transparent!important;color:rgba(255,255,255,.72)!important;box-shadow:none!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode button i{background:rgba(255,255,255,.6)!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp172-mode button:is([aria-pressed="true"],.active,.on,[aria-checked="true"]){background:#fff!important;color:#0e3322!important}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-time{color:#fff!important;font-variant-numeric:tabular-nums}
+html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar #pp1722-date{color:rgba(255,255,255,.66)!important}
+@media (max-width:760px){
+ html body:not(.pp-design-two) .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo{height:30px!important;max-height:30px!important;max-width:100px!important;padding:4px 8px!important;border-radius:9px!important}
+}

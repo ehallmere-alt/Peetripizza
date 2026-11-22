@@ -2,8 +2,8 @@
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
-  'assets/ui-v1830.js' => '371435176d1e10a5bdbd95ba186d73b4b2279f52b120ee3f68a9a76d405d36c3',
-  'assets/ui-v1830.css' => '144ea55f02b6b929c21c8b3671a9776099ee78b43bef561f132a76ef1e43bfcd',
+  'assets/ui-v1830.js' => 'd4851b62cae329a710af0e117e9c8a0c431f17cadddde0f16ead60717008334f',
+  'assets/ui-v1830.css' => '881546f9f41265bbb76fe64db66fd6070a1c062139cad6087aaffca5dd905d5d',
  'assets/kitchen-design-switch-v1799.js' => '01d5305dbbdf49c9612439981fb0353d1331bc02c245b8ae82cc1bc43aac4e7c',
  'assets/kitchen-design-two-v1799.css' => '272d45a083076cb9ae349aaa2fefe16eab613de87ee3a99393df95dca622859f',
     'assets/statistics-pro-v1800.js' => '0fab15c21968f785649b85f0e04f0b7e5837d47e253cbe566ce256bf6a901267',
@@ -30,7 +30,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '69b1b2f2802c8e1e836b8cb091f53296cf3ed47741deada905e7bc8d51e9c453',
+    'CHANGELOG.md' => '2f14007c1eca4da2cc3e77d629b0af0c2224a47642c7b2ba79ed5cafc540a9c2',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',

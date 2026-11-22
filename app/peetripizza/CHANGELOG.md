@@ -12,6 +12,8 @@
 - 9 (owner 01:49 "напитки и соусы выделить, коробки отдельно"), both designs: drinks are a blue chip, sauces an amber chip, other extras neutral; boxes (KARBID) are a cardboard-coloured strip with their own label, no longer green like the pizza size chips.
 - 10 (owner 01:50 "номер заказа не бросался в глаза, выделить сколько позиций"): order number small and grey at the side; with drinks/sauces the dark chip shows the total ("4 TOODET") and "3 pitsat" beside it; pizzas only keeps "N PITSAT".
 - 11 (owner 01:52 "карточку дорого и богато", ready cards in Klienti ootavad): same premium white card with hairline and soft shadow, small grey number, drinks blue / sauces amber (new `assets/ui-v1830.js` only tags those lines with data-pp1830), boxes as the cardboard strip. Footer (sum + Üle antud) unchanged.
+- 12 (owner 02:03 "сколько маленьких, сколько больших — чтобы официант быстро сказал"): every order and ready card shows a dark size chip "2 väike · 1 suur" (from the size chips on the card, by `ui-v1830.js`); it replaces "N pitsat".
+- 13 (owner 02:03 "верхнее меню более дизайнерское, лого новое"), Klassikaline: deep forest-green header, the chain logo on its own white badge (the mark itself unchanged), all buttons as translucent pills, active DEMO/LIVE a white pill, white tabular clock. Premium Clean keeps its white header.
 
 ## 18.2.0 — 2026-11-22
 - Owner: "Го" to the simplification pack.
