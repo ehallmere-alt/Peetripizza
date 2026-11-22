@@ -17,6 +17,9 @@
    const bare=/^cheese$/i.test(t); // English "Cheese" alone; "JUUST" (extra) and the red "Juust" (without) keep their own chips
    if(!x&&!bare)continue;
    const val=x?x[1].trim():'';
+   const known0=val&&!/^(juust|cheese)$/i.test(val);
+   // owner 00:03 (18.10): the hidden chip still showed, because the .pp1870-cheese CSS (display:inline-flex !important) beat display:none — use a class that only hides
+   if(!known0){m.hidden=true;m.classList.add('pp1900-gone');continue;}
    m.classList.remove('pp177-mod-warn','pp177-mod-info','pp1728-plus');
    m.classList.add('pp1870-cheese');
    // owner 23:29 "juust не понятно что это, замену надо выделить, отделить": its own line above the toppings, "⇄ Juust → mozzarella"

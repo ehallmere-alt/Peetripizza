@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.10.0 — 2026-11-23
+- Owner 00:03 (photo): "CHEESE" was still visible on a ready card. Cause: 18.9 set display:none inline, but the .pp1870-cheese CSS rule (display:inline-flex !important) won. Now a bare cheese chip gets only the hiding class pp1900-gone. A real swap still shows its yellow line.
+- Owner: "что за точки под именем". The dotted underline is gone; a small grey 📞 after the name shows that tapping it reveals the phone.
+
 ## 18.9.0 — 2026-11-22
 - Owner 23:41: "телефон только если нажал на имя; не понятно что за Vaata tellimust". Phone on ready cards is hidden until you tap the customer name (name has a dotted underline when a phone exists; tap again hides it). A bare "Cheese" with no cheese type is no longer shown at all (it told the cook nothing); a real swap ("Juust: mozzarella") keeps its yellow line.
 
