@@ -126,6 +126,35 @@ html body #pp1775-bonus-page .ppmod-actions>.ppmod-primary{background:#1b6b45!im
 html body #pp1775-bonus-page .ppmod-actions>[hidden]{display:none!important}
 html body #pp1775-bonus-page #pp1776-qr-info{font-size:14px!important;color:#4a574f!important}
 
+/* 12 — owner 23:20 "в настройках много того, что работникам не надо видеть; второй дизайн убирай; принтер упрости;
+ * Tooted сделай правильно, нижнее Tooted LIVE не надо". Everything is only hidden (scripts still find the elements). */
+/* Köök: lock menu, card-content switches and "Veel seadeid" hidden; kept: time, screen on, screen size, Valmis place */
+html body #settingsPage :is(.settingsrow,.pp163-setting-row):has(#pp176-lock),
+html body #settingsPage #pp1730-set,
+html body #settingsPage #pp1749-more{display:none!important}
+/* Heli: second "sound studio" and long help texts hidden; kept: on/off, signal, volume, activate, test buttons, alerts */
+html body #settingsPage .pp148-sound-studio,
+html body #settingsPage .pp141-sound-help,
+html body #settingsPage .pp141-sound-settings>.pp145-smart-audio>p,
+html body #settingsPage #pp154-alert-settings~p,html body #settingsPage #pp154-alert-settings>p{display:none!important}
+/* Printer: only auto print, paper width, status and "Testi printerit" */
+html body #settingsPage .pp169-print-settings>p:not(#pp169-print-status),
+html body #settingsPage .pp169-print-settings .settingsrow:has(#pp169-printer-label),
+html body #settingsPage .pp169-print-settings .pp169-actions,
+html body #settingsPage .pp169-print-settings>details,
+html body #settingsPage .pp169-print-settings>small,
+html body #settingsPage #pp1714-print-monitor :is(.pp1714-pm-head,.pp1714-pm-tiles,.pp1714-pm-empty,small),
+html body #settingsPage #pp1714-print-refresh{display:none!important}
+html body #settingsPage #pp1714-print-monitor{border:0!important;background:none!important;padding:0!important;margin-top:8px!important}
+html body #settingsPage #pp169-print-status{font-size:15px!important;margin:6px 0!important}
+html body #settingsPage #pp1714-test-print{min-height:48px!important;padding:0 20px!important;font-size:16px!important}
+/* Süsteem: design choice and backup restore hidden; version check stays */
+html body #settingsPage #pp1799-themes,
+html body #settingsPage #pp1716-backup{display:none!important}
+/* Tooted: no "Tooted LIVE" block under the list, category tabs without the odd symbols */
+html body #productsPage #pp1769{display:none!important}
+html body #productsPage .pp140-cat-icon{display:none!important}
+
 @media (max-width:700px){
  html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line{grid-template-columns:34px 68px minmax(0,1fr)!important;column-gap:10px!important}
  html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code{width:68px!important;min-width:68px!important;min-height:36px!important}
