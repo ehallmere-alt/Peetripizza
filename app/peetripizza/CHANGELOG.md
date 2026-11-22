@@ -1,5 +1,12 @@
 # Changelog
 
+## 18.6.0 — 2026-11-22
+- Owner: "проверь все стили и js, очистить от дубликатов и остального". Nothing visible changes (28 screenshots, tablet + phone, both designs, compared pixel by pixel before/after).
+- Removed 5 files that no page loads and no script references: `assets/login-v136.js`, `assets/login-v145.css`, `assets/official-readonly-probe-v1768.js`, `assets/official-status-observer-v1768.js`, `assets/stable-boot-v1693.js` (also dropped from the release manifest).
+- `assets/app-v1767.css` and `assets/kitchen-design-two-v1799.css`: removed rules that are fully overridden later or match nothing (`tools/css-prune.py`), about 1 870 lines. A rebuild from the source files with `tools/css-bundle.py` brings them back harmlessly.
+- `assets/ui-v1830.css`: merged the duplicated ready-card blocks (Klienti ootavad + Valmis list) into one, 41 -> 35 KB.
+- JS left as is: the old hidden Seaded/Statistika modules are still referenced by other scripts (e.g. ops-v1719 by ops-v1715/1716/1725/1749/1751) or do background work (print monitor, auto-reload, backup). No JS errors on any page.
+
 ## 18.5.0 — 2026-11-22
 - Owner 11:24 sent the new logo (white "Peetri Pizza" script on a green square). Header shows it as a rounded 48 px tile (42 px on phones; KOLDE stays beside it on the tablet, hidden on phones for space). New file `assets/peetri-logo-square-v185.png`; the old wide logo file stays (drawer, dough page).
 

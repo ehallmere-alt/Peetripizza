@@ -20,8 +20,15 @@ for f in files:
     if a==b:continue
     if a is None:
         ops.append({'f':f,'new':True,'c':b,'h':hashlib.sha256(b.encode()).hexdigest()});continue
-    sm=difflib.SequenceMatcher(None,a,b,autojunk=False)
-    diffs=[(i1,i2,j1,j2) for tag,i1,i2,j1,j2 in sm.get_opcodes() if tag!='equal']
+    if len(a)>100000:  # big bundles: diff by css blocks/lines (char diff is quadratic), map to char offsets
+        import re;U=lambda x:re.findall(r'[^}\n]*[}\n]|[^}\n]+$',x);la,lb=U(a),U(b)
+        assert ''.join(la)==a and ''.join(lb)==b
+        oa=[0];[oa.append(oa[-1]+len(x)) for x in la];ob=[0];[ob.append(ob[-1]+len(x)) for x in lb]
+        sm=difflib.SequenceMatcher(None,la,lb,autojunk=False)
+        diffs=[(oa[i1],oa[i2],ob[j1],ob[j2]) for tag,i1,i2,j1,j2 in sm.get_opcodes() if tag!='equal']
+    else:
+        sm=difflib.SequenceMatcher(None,a,b,autojunk=False)
+        diffs=[(i1,i2,j1,j2) for tag,i1,i2,j1,j2 in sm.get_opcodes() if tag!='equal']
     # group nearby changes into regions (a-span, b-span)
     regs=[]
     for i1,i2,j1,j2 in diffs:
