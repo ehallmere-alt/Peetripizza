@@ -14,7 +14,6 @@
  }
  // owner 22.11 02:03: "сколько маленьких сколько больших отдельно" — size summary chip on every card ("2 väike · 1 suur"),
  // read from the size chips already drawn on the card (data-size = first letter of the code).
- const SIZES=[['V','väike'],['K','keskmine'],['S','suur'],['P','pere']];
  const num=t=>{const n=parseInt(String(t||'').replace(/[^0-9]/g,''),10);return n>0?n:1;};
  const BOXWORD={V:'VÄIKE',K:'KESKMINE',S:'SUUR',P:'PERE'};
  function countSizes(card,done){
@@ -26,7 +25,24 @@
   }
   return count;
  }
- const sizeHtml=count=>SIZES.filter(([k])=>count[k]).map(([k,w])=>'<span><b>'+count[k]+'</b> '+w+'</span>').join('<i aria-hidden="true">·</i>');
+ // owner 22.11 22:58: "сколько пицц в общем sõ võ" — the chip and the column heads count by pizza code (2 SÕ · 1 VÕ), not by size word.
+ const CODE_ORDER=['SÕ','SP','VÕ','VP','KÕ','KP','Pere Õ','Pere P','S täistera','V täistera','K täistera','Pere täistera'];
+ function codeKey(code){
+  const s={S:'S',V:'V',K:'K',P:'Pere'}[String(code.dataset.size||'').toUpperCase().charAt(0)];if(!s)return null;
+  const d=String(code.dataset.dough||'').toUpperCase();
+  return d==='Õ'||d==='P'?(s==='Pere'?'Pere '+d:s+d):s+' täistera';
+ }
+ function countCodes(card,done){
+  const count={};
+  for(const code of card.querySelectorAll('.pp119-code[data-size]')){
+   const row=code.closest(done?'.pp112-product':'.product-line');if(!row)continue;
+   const k=codeKey(code);if(!k)continue;
+   count[k]=(count[k]||0)+num(row.querySelector(done?'.pp112-qty':'.product-qty')?.textContent);
+  }
+  return count;
+ }
+ const rank=k=>{const i=CODE_ORDER.indexOf(k);return i<0?99:i;};
+ const codeHtml=count=>Object.keys(count).sort((a,b)=>rank(a)-rank(b)).map(k=>'<span><b>'+count[k]+'</b> '+k+'</span>').join('<i aria-hidden="true">·</i>');
  function put(parent,cls,html,before){
   let el=parent.querySelector(':scope>.'+cls);
   if(!html){if(el)el.remove();return null;}
@@ -44,7 +60,7 @@
    let extra=0;
    if(done){for(const li of card.querySelectorAll('.pp112-product[data-pp1830]:not([data-pp1830=pizza])'))extra+=num(li.querySelector('.pp112-qty')?.textContent);}
    else{for(const l of card.querySelectorAll('.product-line.pp1728-moved'))extra+=num(l.querySelector('.product-qty')?.textContent);}
-   let html=sizeHtml(count);
+   let html=codeHtml(countCodes(card,done));
    if(html&&extra)html+='<i aria-hidden="true">·</i><span class="pp1830-extra">+'+extra+' lisa</span>';
    put(line,'pp1830-sizes',html);
    card.classList.toggle('pp1830-has-sizes',!!html);
@@ -64,9 +80,9 @@
   for(const [col,list] of [['.pp1723-col-new,.ordercol:has(#newOrders)','#newOrders'],['.pp1723-col-work,.ordercol:has(#activeOrders)','#activeOrders']]){
    const head=document.querySelector('#ordersPage :is('+col+') .section-head');const oven=head&&head.querySelector(':scope>.pp1746-oven');
    if(!head)continue;
-   const total={};for(const card of document.querySelectorAll('#ordersPage '+list+' .ordercard')){const c=countSizes(card,false);for(const k in c)total[k]=(total[k]||0)+c[k];}
+   const total={};for(const card of document.querySelectorAll('#ordersPage '+list+' .ordercard')){const c=countCodes(card,false);for(const k in c)total[k]=(total[k]||0)+c[k];}
    const label=oven?.querySelector('b')?.textContent?.trim()||'';
-   const html=sizeHtml(total);
+   const html=codeHtml(total);
    put(head,'pp1830-headsizes',html&&oven?(label?'<em>'+label.replace(/[&<>]/g,'')+'</em>':'')+html:'',oven?oven.nextSibling:null);
    head.classList.toggle('pp1830-head-has',!!(html&&oven));
   }

@@ -1,0 +1,11 @@
+/* Peetri Pizza v18.7 — Taigna tellimine. Owner 23:16: "Шрифты сделай супер читаемые".
+ * 1) the sticky total bar no longer covers the "salvestatakse ainult…" line under it
+ * 2) small text 14 px+, products closed after 15:05 stay readable (still clearly greyed out) */
+html body .disclaimer{position:relative!important;margin-top:32px!important;font-size:14px!important;color:#4a574f!important}
+html body .item .itemname{font-size:18px!important}
+html body .item .itemname small{font-size:14px!important;color:#4a574f!important}
+html body #items .item.disabled .itemname{color:#6b766f!important;opacity:.85!important}
+html body #items .item.disabled .itemname small{color:#6b766f!important}
+html body .eyebrow{font-size:13px!important;color:#3a463f!important}
+html body .footer span{font-size:14px!important;color:#3a463f!important}
+html body .pp1740-clock small,html body #pp1740-clock small{font-size:13px!important}
