@@ -1,5 +1,12 @@
 # Changelog
 
+## 18.4.0 — 2026-11-22
+- Owner 02:29 (photo of the Valmis list): "ещё моднее, пропорционально, дорого, ровно; SÕ крупнее пиццы и добавок; Lisandid не работают; Link не нужен".
+- Size chip (VP, SÕ, Pere Õ, Väike täistera) is now the biggest thing in a pizza line: solid green, white 24 px text, one width (96 px; 84 px on phones), text centred. Pizza name 21 px, toppings 14 px. On order, ready and Valmis-list cards.
+- Valmis list (`#doneOrders`) gets the same premium card as "Klienti ootavad": white, hairline, soft shadow, no orange/blue side stripe, small grey number, plain quantities, drinks/sauces chips, cardboard boxes strip (hidden when it repeats the sizes).
+- "🔗 Link" (tracking link) and the "± Lisandid" / "Peida kõik lisandid" toggles are hidden; toppings are always shown on a ready card. Elements stay in the page.
+- Also on main: `tools/gen_full.py` + `patches/update-full-17.95-to-18.3-ssh.txt` (whole-file installer used when the server dashboard.php was edited by hand).
+
 ## 18.3.0 — 2026-11-22
 - Owner: "Го" to the design pack (checked with the design-critique plugin + contrast/touch-size measurements); 6 (one design only) not taken — both Kujundus stay. New layer `assets/ui-v1830.css`, card bottom untouched.
 - 1: the green UUS TELLIMUS strip and the orange "Tõsta 30 min?" hint get their own rows — column heads (Uued / Valmistamisel) and phone tabs are no longer covered; messages (toast) moved to the bottom of the screen.
