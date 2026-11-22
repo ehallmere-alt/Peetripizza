@@ -21,6 +21,8 @@
    m.classList.add('pp1870-cheese');
    // owner 23:29 "juust не понятно что это, замену надо выделить, отделить": its own line above the toppings, "⇄ Juust → mozzarella"
    const known=val&&!/^(juust|cheese)$/i.test(val);
+   // owner 23:41: a bare "Cheese" with no cheese type says nothing to the cook — hide it
+   if(!known){m.hidden=true;m.style.display='none';continue;}
    m.innerHTML='<i aria-hidden="true">⇄</i><small>JUUSTU VAHETUS</small>'+(known?'<b>'+esc(val)+'</b>':'<b>vaata tellimust</b>');
    m.title='Juust vahetatud'+(known?': '+val:'');
    const box=m.parentElement;if(!box)continue;
@@ -37,7 +39,8 @@
    const box=c.querySelector('.pp112-card-identity>div');if(!box)continue;
    let a=box.querySelector(':scope>.pp1880-phone');
    if(!ph){if(a)a.remove();continue;}
-   if(!a){a=document.createElement('a');a.className='pp1880-phone';box.append(a);}
+   if(!a){a=document.createElement('a');a.className='pp1880-phone';a.hidden=true;box.append(a);}
+   c.classList.add('pp1880-has-phone');
    if(a.dataset.ph!==ph){a.dataset.ph=ph;a.href='tel:'+ph.replace(/ /g,'');a.textContent='📞 '+ph;}
   }
  }
@@ -75,6 +78,12 @@
    pEl.classList.add('pp1880-lines');
   }
  }
+ // owner 23:41 "телефон только если нажал на имя": tap the name to show / hide the phone
+ window.addEventListener('click',e=>{
+  const n=e.target instanceof Element&&e.target.closest('#ordersPage .pp112-done-card.pp1880-has-phone .pp112-customer');if(!n)return;
+  const a=n.closest('.pp112-done-card').querySelector('.pp1880-phone');if(!a)return;
+  a.hidden=!a.hidden;e.preventDefault();e.stopPropagation();
+ },true);
  let q=false;
  const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}});};
  const start=()=>{const page=document.getElementById('ordersPage');if(page)new MutationObserver(later).observe(page,{childList:true,subtree:true});later();};

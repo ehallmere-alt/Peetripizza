@@ -1,5 +1,8 @@
 # Changelog
 
+## 18.9.0 — 2026-11-22
+- Owner 23:41: "телефон только если нажал на имя; не понятно что за Vaata tellimust". Phone on ready cards is hidden until you tap the customer name (name has a dotted underline when a phone exists; tap again hides it). A bare "Cheese" with no cheese type is no longer shown at all (it told the cook nothing); a real swap ("Juust: mozzarella") keeps its yellow line.
+
 ## 18.8.0 — 2026-11-22
 - Owner 23:29 (photo after 18.7 was installed): "juust не понятно что это, замену надо выделить, отделить". The cheese swap is now its own line between the pizza and the toppings: a yellow chip with a thick border "⇄ JUUSTU VAHETUS MOZZARELLA". When the order only says "Cheese" with no type, the chip says "vaata tellimust" (check the order). `assets/card-v1870.js/.css`.
 - Owner 23:30: "при выдаче нельзя телефон увидеть". Ready cards (Valmis column, Väljastus) show the customer phone as a blue tap-to-call chip under the name (from the card's own data-phone; only the signed-in kitchen sees it, nothing logged).
