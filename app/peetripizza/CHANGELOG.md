@@ -1,5 +1,14 @@
 # Changelog
 
+## 18.6.0 — 2026-11-22
+- Owner: "проверь все стили и js, очистить от дубликатов и остального". Nothing visible changes (28 screenshots, tablet + phone, both designs, compared pixel by pixel before/after).
+- Removed 5 files that no page loads and no script references: `assets/login-v136.js`, `assets/login-v145.css`, `assets/official-readonly-probe-v1768.js`, `assets/official-status-observer-v1768.js`, `assets/stable-boot-v1693.js` (also dropped from the release manifest).
+- `assets/app-v1767.css` and `assets/kitchen-design-two-v1799.css`: removed rules that are fully overridden later or match nothing (`tools/css-prune.py`), about 1 870 lines. A rebuild from the source files with `tools/css-bundle.py` brings them back harmlessly.
+- `assets/ui-v1830.css`: merged the duplicated ready-card blocks (Klienti ootavad + Valmis list) into one, 41 -> 35 KB.
+- Owner 17:10 "Сделай разборку" (go through the old scripts one by one). Stop loading 3 scripts that only drew blocks nobody can see, even on Seaded → Süsteem: `health-v169.js` (old health check), `ops-v1715.js` + `ops-v1715.css` (old update command, hidden since 17.52), `system-health-v1773.js` (second health card inside `#pp1782-health-home`, which never opens). Removed from the late loader (`late-v1714.js`, same text in app-b bundle), dashboard.php, the smoke check and the manifest.
+- Kept on purpose: `ops-v1714.js` and `ops-v1719.js` (they send the day's numbers to api/kitchen-analytics.php, which Statistika reads; ops-v1714 also has the visible tablet speed mode), `print-monitor-v1714.js`, `ops-v1716.js` (auto update, 05:00 reload, backup), `ops-v1718.js` (night screen), `live-event-bridge-v1768.js` (LIVE refresh), `modules-v1769/1770.js` (Tooted + Boonused QR), heartbeat POST in ops-v1749.
+- Removed 17 archive CSS files nothing loads or names (`kitchen-v137.css`, `kitchen-v145…156.css`, `home-v157/158.css`, `layout-v143.css`, `live-v149/150.css`, `live-status-v153.css`, `products-v140.css`, `sound-v141.css`, `style.css`): old sources of kitchen-release-v166.css, three bundle generations back; not in the manifest.
+
 ## 18.5.0 — 2026-11-22
 - Owner 11:24 sent the new logo (white "Peetri Pizza" script on a green square). Header shows it as a rounded 48 px tile (42 px on phones; KOLDE stays beside it on the tablet, hidden on phones for space). New file `assets/peetri-logo-square-v185.png`; the old wide logo file stays (drawer, dough page).
 
