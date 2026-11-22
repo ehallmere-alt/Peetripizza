@@ -19,13 +19,64 @@
    const val=x?x[1].trim():'';
    m.classList.remove('pp177-mod-warn','pp177-mod-info','pp1728-plus');
    m.classList.add('pp1870-cheese');
-   m.innerHTML='<small>JUUST</small>'+(val&&!/^(juust|cheese)$/i.test(val)?' '+esc(val):'');
-   m.title='Juust: '+(val||'valitud');
-   const box=m.parentElement;if(box&&box.firstElementChild!==m)box.prepend(m);
+   // owner 23:29 "juust не понятно что это, замену надо выделить, отделить": its own line above the toppings, "⇄ Juust → mozzarella"
+   const known=val&&!/^(juust|cheese)$/i.test(val);
+   m.innerHTML='<i aria-hidden="true">⇄</i><small>JUUSTU VAHETUS</small>'+(known?'<b>'+esc(val)+'</b>':'<b>vaata tellimust</b>');
+   m.title='Juust vahetatud'+(known?': '+val:'');
+   const box=m.parentElement;if(!box)continue;
+   let row=box.parentElement.querySelector(':scope>.pp1870-swap');
+   if(!row){row=document.createElement('div');row.className='pp1870-swap';box.before(row);}
+   row.append(m);
+   if(!box.children.length)box.hidden=true;
+  }
+ }
+ // owner 23:30 "при выдаче нельзя телефон увидеть": phone on ready cards (from data-phone, already on the card; only the signed-in kitchen sees it)
+ function phones(){
+  for(const c of document.querySelectorAll('#ordersPage .pp112-done-card[data-phone]')){
+   const ph=String(c.dataset.phone||'').replace(/[^0-9+ -]/g,'').trim();
+   const box=c.querySelector('.pp112-card-identity>div');if(!box)continue;
+   let a=box.querySelector(':scope>.pp1880-phone');
+   if(!ph){if(a)a.remove();continue;}
+   if(!a){a=document.createElement('a');a.className='pp1880-phone';box.append(a);}
+   if(a.dataset.ph!==ph){a.dataset.ph=ph;a.href='tel:'+ph.replace(/ /g,'');a.textContent='📞 '+ph;}
+  }
+ }
+ // owner 23:34 pack 2/3/5:
+ // 2 — pre-order for another day: folded and grey (tap the card top to open it)
+ const open18=new Set();
+ function tomorrow(){
+  for(const c of document.querySelectorAll('#ordersPage .ordercard[data-order-id]')){
+   const due=(c.querySelector('.pp1728-due')?.textContent||'');
+   const other=!!c.querySelector(':scope>.pp1729-pre')&&/homme|ülehomme|\d{1,2}\.\s?\d{1,2}\.|\b(E|T|K|N|R|L|P),/i.test(due);
+   c.classList.toggle('pp1880-later',other);
+   c.classList.toggle('pp1880-open',other&&open18.has(c.dataset.orderId));
+  }
+ }
+ window.addEventListener('click',e=>{
+  const top=e.target instanceof Element&&e.target.closest('#ordersPage .ordercard.pp1880-later .cardtop');if(!top)return;
+  const c=top.closest('.ordercard');const id=c.dataset.orderId;open18.has(id)?open18.delete(id):open18.add(id);
+  c.classList.toggle('pp1880-open',open18.has(id));e.preventDefault();e.stopPropagation();
+ },true);
+ // 3 — not paid yet: big red "MAKSA KOHAL · KAART / SULARAHA" on ready cards
+ function pay(){
+  for(const b of document.querySelectorAll('#ordersPage .pp112-done-card :is(.pp1728-pay-cash,.pp1728-pay-card):not([data-pp1880])')){
+   b.dataset.pp1880='1';b.textContent='MAKSA KOHAL · '+(b.classList.contains('pp1728-pay-cash')?'SULARAHA':'KAART');b.classList.add('pp1880-due');
+  }
+  for(const t of document.querySelectorAll('#ordersPage .pp112-done-card .pp1730-type'))t.classList.toggle('pp1880-courier',/KULLER/i.test(t.textContent||''));
+ }
+ // 5 — customer note: each "Aadress: / Kuupäev: / Kellaaeg: / Peoruum: …" on its own line
+ const LBL=/\s*(Aadress|Kuupäev|Kellaaeg|Peoruum|Telefon|Uks|Korrus|Korter|Kood|Märkus|Kommentaar)\s*:/g;
+ function notes(){
+  for(const pEl of document.querySelectorAll('#ordersPage .customer-note p:not([data-pp1880])')){
+   pEl.dataset.pp1880='1';
+   const w=document.createTreeWalker(pEl,NodeFilter.SHOW_TEXT);const ns=[];while(w.nextNode())ns.push(w.currentNode);
+   let first=true;
+   for(const t of ns){t.nodeValue=t.nodeValue.replace(LBL,(m,l)=>{const r=(first&&/^\s*$/.test(pEl.textContent.slice(0,pEl.textContent.indexOf(m)))?'':'\n')+l+':';first=false;return r;});}
+   pEl.classList.add('pp1880-lines');
   }
  }
  let q=false;
- const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}});};
+ const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}});};
  const start=()=>{const page=document.getElementById('ordersPage');if(page)new MutationObserver(later).observe(page,{childList:true,subtree:true});later();};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();

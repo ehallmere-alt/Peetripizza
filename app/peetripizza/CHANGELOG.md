@@ -1,5 +1,10 @@
 # Changelog
 
+## 18.8.0 — 2026-11-22
+- Owner 23:29 (photo after 18.7 was installed): "juust не понятно что это, замену надо выделить, отделить". The cheese swap is now its own line between the pizza and the toppings: a yellow chip with a thick border "⇄ JUUSTU VAHETUS MOZZARELLA". When the order only says "Cheese" with no type, the chip says "vaata tellimust" (check the order). `assets/card-v1870.js/.css`.
+- Owner 23:30: "при выдаче нельзя телефон увидеть". Ready cards (Valmis column, Väljastus) show the customer phone as a blue tap-to-call chip under the name (from the card's own data-phone; only the signed-in kitchen sees it, nothing logged).
+- Owner 23:34 "все кроме 6": (1) ready card shows the wait once, at the bottom; the VALMIS box shows only the time. (2) Pre-order for another day (Homme / date) is grey and folded (name, time, note), tap the card top to open. (3) Not paid yet: big red "MAKSA KOHAL · SULARAHA / KAART" on ready cards. (4) KULLERIGA chip blue on order and ready cards. (5) Customer note: Aadress / Kuupäev / Kellaaeg / Peoruum each on its own line.
+
 ## 18.7.0 — 2026-11-22
 - Owner 22:58 (3 photos of the kitchen screen): "выровняй чтоб все ровненько было, очень громоздко; цена куда-то уехала; замена сыра как-то не так; в чёрном столбце сколько пицц в общем SÕ VÕ".
 - Dark size chip on every card and the column heads now count by pizza code: "5 SÕ · 1 VÕ", "2 SP", "1 Pere Õ", "1 V täistera" (+N lisa stays). Was "1 väike · 5 suur". `assets/ui-v1830.js`; the box check still compares by size.
