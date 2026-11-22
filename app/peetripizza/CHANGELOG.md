@@ -5,6 +5,7 @@
 - Dark size chip on every card and the column heads now count by pizza code: "5 SÕ · 1 VÕ", "2 SP", "1 Pere Õ", "1 V täistera" (+N lisa stays). Was "1 väike · 5 suur". `assets/ui-v1830.js`; the box check still compares by size.
 - Ready cards (Valmis column, Väljastus): price back on the left like on the order cards, "⏱ Ootab …" on the right, "Üle antud" under them. Type · payment · sizes in one row under the number.
 - Cheese choice ("Juust: mozzarella", bare "Cheese") was grey text under the size chip; now one cheese chip "JUUST MOZZARELLA" at the start of the topping chips (`assets/card-v1870.js`, look only). "ILMA JUUSTUTA" (red) and extra cheese (green) keep their chips.
+- Owner 23:12: "кнопки демо и лайв выезжают, kõik valmis кнопку убери, добавки сделай красиво". DEMO/LIVE buttons fit inside their frame in the header (the 44 px buttons stuck out of the 44 px frame). "Kõik valmis" button hidden (element stays). Topping chips now start under the size chip and run the full width under chip + name.
 - Less bulky, one even grid: size chip 76 px (was 96), qty | chip | name in one line with toppings under the name on order and ready cards; thin divider line next to the chip removed; name 28 px, time box and VALMIS box smaller; duplicate "+ LISA" row on ready cards hidden. New `assets/card-v1870.css` (loaded after ui-v1830.css). Card bottom layout of the order cards unchanged.
 
 ## 18.6.0 — 2026-11-22

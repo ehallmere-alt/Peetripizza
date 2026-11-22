@@ -20,7 +20,7 @@ html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-don
 html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .product-qty{grid-column:1!important;grid-row:1!important;align-self:center!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp119-code{grid-column:2!important;grid-row:1!important;align-self:center!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp177-name{grid-column:3!important;grid-row:1!important;align-self:center!important}
-html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp177-mods{grid-column:3!important;grid-row:2!important;align-self:start!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp177-mods{grid-column:2/-1!important;grid-row:2!important;align-self:start!important}
 /* the "+ LISA" list was already copied into the chips (ops-v1754); the original stays hidden everywhere */
 html body #ordersPage#ordersPage#ordersPage#ordersPage .pp177-extras.pp1754-moved{display:none!important}
 
@@ -44,7 +44,7 @@ html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneO
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp119-code.pp177-code.pp177-code[data-size="P"]:not(.pp1755-fit) b{font-size:17px!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp119-code.pp177-code.pp177-code.pp1755-fit b{font-size:12.5px!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp177-name{grid-column:2!important;grid-row:1!important;margin:0!important;padding:0!important}
-html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp177-mods{grid-column:2!important;grid-row:2!important;display:flex!important;flex-wrap:wrap!important;margin:0!important;padding:0!important;border:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp177-mods{grid-column:1/-1!important;grid-row:2!important;display:flex!important;flex-wrap:wrap!important;margin:0!important;padding:0!important;border:0!important}
 /* pizza without a size code (no chip): name starts in the first column */
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp112-product-text:not(:has(.pp119-code)) :is(.pp177-name,.pp177-mods){grid-column:1/-1!important}
 /* ready card top: name and the VALMIS time box a bit smaller */
@@ -69,6 +69,13 @@ html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneO
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese{display:inline-flex!important;align-items:center!important;gap:6px!important;background:#fff6e0!important;border:1px solid #e8c56d!important;color:#5a3d00!important;border-radius:8px!important;padding-left:8px!important;padding-right:10px!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:.02em!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese::before{content:none!important;display:none!important}
 html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese small{font-size:10.5px!important;font-weight:900!important;color:#8a6200!important;letter-spacing:.06em!important}
+
+/* 6 — owner 23:12: "кнопки демо и лайв выезжают" — the 44 px buttons stuck out of their 44 px frame; they now fit inside it */
+html body header.topbar.topbar #pp172-mode{display:flex!important;align-items:stretch!important;box-sizing:border-box!important;min-height:44px!important;height:44px!important;overflow:hidden!important}
+html body header.topbar.topbar #pp172-mode button{min-height:0!important;height:auto!important;align-self:stretch!important}
+/* "Kõik valmis" button hidden (element stays for other scripts) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage #pp158-view-ready{display:none!important}
+/* toppings under the size chip and name, from the left edge of the chip: more room, fewer lines */
 
 @media (max-width:700px){
  html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line{grid-template-columns:34px 68px minmax(0,1fr)!important;column-gap:10px!important}
