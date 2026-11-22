@@ -1,5 +1,8 @@
 # Changelog
 
+## 18.5.0 — 2026-11-22
+- Owner 11:24 sent the new logo (white "Peetri Pizza" script on a green square). Header shows it as a rounded 48 px tile (42 px on phones; KOLDE stays beside it on the tablet, hidden on phones for space). New file `assets/peetri-logo-square-v185.png`; the old wide logo file stays (drawer, dough page).
+
 ## 18.4.0 — 2026-11-22
 - Owner 02:29 (photo of the Valmis list): "ещё моднее, пропорционально, дорого, ровно; SÕ крупнее пиццы и добавок; Lisandid не работают; Link не нужен".
 - Size chip (VP, SÕ, Pere Õ, Väike täistera) is now the biggest thing in a pizza line: solid green, white 24 px text, one width (96 px; 84 px on phones), text centred. Pizza name 21 px, toppings 14 px. On order, ready and Valmis-list cards.

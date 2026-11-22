@@ -257,3 +257,12 @@ html body #ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp1
 html body #ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp119-code.pp177-code.pp177-code small{display:none!important}
 html body #ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp119-code.pp177-code.pp177-code.pp1755-fit b{font-size:14px!important;line-height:1.05!important}
 html body #ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp119-code.pp177-code.pp177-code[data-size="P"]:not(.pp1755-fit) b{font-size:20px!important}
+
+/* 16 — 18.5: owner 22.11 11:24 sent the new logo (white script on a green square). Header shows it as a rounded square tile. */
+html body .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo.pp185-logo{width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;padding:0!important;background:#00824a!important;border-radius:12px!important;object-fit:cover!important;box-shadow:0 0 0 1px rgba(255,255,255,.22),0 6px 14px -8px rgba(0,0,0,.45)!important}
+html body.pp-design-two .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup img.pp116-logo.pp116-logo.pp185-logo.pp185-logo{border-radius:12px!important;box-shadow:0 1px 2px rgba(19,40,28,.12)!important}
+@media (max-width:760px){
+ html body .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup{display:flex!important;align-items:center!important;gap:8px!important}
+ html body .shell>header.topbar.topbar.topbar.topbar .brandgroup img.pp116-logo.pp116-logo.pp185-logo{width:42px!important;height:42px!important;max-width:42px!important;max-height:42px!important;border-radius:10px!important}
+ html body .shell>header.topbar.topbar.topbar.topbar .brandgroup.brandgroup .pp114-location{display:none!important}
+}
