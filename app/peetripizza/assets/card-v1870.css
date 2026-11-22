@@ -176,3 +176,19 @@ html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1870-swap .pp1870-chee
 
 /* 14 — phone on ready cards (owner 23:30) */
 html body #ordersPage#ordersPage#ordersPage#ordersPage .pp112-done-card .pp1880-phone{display:inline-flex!important;align-items:center;min-height:30px;padding:0 12px;border-radius:8px;background:#e8f1fb;border:1px solid #b7d0ec;color:#0f3459!important;font-size:16px;font-weight:800;text-decoration:none!important;white-space:nowrap}
+
+/* 15 — owner 23:34 pack (all but 6) */
+/* 1 one wait time on a ready card: only "⏱ Ootab …" at the bottom, the VALMIS box shows the time */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-completed .pp1730-wait{display:none!important}
+/* 2 pre-order for another day: grey and folded until tapped */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard.pp1880-later:not(.pp1880-open){opacity:.6!important;filter:grayscale(.6)!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard.pp1880-later:not(.pp1880-open) :is(.carditems,.pp177-boxes,.cardfoot){display:none!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard.pp1880-later .cardtop{cursor:pointer}
+/* 3 not paid: big red chip on ready cards */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp112-done-card .pp1728-pay.pp1880-due{background:#c62828!important;color:#fff!important;border:0!important;font-size:16px!important;font-weight:900!important;padding:6px 12px!important;border-radius:8px!important;letter-spacing:.02em!important}
+/* 4 courier orders blue */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp118-serving.pp118-delivery{background:#1f5fae!important;border-color:#1f5fae!important;color:#fff!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp118-serving.pp118-delivery *{color:#fff!important;stroke:#fff!important}
+/* 5 note on separate lines */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .customer-note p.pp1880-lines{white-space:pre-line!important;line-height:1.45!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp112-done-card .pp1730-type.pp1880-courier{background:#1f5fae!important;color:#fff!important}
