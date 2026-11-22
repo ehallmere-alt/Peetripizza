@@ -1,5 +1,12 @@
 # Changelog
 
+## 18.7.0 — 2026-11-22
+- Owner 22:58 (3 photos of the kitchen screen): "выровняй чтоб все ровненько было, очень громоздко; цена куда-то уехала; замена сыра как-то не так; в чёрном столбце сколько пицц в общем SÕ VÕ".
+- Dark size chip on every card and the column heads now count by pizza code: "5 SÕ · 1 VÕ", "2 SP", "1 Pere Õ", "1 V täistera" (+N lisa stays). Was "1 väike · 5 suur". `assets/ui-v1830.js`; the box check still compares by size.
+- Ready cards (Valmis column, Väljastus): price back on the left like on the order cards, "⏱ Ootab …" on the right, "Üle antud" under them. Type · payment · sizes in one row under the number.
+- Cheese choice ("Juust: mozzarella", bare "Cheese") was grey text under the size chip; now one cheese chip "JUUST MOZZARELLA" at the start of the topping chips (`assets/card-v1870.js`, look only). "ILMA JUUSTUTA" (red) and extra cheese (green) keep their chips.
+- Less bulky, one even grid: size chip 76 px (was 96), qty | chip | name in one line with toppings under the name on order and ready cards; thin divider line next to the chip removed; name 28 px, time box and VALMIS box smaller; duplicate "+ LISA" row on ready cards hidden. New `assets/card-v1870.css` (loaded after ui-v1830.css). Card bottom layout of the order cards unchanged.
+
 ## 18.6.0 — 2026-11-22
 - Owner: "проверь все стили и js, очистить от дубликатов и остального". Nothing visible changes (28 screenshots, tablet + phone, both designs, compared pixel by pixel before/after).
 - Removed 5 files that no page loads and no script references: `assets/login-v136.js`, `assets/login-v145.css`, `assets/official-readonly-probe-v1768.js`, `assets/official-status-observer-v1768.js`, `assets/stable-boot-v1693.js` (also dropped from the release manifest).

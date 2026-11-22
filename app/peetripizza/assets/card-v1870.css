@@ -1,0 +1,79 @@
+/* Peetri Pizza v18.7 — owner 22.11 22:58: "выровняй чтоб все ровненько было, очень громоздко; цена уехала; замена сыра не так".
+ * Only sizes and alignment of the order cards (Uued / Valmistamisel / Valmis). Card bottom keeps its layout:
+ * price · payment · button; on ready cards the price is back on the left, the "Ootab" time goes to the right.
+ * No animation. Loaded after ui-v1830.css; selectors are one id stronger. */
+
+/* 1 — product rows: one even grid (qty | size chip | name + chips), smaller chip, no thin divider line */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line{grid-template-columns:40px 76px minmax(0,1fr)!important;column-gap:12px!important;padding:8px 0!important;align-items:center!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line .product-qty{justify-content:flex-start!important;padding:0!important;font-size:20px!important;min-width:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line :is(.pp177-name,.pp177-mods){border-left:0!important;padding-left:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line .pp177-mods{padding-top:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code){row-gap:4px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code{width:76px!important;min-width:76px!important;min-height:38px!important;border-radius:10px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code b{font-size:21px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code[data-size="P"]:not(.pp1755-fit) b{font-size:17px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code.pp1755-fit b{font-size:12.5px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-name{font-size:19px!important;line-height:1.2!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods{gap:5px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod{font-size:13px!important;min-height:24px!important;padding-top:1px!important;padding-bottom:1px!important}
+/* size chip, name and qty on one line; topping chips under the name (same as the ready cards) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .product-qty{grid-column:1!important;grid-row:1!important;align-self:center!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp119-code{grid-column:2!important;grid-row:1!important;align-self:center!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp177-name{grid-column:3!important;grid-row:1!important;align-self:center!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line:has(.pp119-code) .pp177-mods{grid-column:3!important;grid-row:2!important;align-self:start!important}
+/* the "+ LISA" list was already copied into the chips (ops-v1754); the original stays hidden everywhere */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp177-extras.pp1754-moved{display:none!important}
+
+/* 2 — card top: smaller name and time box, less empty space */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp92-customer .pp1733-name{font-size:28px!important;line-height:1.15!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp1736-call{width:40px!important;height:40px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp1736-call svg{width:26px!important;height:26px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp1728-due{padding:8px 14px 14px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp1728-due b{font-size:34px!important;line-height:1.05!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp1728-due :is(i,small){font-size:15px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp117-identity-line{row-gap:6px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .cardtop{padding-bottom:10px!important}
+
+/* 3 — ready cards (Valmis column and Väljastus): same even grid as the order cards */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza]{display:grid!important;grid-template-columns:40px minmax(0,1fr)!important;column-gap:12px!important;align-items:start!important;padding:8px 0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp112-qty{align-self:start!important;min-height:38px!important;display:flex!important;align-items:center!important;font-size:20px!important;min-width:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp112-product-text{display:grid!important;grid-template-columns:76px minmax(0,1fr)!important;column-gap:12px!important;row-gap:4px!important;align-items:center!important;min-width:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp94-pizza{display:contents!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp119-code.pp177-code.pp177-code{grid-column:1!important;grid-row:1!important;width:76px!important;min-width:76px!important;min-height:38px!important;margin:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp119-code.pp177-code.pp177-code b{font-size:21px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp119-code.pp177-code.pp177-code[data-size="P"]:not(.pp1755-fit) b{font-size:17px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp119-code.pp177-code.pp177-code.pp1755-fit b{font-size:12.5px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp177-name{grid-column:2!important;grid-row:1!important;margin:0!important;padding:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp177-mods{grid-column:2!important;grid-row:2!important;display:flex!important;flex-wrap:wrap!important;margin:0!important;padding:0!important;border:0!important}
+/* pizza without a size code (no chip): name starts in the first column */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-product[data-pp1830=pizza] .pp112-product-text:not(:has(.pp119-code)) :is(.pp177-name,.pp177-mods){grid-column:1/-1!important}
+/* ready card top: name and the VALMIS time box a bit smaller */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-customer{font-size:26px!important;line-height:1.15!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-completed{padding:8px 14px!important;min-width:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-completed strong{font-size:28px!important;line-height:1.05!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-completed :is(span,em){font-size:13px!important}
+
+/* ready card top: type · payment · sizes in one row under the number (same as the order cards) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-identity>div{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-start!important;flex:1 1 auto!important;gap:6px 8px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-identity>div>:is(.pp112-customer,.pp112-number){flex:0 0 100%!important;margin:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp1830-sizes{margin:0!important;order:0!important}
+
+/* 4 — ready card bottom: price back on the left (as on the order cards), "Ootab …" on the right, button under them */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-start!important;gap:8px 12px!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer>strong{order:1!important;margin:0!important;flex:0 0 auto!important;text-align:left!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer>.pp154-pickup-tag{order:2!important;margin:0 0 0 auto!important;flex:0 0 auto!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer>:is(button,.pp153-local-btn){order:3!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(#pp1711-pickup,#doneOrders) .pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card.pp112-done-card .pp112-card-footer>.pp154-handover{flex:1 0 100%!important}
+
+/* 5 — cheese choice as one chip at the start of the topping chips (card-v1870.js) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese{display:inline-flex!important;align-items:center!important;gap:6px!important;background:#fff6e0!important;border:1px solid #e8c56d!important;color:#5a3d00!important;border-radius:8px!important;padding-left:8px!important;padding-right:10px!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:.02em!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese::before{content:none!important;display:none!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-mods .pp177-mod.pp1870-cheese small{font-size:10.5px!important;font-weight:900!important;color:#8a6200!important;letter-spacing:.06em!important}
+
+@media (max-width:700px){
+ html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .product-line{grid-template-columns:34px 68px minmax(0,1fr)!important;column-gap:10px!important}
+ html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code{width:68px!important;min-width:68px!important;min-height:36px!important}
+ html body #ordersPage#ordersPage#ordersPage#ordersPage .pp119-code.pp177-code b{font-size:19px!important}
+ html body #ordersPage#ordersPage#ordersPage#ordersPage :is(.ordercard,.pp112-done-card) .pp177-name{font-size:18px!important}
+ html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard .pp92-customer .pp1733-name{font-size:24px!important}
+}

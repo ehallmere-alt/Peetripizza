@@ -2,7 +2,9 @@
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
-  'assets/ui-v1830.js' => 'c17911aadc9631ad1b6c386218065d3fde065d23f2bd423a2e13f5af93e3df8a',
+  'assets/ui-v1830.js' => 'be27ab762f6e7c72fd78f61a916c5f2bd3c67a6f1a2b1ed5d26639c074581c90',
+  'assets/card-v1870.js' => '3cd75669996beab55926fe22702c4dacb952a0757a9ddadfddcafb31a34d7e01',
+  'assets/card-v1870.css' => '7cf9d46d1d0bff2d726822e915380160b81421b10895652c20262a70c9da8b63',
   'assets/ui-v1830.css' => '64fc5ead57eced13c7a6559e35326c8f375b9e2692c8cadb825e0f60c2307abc',
  'assets/kitchen-design-switch-v1799.js' => '01d5305dbbdf49c9612439981fb0353d1331bc02c245b8ae82cc1bc43aac4e7c',
  'assets/kitchen-design-two-v1799.css' => '7ce6fb29bacecbeb444f4bf34141fe99029d6958e08ef872bedd42aece707dc9',
@@ -30,7 +32,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '04f40fa12e3703b5155cda23ae77963400343ebb33b40f6d7452c507d369a241',
+    'CHANGELOG.md' => 'f3b570946e3922c849cf0d84b7630b397fa80c7ad4f6d02fee5243298a6ff298',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',
@@ -242,7 +244,7 @@ return [
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
     'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
-    'dashboard.php' => '9c23ba8ee587c41b45267c68dbbf99b9d5aec2ee83d92f3627100447d541565a',
+    'dashboard.php' => '3877285bb83d747d00ee22507a7e40e5d22358bde4a78e7094b8f7aa5a666748',
     'dough.php' => '85a401bd7a747ee94229de6246ed75af65a81b6542ee4d7f4f2090d41d38817b',
     'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
