@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.16.0 — 2026-11-24
+- Owner: "список пиццерий в логин, добавки свои в каждой пиццерии". Login shows every Peetri Pizza pizzeria (49) from the public list `https://peetripizza.ee/api/pizzeria-list` (id, name, town only; cached 6 h in `private_data/pizzeria-list.json`, old list kept if the site does not answer, server-configured locations always first and preselected when there is exactly one). Password is still checked by peetripizza.ee per pizzeria. Town in small text under the name; the pizzeria used last on the device moves to the top. New `auth/pizzeria-list-v1816.php`, `assets/login-v1816.js/.css`.
+- Checked per pizzeria: server data (orders status, Väljastus, wait time, dough, print log, analytics, site toppings/products marked missing) were already stored by pizzeria id. Not separated before: Tooted "Otsas" marks and couriers lived in one shared browser copy, so another pizzeria on the same tablet saw them. New `assets/location-scope-v1816.js` (runs before app-core) keeps one copy per pizzeria; the existing copy stays with the pizzeria the tablet already works for.
+
 ## 18.13.0 — 2026-11-24
 - Owner 21:50 "давай", new layers `assets/ui-v1913.js/.css`, `assets/dough-v1913.js`: (1) allergy words (marked on order cards since 17.17) now also as a red line on ready cards; (2) ready card: drinks and sauces under a small "KOTTI" label; (3) 5+ pizzas: purple "SUUR TELLIMUS" chip; (4) "Kellaaeg: HH:MM" in the customer note in bold; (5) Taigna tellimine: "Eelmine: N (dd.mm)" under each product from the last order before today (same read-only GET api/dough.php); (6) Tooted: green "✓ Kõik tooted saadaval" when nothing is switched off.
 

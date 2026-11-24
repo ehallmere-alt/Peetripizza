@@ -1,6 +1,10 @@
 <?php
 /** Auto-generated 17.67.0 file checksum map; do not include this file itself. */
 return [
+  'auth/pizzeria-list-v1816.php' => 'aca95a568b747bbf58dd7a2915f99e38397665afab65a6cc66f3a7dcb0380044',
+  'assets/login-v1816.js' => '54792525a095fce1c707e127e5071358bc50d22705c88397473129d78c4cdd6e',
+  'assets/login-v1816.css' => '7101136314e3357bbf17de6b4abbebd23d0233ba6fa63a9f5fa655202d564d65',
+  'assets/location-scope-v1816.js' => 'ad4633af56b5bcaa36ceefd7e3e0f138bcdb3538f9d33626fbb84a049d3b2853',
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
   'assets/ui-v1830.js' => 'be27ab762f6e7c72fd78f61a916c5f2bd3c67a6f1a2b1ed5d26639c074581c90',
   'assets/card-v1870.js' => 'a0388f70c99b1da61e29b08395549ae4de6c1235570bb8267e880a74c5cb0909',
@@ -39,7 +43,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '836619592a45d07db61c82e9d3886959ad7b2a6554a58299447b4c2fb2fa9097',
+    'CHANGELOG.md' => 'fc1f642cc34eaeeabe16f84cd8bd7eeb833d643c392543173c4099fd825356f5',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',
@@ -251,9 +255,9 @@ return [
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
     'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
-    'dashboard.php' => '81935ba52a25a33d5740abb20c4cc614c310b64f9b2e47ef2b769d18f8e0c318',
+    'dashboard.php' => 'fb408d3f087d57a9960892844957f75f2c270debddb8a7123c3950e494a7e387',
     'dough.php' => 'a072084d308814ed797746391424fc49547e0aa7dab4cb0695673a9bcbc664c5',
-    'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
+    'index.php' => 'cae489eca1e52d54c9bf91a4ddad440bdd76c61a5aac5ff42c36923349b18a5a',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
     'locations.example.php' => '740c911e14d7ee558e5105b0ba0587e5774a9ac6df4b5cea06f6ac03f3aedd7c',
     'setup_staff.php' => 'a41b7364014dc1f6b0303f428e5f1730d23ef24cf82dacbd602b85c8781ad2cf',
