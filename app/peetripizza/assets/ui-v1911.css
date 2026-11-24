@@ -1,0 +1,26 @@
+/* Peetri Pizza 18.11 — owner 24.11 20:25 "давай" (pack after the 18.10 check). Overrides only, nothing removed. */
+/* 1 — side tab "Valmis N" / "‹ Uued": 52 px wide (was 38), big count */
+html body #pp1763-edge#pp1763-edge{width:52px!important;min-width:52px!important}
+html body #pp1763-edge#pp1763-edge span{font-size:16px!important;font-weight:900!important}
+html body #pp1763-edge#pp1763-edge b{min-width:30px!important;height:30px!important;font-size:18px!important;line-height:30px!important;border-radius:9px!important}
+/* 2 — DEMO / LIVE: 44 px tall buttons (frame 50 px) */
+html body header.topbar.topbar #pp172-mode#pp172-mode{height:50px!important;min-height:50px!important;padding:3px!important}
+html body header.topbar.topbar #pp172-mode#pp172-mode>button{height:44px!important;min-height:44px!important;padding-left:14px!important;padding-right:14px!important}
+/* 3 — phone icon after the name on cards in progress (same as ready cards) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage#ordersPage .pp1734-namerow.pp1734-namerow{display:flex!important;align-items:center!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage#ordersPage .pp1734-namerow.pp1734-namerow>.pp1736-call{order:2!important;margin-left:8px!important;margin-right:0!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage#ordersPage .pp1734-namerow.pp1734-namerow>:not(.pp1736-call){order:1!important}
+/* 4 — Logi välja: quiet text link, not a big green button */
+html body #drawer form button.secondary{background:transparent!important;border:0!important;box-shadow:none!important;color:#5b6a61!important;font-weight:700!important;text-decoration:underline!important;text-underline-offset:3px!important;min-height:44px!important}
+/* 5 — payment chips: one shape (KAART, SULARAHA, MAKSTUD, MAKSA KOHAL) */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1728-pay.pp1728-pay{display:inline-flex!important;align-items:center!important;height:32px!important;min-height:32px!important;padding:0 12px!important;border-radius:8px!important;font-size:14px!important;font-weight:800!important;letter-spacing:.04em!important;text-transform:uppercase!important;border:1px solid transparent!important;line-height:1!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1728-pay.pp1728-pay-paid{background:#e7efe9!important;color:#2d5a3f!important;border-color:#cfdcd3!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1728-pay.pp1728-pay-card{background:#fff1dc!important;color:#7a4a00!important;border-color:#f0d2a4!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1728-pay.pp1728-pay-cash{background:#fff1dc!important;color:#7a4a00!important;border-color:#f0d2a4!important}
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1728-pay.pp1880-due{background:#c62828!important;color:#fff!important;border-color:#c62828!important}
+/* ready cards keep MAKSTUD hidden (18.10); the shape rule above must not bring it back */
+html body #ordersPage#ordersPage#ordersPage#ordersPage#ordersPage .pp112-done-card .pp1728-pay.pp1728-pay-paid{display:none!important}
+/* 6 — empty column: calm and big, readable from a metre */
+html body #ordersPage .pp1723-empty strong{font-size:24px!important;color:#2f3a34!important}
+html body #ordersPage .pp1723-empty small{font-size:16px!important;color:#4f5c55!important}
+html body #ordersPage .pp1723-empty .pp1725-ic svg{width:40px!important;height:40px!important}
