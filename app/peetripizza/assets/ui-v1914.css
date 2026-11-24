@@ -1,0 +1,18 @@
+/* Peetri Pizza 18.14 — pack of six (owner "давай" 24.11 21:56). No animation. */
+/* 1 — order number */
+html body .pp1914-num small{font-size:.72em;font-weight:600;opacity:.62;letter-spacing:0}
+html body .pp1914-num b.pp1914-n{font-size:1.35em;font-weight:900;margin-left:1px}
+/* 2 — line icons on ready cards */
+html body #ordersPage .pp1730-type .pp1914-i{width:16px;height:16px;margin-right:5px;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* 4 — Väljastus: name shows it can be tapped when a phone exists */
+html body .pp155-station-order.pp1914-has-phone .pp178-name{cursor:pointer}
+html body .pp155-station-order.pp1914-has-phone .pp178-name::after{content:" 📞";font-size:.6em;opacity:.55}
+html body .pp155-station-order .pp178-phone[hidden]{display:none!important}
+html body .pp155-station-order .pp155-age{font-size:15px!important;font-weight:800!important}
+/* 5 — location name in the header readable */
+html body header.topbar.topbar .pp114-location.pp114-location{font-size:15px!important;color:#fff!important;opacity:1!important;letter-spacing:.06em!important}
+/* 6 — ETTETELLIMUS strip blue */
+html body #ordersPage#ordersPage#ordersPage#ordersPage .pp1729-pre.pp1729-pre{background:#dce9fb!important;color:#1d4f91!important;border:1px solid #b5cdf0!important;font-weight:900!important}
+/* 3 — dough page countdown */
+html body #pp1914-close{margin:0 0 8px;padding:8px 12px;border-radius:10px;background:#fff3d6;border:1px solid #f0d08a;color:#6b4a00;font-size:16px;font-weight:900}
+html body #pp1914-close.pp1914-soon{background:#fde3df;border-color:#e9a39a;color:#9b1c1c}
