@@ -1,5 +1,8 @@
 # Changelog
 
+## 18.13.0 — 2026-11-24
+- Owner 21:50 "давай", new layers `assets/ui-v1913.js/.css`, `assets/dough-v1913.js`: (1) allergy words (marked on order cards since 17.17) now also as a red line on ready cards; (2) ready card: drinks and sauces under a small "KOTTI" label; (3) 5+ pizzas: purple "SUUR TELLIMUS" chip; (4) "Kellaaeg: HH:MM" in the customer note in bold; (5) Taigna tellimine: "Eelmine: N (dd.mm)" under each product from the last order before today (same read-only GET api/dough.php); (6) Tooted: green "✓ Kõik tooted saadaval" when nothing is switched off.
+
 ## 18.12.0 — 2026-11-24
 - Owner 20:42 "давай", new layer `assets/ui-v1912.js/.css`: (1) grey pre-order card in the work column shows "Alusta HH:MM" (due minus Valmistamisaeg; the folded line in Uued already had it since 17.51); (2) courier ready card button reads "Kullerile antud" (label only, same action); (3) Ooteaeg box amber at 45 min or more; (4) new order not accepted for over 5 min gets an orange frame; (5) Tooted tabs show red "N otsas" (out-of-stock products were already red OTSAS and first in the list); (6) tapping the logo returns to Tellimused. No blinking.
 
