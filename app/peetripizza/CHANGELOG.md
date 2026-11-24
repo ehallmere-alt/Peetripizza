@@ -1,5 +1,8 @@
 # Changelog
 
+## 18.12.0 — 2026-11-24
+- Owner 20:42 "давай", new layer `assets/ui-v1912.js/.css`: (1) grey pre-order card in the work column shows "Alusta HH:MM" (due minus Valmistamisaeg; the folded line in Uued already had it since 17.51); (2) courier ready card button reads "Kullerile antud" (label only, same action); (3) Ooteaeg box amber at 45 min or more; (4) new order not accepted for over 5 min gets an orange frame; (5) Tooted tabs show red "N otsas" (out-of-stock products were already red OTSAS and first in the list); (6) tapping the logo returns to Tellimused. No blinking.
+
 ## 18.11.0 — 2026-11-24
 - Owner 20:25 "давай" (pack after the 18.10 check), new layer `assets/ui-v1911.css`: (1) side tab Valmis/Uued 52 px wide with a big count; (2) DEMO/LIVE buttons 44 px tall; (3) phone icon after the name on cards in progress, as on ready cards; (4) Logi välja is a quiet text link, not a green button; (5) payment chips one shape (KAART, SULARAHA, MAKSTUD, MAKSA KOHAL); (6) empty column text bigger and darker.
 
