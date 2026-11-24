@@ -1,5 +1,12 @@
 # Changelog
 
+## 18.10.0 — 2026-11-23
+- Owner 00:03 (photo): "CHEESE" was still visible on a ready card. Cause: 18.9 set display:none inline, but the .pp1870-cheese CSS rule (display:inline-flex !important) won. Now a bare cheese chip gets only the hiding class pp1900-gone. A real swap still shows its yellow line.
+- Owner: "что за точки под именем". The dotted underline is gone; a small grey 📞 after the name shows that tapping it reveals the phone.
+- Owner 00:07 "улучшай пока не скажу стоп", pack of six (ready cards and header): (1) ready card waiting over 2 h is dimmed and says "Ootab üle 2 h"; (2) wait text short: "Ootab 45 min" / "Ootab 1 h 5 min"; (3) MAKSTUD hidden on ready cards (unpaid stays red MAKSA KOHAL); (5) Valmis count is the same dark chip as the other columns; (6) header date "E, 23. nov" without a capital N.
+- Owner 00:12 "го дальше", pack 2: (1) dark size chip without "+1 lisa" (drinks are listed below; "lisa" read like a topping); (2) Tooted tiles: names only, no identical pizza icon; (3) Seaded tabs: plain words, no ▣ ♫ ⎙ ⚙ glyphs; (4) menu: Halduskeskus has a line icon like the other items; (5) Taigna tellimine: the square logo like the main screen; (6) Taigna tellimine: total bar fits the card exactly (was 1–2 px wider, with a shadow edge). `assets/card-v1870.*`, `assets/dough-v1870.css`, `dough.php` cache key.
+- Owner 24.11 "проверь всё": code review + WCAG check. Fixed: ready() no longer overwrites "ÜLE ANTUD · HH:MM" on handed cards and no longer adds a wait text in the first 10 min (only shortens pickup's own "N h M min" to "Ootab üle 2 h"); the repeated size chip on one-line ready cards is visible again (hiding it also lost the box count); dough total bar fits on phones (≤690px padding 12px); dead cheese code and a selector that never matched removed; stale ready cards 78% instead of 55% (text stayed below 4.5:1); drawer footer note 12px darker, Tooted tab counts 13px darker, menu close button 44px.
+
 ## 18.9.0 — 2026-11-22
 - Owner 23:41: "телефон только если нажал на имя; не понятно что за Vaata tellimust". Phone on ready cards is hidden until you tap the customer name (name has a dotted underline when a phone exists; tap again hides it). A bare "Cheese" with no cheese type is no longer shown at all (it told the cook nothing); a real swap ("Juust: mozzarella") keeps its yellow line.
 

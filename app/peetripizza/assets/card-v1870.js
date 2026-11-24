@@ -17,14 +17,15 @@
    const bare=/^cheese$/i.test(t); // English "Cheese" alone; "JUUST" (extra) and the red "Juust" (without) keep their own chips
    if(!x&&!bare)continue;
    const val=x?x[1].trim():'';
+   const known0=val&&!/^(juust|cheese)$/i.test(val);
+   // owner 00:03 (18.10): the hidden chip still showed, because the .pp1870-cheese CSS (display:inline-flex !important) beat display:none — use a class that only hides
+   if(!known0){m.hidden=true;m.classList.add('pp1900-gone');continue;}
    m.classList.remove('pp177-mod-warn','pp177-mod-info','pp1728-plus');
    m.classList.add('pp1870-cheese');
    // owner 23:29 "juust не понятно что это, замену надо выделить, отделить": its own line above the toppings, "⇄ Juust → mozzarella"
-   const known=val&&!/^(juust|cheese)$/i.test(val);
    // owner 23:41: a bare "Cheese" with no cheese type says nothing to the cook — hide it
-   if(!known){m.hidden=true;m.style.display='none';continue;}
-   m.innerHTML='<i aria-hidden="true">⇄</i><small>JUUSTU VAHETUS</small>'+(known?'<b>'+esc(val)+'</b>':'<b>vaata tellimust</b>');
-   m.title='Juust vahetatud'+(known?': '+val:'');
+   m.innerHTML='<i aria-hidden="true">⇄</i><small>JUUSTU VAHETUS</small>'+'<b>'+esc(val)+'</b>';
+   m.title='Juust vahetatud: '+val;
    const box=m.parentElement;if(!box)continue;
    let row=box.parentElement.querySelector(':scope>.pp1870-swap');
    if(!row){row=document.createElement('div');row.className='pp1870-swap';box.before(row);}
@@ -85,7 +86,24 @@
   a.hidden=!a.hidden;e.preventDefault();e.stopPropagation();
  },true);
  let q=false;
- const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}});};
+ // 18.10 owner 00:07 "улучшай": ready cards — stale ones dimmed, "Ootab üle 2 h"
+ function ready(){
+  for(const c of document.querySelectorAll('#ordersPage .pp112-done-card')){
+   if(c.matches('.pp154-picked'))continue; // handed over: pickup's "ÜLE ANTUD · HH:MM" stays as is
+   const w=c.querySelector('.pp1730-wait');const n=w?parseInt((w.textContent.match(/(\d+)\s*min/)||[])[1]||'0',10):0;
+   c.classList.toggle('pp1900-old',n>=120);
+   // only shorten the text pickup itself wrote ("⏱ Ootab 9 h 44 min"); its 10-minute threshold and time source stay
+   const tag=c.querySelector('.pp154-pickup-tag');
+   if(tag&&n>=120&&/^⏱\s*Ootab\s+\d+\s*h/i.test(tag.textContent||''))tag.textContent='⏱ Ootab üle 2 h';
+  }
+ }
+ // 18.10 pack 2: 4 — Halduskeskus in the menu gets a line icon like the other items (was the ▦ glyph, off-line)
+ function navIcon(){
+  const a=document.querySelector('#drawer a.navitem[href*="settings-pro"]>span:first-child:not(.pp162-nav-icon)');if(!a)return;
+  a.className='pp162-nav-icon';a.setAttribute('aria-hidden','true');
+  a.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
+ }
+ const later=()=>{if(q)return;q=true;requestAnimationFrame(()=>{q=false;try{cheese()}catch(_){}try{classic()}catch(_){}try{phones()}catch(_){}try{tomorrow()}catch(_){}try{pay()}catch(_){}try{notes()}catch(_){}try{ready()}catch(_){}try{navIcon()}catch(_){}});};
  const start=()=>{const page=document.getElementById('ordersPage');if(page)new MutationObserver(later).observe(page,{childList:true,subtree:true});later();};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
