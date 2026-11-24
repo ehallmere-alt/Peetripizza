@@ -1,5 +1,8 @@
 # Changelog
 
+## 18.11.0 — 2026-11-24
+- Owner 20:25 "давай" (pack after the 18.10 check), new layer `assets/ui-v1911.css`: (1) side tab Valmis/Uued 52 px wide with a big count; (2) DEMO/LIVE buttons 44 px tall; (3) phone icon after the name on cards in progress, as on ready cards; (4) Logi välja is a quiet text link, not a green button; (5) payment chips one shape (KAART, SULARAHA, MAKSTUD, MAKSA KOHAL); (6) empty column text bigger and darker.
+
 ## 18.10.0 — 2026-11-23
 - Owner 00:03 (photo): "CHEESE" was still visible on a ready card. Cause: 18.9 set display:none inline, but the .pp1870-cheese CSS rule (display:inline-flex !important) won. Now a bare cheese chip gets only the hiding class pp1900-gone. A real swap still shows its yellow line.
 - Owner: "что за точки под именем". The dotted underline is gone; a small grey 📞 after the name shows that tapping it reveals the phone.
