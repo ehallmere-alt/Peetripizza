@@ -1,8 +1,11 @@
 # Changelog
 
+<<<<<<< HEAD
 ## 18.14.0 — 2026-11-24
 - Owner "давай", new layers `assets/ui-v1914.js/.css`, `assets/dough-v1914.js`: (1) order number: date prefix small and grey, the running number big (text unchanged for other scripts); (2) ready cards: bag/car line icons instead of emoji; (3) Taigna tellimine: amber "Tellimine sulgub X h Y min pärast (kell 15:05)", red in the last 30 min, gone after the cut-off; (4) Väljastus: "Ootab X h Y min" / "Ootab üle 2 h", phone hidden until the name is tapped, courier orders "Kullerile antud"; (5) KOLDE in the header readable (15px, white); (6) ETTETELLIMUS strip blue.
 
+=======
+>>>>>>> 3a9c8b0
 ## 18.13.0 — 2026-11-24
 - Owner 21:50 "давай", new layers `assets/ui-v1913.js/.css`, `assets/dough-v1913.js`: (1) allergy words (marked on order cards since 17.17) now also as a red line on ready cards; (2) ready card: drinks and sauces under a small "KOTTI" label; (3) 5+ pizzas: purple "SUUR TELLIMUS" chip; (4) "Kellaaeg: HH:MM" in the customer note in bold; (5) Taigna tellimine: "Eelmine: N (dd.mm)" under each product from the last order before today (same read-only GET api/dough.php); (6) Tooted: green "✓ Kõik tooted saadaval" when nothing is switched off.
 

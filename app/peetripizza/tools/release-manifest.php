@@ -5,9 +5,12 @@ return [
   'assets/ui-v1830.js' => 'be27ab762f6e7c72fd78f61a916c5f2bd3c67a6f1a2b1ed5d26639c074581c90',
   'assets/card-v1870.js' => 'a0388f70c99b1da61e29b08395549ae4de6c1235570bb8267e880a74c5cb0909',
   'assets/dough-v1870.css' => 'a68834a8eee24956dc45c619a980487cffac0809fadc9427c96abfba79743a4c',
+<<<<<<< HEAD
   'assets/ui-v1914.js' => '5a164b9fd002348cf403f0d7a0fa3c98faf72c968b09b721f221f2756d1a2eae',
   'assets/ui-v1914.css' => '4e267d816185c64b6d1f08e30f4bd0bcb24e4c429ae751a85d960dacac7bc03e',
   'assets/dough-v1914.js' => 'd3272fa6187aaeec10f96124cc885f366cf486e3e7fb1f44f7dc3fbd9ce0be5f',
+=======
+>>>>>>> 3a9c8b0
   'assets/ui-v1913.js' => 'f3804d616a393e4c2a989298e0e80b17609fa720f711e631e3d66cc34aeadbb7',
   'assets/ui-v1913.css' => '16dcc723f1f3b80764292fd64f2a689f56e371ffa37ffd8038d237808604da4a',
   'assets/dough-v1913.js' => 'adac137fd55db0e01e32a739ab110e8c611473d16680e314a6ed6c0b492d9c62',
@@ -42,7 +45,11 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
+<<<<<<< HEAD
     'CHANGELOG.md' => '26186d8549175801ce3badde2620d480a26e32441e542b0ef259c37e0a037a02',
+=======
+    'CHANGELOG.md' => '836619592a45d07db61c82e9d3886959ad7b2a6554a58299447b4c2fb2fa9097',
+>>>>>>> 3a9c8b0
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',
@@ -254,8 +261,13 @@ return [
     'bonuses.php' => '3290c5d0466e2dcc5d8d3323c3155fd5a51f51d105725b70c9de0eb8a5b1e4d5',
     'check.php' => '4506bb1ffd36f6afe62bac7f6afad061f482081408940b4cfef6c92ea5f63567',
     'assets/logo-fallback-v1795.js' => '7926e6f41708686c4c12fe06fc5f773c14a27da2c6eecee652a5fe7171a02910',
+<<<<<<< HEAD
     'dashboard.php' => '23bc12ce48482621f3c0f540a448aed4f7edc9e1653d2d116be5386df5b46961',
     'dough.php' => 'bacc2e2ffe0fce4b07c896650687c7157d77b684d79b3b35b357cb26b1c20ee7',
+=======
+    'dashboard.php' => '81935ba52a25a33d5740abb20c4cc614c310b64f9b2e47ef2b769d18f8e0c318',
+    'dough.php' => 'a072084d308814ed797746391424fc49547e0aa7dab4cb0695673a9bcbc664c5',
+>>>>>>> 3a9c8b0
     'index.php' => 'f872a874a42e0561e734b8a59cdfcc1cc49e7094bbe9a032f5c558068cc5fc99',
     'live-config.example.php' => 'a0254a80a3e620460538639bb3f388f78866c4158d288df3e01c5bcce0c5a808',
     'locations.example.php' => '740c911e14d7ee558e5105b0ba0587e5774a9ac6df4b5cea06f6ac03f3aedd7c',
