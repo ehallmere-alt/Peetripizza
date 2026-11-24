@@ -1,0 +1,7 @@
+/* Peetri Pizza 18.12 — pack of six (owner "давай" 24.11 20:42). No animation anywhere. */
+/* 1 */ html body #ordersPage .ordercard.pp1880-later .pp1728-due .pp1912-start{display:block;margin-top:4px;font-style:normal;font-size:15px;font-weight:900;color:#1b5e3a}
+/* 3 */ html body header.topbar.topbar.topbar #pp1722-wait#pp1722-wait#pp1722-wait.pp1912-busy{background:#f6c453!important;border-color:#e0a800!important}
+html body header.topbar.topbar.topbar #pp1722-wait#pp1722-wait#pp1722-wait.pp1912-busy small,html body header.topbar.topbar.topbar #pp1722-wait#pp1722-wait#pp1722-wait.pp1912-busy b{color:#3a2600!important}
+/* 4 */ html body #ordersPage#ordersPage#ordersPage#ordersPage .ordercard.ordercard.pp118-new.pp1912-slow{border-color:#e8820c!important;box-shadow:0 0 0 2px #e8820c!important}
+/* 5 */ html body #pp137-category-tabs [data-category] .pp1912-out{display:inline-flex;align-items:center;height:22px;margin-left:8px;padding:0 8px;border-radius:7px;background:#c62828;color:#fff;font-style:normal;font-size:12.5px;font-weight:800;white-space:nowrap}
+/* 6 */ html body header.topbar .pp116-logo{cursor:pointer}
