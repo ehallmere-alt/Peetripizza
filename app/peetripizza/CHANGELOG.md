@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.15.0 — 2026-11-24
+- Owner: "список пиццерий в логин, добавки свои в каждой пиццерии". Login shows every Peetri Pizza pizzeria (49) from the public list `https://peetripizza.ee/api/pizzeria-list` (id, name, town only; cached 6 h in `private_data/pizzeria-list.json`, old list kept if the site does not answer, server-configured locations always first and preselected when there is exactly one). Password is still checked by peetripizza.ee per pizzeria. Town in small text under the name; the pizzeria used last on the device moves to the top and is chosen. New `auth/pizzeria-list-v1815.php`, `assets/login-v1815.js/.css`.
+- Checked per pizzeria: server data (orders status, Väljastus, wait time, dough, print log, analytics, site toppings/products marked missing) were already stored by pizzeria id. Not separated before: Tooted "Otsas" marks and couriers lived in one shared browser copy, so another pizzeria on the same tablet saw them. New `assets/location-scope-v1815.js` (runs before app-core) keeps one copy per pizzeria; the existing copy stays with the pizzeria the tablet already works for.
+
 ## 18.14.0 — 2026-11-24
 - Owner "давай", new layers `assets/ui-v1914.js/.css`, `assets/dough-v1914.js`: (1) order number: date prefix small and grey, the running number big (text unchanged for other scripts); (2) ready cards: bag/car line icons instead of emoji; (3) Taigna tellimine: amber "Tellimine sulgub X h Y min pärast (kell 15:05)", red in the last 30 min, gone after the cut-off; (4) Väljastus: "Ootab X h Y min" / "Ootab üle 2 h", phone hidden until the name is tapped, courier orders "Kullerile antud"; (5) KOLDE in the header readable (15px, white); (6) ETTETELLIMUS strip blue.
 

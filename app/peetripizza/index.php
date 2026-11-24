@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/auth/bootstrap.php';
+require_once __DIR__ . '/auth/pizzeria-list-v1815.php';
 header('Cache-Control: no-store, private');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
@@ -22,7 +23,7 @@ if (($_SERVER['REQUEST_METHOD']??'GET')==='POST') {
     elseif (!pp_limit_attempts()) {http_response_code(429);$error='Liiga palju katseid. Proovi 15 minuti pärast.';}
     else {
         $locationId=filter_var($_POST['pizzeria_id']??null,FILTER_VALIDATE_INT);
-        $locations=pp_locations();
+        $locations=pp1815_locations();
         $location=null;
         foreach($locations as $loc)if($loc['id']===$locationId){$location=$loc;break;}
         $password=(string)($_POST['password']??'');
@@ -30,7 +31,7 @@ if (($_SERVER['REQUEST_METHOD']??'GET')==='POST') {
             $token=pp_upstream_login($location['id'],$password);
             if($token!==null){
                 session_regenerate_id(true);
-                $_SESSION['pp_pizzeria']=$location;
+                $_SESSION['pp_pizzeria']=['id'=>(int)$location['id'],'name'=>(string)$location['name']];
                 $_SESSION['pp_upstream_session']=$token;
                 $_SESSION['pp_logged_in']=time();
                 $_SESSION['pp_last_seen']=time();
@@ -46,8 +47,10 @@ function pp_norm_name(string $v): string {
     $v=trim(preg_replace('/\s+/u',' ',$v)??$v);
     return function_exists('mb_strtolower')?mb_strtolower($v,'UTF-8'):strtolower($v);
 }
-$configured=pp_locations();
-if(!$chosen&&count($configured)===1)$chosen=(int)$configured[0]['id'];
+$configured=pp1815_locations();
+// v18.15: the list has every pizzeria; if exactly one is set up on this server, it is chosen by default.
+$own=array_values(array_filter($configured,static fn($l)=>!empty($l['configured'])));
+if(!$chosen&&count($own)===1)$chosen=(int)$own[0]['id'];
 $notice='';
 if(!$error&&isset($_GET['aegus']))$notice='Sessioon aegus. Logi uuesti sisse, et tellimused jälle tuleksid.';
 $many=count($configured)>6;
@@ -56,7 +59,7 @@ $many=count($configured)>6;
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#00824a">
 <title>Peetri Pizza — Köögi sisselogimine</title>
 <link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><link rel="stylesheet" href="assets/login-v1720.css?v=17.20.0">
-<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><script src="assets/login-v175.js?v=17.20.0" defer></script>
+<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><link rel="stylesheet" href="assets/login-v1815.css?v=18.15.0"><script src="assets/login-v175.js?v=17.20.0" defer></script><script src="assets/login-v1815.js?v=18.15.0" defer></script>
 </head><body class="pl-body">
 <main class="pl-shell">
 <section class="pl-brand" aria-hidden="false">
@@ -86,10 +89,9 @@ $many=count($configured)>6;
    <?php if(!$configured): ?>
    <div class="pl-msg pl-msg-error">Ühtegi pitseeriat pole serveris seadistatud. Võta ühendust administraatoriga.</div>
    <?php else: ?>
-   <?php if($many): ?><input type="search" id="pl-search" class="pl-input pl-search" placeholder="Otsi pitseeriat…" autocomplete="off" spellcheck="false" aria-label="Otsi pitseeriat" hidden><?php endif; ?>
    <div class="pl-places<?= $many?' pl-places-many':'' ?>" id="pl-places" role="radiogroup" aria-label="Töökoht">
    <?php foreach($configured as $loc): $lid=(int)$loc['id']; ?>
-    <label class="pl-place" data-name="<?= pp_e(pp_norm_name($loc['name'])) ?>"><input type="radio" name="pizzeria_id" value="<?= $lid ?>" required<?= $lid===$chosen?' checked':'' ?>><span class="pl-place-box"><span class="pl-place-icon" aria-hidden="true"><?= pp_e(function_exists('mb_substr')?mb_strtoupper(mb_substr($loc['name'],0,1,'UTF-8'),'UTF-8'):strtoupper(substr($loc['name'],0,1))) ?></span><span class="pl-place-name"><?= pp_e($loc['name']) ?></span><span class="pl-place-last" hidden>Viimati</span></span></label>
+    <label class="pl-place" data-name="<?= pp_e(pp_norm_name($loc['name'])) ?>"><input type="radio" name="pizzeria_id" value="<?= $lid ?>" required<?= $lid===$chosen?' checked':'' ?>><span class="pl-place-box"><span class="pl-place-icon" aria-hidden="true"><?= pp_e(function_exists('mb_substr')?mb_strtoupper(mb_substr($loc['name'],0,1,'UTF-8'),'UTF-8'):strtoupper(substr($loc['name'],0,1))) ?></span><span class="pl-place-name"><?= pp_e($loc['name']) ?><?php $town=(string)($loc['region']??''); if($town!==''&&pp_norm_name($town)!==pp_norm_name($loc['name'])): ?><small class="pl-place-town"><?= pp_e($town) ?></small><?php endif; ?></span><span class="pl-place-last" hidden>Viimati</span></span></label>
    <?php endforeach; ?>
    </div>
    <p class="pl-empty" id="pl-empty" hidden>Sellise nimega pitseeriat ei leitud.</p>

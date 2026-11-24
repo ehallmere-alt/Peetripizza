@@ -1,0 +1,4 @@
+/* Peetri Pizza v18.15 — login: all pizzerias. Town under the name, small and quiet. */
+html body .pl-place-name{display:flex;flex-direction:column;gap:1px;min-width:0}
+html body .pl-place-town{font-size:12px;font-weight:600;color:#667085;line-height:1.2}
+html body .pl-place-name{overflow-wrap:break-word!important;word-break:normal!important}
