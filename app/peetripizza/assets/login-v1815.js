@@ -1,4 +1,4 @@
-/* Peetri Pizza v18.16 — login: the pizzeria used last on this device goes to the top of the list and is chosen. */
+/* Peetri Pizza v18.15 — login: the pizzeria used last on this device goes to the top of the list and is chosen. */
 (function(){
  'use strict';
  const list=document.getElementById('pl-places');if(!list)return;

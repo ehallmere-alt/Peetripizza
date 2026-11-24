@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 /*
- * Peetri Pizza v18.16 — all pizzerias for the login screen.
+ * Peetri Pizza v18.15 — all pizzerias for the login screen.
  * Source: the public list https://peetripizza.ee/api/pizzeria-list (the same list the customer site uses,
  * no login needed). Only id, name and town (region) are kept. Cached 6 h in private_data/pizzeria-list.json;
  * if the site does not answer, the last saved list is used, and if there is none, only the locations
  * configured on the server (peetri_locations.php) are shown — exactly as before.
  * Reading only. The password is still checked by peetripizza.ee itself (pizzeria-login), per pizzeria.
  */
-function pp1816_fetch_list(): ?array {
+function pp1815_fetch_list(): ?array {
     if(!function_exists('curl_init'))return null;
     $h=curl_init('https://peetripizza.ee/api/pizzeria-list');
     curl_setopt_array($h,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_FOLLOWLOCATION=>false,CURLOPT_CONNECTTIMEOUT=>3,CURLOPT_TIMEOUT=>5,
-        CURLOPT_HTTPHEADER=>['Accept: application/json'],CURLOPT_SSL_VERIFYPEER=>true,CURLOPT_SSL_VERIFYHOST=>2,CURLOPT_USERAGENT=>'PeetriKitchenReadOnly/18.16']);
+        CURLOPT_HTTPHEADER=>['Accept: application/json'],CURLOPT_SSL_VERIFYPEER=>true,CURLOPT_SSL_VERIFYHOST=>2,CURLOPT_USERAGENT=>'PeetriKitchenReadOnly/18.15']);
     $body=curl_exec($h);$code=(int)curl_getinfo($h,CURLINFO_RESPONSE_CODE);$err=curl_errno($h);curl_close($h);
     if($err||$code!==200||!is_string($body)||strlen($body)>2000000)return null;
     $j=json_decode($body,true);
@@ -29,7 +29,7 @@ function pp1816_fetch_list(): ?array {
     }
     return count($out)>0?$out:null;
 }
-function pp1816_upstream_list(): array {
+function pp1815_upstream_list(): array {
     $dir=dirname(__DIR__).'/private_data';
     $file=$dir.'/pizzeria-list.json';
     $old=null;
@@ -37,7 +37,7 @@ function pp1816_upstream_list(): array {
         $old=json_decode((string)@file_get_contents($file),true);
         if(is_array($old)&&is_array($old['items']??null)&&time()-(int)($old['at']??0)<21600)return $old['items'];
     }
-    $new=pp1816_fetch_list();
+    $new=pp1815_fetch_list();
     if($new!==null){
         if(is_dir($dir)||@mkdir($dir,0700,true)){
             $tmp=$file.'.'.bin2hex(random_bytes(6)).'.tmp';
@@ -54,12 +54,12 @@ function pp1816_upstream_list(): array {
     return [];
 }
 /** Configured locations first (their names stay as set on the server), then every other pizzeria by name. */
-function pp1816_locations(): array {
+function pp1815_locations(): array {
     $configured=pp_locations();
     $seen=[];$list=[];
     foreach($configured as $loc){$seen[$loc['id']]=true;$list[]=$loc+['region'=>'','configured'=>true];}
     $rest=[];
-    foreach(pp1816_upstream_list() as $loc){
+    foreach(pp1815_upstream_list() as $loc){
         if(!is_array($loc))continue;
         $id=(int)($loc['id']??0);$name=(string)($loc['name']??'');
         if($id<1||$name===''||isset($seen[$id]))continue;

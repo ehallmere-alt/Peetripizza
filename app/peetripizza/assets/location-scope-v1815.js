@@ -1,5 +1,5 @@
-/* Peetri Pizza v18.16 — Tooted (Otsas) and couriers are kept separately for every pizzeria on this device.
- * Before 18.16 these were one shared copy in the browser, so logging in to another pizzeria on the same tablet
+/* Peetri Pizza v18.15 — Tooted (Otsas) and couriers are kept separately for every pizzeria on this device.
+ * Before 18.15 these were one shared copy in the browser, so logging in to another pizzeria on the same tablet
  * showed the previous pizzeria's "Otsas" marks. Runs before app-core reads them: when the pizzeria changes,
  * the current copy is put aside under the old pizzeria and the new pizzeria's own copy is put back
  * (none yet = everything available, default couriers). Nothing is sent anywhere. */
@@ -9,7 +9,7 @@
  const id=String(parseInt(meta&&meta.content,10)||0);
  if(id==='0')return;
  const KEYS=['pp-products-v1','pp-couriers-v1'];
- const OWNER='pp1816-location';
+ const OWNER='pp1815-location';
  try{
   const ls=window.localStorage;
   const owner=ls.getItem(OWNER);

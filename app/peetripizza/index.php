@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/auth/bootstrap.php';
-require_once __DIR__ . '/auth/pizzeria-list-v1816.php';
+require_once __DIR__ . '/auth/pizzeria-list-v1815.php';
 header('Cache-Control: no-store, private');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
@@ -23,7 +23,7 @@ if (($_SERVER['REQUEST_METHOD']??'GET')==='POST') {
     elseif (!pp_limit_attempts()) {http_response_code(429);$error='Liiga palju katseid. Proovi 15 minuti pärast.';}
     else {
         $locationId=filter_var($_POST['pizzeria_id']??null,FILTER_VALIDATE_INT);
-        $locations=pp1816_locations();
+        $locations=pp1815_locations();
         $location=null;
         foreach($locations as $loc)if($loc['id']===$locationId){$location=$loc;break;}
         $password=(string)($_POST['password']??'');
@@ -47,8 +47,8 @@ function pp_norm_name(string $v): string {
     $v=trim(preg_replace('/\s+/u',' ',$v)??$v);
     return function_exists('mb_strtolower')?mb_strtolower($v,'UTF-8'):strtolower($v);
 }
-$configured=pp1816_locations();
-// v18.16: the list has every pizzeria; if exactly one is set up on this server, it is chosen by default.
+$configured=pp1815_locations();
+// v18.15: the list has every pizzeria; if exactly one is set up on this server, it is chosen by default.
 $own=array_values(array_filter($configured,static fn($l)=>!empty($l['configured'])));
 if(!$chosen&&count($own)===1)$chosen=(int)$own[0]['id'];
 $notice='';
@@ -59,7 +59,7 @@ $many=count($configured)>6;
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#00824a">
 <title>Peetri Pizza — Köögi sisselogimine</title>
 <link rel="stylesheet" href="assets/login-v175.css?v=17.5.0"><link rel="stylesheet" href="assets/login-v1720.css?v=17.20.0">
-<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><link rel="stylesheet" href="assets/login-v1816.css?v=18.16.0"><script src="assets/login-v175.js?v=17.20.0" defer></script><script src="assets/login-v1816.js?v=18.16.0" defer></script>
+<link rel="stylesheet" href="assets/login-v1740.css?v=17.40.0"><link rel="manifest" href="assets/manifest-v1740.json"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png"><link rel="stylesheet" href="assets/login-v1815.css?v=18.15.0"><script src="assets/login-v175.js?v=17.20.0" defer></script><script src="assets/login-v1815.js?v=18.15.0" defer></script>
 </head><body class="pl-body">
 <main class="pl-shell">
 <section class="pl-brand" aria-hidden="false">
