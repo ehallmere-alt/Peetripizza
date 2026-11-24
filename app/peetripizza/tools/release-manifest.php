@@ -3,9 +3,9 @@
 return [
  'assets/order-dedup-v1801.js' => '6175cc847a37d7642b882b705b018e8fde78116dab52b5b88a40497c8f3cc415',
   'assets/ui-v1830.js' => 'be27ab762f6e7c72fd78f61a916c5f2bd3c67a6f1a2b1ed5d26639c074581c90',
-  'assets/card-v1870.js' => 'd9666f385e31c6e8319dea21b0ed6265f443f8742a71e725ed3e90255d27d31d',
-  'assets/dough-v1870.css' => 'a1ce0fbcedefbfbf6921126b95fca9a2b53d1b354c54467bf199ce022ee01891',
-  'assets/card-v1870.css' => '1acffb6e57e54eabe5f00064b585490cc9329d0a2132404c76cf3eac623460fd',
+  'assets/card-v1870.js' => 'a0388f70c99b1da61e29b08395549ae4de6c1235570bb8267e880a74c5cb0909',
+  'assets/dough-v1870.css' => 'a68834a8eee24956dc45c619a980487cffac0809fadc9427c96abfba79743a4c',
+  'assets/card-v1870.css' => '8b9e555cd2d5ccd9e2efa4bb2fb5779bbe381c36d9bd2e2864fc8cfacd30fe15',
   'assets/ui-v1830.css' => '64fc5ead57eced13c7a6559e35326c8f375b9e2692c8cadb825e0f60c2307abc',
  'assets/kitchen-design-switch-v1799.js' => '01d5305dbbdf49c9612439981fb0353d1331bc02c245b8ae82cc1bc43aac4e7c',
  'assets/kitchen-design-two-v1799.css' => '7ce6fb29bacecbeb444f4bf34141fe99029d6958e08ef872bedd42aece707dc9',
@@ -33,7 +33,7 @@ return [
     'devices-v1795.php' => '74d1422f9580d84a178318615b619cc4a84c01ad9008a85756bab9e69b8eff9b',
 
     '.htaccess' => '936924d6dabd84aa512125704277a00f9466812cab512c185ee5bf0d54221e76',
-    'CHANGELOG.md' => '5ed9d6e5800946963002b1dc329d4fbc9dc5ed3f2979c0d5e2c6e98961265d36',
+    'CHANGELOG.md' => 'c24aeb8ab52651387a5e03c49cf1605ef71af4d6486a3c3dec9436b24fa46e61',
     'CLAUDE-HANDOFF.md' => 'b043abea51561f8c74d4b4fcf888d175885f4ed65c38e056ad8189030f90f904',
     'DEPLOY.md' => '68382b7ce9749f9dbef310ac30c6834b19e0c2479e01e42d8720aba0bb839918',
     'README-RU.md' => 'f2ba7a9b8bddaa457603b218ce53af0acf27f5cc8cb533d757dcdc84b33a46b7',

@@ -13,3 +13,6 @@ html body .pp1740-clock small,html body #pp1740-clock small{font-size:13px!impor
 /* 18.10 pack 2: 5 — the same square logo as the main screen (was the old wide one); 6 — total bar sits inside the card, no shadow edge */
 html body .pp1739-brand img[src*="peetri-pizza-logo"]{content:url("peetri-logo-square-v185.png");width:44px!important;height:44px!important;max-height:44px!important;object-fit:cover!important;border-radius:11px!important}
 html body .panel.panel.panel>.footer.footer.footer{box-shadow:none!important;border-top:1px solid #e3e9e5!important;margin-left:-19px!important;margin-right:-19px!important;width:calc(100% + 38px)!important;box-sizing:border-box!important}
+@media (max-width:690px){html body .panel.panel.panel>.footer.footer.footer{margin-left:-13px!important;margin-right:-13px!important;width:calc(100% + 26px)!important}}
+/* 18.10 a11y check: pack size under the name was 3.4:1 grey, now 7:1 */
+html body #items#items .item.item:not(.disabled) .itemname.itemname small{color:#3f4a44!important}
